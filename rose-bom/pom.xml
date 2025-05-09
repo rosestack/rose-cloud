@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>io.github.rose-group</groupId>
+  <artifactId>rose-bom</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Rose Bom</name>
+  <packaging>pom</packaging>
+  <description>Generated Bom</description>
+  <url>https://github.com/rose-group/rose-microservice</url>
+  <inceptionYear>2025</inceptionYear>
+
+  <organization>
+    <name>rose-group.github.io</name>
+    <url>https://github.com/rose-group</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:https://github.com/rose-group/rose-microservice.git</connection>
+    <developerConnection>scm:git:https://github.com/rose-group/rose-microservice.git</developerConnection>
+    <url>https://github.com/rose-group/rose-microservice.git</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>chensoul</id>
+      <name>chensoul</name>
+      <email>ichensoul@gmail.com</email>
+    </developer>
+  </developers>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>central</id>
+      <name>central</name>
+      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-core</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-spring-boot-redis</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-gateway</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-monitor</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-security</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-mybatis</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-upms-api</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-spring-boot-common</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-spring-boot-feign</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-spring-boot-mybatis</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-spring-boot-springdoc</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-spring-boot-syslog</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-spring-boot-xxljob</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-upms-service</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-xxljob</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-spring-boot-oss</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-spring-boot-security</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>

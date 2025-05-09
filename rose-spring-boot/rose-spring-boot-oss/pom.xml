@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.github.rose-group</groupId>
+    <artifactId>rose-spring-boot</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>rose-spring-boot-oss</artifactId>
+
+  <name>${project.artifactId}</name>
+  <description>rose-spring-boot-oss</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.github.rose-group</groupId>
+      <artifactId>rose-core</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.aliyun.oss</groupId>
+      <artifactId>aliyun-sdk-oss</artifactId>
+      <version>3.18.2</version>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>com.qcloud</groupId>
+      <artifactId>cos_api</artifactId>
+      <version>5.6.245</version>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>com.qiniu</groupId>
+      <artifactId>qiniu-java-sdk</artifactId>
+      <version>7.18.0</version>
+      <optional>true</optional>
+    </dependency>
+
+    <!--        <dependency>-->
+    <!--            <groupId>com.huawei</groupId>-->
+    <!--            <artifactId>esdk-obs-java</artifactId>-->
+    <!--            <version>3.24.9</version>-->
+    <!--            <optional>true</optional>-->
+    <!--            <exclusions>-->
+    <!--                <exclusion>-->
+    <!--                    <groupId>org.apache.logging.log4j</groupId>-->
+    <!--                    <artifactId>log4j-support</artifactId>-->
+    <!--                </exclusion>-->
+    <!--                <exclusion>-->
+    <!--                    <groupId>org.apache.logging.log4j</groupId>-->
+    <!--                    <artifactId>log4j-api</artifactId>-->
+    <!--                </exclusion>-->
+    <!--            </exclusions>-->
+    <!--        </dependency>-->
+
+    <dependency>
+      <groupId>io.minio</groupId>
+      <artifactId>minio</artifactId>
+      <version>8.5.17</version>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-autoconfigure</artifactId>
+    </dependency>
+  </dependencies>
+</project>

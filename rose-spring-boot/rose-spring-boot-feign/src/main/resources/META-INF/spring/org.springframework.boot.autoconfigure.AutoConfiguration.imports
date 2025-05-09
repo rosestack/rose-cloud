@@ -1,0 +1,4 @@
+io.github.rose.feign.FeignAutoConfiguration
+io.github.rose.feign.FeignRetryAutoConfiguration
+io.github.rose.feign.sentinel.SentinelAutoConfiguration
+io.github.rose.feign.sentinel.handle.GlobalExceptionHandler

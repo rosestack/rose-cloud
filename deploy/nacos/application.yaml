@@ -1,0 +1,111 @@
+spring:
+  main:
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
+  cache:
+    type: REDIS
+    redis:
+      time-to-live: 3600s
+  redis:
+    database: 14
+    host: ${REDIS_HOST:rose-redis}
+    port: 6379
+    timeout: 6000ms  # 连接超时时长（毫秒）
+    jedis:
+      pool:
+        max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1ms      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 10      # 连接池中的最大空闲连接
+        min-idle: 5       # 连接池中的最小空闲连接
+  data:
+    redis:
+      repositories:
+        enabled: false # 项目未使用到 Spring Data Redis 的 Repository，所以直接禁用，保证启动速度
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 8
+      minimum-idle: 8
+      auto-commit: true
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: 'SELECT 1'
+  cloud:
+    sentinel:
+      eager: true
+      transport:
+        dashboard: rose-sentinel:7030
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+      table-underline: true
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    shrink-whitespaces-in-sql: true
+
+swagger:
+  enabled: true
+  gateway: http://${GATEWAY-HOST:rose-gateway}:${GATEWAY-PORT:9999}
+  security:
+    enabled: false
+    tokenUrl: ${swagger.gateway}/auth/oauth2/token
+    scope: server
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+feign:
+  sentinel:
+    enabled: true
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 10000
+  compression:
+    request:
+      enabled: true
+    response:
+      enabled: true
+
+xxl:
+  job:
+    accessToken: 123456
+    admin:
+      addresses: http://rose-xxljob:7020
+
+security:
+  oauth2:
+    client:
+      client-id: rose
+      client-secret: rose
+      scope: server
+      user-authorization-uri: http://${AUTH_HOST:rose-auth}/oauth/authorize
+      ignore-urls:
+        - /v2/api-docs
+        - /swagger-ui.html
+        - /swagger**
+        - /favicon.ico
+        - /actuator/**
+        - /error
+        - /code
+    resource:
+      token-info-uri: http://${AUTH_HOST:rose-auth}/oauth/check_token

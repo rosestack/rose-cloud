@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.github.rose-group</groupId>
+    <artifactId>rose-microservice</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>rose-spring-boot</artifactId>
+  <packaging>pom</packaging>
+
+  <name>${project.artifactId}</name>
+  <description>rose-spring-boot</description>
+
+  <modules>
+    <module>rose-spring-boot-common</module>
+    <module>rose-spring-boot-feign</module>
+    <module>rose-spring-boot-mybatis</module>
+    <module>rose-spring-boot-oss</module>
+    <module>rose-spring-boot-redis</module>
+    <module>rose-spring-boot-security</module>
+    <module>rose-spring-boot-springdoc</module>
+    <module>rose-spring-boot-syslog</module>
+    <module>rose-spring-boot-xxljob</module>
+  </modules>
+</project>

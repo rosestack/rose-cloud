@@ -1,0 +1,33 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    labels:
+      - maintenance
+    commit-message:
+      prefix: "[DEPENDABOT]"
+
+  - package-ecosystem: "maven"
+    directory: "/"
+    open-pull-requests-limit: 10
+    rebase-strategy: disabled
+    schedule:
+      interval: "daily"
+      time: "00:00"
+      timezone: "Asia/Shanghai"
+    ignore:
+      # 忽略所有主要版本更新
+      - dependency-name: "*"
+        update-types: [ "version-update:semver-major" ]
+      - dependency-name: com.alibaba.cloud:spring-cloud-alibaba-dependencies
+        versions:
+          - ">= 2021.1"
+      - dependency-name: io.sundr:sundr-maven-plugin
+        versions:
+          - ">= 0.2"
+      - dependency-name: com.diffplug.spotless:spotless-maven-plugin
+        versions:
+          - ">= 2.3"

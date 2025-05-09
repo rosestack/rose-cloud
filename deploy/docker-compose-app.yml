@@ -1,0 +1,45 @@
+services:
+  rose-monitor:
+    build:
+      context: ./rose-microservice/rose-monitor
+    restart: always
+    image: chensoul/rose-monitor
+    container_name: rose-monitor
+    ports:
+      - "7010:7010"
+
+  rose-xxljob:
+    build:
+      context: ./rose-microservice/rose-xxljob
+    image: chensoul/rose-xxljob
+    container_name: rose-xxljob
+    restart: always
+    ports:
+      - "7020:7020"
+
+  rose-gateway:
+    build:
+      context: ./rose-microservice/rose-gateway
+    restart: always
+    container_name: rose-gateway
+    image: chensoul/rose-gateway
+    ports:
+      - "9999:9999"
+
+  rose-auth:
+    build:
+      context: ./rose-microservice/rose-auth
+    restart: always
+    container_name: rose-auth
+    image: chensoul/rose-auth
+    ports:
+      - "3000:3000"
+
+  rose-upms:
+    build:
+      context: ./rose-microservice/rose-upms/rose-upms-service
+    restart: always
+    container_name: rose-upms
+    image: chensoul/rose-upms-service
+    ports:
+      - "8010:8010"
