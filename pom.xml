@@ -72,7 +72,10 @@
     <module>rose-mybatis</module>
     <module>rose-security</module>
     <module>rose-spring-boot</module>
-    <module>rose-service</module>
+    <module>rose-service/rose-gateway</module>
+    <module>rose-service/rose-monitor</module>
+    <module>rose-service/rose-xxljob</module>
+    <module>rose-service/rose-upms</module>
   </modules>
 
   <dependencyManagement>
@@ -309,10 +312,10 @@
         </plugins>
       </build>
       <modules>
-        <module>rose-microservice/rose-gateway</module>
-        <module>rose-microservice/rose-monitor</module>
-        <module>rose-microservice/rose-xxljob</module>
-        <module>rose-microservice/rose-upms/rose-upms-service</module>
+        <module>rose-service/rose-gateway</module>
+        <module>rose-service/rose-monitor</module>
+        <module>rose-service/rose-xxljob</module>
+        <module>rose-service/rose-upms/rose-upms-service</module>
       </modules>
       <properties>
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
