@@ -25,9 +25,3 @@ updates:
       - dependency-name: com.alibaba.cloud:spring-cloud-alibaba-dependencies
         versions:
           - ">= 2021.1"
-      - dependency-name: io.sundr:sundr-maven-plugin
-        versions:
-          - ">= 0.2"
-      - dependency-name: com.diffplug.spotless:spotless-maven-plugin
-        versions:
-          - ">= 2.3"
