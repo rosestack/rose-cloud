@@ -1,6 +1,6 @@
 # rose
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.rose-group/rose-microservice/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.rose-group/rose-microservice)
+[![Maven Build](https://github.com/rose-group/rose-microservice/actions/workflows/maven-build.yml/badge.svg)](https://github.com/rose-group/rose-microservice/actions/workflows/maven-build.yml)
 ![Maven](https://img.shields.io/maven-central/v/io.github.rose-group/rose-microservice.svg)
 ![License](https://img.shields.io/github/license/rose-group/rose-microservice.svg)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/rose-group/rose-microservice.svg)](http://isitmaintained.com/project/rose-group/rose-microservice "Average time to resolve an issue")
