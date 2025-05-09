@@ -20,7 +20,7 @@
     <dependency>
       <groupId>io.github.rose-group</groupId>
       <artifactId>rose-processor</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <optional>true</optional>
     </dependency>
 
     <dependency>
