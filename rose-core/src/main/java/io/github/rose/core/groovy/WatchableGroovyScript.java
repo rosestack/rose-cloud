@@ -20,22 +20,16 @@ import io.github.rose.core.io.FileWatcherService;
 import io.github.rose.core.lambda.function.CheckedConsumer;
 import io.github.rose.core.lambda.function.CheckedSupplier;
 import io.github.rose.core.util.concurrent.TryLock;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.Accessors;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  */
-@Slf4j
-@Getter
-@ToString(of = "resource")
-@Accessors(chain = true)
 public class WatchableGroovyScript implements ExecutableScript {
-
+    private static final Logger log = LoggerFactory.getLogger(WatchableGroovyScript.class);
+    
     private final TryLock lock = new TryLock();
 
     private final Resource resource;
@@ -44,7 +38,6 @@ public class WatchableGroovyScript implements ExecutableScript {
 
     private GroovyObject groovyScript;
 
-    @Setter
     private boolean failOnError = true;
 
     public WatchableGroovyScript(final Resource script, final boolean enableWatcher) {
@@ -66,6 +59,10 @@ public class WatchableGroovyScript implements ExecutableScript {
 
     public WatchableGroovyScript(final Resource script) {
         this(script, true);
+    }
+
+    public boolean isFailOnError() {
+        return failOnError;
     }
 
     @Override

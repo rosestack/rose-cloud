@@ -30,7 +30,8 @@ import io.github.rose.mybatis.tenant.handler.DefaultTenantLineHandler;
 import io.github.rose.mybatis.tenant.handler.TenantMetaObjectHandler;
 import io.github.rose.mybatis.tenant.service.TenantService;
 import io.github.rose.mybatis.util.MyBatisUtils;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -55,13 +56,13 @@ import static io.github.rose.core.CommonConstants.TENANT_SECURITY_FILTER;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Slf4j
 @Configuration
 @AutoConfigureBefore({MybatisCoreConfiguration.class})
 @EnableConfigurationProperties({TenantProperties.class})
 @ConditionalOnProperty(name = "mybatis-plus.tenant.enabled", havingValue = "true", matchIfMissing = true)
 public class MybatisTenantConfiguration {
-
+    private static final Logger log = LoggerFactory.getLogger(MybatisTenantConfiguration.class);
+    
     public MybatisTenantConfiguration() {
         log.info("Initializing MybatisTenantConfiguration");
     }

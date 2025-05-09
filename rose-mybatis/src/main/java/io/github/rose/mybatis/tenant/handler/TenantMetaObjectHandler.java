@@ -17,21 +17,19 @@ package io.github.rose.mybatis.tenant.handler;
 
 import io.github.rose.mybatis.extension.interceptor.DefaultMetaObjectHandler;
 import io.github.rose.mybatis.tenant.util.TenantContextHolder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Slf4j
-@Getter
-@RequiredArgsConstructor
 public class TenantMetaObjectHandler extends DefaultMetaObjectHandler {
 
     private final String tenantFiledName;
+
+    public TenantMetaObjectHandler(String tenantFiledName) {
+        this.tenantFiledName = tenantFiledName;
+    }
 
     @Override
     public void insertFill(MetaObject metaObject) {

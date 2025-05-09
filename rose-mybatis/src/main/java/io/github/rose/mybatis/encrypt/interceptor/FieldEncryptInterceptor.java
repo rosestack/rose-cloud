@@ -17,9 +17,6 @@ package io.github.rose.mybatis.encrypt.interceptor;
 
 import io.github.rose.mybatis.encrypt.IEncryptor;
 import io.github.rose.mybatis.encrypt.util.InterceptorHelper;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
@@ -53,14 +50,25 @@ import org.apache.ibatis.session.RowBounds;
             BoundSql.class
         }),
 })
-@Slf4j
-@Data
-@AllArgsConstructor
+
 public class FieldEncryptInterceptor implements Interceptor {
 
     private IEncryptor encryptor;
 
     private String password;
+
+    public FieldEncryptInterceptor(IEncryptor encryptor, String password) {
+        this.encryptor = encryptor;
+        this.password = password;
+    }
+
+    public IEncryptor getEncryptor() {
+        return encryptor;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 
     public Object intercept(Invocation invocation) throws Throwable {
         return InterceptorHelper.encrypt(invocation, encryptor, password);

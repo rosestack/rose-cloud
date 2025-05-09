@@ -21,25 +21,38 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.github.rose.security.rest.mfa.provider.MfaProviderType;
-import lombok.Data;
 
 import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "providerType")
 @JsonSubTypes({
-    @Type(name = "TOTP", value = TotpMfaConfig.class),
     @Type(name = "SMS", value = SmsMfaConfig.class),
     @Type(name = "EMAIL", value = EmailMfaConfig.class),
     @Type(name = "BACKUP_CODE", value = BackupCodeMfaConfig.class)
 })
-@Data
 public abstract class MfaConfig implements Serializable {
 
     @JsonIgnore
     protected transient boolean serializeHiddenFields;
 
     private boolean useByDefault;
+
+    public boolean isSerializeHiddenFields() {
+        return serializeHiddenFields;
+    }
+
+    public void setSerializeHiddenFields(boolean serializeHiddenFields) {
+        this.serializeHiddenFields = serializeHiddenFields;
+    }
+
+    public boolean isUseByDefault() {
+        return useByDefault;
+    }
+
+    public void setUseByDefault(boolean useByDefault) {
+        this.useByDefault = useByDefault;
+    }
 
     @JsonIgnore
     public abstract MfaProviderType getProviderType();

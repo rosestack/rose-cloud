@@ -17,7 +17,6 @@ package io.github.rose.gateway.handler;
 
 import io.github.rose.core.util.RestResponse;
 import io.github.rose.gateway.util.WebfluxUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.core.annotation.Order;
@@ -30,7 +29,6 @@ import reactor.core.publisher.Mono;
 /**
  * 网关异常通用处理器，只作用在webflux 环境下 , 优先级低于 {@link ResponseStatusExceptionHandler} 执行
  */
-@Slf4j
 @Order(-1)
 public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 

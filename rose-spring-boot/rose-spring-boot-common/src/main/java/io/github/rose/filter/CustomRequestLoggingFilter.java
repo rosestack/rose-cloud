@@ -17,10 +17,9 @@ package io.github.rose.filter;
 
 import io.github.rose.core.util.date.DatePattern;
 import io.github.rose.core.util.date.TimeUtils;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 import javax.annotation.PostConstruct;
@@ -35,17 +34,17 @@ import java.util.function.Predicate;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Slf4j
-@Setter
-@RequiredArgsConstructor
 public class CustomRequestLoggingFilter extends CommonsRequestLoggingFilter {
-
     public static final String START_TIME = "x-request-start-time";
-
+    private static final Logger log = LoggerFactory.getLogger(CustomRequestLoggingFilter.class);
     private final int maxResponseTimeToLogInMs;
 
     private List<String> ignoreHeaders =
         Arrays.asList("password", "authorization", "token", "accessToken", "access_token", "refreshToken");
+
+    public CustomRequestLoggingFilter(int maxResponseTimeToLogInMs) {
+        this.maxResponseTimeToLogInMs = maxResponseTimeToLogInMs;
+    }
 
     @PostConstruct
     public void init() {

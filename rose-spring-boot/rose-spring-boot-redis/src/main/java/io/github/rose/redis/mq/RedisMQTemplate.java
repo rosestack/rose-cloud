@@ -20,8 +20,6 @@ import io.github.rose.redis.mq.interceptor.RedisMessageInterceptor;
 import io.github.rose.redis.mq.message.AbstractRedisMessage;
 import io.github.rose.redis.mq.pubsub.AbstractRedisChannelMessage;
 import io.github.rose.redis.mq.stream.AbstractRedisStreamMessage;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.data.redis.connection.stream.RecordId;
 import org.springframework.data.redis.connection.stream.StreamRecords;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -35,17 +33,25 @@ import java.util.Objects;
  *
  * @author EnjoyIot
  */
-@AllArgsConstructor
 public class RedisMQTemplate {
 
-    @Getter
     private final RedisTemplate<String, ?> redisTemplate;
-
     /**
      * 拦截器数组
      */
-    @Getter
     private final List<RedisMessageInterceptor> interceptors = new ArrayList<>();
+
+    public RedisMQTemplate(RedisTemplate<String, ?> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
+    public RedisTemplate<String, ?> getRedisTemplate() {
+        return redisTemplate;
+    }
+
+    public List<RedisMessageInterceptor> getInterceptors() {
+        return interceptors;
+    }
 
     /**
      * 发送 Redis 消息，基于 Redis pub/sub 实现

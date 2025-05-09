@@ -15,7 +15,6 @@
  */
 package io.github.rose.filter;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -31,7 +30,6 @@ import java.util.Map;
  * @author zhijun.chen
  * @since 2.16.3
  */
-@Slf4j
 public class CachingRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

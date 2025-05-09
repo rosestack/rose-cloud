@@ -15,7 +15,8 @@
  */
 package io.github.rose.mybatis.mq.kafka;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -26,9 +27,9 @@ import org.springframework.util.StringUtils;
  * <p>
  * Kafka Producer 发送消息时，增加 {@link TenantKafkaProducerInterceptor} 拦截器
  */
-@Slf4j
 public class TenantKafkaEnvironmentPostProcessor implements EnvironmentPostProcessor {
-
+    private static final Logger log = LoggerFactory.getLogger(TenantKafkaEnvironmentPostProcessor.class);
+    
     private static final String PROPERTY_KEY_INTERCEPTOR_CLASSES =
         "spring.kafka.producer.properties.interceptor.classes";
 

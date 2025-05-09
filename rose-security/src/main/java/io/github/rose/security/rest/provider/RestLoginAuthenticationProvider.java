@@ -18,8 +18,6 @@ package io.github.rose.security.rest.provider;
 import io.github.rose.security.rest.mfa.MfaAuthenticationToken;
 import io.github.rose.security.rest.mfa.MfaProperties;
 import io.github.rose.security.util.SecurityUser;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,8 +29,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
 
-@Slf4j
-@RequiredArgsConstructor
 public class RestLoginAuthenticationProvider implements AuthenticationProvider {
 
     private final UserDetailsService userDetailsService;
@@ -40,6 +36,12 @@ public class RestLoginAuthenticationProvider implements AuthenticationProvider {
     private final PasswordEncoder encoder;
 
     private final MfaProperties mfaProperties;
+
+    public RestLoginAuthenticationProvider(UserDetailsService userDetailsService, PasswordEncoder encoder, MfaProperties mfaProperties) {
+        this.userDetailsService = userDetailsService;
+        this.encoder = encoder;
+        this.mfaProperties = mfaProperties;
+    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {

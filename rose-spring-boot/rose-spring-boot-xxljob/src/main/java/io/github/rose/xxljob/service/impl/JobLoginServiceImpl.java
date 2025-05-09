@@ -17,7 +17,6 @@ package io.github.rose.xxljob.service.impl;
 
 import io.github.rose.xxljob.config.XxlJobProperties;
 import io.github.rose.xxljob.service.JobLoginService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -30,7 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RequiredArgsConstructor
 public class JobLoginServiceImpl implements JobLoginService {
 
     private final Map<String, String> loginCookie = new HashMap<>();
@@ -38,6 +36,11 @@ public class JobLoginServiceImpl implements JobLoginService {
     private final RestTemplate restTemplate;
 
     private final XxlJobProperties xxlJobProperties;
+
+    public JobLoginServiceImpl(RestTemplate restTemplate, XxlJobProperties xxlJobProperties) {
+        this.restTemplate = restTemplate;
+        this.xxlJobProperties = xxlJobProperties;
+    }
 
     public static String getCookieValue(String cookieStr, String cookieName) {
         String prefix = cookieName + "=";

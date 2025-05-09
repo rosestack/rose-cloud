@@ -15,8 +15,9 @@
  */
 package io.github.rose.env;
 
-import io.github.rose.core.util.LauncherService;
+import io.github.rose.core.spi.LauncherService;
 import io.github.rose.core.util.PropsUtil;
+import io.github.rose.processor.AutoService;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.Properties;
@@ -26,6 +27,7 @@ import java.util.Properties;
  *
  * @author smallchil
  */
+@AutoService(LauncherService.class)
 public class CommonLauncherService implements LauncherService {
 
     @Override

@@ -17,11 +17,7 @@ package io.github.rose.upms.domain.account;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.rose.mybatis.model.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 @TableName
 public class CredentialHistory extends BaseEntity {
 
@@ -30,4 +26,20 @@ public class CredentialHistory extends BaseEntity {
     private String accountId;
 
     private String password;
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

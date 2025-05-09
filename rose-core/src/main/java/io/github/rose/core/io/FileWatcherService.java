@@ -15,7 +15,9 @@
  */
 package io.github.rose.core.io;
 
-import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.function.Consumer;
@@ -24,8 +26,8 @@ import java.util.function.Consumer;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Slf4j
 public class FileWatcherService extends PathWatcherService {
+    private static final Logger log = LoggerFactory.getLogger(FileWatcherService.class);
 
     public FileWatcherService(
         final File watchableFile,

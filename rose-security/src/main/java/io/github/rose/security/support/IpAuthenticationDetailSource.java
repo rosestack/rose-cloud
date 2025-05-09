@@ -17,8 +17,6 @@ package io.github.rose.security.support;
 
 import io.github.rose.core.spring.WebUtils;
 import io.github.rose.core.util.NetUtils;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,12 +31,23 @@ public class IpAuthenticationDetailSource
         return new RestAuthenticationDetail(WebUtils.getClientIp(request), NetUtils.getLocalhostStr());
     }
 
-    @Data
-    @RequiredArgsConstructor
     public static class RestAuthenticationDetail implements Serializable {
 
         private final String serverAddress;
 
         private final String clientAddress;
+
+        public RestAuthenticationDetail(String serverAddress, String clientAddress) {
+            this.serverAddress = serverAddress;
+            this.clientAddress = clientAddress;
+        }
+
+        public String getServerAddress() {
+            return serverAddress;
+        }
+
+        public String getClientAddress() {
+            return clientAddress;
+        }
     }
 }

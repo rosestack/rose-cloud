@@ -15,9 +15,6 @@
  */
 package io.github.rose.upms.domain.account;
 
-import lombok.Data;
-
-@Data
 public class ThirdUser {
 
     private String unionId;
@@ -37,4 +34,76 @@ public class ThirdUser {
     private String avatar;
 
     private String extra;
+
+    public String getUnionId() {
+        return unionId;
+    }
+
+    public void setUnionId(String unionId) {
+        this.unionId = unionId;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public String getIdpId() {
+        return idpId;
+    }
+
+    public void setIdpId(String idpId) {
+        this.idpId = idpId;
+    }
+
+    public String getIdpType() {
+        return idpType;
+    }
+
+    public void setIdpType(String idpType) {
+        this.idpType = idpType;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getExtra() {
+        return extra;
+    }
+
+    public void setExtra(String extra) {
+        this.extra = extra;
+    }
 }

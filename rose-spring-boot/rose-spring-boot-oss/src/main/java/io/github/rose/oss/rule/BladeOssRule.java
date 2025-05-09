@@ -18,7 +18,6 @@ package io.github.rose.oss.rule;
 import io.github.rose.core.util.StringPool;
 import io.github.rose.core.util.date.DatePattern;
 import io.github.rose.core.util.date.TimeUtils;
-import lombok.AllArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
 
 import java.time.LocalDateTime;
@@ -29,7 +28,6 @@ import java.util.UUID;
  *
  * @author Chill
  */
-@AllArgsConstructor
 public class BladeOssRule implements OssRule {
 
     @Override

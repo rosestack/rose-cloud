@@ -15,13 +15,11 @@
  */
 package io.github.rose.mybatis;
 
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Collections;
 import java.util.Set;
 
-@Data
 @ConfigurationProperties(prefix = "mybatis-plus.tenant")
 public class TenantProperties {
 
@@ -54,4 +52,52 @@ public class TenantProperties {
      * 即默认所有缓存都开启多租户的功能，所以记得添加对应的 tenant_id 字段哟
      */
     private Set<String> ignoredCaches = Collections.emptySet();
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getTenantIdColumn() {
+        return tenantIdColumn;
+    }
+
+    public void setTenantIdColumn(String tenantIdColumn) {
+        this.tenantIdColumn = tenantIdColumn;
+    }
+
+    public Set<String> getIgnoredMappedStatements() {
+        return ignoredMappedStatements;
+    }
+
+    public void setIgnoredMappedStatements(Set<String> ignoredMappedStatements) {
+        this.ignoredMappedStatements = ignoredMappedStatements;
+    }
+
+    public Set<String> getIgnoreUrls() {
+        return ignoreUrls;
+    }
+
+    public void setIgnoreUrls(Set<String> ignoreUrls) {
+        this.ignoreUrls = ignoreUrls;
+    }
+
+    public Set<String> getIgnoredTables() {
+        return ignoredTables;
+    }
+
+    public void setIgnoredTables(Set<String> ignoredTables) {
+        this.ignoredTables = ignoredTables;
+    }
+
+    public Set<String> getIgnoredCaches() {
+        return ignoredCaches;
+    }
+
+    public void setIgnoredCaches(Set<String> ignoredCaches) {
+        this.ignoredCaches = ignoredCaches;
+    }
 }

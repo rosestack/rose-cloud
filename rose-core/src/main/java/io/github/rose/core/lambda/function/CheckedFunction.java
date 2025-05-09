@@ -56,5 +56,5 @@ public interface CheckedFunction<T, R> {
      * @param t the function argument
      * @return the function result
      */
-    R apply(T t) throws Throwable;
+    R apply(T t) throws Exception;
 }

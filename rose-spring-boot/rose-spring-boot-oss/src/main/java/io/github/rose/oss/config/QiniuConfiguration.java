@@ -22,7 +22,6 @@ import com.qiniu.util.Auth;
 import io.github.rose.oss.QiniuTemplate;
 import io.github.rose.oss.props.OssProperties;
 import io.github.rose.oss.rule.OssRule;
-import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -36,7 +35,6 @@ import org.springframework.context.annotation.Bean;
  *
  * @author Chill
  */
-@AllArgsConstructor
 @AutoConfigureAfter(OssConfiguration.class)
 @ConditionalOnClass({Auth.class, UploadManager.class, BucketManager.class})
 @EnableConfigurationProperties(OssProperties.class)
@@ -46,6 +44,11 @@ public class QiniuConfiguration {
     private final OssProperties ossProperties;
 
     private final OssRule ossRule;
+
+    public QiniuConfiguration(OssProperties ossProperties, OssRule ossRule) {
+        this.ossProperties = ossProperties;
+        this.ossRule = ossRule;
+    }
 
     @Bean
     @ConditionalOnMissingBean(com.qiniu.storage.Configuration.class)

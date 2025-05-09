@@ -16,8 +16,8 @@
 package io.github.rose.redis.config;
 
 import io.github.rose.redis.support.TtlRedisCacheManager;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizers;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -32,14 +32,19 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
-@Slf4j
 @EnableCaching
-@RequiredArgsConstructor
 @Configuration
 @EnableConfigurationProperties(CacheProperties.class)
 public class RedisCacheConfig {
+    private static final Logger log = LoggerFactory.getLogger(RedisCacheConfig.class);
+    
     private final CacheProperties cacheProperties;
     private final CacheManagerCustomizers cacheManagerCustomizers;
+
+    public RedisCacheConfig(CacheProperties cacheProperties, CacheManagerCustomizers cacheManagerCustomizers) {
+        this.cacheProperties = cacheProperties;
+        this.cacheManagerCustomizers = cacheManagerCustomizers;
+    }
 
     @Bean
     public RedisCacheManager redisCacheManager(RedisConnectionFactory connectionFactory) {

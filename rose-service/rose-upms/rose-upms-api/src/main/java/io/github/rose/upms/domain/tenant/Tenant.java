@@ -19,17 +19,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.rose.mybatis.model.AuditEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName
 public class Tenant extends AuditEntity {
     private static final long serialVersionUID = 1L;
@@ -50,4 +44,52 @@ public class Tenant extends AuditEntity {
     private LocalDateTime expireTime;
 
     private Boolean status;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public LocalDateTime getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(LocalDateTime expireTime) {
+        this.expireTime = expireTime;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
 }

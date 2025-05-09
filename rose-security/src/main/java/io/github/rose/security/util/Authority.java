@@ -15,9 +15,6 @@
  */
 package io.github.rose.security.util;
 
-import lombok.Getter;
-
-@Getter
 public enum Authority {
     SUPER_ADMIN(1),
     TENANT_ADMIN(2),
@@ -44,5 +41,9 @@ public enum Authority {
             }
         }
         return authority;
+    }
+
+    public int getCode() {
+        return code;
     }
 }

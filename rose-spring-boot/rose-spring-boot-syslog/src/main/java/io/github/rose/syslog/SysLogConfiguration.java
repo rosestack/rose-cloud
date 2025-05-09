@@ -17,8 +17,8 @@ package io.github.rose.syslog;
 
 import io.github.rose.syslog.aspect.SysLogAspect;
 import io.github.rose.syslog.event.SysLogListener;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
@@ -28,12 +28,11 @@ import org.springframework.scheduling.annotation.EnableAsync;
 /**
  * 日志自动配置
  */
-@Slf4j
 @EnableAsync
 @Configuration
-@RequiredArgsConstructor
 @ConditionalOnWebApplication
 public class SysLogConfiguration {
+    public static final Logger log = LoggerFactory.getLogger(SysLogConfiguration.class);
 
     @Bean
     @ConditionalOnMissingBean

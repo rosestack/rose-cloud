@@ -17,16 +17,12 @@ package io.github.rose.security.rest.mfa.config;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import io.github.rose.security.rest.mfa.provider.MfaProviderType;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
 public class BackupCodeMfaConfig extends MfaConfig {
 
     @NotBlank
@@ -53,5 +49,21 @@ public class BackupCodeMfaConfig extends MfaConfig {
         } else {
             return null;
         }
+    }
+
+    public String getCodes() {
+        return codes;
+    }
+
+    public void setCodes(String codes) {
+        this.codes = codes;
+    }
+
+    @Override
+    public String toString() {
+        return "BackupCodeMfaConfig{" +
+            "codes='" + codes + '\'' +
+            ", serializeHiddenFields=" + serializeHiddenFields +
+            '}';
     }
 }

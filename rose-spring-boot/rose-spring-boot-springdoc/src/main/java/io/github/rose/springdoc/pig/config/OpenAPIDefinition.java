@@ -22,8 +22,6 @@ import io.swagger.v3.oas.models.security.OAuthFlows;
 import io.swagger.v3.oas.models.security.Scopes;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.springdoc.core.SpringDocUtils;
 import org.springframework.beans.BeansException;
@@ -39,11 +37,9 @@ import java.util.List;
 /**
  * swagger配置
  */
-@RequiredArgsConstructor
 @ConditionalOnProperty(name = "swagger.enabled", matchIfMissing = true)
 public class OpenAPIDefinition extends OpenAPI implements InitializingBean, ApplicationContextAware {
 
-    @Setter
     private String path;
 
     private ApplicationContext applicationContext;
@@ -83,5 +79,9 @@ public class OpenAPIDefinition extends OpenAPI implements InitializingBean, Appl
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

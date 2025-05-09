@@ -19,8 +19,8 @@ import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHan
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.rose.core.spring.WebUtils;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,11 +31,14 @@ import javax.servlet.http.HttpServletResponse;
  * <p>
  * {@link com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.DefaultBlockExceptionHandler}
  */
-@Slf4j
-@RequiredArgsConstructor
 public class UrlBlockHandler implements BlockExceptionHandler {
+    private static final Logger log = LoggerFactory.getLogger(UrlBlockHandler.class);
 
     private final ObjectMapper objectMapper;
+
+    public UrlBlockHandler(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, BlockException e) throws Exception {

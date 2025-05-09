@@ -16,10 +16,6 @@
 package io.github.rose.oss.old.storage.domain;
 
 import io.github.rose.oss.old.storage.FileUtils;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.InputStream;
@@ -31,10 +27,6 @@ import java.time.format.DateTimeFormatter;
  *
  * @author Levin
  */
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class StorageRequest implements java.io.Serializable {
 
     /**
@@ -50,7 +42,6 @@ public class StorageRequest implements java.io.Serializable {
     /**
      * 如果为 true 则会随机生成文件名
      */
-    @Builder.Default
     private boolean randomName = true;
 
     private PrefixRule rule;
@@ -72,6 +63,10 @@ public class StorageRequest implements java.io.Serializable {
     private Object tenantId;
 
     private Object userId;
+
+    public static Builder builder() {
+        return new Builder();
+    }
 
     /**
      * 获取目标名字
@@ -107,6 +102,86 @@ public class StorageRequest implements java.io.Serializable {
         return FileUtils.targetName(this.isRandomName(), prefix, this.getOriginName());
     }
 
+    public String getBucket() {
+        return bucket;
+    }
+
+    public void setBucket(String bucket) {
+        this.bucket = bucket;
+    }
+
+    public String getOriginName() {
+        return originName;
+    }
+
+    public void setOriginName(String originName) {
+        this.originName = originName;
+    }
+
+    public boolean isRandomName() {
+        return randomName;
+    }
+
+    public void setRandomName(boolean randomName) {
+        this.randomName = randomName;
+    }
+
+    public PrefixRule getRule() {
+        return rule;
+    }
+
+    public void setRule(PrefixRule rule) {
+        this.rule = rule;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    public byte[] getContent() {
+        return content;
+    }
+
+    public void setContent(byte[] content) {
+        this.content = content;
+    }
+
+    public InputStream getInputStream() {
+        return inputStream;
+    }
+
+    public void setInputStream(InputStream inputStream) {
+        this.inputStream = inputStream;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public Object getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(Object tenantId) {
+        this.tenantId = tenantId;
+    }
+
+    public Object getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Object userId) {
+        this.userId = userId;
+    }
+
     public enum PrefixRule {
 
         /**
@@ -127,5 +202,83 @@ public class StorageRequest implements java.io.Serializable {
          * 租户当前日期策略
          */
         tenant_now_date_mouth_day
+    }
+
+    public static class Builder {
+        private String bucket;
+        private String originName;
+        private boolean randomName = true;
+        private PrefixRule rule;
+        private String prefix;
+        private byte[] content;
+        private InputStream inputStream;
+        private String contentType;
+        private Object tenantId;
+        private Object userId;
+
+        public Builder bucket(String bucket) {
+            this.bucket = bucket;
+            return this;
+        }
+
+        public Builder originName(String originName) {
+            this.originName = originName;
+            return this;
+        }
+
+        public Builder randomName(boolean randomName) {
+            this.randomName = randomName;
+            return this;
+        }
+
+        public Builder rule(PrefixRule rule) {
+            this.rule = rule;
+            return this;
+        }
+
+        public Builder prefix(String prefix) {
+            this.prefix = prefix;
+            return this;
+        }
+
+        public Builder content(byte[] content) {
+            this.content = content;
+            return this;
+        }
+
+        public Builder inputStream(InputStream inputStream) {
+            this.inputStream = inputStream;
+            return this;
+        }
+
+        public Builder contentType(String contentType) {
+            this.contentType = contentType;
+            return this;
+        }
+
+        public Builder tenantId(Object tenantId) {
+            this.tenantId = tenantId;
+            return this;
+        }
+
+        public Builder userId(Object userId) {
+            this.userId = userId;
+            return this;
+        }
+
+        public StorageRequest build() {
+            StorageRequest request = new StorageRequest();
+            request.setBucket(bucket);
+            request.setOriginName(originName);
+            request.setRandomName(randomName);
+            request.setRule(rule);
+            request.setPrefix(prefix);
+            request.setContent(content);
+            request.setInputStream(inputStream);
+            request.setContentType(contentType);
+            request.setTenantId(tenantId);
+            request.setUserId(userId);
+            return request;
+        }
     }
 }

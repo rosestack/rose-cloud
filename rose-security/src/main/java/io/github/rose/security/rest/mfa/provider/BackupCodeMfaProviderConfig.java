@@ -15,11 +15,9 @@
  */
 package io.github.rose.security.rest.mfa.provider;
 
-import lombok.Data;
 
 import javax.validation.constraints.Min;
 
-@Data
 public class BackupCodeMfaProviderConfig implements MfaProviderConfig {
 
     @Min(value = 1, message = "must be greater than 0")
@@ -28,5 +26,20 @@ public class BackupCodeMfaProviderConfig implements MfaProviderConfig {
     @Override
     public MfaProviderType getProviderType() {
         return MfaProviderType.BACKUP_CODE;
+    }
+
+    public int getCodesQuantity() {
+        return codesQuantity;
+    }
+
+    public void setCodesQuantity(int codesQuantity) {
+        this.codesQuantity = codesQuantity;
+    }
+
+    @Override
+    public String toString() {
+        return "BackupCodeMfaProviderConfig{" +
+            "codesQuantity=" + codesQuantity +
+            '}';
     }
 }

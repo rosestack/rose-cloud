@@ -20,8 +20,8 @@ import io.github.rose.core.jackson.Java8TimeModule;
 import io.github.rose.core.spring.WebUtils;
 import io.github.rose.core.util.date.DatePattern;
 import io.github.rose.filter.*;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -43,14 +43,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import static io.github.rose.core.CommonConstants.*;
 import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
 
-@Slf4j
 @Configuration
 @Order(Ordered.HIGHEST_PRECEDENCE)
-@RequiredArgsConstructor
 @ConditionalOnWebApplication(type = SERVLET)
 @EnableConfigurationProperties({XssProperties.class})
 public class WebMvcConfiguration implements WebMvcConfigurer {
-
+    private static final Logger log = LoggerFactory.getLogger(WebMvcConfiguration.class);
+    
     private final XssProperties xssProperties;
 
     @Value("${server.http.max-response-time-to-log-in-ms:2000}")
@@ -58,6 +57,10 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Value("${server.http.max_payload_size:/api/image*/**=52428800;/api/resource/**=52428800;/api/**=16777216}")
     private String maxPayloadSizeConfig;
+
+    public WebMvcConfiguration(XssProperties xssProperties) {
+        this.xssProperties = xssProperties;
+    }
 
     /**
      * 增加GET请求参数中时间类型转换 {@link Java8TimeModule}

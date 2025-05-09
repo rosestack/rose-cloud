@@ -15,7 +15,8 @@
  */
 package io.github.rose.config;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -23,11 +24,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.retry.interceptor.RetryInterceptorBuilder;
 import org.springframework.retry.interceptor.RetryOperationsInterceptor;
 
-@Slf4j
 @Configuration
 @ConditionalOnClass(RetryOperationsInterceptor.class)
 public class RetryConfiguration {
-
+    private static final Logger log = LoggerFactory.getLogger(RetryConfiguration.class);
+    
     @Bean
     @ConditionalOnMissingBean(name = "configServerRetryInterceptor")
     public RetryOperationsInterceptor configServerRetryInterceptor() {

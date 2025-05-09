@@ -16,16 +16,10 @@
 package io.github.rose.security.util;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class TokenPair {
 
     @JsonProperty("access_token")
@@ -35,4 +29,37 @@ public class TokenPair {
     private String refreshToken;
 
     private Collection<GrantedAuthority> authorities;
+
+    public TokenPair(String accessToken, String refreshToken, Collection<GrantedAuthority> authorities) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+        this.authorities = authorities;
+    }
+
+    public TokenPair() {
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public Collection<GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Collection<GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
 }

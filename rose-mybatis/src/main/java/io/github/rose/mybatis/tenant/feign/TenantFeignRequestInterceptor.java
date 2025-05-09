@@ -18,12 +18,10 @@ package io.github.rose.mybatis.tenant.feign;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import io.github.rose.mybatis.tenant.util.TenantContextHolder;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import static io.github.rose.core.CommonConstants.HEADER_TENANT_ID;
 
-@Slf4j
 public class TenantFeignRequestInterceptor implements RequestInterceptor {
 
     @Override

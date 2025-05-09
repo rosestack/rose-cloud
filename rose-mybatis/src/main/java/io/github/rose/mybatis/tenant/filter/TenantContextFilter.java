@@ -17,7 +17,8 @@ package io.github.rose.mybatis.tenant.filter;
 
 import io.github.rose.core.spring.WebUtils;
 import io.github.rose.mybatis.tenant.util.TenantContextHolder;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -28,8 +29,8 @@ import java.io.IOException;
 
 import static io.github.rose.core.CommonConstants.HEADER_TENANT_ID;
 
-@Slf4j
 public class TenantContextFilter extends OncePerRequestFilter {
+    private static final Logger log = LoggerFactory.getLogger(TenantContextFilter.class);
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

@@ -18,7 +18,8 @@ package io.github.rose.security.rest.filter;
 import io.github.rose.core.jackson.JacksonUtils;
 import io.github.rose.security.exception.AuthMethodNotSupportedException;
 import io.github.rose.security.rest.param.LoginRequest;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,9 +37,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Slf4j
 public class RestLoginProcessingFilter extends AbstractAuthenticationProcessingFilter {
-
+    private static final Logger log = LoggerFactory.getLogger(RestLoginProcessingFilter.class);
+    
     private final AuthenticationSuccessHandler successHandler;
 
     private final AuthenticationFailureHandler failureHandler;

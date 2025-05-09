@@ -16,8 +16,6 @@
 package io.github.rose.mybatis.util;
 
 import com.baomidou.mybatisplus.annotation.DbType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
@@ -29,8 +27,6 @@ import java.util.stream.Collectors;
 /**
  * 针对 MyBatis Plus 的 {@link DbType} 增强，补充更多信息
  */
-@Getter
-@AllArgsConstructor
 public enum DbTypeEnum {
 
     /**
@@ -102,6 +98,13 @@ public enum DbTypeEnum {
      */
     private final String findInSetTemplate;
 
+
+    DbTypeEnum(DbType mpDbType, String productName, String findInSetTemplate) {
+        this.mpDbType = mpDbType;
+        this.productName = productName;
+        this.findInSetTemplate = findInSetTemplate;
+    }
+
     public static DbType find(String databaseProductName) {
         if (StringUtils.isBlank(databaseProductName)) {
             return null;
@@ -112,5 +115,17 @@ public enum DbTypeEnum {
     public static String getFindInSetTemplate(DbType dbType) {
         return Optional.of(MAP_BY_MP.get(dbType).getFindInSetTemplate())
             .orElseThrow(() -> new IllegalArgumentException("FIND_IN_SET not supported"));
+    }
+
+    public DbType getMpDbType() {
+        return mpDbType;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public String getFindInSetTemplate() {
+        return findInSetTemplate;
     }
 }

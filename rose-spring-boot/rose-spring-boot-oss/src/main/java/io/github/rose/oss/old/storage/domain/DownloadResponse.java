@@ -15,10 +15,6 @@
  */
 package io.github.rose.oss.old.storage.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,10 +25,6 @@ import java.io.InputStream;
  *
  * @author Levin
  */
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class DownloadResponse {
 
     @Deprecated
@@ -64,4 +56,60 @@ public class DownloadResponse {
      * 本地文件地址
      */
     private String localFilePath;
+
+    public BufferedReader getBufferedReader() {
+        return bufferedReader;
+    }
+
+    public void setBufferedReader(BufferedReader bufferedReader) {
+        this.bufferedReader = bufferedReader;
+    }
+
+    public InputStream getInputStream() {
+        return inputStream;
+    }
+
+    public void setInputStream(InputStream inputStream) {
+        this.inputStream = inputStream;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public String getContentEncoding() {
+        return contentEncoding;
+    }
+
+    public void setContentEncoding(String contentEncoding) {
+        this.contentEncoding = contentEncoding;
+    }
+
+    public long getContentLength() {
+        return contentLength;
+    }
+
+    public void setContentLength(long contentLength) {
+        this.contentLength = contentLength;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
+    public String getLocalFilePath() {
+        return localFilePath;
+    }
+
+    public void setLocalFilePath(String localFilePath) {
+        this.localFilePath = localFilePath;
+    }
 }

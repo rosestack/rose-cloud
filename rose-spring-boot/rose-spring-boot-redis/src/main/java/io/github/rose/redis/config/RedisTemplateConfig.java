@@ -16,8 +16,9 @@
 package io.github.rose.redis.config;
 
 import io.github.rose.redis.service.RedisService;
-import lombok.extern.slf4j.Slf4j;
 import org.redisson.spring.starter.RedissonAutoConfigurationV2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -33,12 +34,12 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
-@Slf4j
 @Configuration
 @AutoConfigureBefore({RedisConfiguration.class, RedisAutoConfiguration.class, RedissonAutoConfigurationV2.class})
 @EnableConfigurationProperties({CacheProperties.class})
 public class RedisTemplateConfig {
-
+    private static final Logger log = LoggerFactory.getLogger(RedisTemplateConfig.class);
+    
     public RedisTemplateConfig() {
         log.info("Initializing RedisTemplateConfig");
     }

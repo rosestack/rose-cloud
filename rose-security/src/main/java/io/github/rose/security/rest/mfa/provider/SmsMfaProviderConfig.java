@@ -15,14 +15,10 @@
  */
 package io.github.rose.security.rest.mfa.provider;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class SmsMfaProviderConfig extends OtpBasedMfaProviderConfig {
 
     @NotBlank(message = "is required")
@@ -32,5 +28,20 @@ public class SmsMfaProviderConfig extends OtpBasedMfaProviderConfig {
     @Override
     public MfaProviderType getProviderType() {
         return MfaProviderType.SMS;
+    }
+
+    public String getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
+    @Override
+    public String toString() {
+        return "SmsMfaProviderConfig{" +
+            "template='" + template + '\'' +
+            '}';
     }
 }

@@ -16,16 +16,12 @@
 package io.github.rose.oss.old.storage.exception;
 
 import io.github.rose.oss.old.storage.properties.BaseOssProperties;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * @author Levin
  */
 public class StorageException extends RuntimeException {
 
-    @Getter
-    @Setter
     private BaseOssProperties.StorageType storageType;
 
     public StorageException(String message, Throwable cause) {
@@ -40,5 +36,13 @@ public class StorageException extends RuntimeException {
     public StorageException(BaseOssProperties.StorageType storageType, String message, Throwable cause) {
         super(message, cause);
         this.setStorageType(storageType);
+    }
+
+    public BaseOssProperties.StorageType getStorageType() {
+        return storageType;
+    }
+
+    public void setStorageType(BaseOssProperties.StorageType storageType) {
+        this.storageType = storageType;
     }
 }

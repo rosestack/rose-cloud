@@ -15,8 +15,6 @@
  */
 package io.github.rose.core.groovy;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.groovy.util.Maps;
 import org.junit.jupiter.api.Nested;
@@ -24,6 +22,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -34,11 +34,10 @@ import static org.junit.jupiter.api.Assertions.*;
  * This is {@link GroovyShellScriptTests}.
  */
 @Tag("Groovy")
-@Slf4j
 @Execution(ExecutionMode.SAME_THREAD)
 class GroovyShellScriptTests {
+    private static final Logger log = LoggerFactory.getLogger(GroovyShellScriptTests.class);
 
-    @RequiredArgsConstructor
     private static final class RunnableScript implements Runnable {
 
         private final Map<String, Object> attributes;
@@ -46,6 +45,12 @@ class GroovyShellScriptTests {
         private final GroovyShellScript shellScript;
 
         private final Object expectedAttribute;
+
+        private RunnableScript(Map<String, Object> attributes, GroovyShellScript shellScript, Object expectedAttribute) {
+            this.attributes = attributes;
+            this.shellScript = shellScript;
+            this.expectedAttribute = expectedAttribute;
+        }
 
         @Override
         public void run() {

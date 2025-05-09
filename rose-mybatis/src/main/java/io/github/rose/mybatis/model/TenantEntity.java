@@ -17,15 +17,33 @@ package io.github.rose.mybatis.model;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.util.Objects;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class TenantEntity extends BaseEntity implements Serializable {
 
     @TableField(fill = FieldFill.INSERT)
     private String tenantId;
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        TenantEntity that = (TenantEntity) o;
+        return Objects.equals(tenantId, that.tenantId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), tenantId);
+    }
 }

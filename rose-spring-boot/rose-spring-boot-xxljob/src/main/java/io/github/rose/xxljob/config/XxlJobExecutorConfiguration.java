@@ -21,9 +21,9 @@ import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
 import io.github.rose.core.exception.BusinessException;
 import io.github.rose.core.spring.SpringContextHolder;
 import io.github.rose.core.util.StringPool;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -40,15 +40,19 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.stream.Collectors;
 
-@Slf4j
 @Configuration
 @EnableAsync
-@RequiredArgsConstructor
 @ConditionalOnClass(XxlJobSpringExecutor.class)
 @EnableConfigurationProperties(XxlJobProperties.class)
 public class XxlJobExecutorConfiguration {
+    private static final Logger log = LoggerFactory.getLogger(XxlJobExecutorConfiguration.class);
+
     private static final String XXL_JOB_ADMIN = "rose-xxljob";
     private final ObjectProvider<DiscoveryClient> discoveryClientObjectProvider;
+
+    public XxlJobExecutorConfiguration(ObjectProvider<DiscoveryClient> discoveryClientObjectProvider) {
+        this.discoveryClientObjectProvider = discoveryClientObjectProvider;
+    }
 
     private static String getServiceUrl(ServiceInstance instance) {
         return String.format(

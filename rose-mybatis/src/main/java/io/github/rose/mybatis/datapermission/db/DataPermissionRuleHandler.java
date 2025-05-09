@@ -20,7 +20,6 @@ import com.baomidou.mybatisplus.extension.plugins.handler.MultiDataPermissionHan
 import io.github.rose.mybatis.datapermission.rule.DataPermissionRule;
 import io.github.rose.mybatis.datapermission.rule.DataPermissionRuleFactory;
 import io.github.rose.mybatis.util.MyBatisUtils;
-import lombok.RequiredArgsConstructor;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.schema.Table;
@@ -34,10 +33,13 @@ import java.util.List;
  * <a href="https://baomidou.com/plugins/data-permission/">数据权限插件</a> 核心原理：它会在 SQL 执行前拦截
  * SQL 语句，并根据用户权限动态添加权限相关的 SQL 片段。这样，只有用户有权限访问的数据才会被查询出来
  */
-@RequiredArgsConstructor
 public class DataPermissionRuleHandler implements MultiDataPermissionHandler {
 
     private final DataPermissionRuleFactory ruleFactory;
+
+    public DataPermissionRuleHandler(DataPermissionRuleFactory ruleFactory) {
+        this.ruleFactory = ruleFactory;
+    }
 
     @Override
     public Expression getSqlSegment(Table table, Expression where, String mappedStatementId) {

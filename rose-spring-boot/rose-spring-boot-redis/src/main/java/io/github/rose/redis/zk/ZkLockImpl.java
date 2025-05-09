@@ -15,13 +15,13 @@
  */
 package io.github.rose.redis.zk;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.PathChildrenCache;
 import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.ZooDefs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.util.Map;
@@ -29,17 +29,17 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.ReentrantLock;
 
-@Slf4j
-@RequiredArgsConstructor
 public class ZkLockImpl implements ZkLock, InitializingBean {
 
     private static final String LOCK_ROOT_PATH = "/ZkLock";
-
+    private static final Logger log = LoggerFactory.getLogger(ZkLockImpl.class);
     private final CuratorFramework curatorFramework;
-
     private Map<String, CountDownLatch> concurrentMap = new ConcurrentHashMap<>();
-
     private ReentrantLock lock = new ReentrantLock();
+
+    public ZkLockImpl(CuratorFramework curatorFramework) {
+        this.curatorFramework = curatorFramework;
+    }
 
     @Override
     public boolean lock(String lockpath) {

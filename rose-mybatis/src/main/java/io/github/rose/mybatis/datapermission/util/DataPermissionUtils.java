@@ -17,7 +17,6 @@ package io.github.rose.mybatis.datapermission.util;
 
 import io.github.rose.mybatis.datapermission.annotation.DataPermission;
 import io.github.rose.mybatis.datapermission.aop.DataPermissionContextHolder;
-import lombok.SneakyThrows;
 
 import java.util.concurrent.Callable;
 
@@ -29,12 +28,15 @@ public class DataPermissionUtils {
     private static DataPermission DATA_PERMISSION_DISABLE;
 
     @DataPermission(enable = false)
-    @SneakyThrows
     private static DataPermission getDisableDataPermissionDisable() {
         if (DATA_PERMISSION_DISABLE == null) {
-            DATA_PERMISSION_DISABLE = DataPermissionUtils.class
-                .getDeclaredMethod("getDisableDataPermissionDisable")
-                .getAnnotation(DataPermission.class);
+            try {
+                DATA_PERMISSION_DISABLE = DataPermissionUtils.class
+                    .getDeclaredMethod("getDisableDataPermissionDisable")
+                    .getAnnotation(DataPermission.class);
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
         }
         return DATA_PERMISSION_DISABLE;
     }
@@ -61,13 +63,14 @@ public class DataPermissionUtils {
      * @param callable 逻辑
      * @return 执行结果
      */
-    @SneakyThrows
     public static <T> T executeIgnore(Callable<T> callable) {
         DataPermission dataPermission = getDisableDataPermissionDisable();
         DataPermissionContextHolder.add(dataPermission);
         try {
             // 执行 callable
             return callable.call();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             DataPermissionContextHolder.remove();
         }

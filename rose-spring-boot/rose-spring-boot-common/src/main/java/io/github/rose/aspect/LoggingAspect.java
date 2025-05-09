@@ -42,7 +42,7 @@ import static io.github.rose.core.CommonConstants.PROFILE_NOT_PROD;
 public class LoggingAspect {
 
     /**
-     * Pointcut that matches all repositories, services and Web REST endpoints.
+     * Pointcut that matches all repositories, services0 and Web REST endpoints.
      */
     @Pointcut("within(@org.springframework.stereotype.Repository *)"
         + " || within(@org.springframework.stereotype.Service *)"

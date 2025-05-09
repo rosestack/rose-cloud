@@ -20,13 +20,11 @@ import io.github.rose.core.spring.ReflectionUtils;
 import io.github.rose.redis.mq.RedisMQTemplate;
 import io.github.rose.redis.mq.interceptor.RedisMessageInterceptor;
 import io.github.rose.redis.mq.message.AbstractRedisMessage;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.connection.stream.ObjectRecord;
 import org.springframework.data.redis.stream.StreamListener;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -47,26 +45,52 @@ public abstract class AbstractRedisStreamMessageListener<T extends AbstractRedis
     /**
      * Redis Channel
      */
-    @Getter
     private final String streamKey;
 
     /**
      * Redis 消费者分组，默认使用 spring.application.name 名字
      */
     @Value("${spring.application.name}")
-    @Getter
     private String group;
 
     /**
      * RedisMQTemplate
      */
-    @Setter
     private RedisMQTemplate redisMQTemplate;
 
-    @SneakyThrows
     protected AbstractRedisStreamMessageListener() {
         this.messageType = getMessageClass();
-        this.streamKey = messageType.getDeclaredConstructor().newInstance().getStreamKey();
+        try {
+            this.streamKey = messageType.getDeclaredConstructor().newInstance().getStreamKey();
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Class<T> getMessageType() {
+        return messageType;
+    }
+
+    public String getStreamKey() {
+        return streamKey;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public RedisMQTemplate getRedisMQTemplate() {
+        return redisMQTemplate;
+    }
+
+    public void setRedisMQTemplate(RedisMQTemplate redisMQTemplate) {
+        this.redisMQTemplate = redisMQTemplate;
     }
 
     @Override

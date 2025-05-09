@@ -21,7 +21,6 @@
 // import com.github.loki4j.logback.ApacheHttpSender;
 // import com.github.loki4j.logback.JsonEncoder;
 // import com.github.loki4j.logback.Loki4jAppender;
-// import lombok.extern.slf4j.Slf4j;
 // import org.apache.commons.lang3.StringUtils;
 // import org.slf4j.LoggerFactory;
 // import org.springframework.boot.config.condition.ConditionalOnClass;
@@ -29,7 +28,6 @@
 // import org.springframework.context.annotation.Configuration;
 // import org.springframework.support.env.Environment;
 //
-// @Slf4j
 // @Configuration
 // @ConditionalOnClass(Loki4jAppender.class)
 // @EnableConfigurationProperties(Logging.class)

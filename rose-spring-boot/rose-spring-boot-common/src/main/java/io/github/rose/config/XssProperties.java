@@ -16,7 +16,6 @@
 package io.github.rose.config;
 
 import io.github.rose.core.CommonConstants;
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.ArrayList;
@@ -26,7 +25,6 @@ import java.util.List;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Data
 @ConfigurationProperties(CommonConstants.PROJECT_NAME + ".xss")
 public class XssProperties {
 
@@ -39,4 +37,20 @@ public class XssProperties {
      * 放行url
      */
     private List<String> excludeUrls = new ArrayList<>();
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public List<String> getExcludeUrls() {
+        return excludeUrls;
+    }
+
+    public void setExcludeUrls(List<String> excludeUrls) {
+        this.excludeUrls = excludeUrls;
+    }
 }

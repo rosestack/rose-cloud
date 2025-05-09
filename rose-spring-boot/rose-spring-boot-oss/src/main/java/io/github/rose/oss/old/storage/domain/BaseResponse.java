@@ -15,17 +15,30 @@
  */
 package io.github.rose.oss.old.storage.domain;
 
-import lombok.Data;
-
 /**
  * 响应结果
  *
  * @author Levin
  */
-@Data
 public class BaseResponse implements java.io.Serializable {
 
     private Boolean successful = false;
 
     private String message;
+
+    public Boolean getSuccessful() {
+        return successful;
+    }
+
+    public void setSuccessful(Boolean successful) {
+        this.successful = successful;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

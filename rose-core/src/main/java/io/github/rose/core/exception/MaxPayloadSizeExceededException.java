@@ -15,9 +15,7 @@
  */
 package io.github.rose.core.exception;
 
-import lombok.Getter;
 
-@Getter
 public class MaxPayloadSizeExceededException extends RuntimeException {
 
     private final long limit;
@@ -25,5 +23,9 @@ public class MaxPayloadSizeExceededException extends RuntimeException {
     public MaxPayloadSizeExceededException(long limit) {
         super("Payload size exceeds the limit of " + limit + " bytes");
         this.limit = limit;
+    }
+
+    public long getLimit() {
+        return limit;
     }
 }

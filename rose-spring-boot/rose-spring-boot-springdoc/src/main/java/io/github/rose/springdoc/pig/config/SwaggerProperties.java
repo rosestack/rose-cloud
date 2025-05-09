@@ -15,13 +15,11 @@
  */
 package io.github.rose.springdoc.pig.config;
 
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 @ConfigurationProperties("swagger")
 public class SwaggerProperties {
 
@@ -62,7 +60,70 @@ public class SwaggerProperties {
 
     private Security security = new Security();
 
-    @Data
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getBasePackage() {
+        return basePackage;
+    }
+
+    public void setBasePackage(String basePackage) {
+        this.basePackage = basePackage;
+    }
+
+    public List<String> getBasePath() {
+        return basePath;
+    }
+
+    public void setBasePath(List<String> basePath) {
+        this.basePath = basePath;
+    }
+
+    public List<String> getExcludePath() {
+        return excludePath;
+    }
+
+    public void setExcludePath(List<String> excludePath) {
+        this.excludePath = excludePath;
+    }
+
+    public List<String> getIgnoreProviders() {
+        return ignoreProviders;
+    }
+
+    public void setIgnoreProviders(List<String> ignoreProviders) {
+        this.ignoreProviders = ignoreProviders;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getGateway() {
+        return gateway;
+    }
+
+    public void setGateway(String gateway) {
+        this.gateway = gateway;
+    }
+
+    public Security getSecurity() {
+        return security;
+    }
+
+    public void setSecurity(Security security) {
+        this.security = security;
+    }
+
     public static class Security {
 
         private Boolean enabled = true;
@@ -76,5 +137,29 @@ public class SwaggerProperties {
          * 作用域
          */
         private String scope;
+
+        public Boolean getEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(Boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        public String getTokenUrl() {
+            return tokenUrl;
+        }
+
+        public void setTokenUrl(String tokenUrl) {
+            this.tokenUrl = tokenUrl;
+        }
+
+        public String getScope() {
+            return scope;
+        }
+
+        public void setScope(String scope) {
+            this.scope = scope;
+        }
     }
 }

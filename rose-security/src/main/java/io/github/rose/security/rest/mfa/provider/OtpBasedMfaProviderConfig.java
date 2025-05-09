@@ -15,13 +15,25 @@
  */
 package io.github.rose.security.rest.mfa.provider;
 
-import lombok.Data;
-
 import javax.validation.constraints.Min;
 
-@Data
 public abstract class OtpBasedMfaProviderConfig implements MfaProviderConfig {
 
     @Min(value = 1, message = "is required")
     private int verificationCodeExpireTime;
+
+    public int getVerificationCodeExpireTime() {
+        return verificationCodeExpireTime;
+    }
+
+    public void setVerificationCodeExpireTime(int verificationCodeExpireTime) {
+        this.verificationCodeExpireTime = verificationCodeExpireTime;
+    }
+
+    @Override
+    public String toString() {
+        return "OtpBasedMfaProviderConfig{" +
+            "verificationCodeExpireTime=" + verificationCodeExpireTime +
+            '}';
+    }
 }

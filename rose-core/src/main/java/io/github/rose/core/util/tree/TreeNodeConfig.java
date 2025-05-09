@@ -15,8 +15,6 @@
  */
 package io.github.rose.core.util.tree;
 
-import lombok.Data;
-import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -25,8 +23,6 @@ import java.io.Serializable;
  *
  * @author liangbaikai
  */
-@Data
-@Accessors(chain = true)
 public class TreeNodeConfig implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,4 +47,63 @@ public class TreeNodeConfig implements Serializable {
 
     // 可以配置递归深度 从0开始计算 默认此配置为空,即不限制
     private Integer deep;
+
+    public TreeNodeConfig() {
+    }
+
+    public String getIdKey() {
+        return idKey;
+    }
+
+    public void setIdKey(String idKey) {
+        this.idKey = idKey;
+    }
+
+    public String getParentIdKey() {
+        return parentIdKey;
+    }
+
+    public void setParentIdKey(String parentIdKey) {
+        this.parentIdKey = parentIdKey;
+    }
+
+    public String getWeightKey() {
+        return weightKey;
+    }
+
+    public void setWeightKey(String weightKey) {
+        this.weightKey = weightKey;
+    }
+
+    public String getNameKey() {
+        return nameKey;
+    }
+
+    public void setNameKey(String nameKey) {
+        this.nameKey = nameKey;
+    }
+
+    public String getChildrenKey() {
+        return childrenKey;
+    }
+
+    public void setChildrenKey(String childrenKey) {
+        this.childrenKey = childrenKey;
+    }
+
+    public Boolean getReversed() {
+        return reversed;
+    }
+
+    public void setReversed(Boolean reversed) {
+        this.reversed = reversed;
+    }
+
+    public Integer getDeep() {
+        return deep;
+    }
+
+    public void setDeep(Integer deep) {
+        this.deep = deep;
+    }
 }

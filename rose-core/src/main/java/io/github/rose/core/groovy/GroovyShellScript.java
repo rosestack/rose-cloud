@@ -19,11 +19,8 @@ import groovy.lang.Binding;
 import groovy.lang.GroovyRuntimeException;
 import groovy.lang.Script;
 import io.github.rose.core.util.concurrent.TryLock;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,19 +31,20 @@ import java.util.Map;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Getter
-@Slf4j
-@ToString(of = "script")
-@RequiredArgsConstructor
 public class GroovyShellScript implements ExecutableScript {
-
     private static final ThreadLocal<Map<String, Object>> BINDING_THREAD_LOCAL = new InheritableThreadLocal<>();
-
+    private final static Logger log = LoggerFactory.getLogger(GroovyShellScript.class);
     private final TryLock lock = new TryLock();
-
     private final String script;
-
     private Script groovyScript;
+
+    public GroovyShellScript(String script) {
+        this.script = script;
+    }
+
+    public String getScript() {
+        return script;
+    }
 
     @Override
     public <T> T execute(final Object[] args, final Class<T> clazz) throws Throwable {
@@ -63,7 +61,7 @@ public class GroovyShellScript implements ExecutableScript {
         if (lock.tryLock()) {
             try {
                 log.trace("Beginning to execute script [{}]", this);
-                val binding = BINDING_THREAD_LOCAL.get();
+                Map<String, Object> binding = BINDING_THREAD_LOCAL.get();
                 if (groovyScript == null) {
                     groovyScript = ScriptingUtils.parseGroovyShellScript(binding, script);
                 }
@@ -72,9 +70,9 @@ public class GroovyShellScript implements ExecutableScript {
                     groovyScript.setBinding(new Binding(binding));
                 }
                 log.trace("Current binding [{}]", groovyScript.getBinding());
-                val result = ScriptingUtils.executeGroovyShellScript(groovyScript, clazz);
+                Object result = ScriptingUtils.executeGroovyShellScript(groovyScript, clazz);
                 log.debug("Groovy script [{}] returns result [{}]", this, result);
-                return result;
+                return (T) result;
             } catch (final GroovyRuntimeException e) {
                 log.error("Groovy script [{}] execution error", this, e);
             } finally {
@@ -87,6 +85,10 @@ public class GroovyShellScript implements ExecutableScript {
             }
         }
         return null;
+    }
+
+    public Script getGroovyScript() {
+        return groovyScript;
     }
 
     @Override

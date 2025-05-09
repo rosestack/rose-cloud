@@ -15,11 +15,10 @@
  */
 package io.github.rose.oss.old.storage.properties;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.time.Duration;
+import java.util.Objects;
 
 import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_MINIO;
 
@@ -28,8 +27,6 @@ import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_MINI
  *
  * @author Levin
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(prefix = OSS_CONFIG_PREFIX_MINIO)
 public class MinioOssProperties extends BaseOssProperties {
 
@@ -77,4 +74,96 @@ public class MinioOssProperties extends BaseOssProperties {
      * 读取超时时间
      */
     private Duration readTimeout = Duration.ofSeconds(10);
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getAccessKey() {
+        return accessKey;
+    }
+
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public Boolean getSecure() {
+        return secure;
+    }
+
+    public void setSecure(Boolean secure) {
+        this.secure = secure;
+    }
+
+    public String getMetricName() {
+        return metricName;
+    }
+
+    public void setMetricName(String metricName) {
+        this.metricName = metricName;
+    }
+
+    public Duration getConnectTimeout() {
+        return connectTimeout;
+    }
+
+    public void setConnectTimeout(Duration connectTimeout) {
+        this.connectTimeout = connectTimeout;
+    }
+
+    public Duration getWriteTimeout() {
+        return writeTimeout;
+    }
+
+    public void setWriteTimeout(Duration writeTimeout) {
+        this.writeTimeout = writeTimeout;
+    }
+
+    public Duration getReadTimeout() {
+        return readTimeout;
+    }
+
+    public void setReadTimeout(Duration readTimeout) {
+        this.readTimeout = readTimeout;
+    }
+
+    public String getEndpoint() {
+        return endpoint;
+    }
+
+    public void setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        MinioOssProperties that = (MinioOssProperties) o;
+        return port == that.port && Objects.equals(endpoint, that.endpoint) && Objects.equals(region, that.region) && Objects.equals(accessKey, that.accessKey) && Objects.equals(secretKey, that.secretKey) && Objects.equals(secure, that.secure) && Objects.equals(metricName, that.metricName) && Objects.equals(connectTimeout, that.connectTimeout) && Objects.equals(writeTimeout, that.writeTimeout) && Objects.equals(readTimeout, that.readTimeout);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(endpoint, port, region, accessKey, secretKey, secure, metricName, connectTimeout, writeTimeout, readTimeout);
+    }
 }

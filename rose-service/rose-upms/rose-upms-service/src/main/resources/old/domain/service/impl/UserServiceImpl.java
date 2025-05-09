@@ -42,8 +42,6 @@ import io.github.rose.upms.domain.contact.User;
 import io.github.rose.upms.model.UserInfoDTO;
 import io.github.rose.upms.model.UserRegisterRequest;
 import io.github.rose.upms.model.enums.UserStatus;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.AuthorityUtils;

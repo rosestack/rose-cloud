@@ -15,17 +15,15 @@
  */
 package io.github.rose.oss.old.storage.properties;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.util.Objects;
 
 import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_ALIYUN;
 
 /**
  * @author Levin
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(prefix = OSS_CONFIG_PREFIX_ALIYUN)
 public class AliYunOssProperties extends BaseOssProperties {
 
@@ -33,4 +31,24 @@ public class AliYunOssProperties extends BaseOssProperties {
      * endpoint
      */
     private String endpoint = "http://cloud.aliyuncs.com";
+
+    public String getEndpoint() {
+        return endpoint;
+    }
+
+    public void setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        AliYunOssProperties that = (AliYunOssProperties) o;
+        return Objects.equals(endpoint, that.endpoint);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(endpoint);
+    }
 }

@@ -58,5 +58,5 @@ public interface CheckedBiPredicate<T, U> {
      * @return {@code true} if the input arguments match the predicate, otherwise
      * {@code false}
      */
-    boolean test(T t, U u) throws Throwable;
+    boolean test(T t, U u) throws Exception;
 }

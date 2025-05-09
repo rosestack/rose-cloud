@@ -19,8 +19,9 @@ import io.github.rose.core.jackson.JacksonUtils;
 import io.github.rose.security.exception.AuthMethodNotSupportedException;
 import io.github.rose.security.rest.param.RefreshTokenRequest;
 import io.github.rose.security.rest.token.RestRefreshAuthenticationToken;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -36,9 +37,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Slf4j
 public class RestRefreshProcessingFilter extends AbstractAuthenticationProcessingFilter {
-
+    private static final Logger log = LoggerFactory.getLogger(RestRefreshProcessingFilter.class);
+    
     private final AuthenticationSuccessHandler successHandler;
 
     private final AuthenticationFailureHandler failureHandler;

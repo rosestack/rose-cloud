@@ -20,14 +20,10 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.github.rose.mybatis.model.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
 @TableName(autoResultMap = true)
 public class UserSetting extends BaseEntity {
 
@@ -41,4 +37,28 @@ public class UserSetting extends BaseEntity {
 
     @TableField(typeHandler = JacksonTypeHandler.class)
     private JsonNode value;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public JsonNode getValue() {
+        return value;
+    }
+
+    public void setValue(JsonNode value) {
+        this.value = value;
+    }
 }

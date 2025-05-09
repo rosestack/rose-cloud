@@ -15,24 +15,24 @@
  */
 package io.github.rose.security.rest.mfa.provider.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.rose.security.rest.mfa.config.EmailMfaConfig;
 import io.github.rose.security.rest.mfa.provider.EmailMfaProviderConfig;
 import io.github.rose.security.rest.mfa.provider.MfaProviderType;
 import io.github.rose.security.util.SecurityUser;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
-@Slf4j
 @Component
 public class EmailMfaProvider extends OtpBasedMfaProvider<EmailMfaProviderConfig, EmailMfaConfig> {
+    private static final Logger log = LoggerFactory.getLogger(EmailMfaProvider.class);
 
     // private final MailService mailService;
 
-    protected EmailMfaProvider(CacheManager cacheManager, ObjectMapper objectMapper) {
-        super(cacheManager, objectMapper);
+    protected EmailMfaProvider(CacheManager cacheManager) {
+        super(cacheManager);
         // this.mailService = mailService;
     }
 

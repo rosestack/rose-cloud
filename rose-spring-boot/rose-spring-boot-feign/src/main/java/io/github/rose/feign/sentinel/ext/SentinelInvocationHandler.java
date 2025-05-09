@@ -28,7 +28,8 @@ import feign.MethodMetadata;
 import feign.Target;
 import io.github.rose.core.util.RestResponse;
 import io.github.rose.feign.annotation.FeignRetry;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.core.annotation.AnnotationUtils;
 
@@ -45,15 +46,11 @@ import static feign.Util.checkNotNull;
 /**
  * 支持自动降级注入 重写 {@link com.alibaba.cloud.sentinel.feign.SentinelInvocationHandler}
  */
-@Slf4j
 public class SentinelInvocationHandler implements InvocationHandler {
-
     public static final String EQUALS = "equals";
-
     public static final String HASH_CODE = "hashCode";
-
     public static final String TO_STRING = "toString";
-
+    private static final Logger log = LoggerFactory.getLogger(SentinelInvocationHandler.class);
     private final Target<?> target;
 
     private final Map<Method, InvocationHandlerFactory.MethodHandler> dispatch;

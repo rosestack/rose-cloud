@@ -15,16 +15,9 @@
  */
 package io.github.rose.syslog.event;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 public class SysLogInfo implements Serializable {
 
     private static final long serialVersionUID = 1129753896999673095L;
@@ -56,4 +49,116 @@ public class SysLogInfo implements Serializable {
     private LocalDateTime createTime;
 
     private String tenantId;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getServerIp() {
+        return serverIp;
+    }
+
+    public void setServerIp(String serverIp) {
+        this.serverIp = serverIp;
+    }
+
+    public String getClientIp() {
+        return clientIp;
+    }
+
+    public void setClientIp(String clientIp) {
+        this.clientIp = clientIp;
+    }
+
+    public String getUserAgent() {
+        return userAgent;
+    }
+
+    public void setUserAgent(String userAgent) {
+        this.userAgent = userAgent;
+    }
+
+    public String getRequestUrl() {
+        return requestUrl;
+    }
+
+    public void setRequestUrl(String requestUrl) {
+        this.requestUrl = requestUrl;
+    }
+
+    public String getRequestParams() {
+        return requestParams;
+    }
+
+    public void setRequestParams(String requestParams) {
+        this.requestParams = requestParams;
+    }
+
+    public String getRequestMethod() {
+        return requestMethod;
+    }
+
+    public void setRequestMethod(String requestMethod) {
+        this.requestMethod = requestMethod;
+    }
+
+    public Long getCostTime() {
+        return costTime;
+    }
+
+    public void setCostTime(Long costTime) {
+        this.costTime = costTime;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public String getException() {
+        return exception;
+    }
+
+    public void setException(String exception) {
+        this.exception = exception;
+    }
+
+    public String getTraceId() {
+        return traceId;
+    }
+
+    public void setTraceId(String traceId) {
+        this.traceId = traceId;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
 }

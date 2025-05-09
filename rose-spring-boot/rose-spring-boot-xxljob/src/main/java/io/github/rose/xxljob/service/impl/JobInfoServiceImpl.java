@@ -22,8 +22,6 @@ import io.github.rose.xxljob.model.XxlJobInfoPage;
 import io.github.rose.xxljob.model.XxlRestResponse;
 import io.github.rose.xxljob.service.JobInfoService;
 import io.github.rose.xxljob.service.JobLoginService;
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -35,7 +33,6 @@ import org.springframework.web.client.RestTemplate;
 import java.lang.reflect.Field;
 import java.util.List;
 
-@RequiredArgsConstructor
 public class JobInfoServiceImpl implements JobInfoService {
 
     private final JobLoginService jobLoginService;
@@ -44,14 +41,24 @@ public class JobInfoServiceImpl implements JobInfoService {
 
     private final XxlJobProperties xxlJobProperties;
 
-    @SneakyThrows
+    public JobInfoServiceImpl(JobLoginService jobLoginService, RestTemplate restTemplate, XxlJobProperties xxlJobProperties) {
+        this.jobLoginService = jobLoginService;
+        this.restTemplate = restTemplate;
+        this.xxlJobProperties = xxlJobProperties;
+    }
+
     public static MultiValueMap<String, Object> convertObjectToMultiValueMap(Object obj) {
         MultiValueMap<String, Object> multiValueMap = new LinkedMultiValueMap<>();
         Class<?> clazz = obj.getClass();
         for (Field field : clazz.getDeclaredFields()) {
             field.setAccessible(true);
             String fieldName = field.getName();
-            Object fieldValue = field.get(obj);
+            Object fieldValue = null;
+            try {
+                fieldValue = field.get(obj);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
             if (fieldValue != null) {
                 multiValueMap.add(fieldName, fieldValue.toString());
             }

@@ -28,9 +28,9 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import io.github.rose.core.util.StringPool;
 import io.github.rose.core.validation.Views;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -44,11 +44,8 @@ import java.util.function.BiFunction;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Slf4j
 public class JacksonUtils {
-
     public static final ObjectMapper OBJECT_MAPPER = getObjectMapperWithJavaTimeModule();
-
     public static final ObjectMapper PRETTY_SORTED_JSON_MAPPER = JsonMapper.builder()
         .addModule(new Java8TimeModule())
         .addModule(new Jdk8Module())
@@ -56,13 +53,12 @@ public class JacksonUtils {
         .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true)
         .configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true)
         .build();
-
     public static final ObjectMapper IGNORE_UNKNOWN_PROPERTIES_JSON_MAPPER = JsonMapper.builder()
         .addModule(new Java8TimeModule())
         .addModule(new Jdk8Module())
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         .build();
-
+    private static final Logger log = LoggerFactory.getLogger(JacksonUtils.class);
     public static ObjectMapper ALLOW_UNQUOTED_FIELD_NAMES_MAPPER = JsonMapper.builder()
         .addModule(new Java8TimeModule())
         .addModule(new Jdk8Module())
@@ -512,20 +508,24 @@ public class JacksonUtils {
         }
     }
 
-    @Data
     public static class JsonNodeProcessingTask {
-
         private final String path;
-
         private final JsonNode node;
 
         public JsonNodeProcessingTask(String path, JsonNode node) {
             this.path = path;
             this.node = node;
         }
+
+        public String getPath() {
+            return path;
+        }
+
+        public JsonNode getNode() {
+            return node;
+        }
     }
 
-    @Data
     public static class JsonPathProcessingTask {
 
         private final String[] tokens;
@@ -562,6 +562,18 @@ public class JacksonUtils {
         public String toString() {
             return "JsonPathProcessingTask{" + "tokens=" + Arrays.toString(tokens) + ", variables=" + variables
                 + ", node=" + node.toString().substring(0, 20) + '}';
+        }
+
+        public String[] getTokens() {
+            return tokens;
+        }
+
+        public Map<String, String> getVariables() {
+            return variables;
+        }
+
+        public JsonNode getNode() {
+            return node;
         }
     }
 }

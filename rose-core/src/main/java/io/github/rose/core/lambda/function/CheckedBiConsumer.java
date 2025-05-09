@@ -56,5 +56,5 @@ public interface CheckedBiConsumer<T, U> {
      * @param t the first input argument
      * @param u the second input argument
      */
-    void accept(T t, U u) throws Throwable;
+    void accept(T t, U u) throws Exception;
 }

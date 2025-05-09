@@ -15,16 +15,12 @@
  */
 package io.github.rose.oss.enums;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 /**
  * minio策略配置
  *
  * @author SCMOX
  */
-@Getter
-@AllArgsConstructor
 public enum PolicyType {
 
     /**
@@ -51,4 +47,17 @@ public enum PolicyType {
      * 描述
      */
     private final String policy;
+
+    PolicyType(String type, String policy) {
+        this.type = type;
+        this.policy = policy;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getPolicy() {
+        return policy;
+    }
 }

@@ -17,15 +17,9 @@ package io.github.rose.upms.domain.system;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.rose.mybatis.model.TenantEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName
 public class AuditLog extends TenantEntity implements Serializable {
 
@@ -54,4 +48,100 @@ public class AuditLog extends TenantEntity implements Serializable {
     private String exception;
 
     private String traceId;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public String getUserAgent() {
+        return userAgent;
+    }
+
+    public void setUserAgent(String userAgent) {
+        this.userAgent = userAgent;
+    }
+
+    public String getRequestUri() {
+        return requestUri;
+    }
+
+    public void setRequestUri(String requestUri) {
+        this.requestUri = requestUri;
+    }
+
+    public String getRequestParam() {
+        return requestParam;
+    }
+
+    public void setRequestParam(String requestParam) {
+        this.requestParam = requestParam;
+    }
+
+    public String getRequestPayload() {
+        return requestPayload;
+    }
+
+    public void setRequestPayload(String requestPayload) {
+        this.requestPayload = requestPayload;
+    }
+
+    public String getRequestMethod() {
+        return requestMethod;
+    }
+
+    public void setRequestMethod(String requestMethod) {
+        this.requestMethod = requestMethod;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
+    public Long getCostTime() {
+        return costTime;
+    }
+
+    public void setCostTime(Long costTime) {
+        this.costTime = costTime;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public String getException() {
+        return exception;
+    }
+
+    public void setException(String exception) {
+        this.exception = exception;
+    }
+
+    public String getTraceId() {
+        return traceId;
+    }
+
+    public void setTraceId(String traceId) {
+        this.traceId = traceId;
+    }
 }

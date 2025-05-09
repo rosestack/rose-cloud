@@ -15,6 +15,7 @@
  */
 package io.github.rose.oss;
 
+import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
 import com.qiniu.storage.BucketManager;
@@ -26,12 +27,11 @@ import io.github.rose.oss.model.BladeFile;
 import io.github.rose.oss.model.OssFile;
 import io.github.rose.oss.props.OssProperties;
 import io.github.rose.oss.rule.OssRule;
-import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
@@ -41,7 +41,6 @@ import java.util.List;
  *
  * @author Chill
  */
-@AllArgsConstructor
 public class QiniuTemplate implements OssTemplate {
 
     private final Auth auth;
@@ -54,48 +53,70 @@ public class QiniuTemplate implements OssTemplate {
 
     private final OssRule ossRule;
 
+    public QiniuTemplate(Auth auth, UploadManager uploadManager, BucketManager bucketManager, OssProperties ossProperties, OssRule ossRule) {
+        this.auth = auth;
+        this.uploadManager = uploadManager;
+        this.bucketManager = bucketManager;
+        this.ossProperties = ossProperties;
+        this.ossRule = ossRule;
+    }
+
     @Override
-    @SneakyThrows
     public void makeBucket(String bucketName) {
-        if (!ArrayUtils.contains(bucketManager.buckets(), getBucketName(bucketName))) {
-            bucketManager.createBucket(
-                getBucketName(bucketName), Zone.autoZone().getRegion());
+        try {
+            if (!ArrayUtils.contains(bucketManager.buckets(), getBucketName(bucketName))) {
+                bucketManager.createBucket(
+                    getBucketName(bucketName), Zone.autoZone().getRegion());
+            }
+        } catch (QiniuException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    @SneakyThrows
     public void removeBucket(String bucketName) {
     }
 
     @Override
-    @SneakyThrows
     public boolean bucketExists(String bucketName) {
-        return ArrayUtils.contains(bucketManager.buckets(), getBucketName(bucketName));
+        try {
+            return ArrayUtils.contains(bucketManager.buckets(), getBucketName(bucketName));
+        } catch (QiniuException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    @SneakyThrows
     public void copyFile(String bucketName, String fileName, String destBucketName) {
-        bucketManager.copy(getBucketName(bucketName), fileName, getBucketName(destBucketName), fileName);
+        try {
+            bucketManager.copy(getBucketName(bucketName), fileName, getBucketName(destBucketName), fileName);
+        } catch (QiniuException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    @SneakyThrows
     public void copyFile(String bucketName, String fileName, String destBucketName, String destFileName) {
-        bucketManager.copy(getBucketName(bucketName), fileName, getBucketName(destBucketName), destFileName);
+        try {
+            bucketManager.copy(getBucketName(bucketName), fileName, getBucketName(destBucketName), destFileName);
+        } catch (QiniuException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    @SneakyThrows
     public OssFile statFile(String fileName) {
         return statFile(ossProperties.getBucketName(), fileName);
     }
 
     @Override
-    @SneakyThrows
     public OssFile statFile(String bucketName, String fileName) {
-        FileInfo stat = bucketManager.stat(getBucketName(bucketName), fileName);
+        FileInfo stat = null;
+        try {
+            stat = bucketManager.stat(getBucketName(bucketName), fileName);
+        } catch (QiniuException e) {
+            throw new RuntimeException(e);
+        }
         OssFile ossFile = new OssFile();
         ossFile.setName(StringUtils.isEmpty(stat.key) ? fileName : stat.key);
         ossFile.setLink(fileLink(ossFile.getName()));
@@ -107,75 +128,74 @@ public class QiniuTemplate implements OssTemplate {
     }
 
     @Override
-    @SneakyThrows
     public String filePath(String fileName) {
         return getBucketName().concat(StringPool.SLASH).concat(fileName);
     }
 
     @Override
-    @SneakyThrows
     public String filePath(String bucketName, String fileName) {
         return getBucketName(bucketName).concat(StringPool.SLASH).concat(fileName);
     }
 
     @Override
-    @SneakyThrows
     public String fileLink(String fileName) {
         return getEndpoint().concat(StringPool.SLASH).concat(fileName);
     }
 
     @Override
-    @SneakyThrows
     public String fileLink(String bucketName, String fileName) {
         return getEndpoint().concat(StringPool.SLASH).concat(fileName);
     }
 
     @Override
-    @SneakyThrows
     public BladeFile putFile(MultipartFile file) {
         return putFile(ossProperties.getBucketName(), file.getOriginalFilename(), file);
     }
 
     @Override
-    @SneakyThrows
     public BladeFile putFile(String fileName, MultipartFile file) {
         return putFile(ossProperties.getBucketName(), fileName, file);
     }
 
     @Override
-    @SneakyThrows
     public BladeFile putFile(String bucketName, String fileName, MultipartFile file) {
-        return putFile(bucketName, fileName, file.getInputStream());
+        try {
+            return putFile(bucketName, fileName, file.getInputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    @SneakyThrows
     public BladeFile putFile(String fileName, InputStream stream) {
         return putFile(ossProperties.getBucketName(), fileName, stream);
     }
 
     @Override
-    @SneakyThrows
     public BladeFile putFile(String bucketName, String fileName, InputStream stream) {
         return put(bucketName, stream, fileName, false);
     }
 
-    @SneakyThrows
     public BladeFile put(String bucketName, InputStream stream, String key, boolean cover) {
         makeBucket(bucketName);
         String originalName = key;
         key = getFileName(key);
-        // 覆盖上传
-        if (cover) {
-            uploadManager.put(stream, key, getUploadToken(bucketName, key), null, null);
-        } else {
-            Response response = uploadManager.put(stream, key, getUploadToken(bucketName), null, null);
-            int retry = 0;
-            int retryCount = 5;
-            while (response.needRetry() && retry < retryCount) {
-                response = uploadManager.put(stream, key, getUploadToken(bucketName), null, null);
-                retry++;
+        try {
+            // 覆盖上传
+            if (cover) {
+                uploadManager.put(stream, key, getUploadToken(bucketName, key), null, null);
+            } else {
+                Response response = uploadManager.put(stream, key, getUploadToken(bucketName), null, null);
+
+                int retry = 0;
+                int retryCount = 5;
+                while (response.needRetry() && retry < retryCount) {
+                    response = uploadManager.put(stream, key, getUploadToken(bucketName), null, null);
+                    retry++;
+                }
             }
+        } catch (QiniuException e) {
+            throw new RuntimeException(e);
         }
         BladeFile file = new BladeFile();
         file.setOriginalName(originalName);
@@ -186,25 +206,29 @@ public class QiniuTemplate implements OssTemplate {
     }
 
     @Override
-    @SneakyThrows
     public void removeFile(String fileName) {
-        bucketManager.delete(getBucketName(), fileName);
+        try {
+            bucketManager.delete(getBucketName(), fileName);
+        } catch (QiniuException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    @SneakyThrows
     public void removeFile(String bucketName, String fileName) {
-        bucketManager.delete(getBucketName(bucketName), fileName);
+        try {
+            bucketManager.delete(getBucketName(bucketName), fileName);
+        } catch (QiniuException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    @SneakyThrows
     public void removeFiles(List<String> fileNames) {
         fileNames.forEach(this::removeFile);
     }
 
     @Override
-    @SneakyThrows
     public void removeFiles(String bucketName, List<String> fileNames) {
         fileNames.forEach(fileName -> removeFile(getBucketName(bucketName), fileName));
     }

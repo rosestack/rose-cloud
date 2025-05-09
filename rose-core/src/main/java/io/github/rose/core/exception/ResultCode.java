@@ -15,8 +15,6 @@
  */
 package io.github.rose.core.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -27,8 +25,6 @@ import java.util.stream.Collectors;
  *
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  */
-@Getter
-@AllArgsConstructor
 public enum ResultCode {
 
     /**
@@ -78,7 +74,20 @@ public enum ResultCode {
 
     String name;
 
+    ResultCode(Integer code, String name) {
+        this.code = code;
+        this.name = name;
+    }
+
     public static ResultCode fromCode(final Integer code) {
         return reverseLookup.getOrDefault(code, SUCCESS);
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public String getName() {
+        return name;
     }
 }

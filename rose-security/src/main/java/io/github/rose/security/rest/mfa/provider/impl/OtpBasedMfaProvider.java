@@ -15,14 +15,11 @@
  */
 package io.github.rose.security.rest.mfa.provider.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.rose.core.jackson.JacksonUtils;
 import io.github.rose.security.rest.mfa.config.OtpBasedMfaConfig;
 import io.github.rose.security.rest.mfa.provider.MfaProvider;
 import io.github.rose.security.rest.mfa.provider.OtpBasedMfaProviderConfig;
 import io.github.rose.security.util.SecurityUser;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
@@ -33,16 +30,16 @@ import java.util.concurrent.TimeUnit;
 import static io.github.rose.security.CacheConstants.TWO_FA_VERIFICATION_CODE_CACHE;
 
 @Component
-@RequiredArgsConstructor
 public abstract class OtpBasedMfaProvider<C extends OtpBasedMfaProviderConfig, A extends OtpBasedMfaConfig>
     implements MfaProvider<C, A> {
 
     private final CacheManager cacheManager;
 
-    private final ObjectMapper objectMapper;
+    public OtpBasedMfaProvider(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+    }
 
     @Override
-    @SneakyThrows
     public final void prepareVerificationCode(SecurityUser user, C providerConfig, A twoFaConfig) {
         String verificationCode = RandomStringUtils.randomNumeric(6);
         sendVerificationCode(user, verificationCode, providerConfig, twoFaConfig);
@@ -50,7 +47,7 @@ public abstract class OtpBasedMfaProvider<C extends OtpBasedMfaProviderConfig, A
             .getCache(TWO_FA_VERIFICATION_CODE_CACHE)
             .put(
                 TWO_FA_VERIFICATION_CODE_CACHE + ":" + user.getUsername(),
-                objectMapper.writeValueAsBytes(
+                JacksonUtils.writeValueAsBytes(
                     new Otp(System.currentTimeMillis(), verificationCode, twoFaConfig)));
     }
 
@@ -58,13 +55,12 @@ public abstract class OtpBasedMfaProvider<C extends OtpBasedMfaProviderConfig, A
         SecurityUser user, String verificationCode, C providerConfig, A accountConfig);
 
     @Override
-    @SneakyThrows
     public final boolean checkVerificationCode(SecurityUser user, String code, C providerConfig, A twoFaConfig) {
         String correctVerificationCode = cacheManager
             .getCache(TWO_FA_VERIFICATION_CODE_CACHE)
             .get(TWO_FA_VERIFICATION_CODE_CACHE + ":" + user.getUsername())
             .toString();
-        Otp otp = objectMapper.readValue(correctVerificationCode, Otp.class);
+        Otp otp = JacksonUtils.fromString(correctVerificationCode, Otp.class);
         if (correctVerificationCode != null) {
             if (System.currentTimeMillis() - otp.getTimestamp()
                 > TimeUnit.SECONDS.toMillis(providerConfig.getVerificationCodeExpireTime())) {
@@ -83,7 +79,6 @@ public abstract class OtpBasedMfaProvider<C extends OtpBasedMfaProviderConfig, A
         return false;
     }
 
-    @Data
     public static class Otp implements Serializable {
 
         private final long timestamp;
@@ -91,5 +86,23 @@ public abstract class OtpBasedMfaProvider<C extends OtpBasedMfaProviderConfig, A
         private final String value;
 
         private final OtpBasedMfaConfig twoFaConfig;
+
+        public Otp(long timestamp, String value, OtpBasedMfaConfig twoFaConfig) {
+            this.timestamp = timestamp;
+            this.value = value;
+            this.twoFaConfig = twoFaConfig;
+        }
+
+        public long getTimestamp() {
+            return timestamp;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public OtpBasedMfaConfig getTwoFaConfig() {
+            return twoFaConfig;
+        }
     }
 }

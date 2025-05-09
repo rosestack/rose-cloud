@@ -17,6 +17,11 @@
       <groupId>io.github.rose-group</groupId>
       <artifactId>rose-core</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.github.rose-group</groupId>
+      <artifactId>rose-processor</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
 
     <dependency>
       <groupId>com.github.loki4j</groupId>

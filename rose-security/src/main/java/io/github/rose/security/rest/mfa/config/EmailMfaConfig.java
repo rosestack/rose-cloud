@@ -16,14 +16,10 @@
 package io.github.rose.security.rest.mfa.config;
 
 import io.github.rose.security.rest.mfa.provider.MfaProviderType;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
 public class EmailMfaConfig extends OtpBasedMfaConfig {
 
     @NotBlank
@@ -33,5 +29,21 @@ public class EmailMfaConfig extends OtpBasedMfaConfig {
     @Override
     public MfaProviderType getProviderType() {
         return MfaProviderType.EMAIL;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "EmailMfaConfig{" +
+            "email='" + email + '\'' +
+            ", serializeHiddenFields=" + serializeHiddenFields +
+            '}';
     }
 }

@@ -16,14 +16,10 @@
 package io.github.rose.security.rest.mfa.config;
 
 import io.github.rose.security.rest.mfa.provider.MfaProviderType;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class SmsMfaConfig extends OtpBasedMfaConfig {
 
     @NotBlank
@@ -33,5 +29,21 @@ public class SmsMfaConfig extends OtpBasedMfaConfig {
     @Override
     public MfaProviderType getProviderType() {
         return MfaProviderType.SMS;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "SmsMfaConfig{" +
+            "phoneNumber='" + phoneNumber + '\'' +
+            ", serializeHiddenFields=" + serializeHiddenFields +
+            '}';
     }
 }

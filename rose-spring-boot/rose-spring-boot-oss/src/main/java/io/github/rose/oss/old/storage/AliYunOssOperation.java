@@ -28,9 +28,9 @@ import io.github.rose.oss.old.storage.domain.StorageResponse;
 import io.github.rose.oss.old.storage.exception.StorageException;
 import io.github.rose.oss.old.storage.properties.AliYunOssProperties;
 import io.github.rose.oss.old.storage.properties.BaseOssProperties;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 
 import java.io.ByteArrayInputStream;
@@ -43,13 +43,17 @@ import java.util.List;
 /**
  * @author Levin
  */
-@Slf4j
-@AllArgsConstructor
 public class AliYunOssOperation implements OssOperation, DisposableBean {
-
+    private static final Logger log = LoggerFactory.getLogger(AliYunOssOperation.class);
+    
     private final OSS ossClient;
 
     private final AliYunOssProperties properties;
+
+    public AliYunOssOperation(OSS ossClient, AliYunOssProperties properties) {
+        this.ossClient = ossClient;
+        this.properties = properties;
+    }
 
     @Override
     public DownloadResponse download(String fileName) {
@@ -61,9 +65,9 @@ public class AliYunOssOperation implements OssOperation, DisposableBean {
         // ossObject包含文件所在的存储空间名称、文件名称、文件元信息以及一个输入流。
         OSSObject ossObject = ossClient.getObject(bucketName, fileName);
         // 读取文件内容。
-        return DownloadResponse.builder()
-            .inputStream(ossObject.getObjectContent())
-            .build();
+        DownloadResponse downloadResponse = new DownloadResponse();
+        downloadResponse.setInputStream(ossObject.getObjectContent());
+        return downloadResponse;
     }
 
     @Override

@@ -54,5 +54,5 @@ public interface CheckedConsumer<T> {
      *
      * @param t the input argument
      */
-    void accept(T t) throws Throwable;
+    void accept(T t) throws Exception;
 }

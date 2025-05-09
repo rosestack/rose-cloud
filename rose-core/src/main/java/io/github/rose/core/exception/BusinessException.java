@@ -15,7 +15,6 @@
  */
 package io.github.rose.core.exception;
 
-import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -26,7 +25,6 @@ import java.io.Serializable;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Getter
 public class BusinessException extends RuntimeException {
 
     private static final ResultCode DEFAULT = ResultCode.INTERNAL_ERROR;
@@ -75,5 +73,13 @@ public class BusinessException extends RuntimeException {
     @Override
     public String getMessage() {
         return StringUtils.isBlank(super.getMessage()) ? DEFAULT.getName() : super.getMessage();
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public Serializable getData() {
+        return data;
     }
 }

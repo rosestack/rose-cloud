@@ -18,7 +18,6 @@ package io.github.rose.oss.config;
 import io.github.rose.oss.props.OssProperties;
 import io.github.rose.oss.rule.BladeOssRule;
 import io.github.rose.oss.rule.OssRule;
-import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +29,6 @@ import org.springframework.context.annotation.Configuration;
  * @author Chill
  */
 @Configuration
-@AllArgsConstructor
 @EnableConfigurationProperties(OssProperties.class)
 public class OssConfiguration {
 

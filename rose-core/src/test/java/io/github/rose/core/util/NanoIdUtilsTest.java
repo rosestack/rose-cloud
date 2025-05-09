@@ -15,8 +15,9 @@
  */
 package io.github.rose.core.util;
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
@@ -26,8 +27,8 @@ import java.util.UUID;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since TODO
  */
-@Slf4j
 class NanoIdUtilsTest {
+    private static final Logger log = LoggerFactory.getLogger(NanoIdUtilsTest.class);
 
     @Test
     public void testNanoId() {

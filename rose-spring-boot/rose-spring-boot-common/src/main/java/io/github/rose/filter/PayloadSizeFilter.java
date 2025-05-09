@@ -17,8 +17,8 @@ package io.github.rose.filter;
 
 import io.github.rose.core.exception.MaxPayloadSizeExceededException;
 import io.github.rose.core.jackson.JacksonUtils;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -31,9 +31,8 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@Slf4j
-@RequiredArgsConstructor
 public class PayloadSizeFilter extends OncePerRequestFilter {
+    private static final Logger log = LoggerFactory.getLogger(PayloadSizeFilter.class);
 
     private final Map<String, Long> limits = new LinkedHashMap<>();
 

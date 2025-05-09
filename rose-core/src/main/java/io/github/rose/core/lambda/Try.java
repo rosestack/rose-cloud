@@ -18,8 +18,9 @@ package io.github.rose.core.lambda;
 import io.github.rose.core.lambda.function.CheckedConsumer;
 import io.github.rose.core.lambda.function.CheckedFunction;
 import io.github.rose.core.lambda.function.CheckedSupplier;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -33,8 +34,8 @@ import java.util.function.Supplier;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since TODO
  */
-@Slf4j
 public class Try {
+    private static final Logger log = LoggerFactory.getLogger(Try.class);
 
     public static <T, R> Function<T, R> tryApply(
         final CheckedFunction<T, R> trueFunction, final CheckedFunction<Throwable, R> errorHandler) {

@@ -15,7 +15,8 @@
  */
 package io.github.rose.gateway.filter;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -29,10 +30,10 @@ import java.util.List;
  * 全局拦截器，作用所有的微服务
  * 1. 对请求的API调用过滤，记录接口的请求时间，方便日志审计、告警、分析等运维操作 2. 后期可以扩展对接其他日志系统
  */
-@Slf4j
 @Component
 public class ApiLoggingFilter implements GlobalFilter, Ordered {
-
+    private static final Logger log = LoggerFactory.getLogger(ApiLoggingFilter.class);
+    
     private static final String START_TIME = "startTime";
 
     private static final String X_REAL_IP = "X-Real-IP"; // nginx需要配置

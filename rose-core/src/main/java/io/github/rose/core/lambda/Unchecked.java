@@ -60,13 +60,18 @@ public final class Unchecked {
     }
 
     public static <E extends Throwable> void uncheckedThrow(Throwable t) throws E {
-        if (t instanceof Error) throw (Error) t;
+        if (t instanceof RuntimeException) {
+            throw (RuntimeException) t;
+        }
 
-        if (t instanceof RuntimeException) throw (RuntimeException) t;
+        if (t instanceof IOException) {
+            throw new UncheckedIOException((IOException) t);
+        }
 
-        if (t instanceof IOException) throw new UncheckedIOException((IOException) t);
-
-        if (t instanceof InterruptedException) Thread.currentThread().interrupt();
+        if (t instanceof InterruptedException) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(t);
+        }
 
         throw new RuntimeException(t);
     }
@@ -143,7 +148,7 @@ public final class Unchecked {
         return () -> {
             try {
                 return callable.call();
-            } catch (Throwable e) {
+            } catch (Exception e) {
                 handler.accept(e);
 
                 throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
@@ -443,7 +448,7 @@ public final class Unchecked {
      *             throw new Exception("Only short strings allowed");
      *     },
      *     e -> {
-     *         throw new IllegalStateException(e);
+     *         throw new RuntimeException(e);
      *     }
      * ));
      * </code></pre>

@@ -15,20 +15,12 @@
  */
 package io.github.rose.oss.old.storage.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Map;
 
 /**
  * @author Levin
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class StorageItem {
 
     /**
@@ -50,4 +42,36 @@ public class StorageItem {
      * 文件扩展字段
      */
     private Map<String, Object> extended;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public Long getSize() {
+        return size;
+    }
+
+    public void setSize(Long size) {
+        this.size = size;
+    }
+
+    public Map<String, Object> getExtended() {
+        return extended;
+    }
+
+    public void setExtended(Map<String, Object> extended) {
+        this.extended = extended;
+    }
 }

@@ -21,11 +21,7 @@ import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.github.rose.mybatis.model.BaseEntity;
 import io.github.rose.upms.model.enums.SystemSettingType;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 @TableName(value = "sys_system_setting", autoResultMap = true)
 public class SystemSetting extends BaseEntity {
 
@@ -35,4 +31,20 @@ public class SystemSetting extends BaseEntity {
 
     @TableField(typeHandler = JacksonTypeHandler.class)
     private JsonNode content;
+
+    public SystemSettingType getType() {
+        return type;
+    }
+
+    public void setType(SystemSettingType type) {
+        this.type = type;
+    }
+
+    public JsonNode getContent() {
+        return content;
+    }
+
+    public void setContent(JsonNode content) {
+        this.content = content;
+    }
 }

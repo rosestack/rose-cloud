@@ -15,8 +15,6 @@
  */
 package io.github.rose.core.util;
 
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.cert.X509CertificateHolder;
@@ -32,6 +30,8 @@ import org.bouncycastle.operator.InputDecryptorProvider;
 import org.bouncycastle.pkcs.PKCS8EncryptedPrivateKeyInfo;
 import org.bouncycastle.pkcs.PKCSException;
 import org.bouncycastle.pkcs.jcajce.JcePKCSPBEInputDecryptorProviderBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -44,12 +44,10 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 public class SslUtil {
-
     public static final char[] EMPTY_PASS = {};
-
     public static final BouncyCastleProvider DEFAULT_PROVIDER = new BouncyCastleProvider();
+    private static final Logger log = LoggerFactory.getLogger(SslUtil.class);
 
     static {
         if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
@@ -60,13 +58,11 @@ public class SslUtil {
     private SslUtil() {
     }
 
-    @SneakyThrows
-    public static List<X509Certificate> readCertFile(String fileContent) {
+    public static List<X509Certificate> readCertFile(String fileContent) throws CertificateException, IOException {
         return readCertFile(new StringReader(fileContent));
     }
 
-    @SneakyThrows
-    public static List<X509Certificate> readCertFileByPath(String filePath) {
+    public static List<X509Certificate> readCertFileByPath(String filePath) throws IOException, CertificateException {
         return readCertFile(new FileReader(filePath));
     }
 
@@ -85,8 +81,7 @@ public class SslUtil {
         return certificates;
     }
 
-    @SneakyThrows
-    public static PrivateKey readPrivateKey(String fileContent, String passStr) {
+    public static PrivateKey readPrivateKey(String fileContent, String passStr) throws IOException, PKCSException {
         if (StringUtils.isNotEmpty(fileContent)) {
             StringReader reader = new StringReader(fileContent);
             return readPrivateKey(reader, passStr);
@@ -94,8 +89,7 @@ public class SslUtil {
         return null;
     }
 
-    @SneakyThrows
-    public static PrivateKey readPrivateKeyByFilePath(String filePath, String passStr) {
+    public static PrivateKey readPrivateKeyByFilePath(String filePath, String passStr) throws IOException, PKCSException {
         if (StringUtils.isNotEmpty(filePath)) {
             FileReader fileReader = new FileReader(filePath);
             return readPrivateKey(fileReader, passStr);

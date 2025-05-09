@@ -16,7 +16,6 @@
 package io.github.rose.redis.support;
 
 import io.github.rose.core.util.StringPool;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.cache.RedisCache;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -32,7 +31,6 @@ import java.time.Duration;
  * <p>
  * 在 {@link Cacheable#cacheNames()} 格式为 "key#120s" 时，# 后面的为过期时间
  */
-@Slf4j
 public class TtlRedisCacheManager extends RedisCacheManager {
     private static final int CACHE_LENGTH = 2;
 

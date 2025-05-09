@@ -15,8 +15,6 @@
  */
 package io.github.rose.oss.old.storage.properties;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_TENCENT;
@@ -25,8 +23,6 @@ import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_TENC
  * @author Levin
  * @since 2018-09-17 11:09
  **/
-@Data
-@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(prefix = OSS_CONFIG_PREFIX_TENCENT)
 public class TencentOssProperties extends BaseOssProperties {
 
@@ -49,4 +45,36 @@ public class TencentOssProperties extends BaseOssProperties {
      * 所属地区
      */
     private String region;
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
 }

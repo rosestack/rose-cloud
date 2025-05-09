@@ -30,9 +30,9 @@ import io.github.rose.oss.old.storage.domain.StorageRequest;
 import io.github.rose.oss.old.storage.domain.StorageResponse;
 import io.github.rose.oss.old.storage.properties.BaseOssProperties;
 import io.github.rose.oss.old.storage.properties.QiNiuOssProperties;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.InputStream;
@@ -44,9 +44,9 @@ import java.util.Objects;
 /**
  * @author Levin
  */
-@Slf4j
 public class QiNiuOssOperation implements OssOperation {
-
+    private static final Logger log = LoggerFactory.getLogger(QiNiuOssOperation.class);
+    
     private final UploadManager uploadManager;
 
     private final BucketManager bucketManager;
@@ -57,7 +57,6 @@ public class QiNiuOssOperation implements OssOperation {
 
     private final QiNiuConnectionFactory connectionFactory;
 
-    @Autowired
     public QiNiuOssOperation(QiNiuOssProperties properties, QiNiuConnectionFactory connectionFactory) {
         this.properties = properties;
         this.connectionFactory = connectionFactory;

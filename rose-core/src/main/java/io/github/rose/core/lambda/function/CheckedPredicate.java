@@ -57,5 +57,5 @@ public interface CheckedPredicate<T> {
      * @return {@code true} if the input argument matches the predicate, otherwise
      * {@code false}
      */
-    boolean test(T t) throws Throwable;
+    boolean test(T t) throws Exception;
 }

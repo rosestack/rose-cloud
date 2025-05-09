@@ -16,14 +16,10 @@
 package io.github.rose.security.rest.mfa.config;
 
 import io.github.rose.security.rest.mfa.provider.MfaProviderType;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
 public class TotpMfaConfig extends MfaConfig {
 
     @NotBlank
@@ -33,5 +29,21 @@ public class TotpMfaConfig extends MfaConfig {
     @Override
     public MfaProviderType getProviderType() {
         return MfaProviderType.TOTP;
+    }
+
+    public String getAuthUrl() {
+        return authUrl;
+    }
+
+    public void setAuthUrl(String authUrl) {
+        this.authUrl = authUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "TotpMfaConfig{" +
+            "authUrl='" + authUrl + '\'' +
+            ", serializeHiddenFields=" + serializeHiddenFields +
+            '}';
     }
 }

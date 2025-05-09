@@ -30,7 +30,6 @@ import io.github.rose.mybatis.extension.interceptor.DefaultMetaObjectHandler;
 import io.github.rose.mybatis.mq.rabbitmq.TenantRabbitMQInitializer;
 import io.github.rose.mybatis.mq.redis.TenantRedisMessageInterceptor;
 import io.github.rose.mybatis.mq.rocketmq.TenantRocketMQInitializer;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -42,7 +41,6 @@ import java.util.concurrent.TimeUnit;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Slf4j
 // 先于 MyBatis Plus 自动配置，避免 @MapperScan 可能扫描不到 Mapper 打印 warn 日志
 @AutoConfiguration(before = MybatisPlusAutoConfiguration.class)
 public class MybatisCoreConfiguration {

@@ -15,14 +15,12 @@
  */
 package io.github.rose.env;
 
-import io.github.rose.core.util.LauncherService;
+import io.github.rose.core.spi.LauncherService;
+import io.github.rose.core.spi.ServiceFinder;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
-import java.util.ServiceLoader;
 import java.util.stream.Collectors;
 
 public class DefaultApplicationContextInitializer
@@ -30,10 +28,7 @@ public class DefaultApplicationContextInitializer
 
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
-        List<LauncherService> launcherList = new ArrayList<>();
-        ServiceLoader.load(LauncherService.class).forEach(launcherList::add);
-
-        launcherList.stream()
+        ServiceFinder.load(LauncherService.class).stream()
             .sorted(Comparator.comparing(LauncherService::getOrder))
             .collect(Collectors.toList())
             .forEach(launcherService -> launcherService.initialize(applicationContext));

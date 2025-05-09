@@ -15,9 +15,7 @@
  */
 package io.github.rose.logging;
 
-import lombok.Data;
 
-@Data
 public class Logging {
 
     private final Logstash logstash = new Logstash();
@@ -26,7 +24,22 @@ public class Logging {
 
     private boolean useJsonFormat = false;
 
-    @Data
+    public Logstash getLogstash() {
+        return logstash;
+    }
+
+    public Loki getLoki() {
+        return loki;
+    }
+
+    public boolean isUseJsonFormat() {
+        return useJsonFormat;
+    }
+
+    public void setUseJsonFormat(boolean useJsonFormat) {
+        this.useJsonFormat = useJsonFormat;
+    }
+
     public static class Loki {
 
         private String url = "http://localhost:3100/loki/api/v1/push";
@@ -34,9 +47,32 @@ public class Logging {
         private String labelPattern = "application=${appName},host=${HOSTNAME},level=%level";
 
         private String messagePattern = "%level %logger{36} %thread | %msg %ex";
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getLabelPattern() {
+            return labelPattern;
+        }
+
+        public void setLabelPattern(String labelPattern) {
+            this.labelPattern = labelPattern;
+        }
+
+        public String getMessagePattern() {
+            return messagePattern;
+        }
+
+        public void setMessagePattern(String messagePattern) {
+            this.messagePattern = messagePattern;
+        }
     }
 
-    @Data
     public static class Logstash {
 
         private boolean enabled = false;
@@ -46,5 +82,37 @@ public class Logging {
         private int port = 5000;
 
         private int ringBufferSize = 512;
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        public String getHost() {
+            return host;
+        }
+
+        public void setHost(String host) {
+            this.host = host;
+        }
+
+        public int getPort() {
+            return port;
+        }
+
+        public void setPort(int port) {
+            this.port = port;
+        }
+
+        public int getRingBufferSize() {
+            return ringBufferSize;
+        }
+
+        public void setRingBufferSize(int ringBufferSize) {
+            this.ringBufferSize = ringBufferSize;
+        }
     }
 }

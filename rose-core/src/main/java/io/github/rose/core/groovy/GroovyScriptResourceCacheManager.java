@@ -20,14 +20,15 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import io.github.rose.core.lambda.function.CheckedConsumer;
 import io.github.rose.core.spring.expression.SpringExpressionResolver;
 import io.github.rose.core.util.concurrent.TryLock;
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
 import java.time.Duration;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Matcher;
 
 /**
  * TODO
@@ -35,12 +36,10 @@ import java.util.Set;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Slf4j
 public class GroovyScriptResourceCacheManager implements ScriptResourceCacheManager<String, ExecutableScript> {
-
     private final TryLock lock = new TryLock();
-
     private final Cache<String, ExecutableScript> cache;
+    Logger log = LoggerFactory.getLogger(GroovyScriptResourceCacheManager.class);
 
     public GroovyScriptResourceCacheManager(final int initialCapacity, int cacheSize, final Duration duration) {
         this.cache = newCacheBuilder(initialCapacity, cacheSize, duration).build();
@@ -125,7 +124,7 @@ public class GroovyScriptResourceCacheManager implements ScriptResourceCacheMana
                 } else {
                     String resourceToUse = scriptResource;
                     if (ScriptingUtils.isInlineGroovyScript(resourceToUse)) {
-                        val matcher = ScriptingUtils.getMatcherForInlineGroovyScript(resourceToUse);
+                        Matcher matcher = ScriptingUtils.getMatcherForInlineGroovyScript(resourceToUse);
                         if (matcher.find()) {
                             resourceToUse = matcher.group(1);
                         }

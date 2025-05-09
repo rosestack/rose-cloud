@@ -38,7 +38,7 @@ public final class Sneaky {
      * Wrap a {@link CheckedRunnable} in a {@link Runnable}.
      * <p>
      * Example: <pre><code>
-     * new Thread(Unchecked.runnable(() -> {
+     * new Thread(Sneaky.runnable(() -> {
      *     throw new Exception("Cannot run this thread");
      * })).start();
      * </code></pre>
@@ -51,7 +51,7 @@ public final class Sneaky {
      * Wrap a {@link CheckedCallable} in a {@link Callable}.
      * <p>
      * Example: <pre><code>
-     * Executors.newFixedThreadPool(1).submit(Unchecked.callable(() -> {
+     * Executors.newFixedThreadPool(1).submit(Sneaky.callable(() -> {
      *     throw new Exception("Cannot execute this task");
      * })).get();
      * </code></pre>
@@ -71,7 +71,7 @@ public final class Sneaky {
      * Wrap a {@link CheckedBiConsumer} in a {@link BiConsumer}.
      * <p>
      * Example: <pre><code>
-     * map.forEach(Unchecked.biConsumer((k, v) -> {
+     * map.forEach(Sneaky.biConsumer((k, v) -> {
      *     if (k == null || v == null)
      *         throw new Exception("No nulls allowed in map");
      * }));
@@ -85,7 +85,7 @@ public final class Sneaky {
      * Wrap a {@link CheckedBiFunction} in a {@link BiFunction}.
      * <p>
      * Example: <pre><code>
-     * map.computeIfPresent("key", Unchecked.biFunction((k, v) -> {
+     * map.computeIfPresent("key", Sneaky.biFunction((k, v) -> {
      *     if (k == null || v == null)
      *         throw new Exception("No nulls allowed in map");
      *
@@ -108,7 +108,7 @@ public final class Sneaky {
      * Wrap a {@link CheckedConsumer} in a {@link Consumer}.
      * <p>
      * Example: <pre><code>
-     * Arrays.asList("a", "b").stream().forEach(Unchecked.consumer(s -> {
+     * Arrays.asList("a", "b").stream().forEach(Sneaky.consumer(s -> {
      *     if (s.length() > 10)
      *         throw new Exception("Only short strings allowed");
      * }));
@@ -122,7 +122,7 @@ public final class Sneaky {
      * Wrap a {@link CheckedFunction} in a {@link Function}.
      * <p>
      * Example: <pre><code>
-     * map.computeIfAbsent("key", Unchecked.function(k -> {
+     * map.computeIfAbsent("key", Sneaky.function(k -> {
      *     if (k.length() > 10)
      *         throw new Exception("Only short strings allowed");
      *
@@ -138,7 +138,7 @@ public final class Sneaky {
      * Wrap a {@link CheckedPredicate} in a {@link Predicate}.
      * <p>
      * Example: <pre><code>
-     * Stream.of("a", "b", "c").filter(Unchecked.predicate(s -> {
+     * Stream.of("a", "b", "c").filter(Sneaky.predicate(s -> {
      *     if (s.length() > 10)
      *         throw new Exception("Only short strings allowed");
      *
@@ -155,7 +155,7 @@ public final class Sneaky {
      * <p>
      * Example: <pre><code>
      * ResultSet rs = statement.executeQuery();
-     * Stream.generate(Unchecked.supplier(() -> rs.getObject(1)));
+     * Stream.generate(Sneaky.supplier(() -> rs.getObject(1)));
      * </code></pre>
      */
     public static <T> Supplier<T> supplier(CheckedSupplier<T> supplier) {

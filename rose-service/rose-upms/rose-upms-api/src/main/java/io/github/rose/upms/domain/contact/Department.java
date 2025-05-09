@@ -17,14 +17,10 @@ package io.github.rose.upms.domain.contact;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.rose.mybatis.model.TenantEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 实体类
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
 @TableName("sys_dept")
 public class Department extends TenantEntity {
 
@@ -43,4 +39,60 @@ public class Department extends TenantEntity {
     private String description;
 
     private String unitIds;
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getTraceId() {
+        return traceId;
+    }
+
+    public void setTraceId(String traceId) {
+        this.traceId = traceId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLeaderUserId() {
+        return leaderUserId;
+    }
+
+    public void setLeaderUserId(String leaderUserId) {
+        this.leaderUserId = leaderUserId;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getUnitIds() {
+        return unitIds;
+    }
+
+    public void setUnitIds(String unitIds) {
+        this.unitIds = unitIds;
+    }
 }

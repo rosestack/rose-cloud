@@ -16,7 +16,6 @@
 package org.springframework.cloud.openfeign;
 
 import io.github.rose.feign.FeignAutoConfiguration;
-import lombok.Getter;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
@@ -47,20 +46,31 @@ public class AutoFeignClientsRegistrar
 
     private static final String BASE_URL = "http://127.0.0.1:${server.port}${server.servlet.context-path}";
 
-    @Getter
     private ClassLoader beanClassLoader;
 
-    @Getter
     private Environment environment;
 
-    @Override
-    public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
-        registerFeignClients(registry);
+    public ClassLoader getBeanClassLoader() {
+        return beanClassLoader;
     }
 
     @Override
     public void setBeanClassLoader(ClassLoader classLoader) {
         this.beanClassLoader = classLoader;
+    }
+
+    public Environment getEnvironment() {
+        return environment;
+    }
+
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
+
+    @Override
+    public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
+        registerFeignClients(registry);
     }
 
     private void registerFeignClients(BeanDefinitionRegistry registry) {
@@ -246,10 +256,5 @@ public class AutoFeignClientsRegistrar
         builder.addConstructorArgValue(configuration);
         registry.registerBeanDefinition(
             name + "." + FeignClientSpecification.class.getSimpleName(), builder.getBeanDefinition());
-    }
-
-    @Override
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;
     }
 }

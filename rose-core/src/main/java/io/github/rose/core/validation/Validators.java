@@ -16,14 +16,12 @@
 package io.github.rose.core.validation;
 
 import io.github.rose.core.exception.BusinessException;
-import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
-@UtilityClass
 public class Validators {
 
     public static final Pattern PROPERTY_PATTERN = Pattern.compile("^[\\p{L}0-9_-]+$"); // Unicode
@@ -52,30 +50,30 @@ public class Validators {
         }
     }
 
-    public <T> T checkNotNull(T reference) {
+    public static boolean isValidProperty(String key) {
+        return StringUtils.isEmpty(key) || PROPERTY_PATTERN.matcher(key).matches();
+    }
+
+    public static <T> T checkNotNull(T reference) {
         return checkNotNull(reference, "请求的记录不存在");
     }
 
-    public <T> T checkNotNull(T reference, String notFoundMessage) {
+    public static <T> T checkNotNull(T reference, String notFoundMessage) {
         if (reference == null) {
             throw new BusinessException(notFoundMessage);
         }
         return reference;
     }
 
-    public <T> T checkNotNull(Optional<T> reference) {
+    public static <T> T checkNotNull(Optional<T> reference) {
         return checkNotNull(reference, "请求的记录不存在");
     }
 
-    public <T> T checkNotNull(Optional<T> reference, String notFoundMessage) {
+    public static <T> T checkNotNull(Optional<T> reference, String notFoundMessage) {
         if (reference.isPresent()) {
             return reference.get();
         } else {
             throw new BusinessException(notFoundMessage);
         }
-    }
-
-    public static boolean isValidProperty(String key) {
-        return StringUtils.isEmpty(key) || PROPERTY_PATTERN.matcher(key).matches();
     }
 }

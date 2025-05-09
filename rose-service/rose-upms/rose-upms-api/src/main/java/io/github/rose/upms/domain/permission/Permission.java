@@ -17,13 +17,7 @@ package io.github.rose.upms.domain.permission;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.rose.mybatis.model.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName("sys_permission")
 public class Permission extends BaseEntity {
 

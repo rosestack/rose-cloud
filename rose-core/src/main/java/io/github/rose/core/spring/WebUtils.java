@@ -18,8 +18,9 @@ package io.github.rose.core.spring;
 import io.github.rose.core.exception.BusinessException;
 import io.github.rose.core.jackson.JacksonUtils;
 import io.github.rose.core.util.NetUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -43,11 +44,10 @@ import static org.springframework.http.HttpHeaders.USER_AGENT;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Slf4j
 public class WebUtils extends org.springframework.web.util.WebUtils {
     public static final String X_REQUESTED_WITH = "X-Requested-With";
     public static final String XMLHTTP_REQUEST = "XMLHttpRequest";
-
+    private static final Logger log = LoggerFactory.getLogger(WebUtils.class);
     private static final List<String> CLIENT_IP_HEADER_NAMES = Arrays.asList(
         "X-Forwarded-For",
         "X-Real-IP",

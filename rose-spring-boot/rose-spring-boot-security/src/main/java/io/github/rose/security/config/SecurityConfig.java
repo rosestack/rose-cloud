@@ -28,7 +28,6 @@ import io.github.rose.security.support.JwtTokenFactory;
 import io.github.rose.security.support.RestTokenFactory;
 import io.github.rose.security.support.TokenFactory;
 import io.github.rose.security.support.TransmittableSecurityContextHolderStrategy;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -55,7 +54,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 @AutoConfiguration
 @EnableWebSecurity
-@RequiredArgsConstructor
 @EnableConfigurationProperties({SecurityProperties.class, MfaProperties.class})
 @Import(SecurityConfig.TokenFactoryConfig.class)
 @Order(org.springframework.boot.autoconfigure.security.SecurityProperties.BASIC_AUTH_ORDER)
@@ -66,6 +64,12 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
 
     private final ObjectPostProcessor<Object> objectPostProcessor;
+
+    public SecurityConfig(MfaProperties mfaProperties, UserDetailsService userDetailsService, ObjectPostProcessor<Object> objectPostProcessor) {
+        this.mfaProperties = mfaProperties;
+        this.userDetailsService = userDetailsService;
+        this.objectPostProcessor = objectPostProcessor;
+    }
 
     @Bean
     public AuthenticationManager authenticationManager(TokenFactory tokenFactory) throws Exception {
@@ -116,12 +120,16 @@ public class SecurityConfig {
     }
 
     @Configuration
-    @RequiredArgsConstructor
     public static class TokenFactoryConfig {
 
         private final RedisTemplate<String, Object> redisTemplate;
 
         private final SecurityProperties securityProperties;
+
+        public TokenFactoryConfig(RedisTemplate<String, Object> redisTemplate, SecurityProperties securityProperties) {
+            this.redisTemplate = redisTemplate;
+            this.securityProperties = securityProperties;
+        }
 
         @Bean
         public TokenFactory tokenFactory() {

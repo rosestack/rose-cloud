@@ -16,7 +16,6 @@
 package io.github.rose.mybatis.datapermission.aop;
 
 import io.github.rose.mybatis.datapermission.annotation.DataPermission;
-import lombok.Getter;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.core.MethodClassKey;
@@ -39,8 +38,11 @@ public class DataPermissionAnnotationInterceptor implements MethodInterceptor {
     static final DataPermission DATA_PERMISSION_NULL =
         DataPermissionAnnotationInterceptor.class.getAnnotation(DataPermission.class);
 
-    @Getter
     private final Map<MethodClassKey, DataPermission> dataPermissionCache = new ConcurrentHashMap<>();
+
+    public Map<MethodClassKey, DataPermission> getDataPermissionCache() {
+        return dataPermissionCache;
+    }
 
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.rose.core.util;
+package io.github.rose.core.spi;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;

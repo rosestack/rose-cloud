@@ -17,13 +17,9 @@ package io.github.rose.upms.domain.permission;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.rose.mybatis.model.TenantEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 @TableName("sys_role")
 public class Role extends TenantEntity {
 

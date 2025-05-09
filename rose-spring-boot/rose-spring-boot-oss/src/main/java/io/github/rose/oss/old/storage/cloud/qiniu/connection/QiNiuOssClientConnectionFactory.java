@@ -24,17 +24,19 @@ import com.qiniu.util.Auth;
 import com.qiniu.util.StringMap;
 import io.github.rose.oss.old.storage.cloud.qiniu.QiNiuScope;
 import io.github.rose.oss.old.storage.properties.QiNiuOssProperties;
-import lombok.AllArgsConstructor;
 
 import java.util.Map;
 
 /**
  * @author Levin
  */
-@AllArgsConstructor
 public class QiNiuOssClientConnectionFactory implements QiNiuConnectionFactory {
 
     private final QiNiuOssProperties qiNiuOssProperties;
+
+    public QiNiuOssClientConnectionFactory(QiNiuOssProperties qiNiuOssProperties) {
+        this.qiNiuOssProperties = qiNiuOssProperties;
+    }
 
     @Override
     public Auth getAuth() {

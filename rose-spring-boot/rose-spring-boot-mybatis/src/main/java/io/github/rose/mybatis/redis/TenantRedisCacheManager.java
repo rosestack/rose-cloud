@@ -18,7 +18,6 @@ package io.github.rose.mybatis.redis;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import io.github.rose.mybatis.tenant.util.TenantContextHolder;
 import io.github.rose.redis.support.TtlRedisCacheManager;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.Cache;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -36,7 +35,6 @@ import static io.github.rose.core.util.StringPool.COLON;
  *
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  */
-@Slf4j
 public class TenantRedisCacheManager extends TtlRedisCacheManager {
 
     private final Set<String> ignoredCaches;

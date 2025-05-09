@@ -24,9 +24,9 @@ import io.github.rose.xxljob.model.XxlJobGroup;
 import io.github.rose.xxljob.model.XxlJobInfo;
 import io.github.rose.xxljob.service.JobGroupService;
 import io.github.rose.xxljob.service.JobInfoService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationContext;
@@ -41,10 +41,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@Slf4j
-@RequiredArgsConstructor
 public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyEvent>, ApplicationContextAware {
-
+    private static final Logger log = LoggerFactory.getLogger(XxlJobAutoRegister.class);
+    
     private final JobGroupService jobGroupService;
 
     private final JobInfoService jobInfoService;
@@ -52,6 +51,12 @@ public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyE
     private final XxlJobProperties xxlJobProperties;
 
     private ApplicationContext applicationContext;
+
+    public XxlJobAutoRegister(JobGroupService jobGroupService, JobInfoService jobInfoService, XxlJobProperties xxlJobProperties) {
+        this.jobGroupService = jobGroupService;
+        this.jobInfoService = jobInfoService;
+        this.xxlJobProperties = xxlJobProperties;
+    }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

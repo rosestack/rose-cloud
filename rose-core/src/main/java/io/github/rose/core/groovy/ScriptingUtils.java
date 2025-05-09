@@ -18,14 +18,14 @@ package io.github.rose.core.groovy;
 import groovy.lang.*;
 import groovy.transform.CompileStatic;
 import io.github.rose.core.lambda.function.CheckedSupplier;
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.groovy.control.CompilerConfiguration;
 import org.codehaus.groovy.control.customizers.ASTTransformationCustomizer;
 import org.codehaus.groovy.control.customizers.ImportCustomizer;
 import org.codehaus.groovy.runtime.InvokerInvocationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StreamUtils;
@@ -44,14 +44,12 @@ import java.util.regex.Pattern;
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  */
-@Slf4j
 public abstract class ScriptingUtils {
-
     /**
      * System property to indicate groovy compilation must be static.
      */
     public static final String SYSTEM_PROPERTY_GROOVY_COMPILE_STATIC = "org.apereo.cas.groovy.compile.static";
-
+    private static final Logger log = LoggerFactory.getLogger(ScriptingUtils.class);
     private static final CompilerConfiguration GROOVY_COMPILER_CONFIG;
 
     @SuppressWarnings("InlineFormatString")
@@ -207,7 +205,7 @@ public abstract class ScriptingUtils {
             script.setBinding(binding);
             log.debug("Executing groovy script [{}] with variables [{}]", script, binding.getVariables());
 
-            val result = script.run();
+            Object result = script.run();
             return getGroovyScriptExecutionResultOrThrow(clazz, result);
         } catch (final Exception e) {
             log.error("Could not execute the groovy script", e);
@@ -242,8 +240,7 @@ public abstract class ScriptingUtils {
      * @return the result the exception
      */
     public static <T> T executeGroovyScript(
-        final GroovyObject groovyObject, final Object[] args, final Class<T> clazz, final boolean failOnError)
-        throws Throwable {
+        final GroovyObject groovyObject, final Object[] args, final Class<T> clazz, final boolean failOnError) throws Throwable {
         return executeGroovyScript(groovyObject, "run", args, clazz, failOnError);
     }
 
@@ -328,13 +325,13 @@ public abstract class ScriptingUtils {
         throws Throwable {
         try {
             log.trace("Executing groovy script's [{}] method, with parameters [{}]", methodName, args);
-            val result = groovyObject.invokeMethod(methodName, args);
+            Object result = groovyObject.invokeMethod(methodName, args);
             log.trace("Results returned by the groovy script are [{}]", result);
             if (!clazz.equals(Void.class)) {
                 return getGroovyScriptExecutionResultOrThrow(clazz, result);
             }
         } catch (final Throwable throwable) {
-            val cause = throwable instanceof InvokerInvocationException ? throwable.getCause() : throwable;
+            Throwable cause = throwable instanceof InvokerInvocationException ? throwable.getCause() : throwable;
             if (failOnError) {
                 throw cause;
             }
@@ -491,7 +488,7 @@ public abstract class ScriptingUtils {
                 Class clazz = classLoader.parseClass(script);
                 log.trace("Preparing constructor arguments [{}] for resource [{}]", args, resource);
                 Constructor ctor = clazz.getDeclaredConstructor(constructorArgs);
-                val result = ctor.newInstance(args);
+                Object result = ctor.newInstance(args);
                 if (!expectedType.isAssignableFrom(result.getClass())) {
                     throw new ClassCastException("Result [" + result + " is of type " + result.getClass()
                         + " when we were expecting " + expectedType);

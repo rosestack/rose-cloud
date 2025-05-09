@@ -15,7 +15,6 @@
  */
 package io.github.rose.xxljob.config;
 
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
@@ -27,7 +26,6 @@ import javax.validation.constraints.NotBlank;
  */
 @ConfigurationProperties("xxl.job")
 @Validated
-@Data
 public class XxlJobProperties {
 
     /**
@@ -47,21 +45,59 @@ public class XxlJobProperties {
 
     private ClientProperties client = new ClientProperties();
 
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public AdminProperties getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(AdminProperties admin) {
+        this.admin = admin;
+    }
+
+    public ExecutorProperties getExecutor() {
+        return executor;
+    }
+
+    public void setExecutor(ExecutorProperties executor) {
+        this.executor = executor;
+    }
+
+    public ClientProperties getClient() {
+        return client;
+    }
+
+    public void setClient(ClientProperties client) {
+        this.client = client;
+    }
+
     /**
      * XXL-Job 调度器配置类
      */
-    @Data
     public static class AdminProperties {
         /**
          * 调度器地址
          */
         private String addresses;
+
+        public String getAddresses() {
+            return addresses;
+        }
+
+        public void setAddresses(String addresses) {
+            this.addresses = addresses;
+        }
     }
 
     /**
      * XXL-Job 执行器配置类
      */
-    @Data
     @Valid
     public static class ExecutorProperties {
         /**
@@ -101,10 +137,57 @@ public class XxlJobProperties {
          * 日志保留天数
          */
         private Integer logRetentionDays = DEFAULT_LOG_RETENTION_DAYS;
+
+        public static String getDefaultLogPath() {
+            return DEFAULT_LOG_PATH;
+        }
+
+        public static void setDefaultLogPath(String defaultLogPath) {
+            DEFAULT_LOG_PATH = defaultLogPath;
+        }
+
+        public Boolean getEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(Boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        public String getIp() {
+            return ip;
+        }
+
+        public void setIp(String ip) {
+            this.ip = ip;
+        }
+
+        public Integer getPort() {
+            return port;
+        }
+
+        public void setPort(Integer port) {
+            this.port = port;
+        }
+
+        public String getLogPath() {
+            return logPath;
+        }
+
+        public void setLogPath(String logPath) {
+            this.logPath = logPath;
+        }
+
+        public Integer getLogRetentionDays() {
+            return logRetentionDays;
+        }
+
+        public void setLogRetentionDays(Integer logRetentionDays) {
+            this.logRetentionDays = logRetentionDays;
+        }
     }
 
     @Valid
-    @Data
     public static class ClientProperties {
 
         private Boolean enabled = false;
@@ -132,5 +215,101 @@ public class XxlJobProperties {
         private int executorTimeout = 0;
 
         private int executorFailRetryCount = 0;
+
+        public Boolean getEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(Boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public String getAuthor() {
+            return author;
+        }
+
+        public void setAuthor(String author) {
+            this.author = author;
+        }
+
+        public String getAlarmEmail() {
+            return alarmEmail;
+        }
+
+        public void setAlarmEmail(String alarmEmail) {
+            this.alarmEmail = alarmEmail;
+        }
+
+        public String getScheduleType() {
+            return scheduleType;
+        }
+
+        public void setScheduleType(String scheduleType) {
+            this.scheduleType = scheduleType;
+        }
+
+        public String getGlueType() {
+            return glueType;
+        }
+
+        public void setGlueType(String glueType) {
+            this.glueType = glueType;
+        }
+
+        public String getExecutorRouteStrategy() {
+            return executorRouteStrategy;
+        }
+
+        public void setExecutorRouteStrategy(String executorRouteStrategy) {
+            this.executorRouteStrategy = executorRouteStrategy;
+        }
+
+        public String getMisfireStrategy() {
+            return misfireStrategy;
+        }
+
+        public void setMisfireStrategy(String misfireStrategy) {
+            this.misfireStrategy = misfireStrategy;
+        }
+
+        public String getExecutorBlockStrategy() {
+            return executorBlockStrategy;
+        }
+
+        public void setExecutorBlockStrategy(String executorBlockStrategy) {
+            this.executorBlockStrategy = executorBlockStrategy;
+        }
+
+        public int getExecutorTimeout() {
+            return executorTimeout;
+        }
+
+        public void setExecutorTimeout(int executorTimeout) {
+            this.executorTimeout = executorTimeout;
+        }
+
+        public int getExecutorFailRetryCount() {
+            return executorFailRetryCount;
+        }
+
+        public void setExecutorFailRetryCount(int executorFailRetryCount) {
+            this.executorFailRetryCount = executorFailRetryCount;
+        }
     }
 }

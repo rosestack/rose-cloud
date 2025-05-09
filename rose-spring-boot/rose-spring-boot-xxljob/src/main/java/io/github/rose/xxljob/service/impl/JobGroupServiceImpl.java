@@ -21,7 +21,6 @@ import io.github.rose.xxljob.model.XxlJobGroupPage;
 import io.github.rose.xxljob.model.XxlRestResponse;
 import io.github.rose.xxljob.service.JobGroupService;
 import io.github.rose.xxljob.service.JobLoginService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -33,7 +32,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 public class JobGroupServiceImpl implements JobGroupService {
 
     private final JobLoginService jobLoginService;
@@ -41,6 +39,12 @@ public class JobGroupServiceImpl implements JobGroupService {
     private final RestTemplate restTemplate;
 
     private final String host;
+
+    public JobGroupServiceImpl(JobLoginService jobLoginService, RestTemplate restTemplate, String host) {
+        this.jobLoginService = jobLoginService;
+        this.restTemplate = restTemplate;
+        this.host = host;
+    }
 
     @Override
     public List<XxlJobGroup> getJobGroup(String appName) {

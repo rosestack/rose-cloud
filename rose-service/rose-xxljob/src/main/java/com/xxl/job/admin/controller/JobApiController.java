@@ -71,7 +71,7 @@ public class JobApiController {
             return new ReturnT<String>(ReturnT.FAIL_CODE, "The access token is wrong.");
         }
 
-        // services mapping
+        // services0 mapping
         if ("callback".equals(uri)) {
             List<HandleCallbackParam> callbackParamList =
                 GsonTool.fromJson(data, List.class, HandleCallbackParam.class);

@@ -17,10 +17,6 @@ package io.github.rose.core.util;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.rose.core.exception.ResultCode;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -32,14 +28,13 @@ import java.util.Map;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Accessors(chain = true)
 public class RestResponse<T> implements Serializable {
     private int code;
     private String message;
     private T data;
+
+    public RestResponse() {
+    }
 
     public static RestResponse<Void> ok() {
         return ok(null);
@@ -75,6 +70,18 @@ public class RestResponse<T> implements Serializable {
         restResponse.message = message;
         restResponse.data = data;
         return restResponse;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public T getData() {
+        return data;
     }
 
     @JsonIgnore

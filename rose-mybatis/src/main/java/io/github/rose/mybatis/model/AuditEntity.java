@@ -18,7 +18,6 @@ package io.github.rose.mybatis.model;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -29,7 +28,6 @@ import static io.github.rose.core.util.date.DatePattern.NORM_DATETIME_PATTERN;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Data
 public class AuditEntity implements Serializable {
 
     @TableField(value = "created_by", fill = FieldFill.INSERT)
@@ -45,4 +43,36 @@ public class AuditEntity implements Serializable {
     @JsonFormat(pattern = NORM_DATETIME_PATTERN)
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     protected LocalDateTime updateTime;
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
 }

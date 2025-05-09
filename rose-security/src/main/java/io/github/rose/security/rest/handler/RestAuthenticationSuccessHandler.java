@@ -20,7 +20,6 @@ import io.github.rose.security.rest.mfa.MfaAuthenticationToken;
 import io.github.rose.security.support.TokenFactory;
 import io.github.rose.security.util.SecurityUser;
 import io.github.rose.security.util.TokenPair;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -30,10 +29,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@RequiredArgsConstructor
 public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private final TokenFactory tokenFactory;
+
+    public RestAuthenticationSuccessHandler(TokenFactory tokenFactory) {
+        this.tokenFactory = tokenFactory;
+    }
 
     @Override
     public void onAuthenticationSuccess(

@@ -15,7 +15,6 @@
  */
 package io.github.rose.core.util.date;
 
-import lombok.Getter;
 
 import java.io.Serializable;
 import java.time.temporal.ChronoUnit;
@@ -222,7 +221,6 @@ public class BetweenFormatter implements Serializable {
         }
     }
 
-    @Getter
     public enum DateUnit {
 
         /**
@@ -309,6 +307,10 @@ public class BetweenFormatter implements Serializable {
                     return ChronoUnit.WEEKS;
             }
             return null;
+        }
+
+        public long getMillis() {
+            return millis;
         }
 
         /**

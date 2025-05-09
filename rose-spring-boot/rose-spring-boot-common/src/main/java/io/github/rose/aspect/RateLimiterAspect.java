@@ -19,13 +19,13 @@ import io.github.rose.annotation.RateLimiter;
 import io.github.rose.core.exception.TooManyRequestException;
 import io.github.rose.core.util.NetUtils;
 import io.github.rose.ratelimiter.LimitType;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
@@ -41,15 +41,19 @@ import java.util.List;
  * @author canghe
  */
 @Aspect
-@Slf4j
 @Component
 @ConditionalOnBean({RedisTemplate.class, RedisScript.class})
-@RequiredArgsConstructor
 public class RateLimiterAspect {
+    private static final Logger log = LoggerFactory.getLogger(RateLimiterAspect.class);
 
     private final RedisTemplate<String, Object> redisTemplate;
 
     private final RedisScript<Long> limitScript;
+
+    public RateLimiterAspect(RedisTemplate<String, Object> redisTemplate, RedisScript<Long> limitScript) {
+        this.redisTemplate = redisTemplate;
+        this.limitScript = limitScript;
+    }
 
     @Before("@annotation(rateLimiter)")
     public void doBefore(JoinPoint point, RateLimiter rateLimiter) throws Throwable {

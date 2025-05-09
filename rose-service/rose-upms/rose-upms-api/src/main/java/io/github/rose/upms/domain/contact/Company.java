@@ -17,14 +17,10 @@ package io.github.rose.upms.domain.contact;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.rose.mybatis.model.TenantEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 实体类
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
 @TableName
 public class Company extends TenantEntity {
 
@@ -33,4 +29,20 @@ public class Company extends TenantEntity {
     private String name;
 
     private String description;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

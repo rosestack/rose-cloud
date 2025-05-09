@@ -25,7 +25,7 @@ import java.util.Random;
  * library by Andrey Sitnik released under the MIT license. (https://github.com/ai/nanoid)
  *
  * @author David Klebanoff
- * @link https://github.com/aventrix/jnanoid/
+ * @see <a href="https://github.com/aventrix/jnanoid/">jnanoid</a>
  */
 public final class NanoIdUtils {
 

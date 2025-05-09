@@ -15,7 +15,6 @@
  */
 package io.github.rose.springdoc.pig.config;
 
-import lombok.Setter;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.cloud.client.ServiceInstance;
@@ -26,8 +25,15 @@ public class OpenAPIMetadataConfiguration implements InitializingBean, Applicati
 
     private ApplicationContext applicationContext;
 
-    @Setter
     private String path;
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 
     @Override
     public void afterPropertiesSet() throws Exception {

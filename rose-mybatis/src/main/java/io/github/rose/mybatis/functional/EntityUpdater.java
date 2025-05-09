@@ -19,7 +19,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.github.rose.core.exception.BusinessException;
 import io.github.rose.core.validation.Update;
 import io.vavr.control.Try;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -31,9 +32,9 @@ import java.util.function.Supplier;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Slf4j
 public class EntityUpdater<T> extends BaseEntityOperation implements Loader<T>, UpdateHandler<T>, Executor<T> {
-
+    private static final Logger log = LoggerFactory.getLogger(EntityUpdater.class);
+    
     private final BaseMapper<T> baseMapper;
 
     private T entity;

@@ -20,7 +20,8 @@ import com.alibaba.nacos.common.notify.Event;
 import com.alibaba.nacos.common.notify.NotifyCenter;
 import com.alibaba.nacos.common.notify.listener.Subscriber;
 import com.alibaba.nacos.common.utils.StringUtils;
-import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springdoc.core.AbstractSwaggerUiConfigProperties;
 import org.springdoc.core.SwaggerUiConfigProperties;
 import org.springframework.beans.factory.InitializingBean;
@@ -35,13 +36,18 @@ import java.util.stream.Collectors;
  * swagger 3.0 展示
  */
 @Configuration(proxyBeanMethods = false)
-@RequiredArgsConstructor
 @ConditionalOnProperty(name = "springdoc.api-docs.enabled", matchIfMissing = true)
 public class SpringDocConfiguration implements InitializingBean {
+    private static final Logger log = LoggerFactory.getLogger(SpringDocConfiguration.class);
 
     private final SwaggerUiConfigProperties swaggerUiConfigProperties;
 
     private final DiscoveryClient discoveryClient;
+
+    public SpringDocConfiguration(SwaggerUiConfigProperties swaggerUiConfigProperties, DiscoveryClient discoveryClient) {
+        this.swaggerUiConfigProperties = swaggerUiConfigProperties;
+        this.discoveryClient = discoveryClient;
+    }
 
     /**
      * 在初始化后调用的方法，用于注册SwaggerDocRegister订阅器
@@ -58,12 +64,16 @@ public class SpringDocConfiguration implements InitializingBean {
 /**
  * Swagger文档注册器，继承自Subscriber<InstancesChangeEvent>
  */
-@RequiredArgsConstructor
 class SwaggerDocRegister extends Subscriber<InstancesChangeEvent> {
 
     private final SwaggerUiConfigProperties swaggerUiConfigProperties;
 
     private final DiscoveryClient discoveryClient;
+
+    SwaggerDocRegister(SwaggerUiConfigProperties swaggerUiConfigProperties, DiscoveryClient discoveryClient) {
+        this.swaggerUiConfigProperties = swaggerUiConfigProperties;
+        this.discoveryClient = discoveryClient;
+    }
 
     /**
      * 事件回调方法，处理InstancesChangeEvent事件

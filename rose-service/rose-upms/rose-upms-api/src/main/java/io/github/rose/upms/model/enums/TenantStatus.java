@@ -15,9 +15,6 @@
  */
 package io.github.rose.upms.model.enums;
 
-import lombok.Getter;
-
-@Getter
 public enum TenantStatus {
     PENDING(1),
     ACTIVE(2),
@@ -28,5 +25,9 @@ public enum TenantStatus {
 
     TenantStatus(int code) {
         this.code = code;
+    }
+
+    public int getCode() {
+        return code;
     }
 }

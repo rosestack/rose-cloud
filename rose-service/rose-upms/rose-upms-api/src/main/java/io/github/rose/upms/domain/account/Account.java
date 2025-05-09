@@ -19,13 +19,27 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.rose.core.jackson.serializer.sensitive.FieldSensitive;
 import io.github.rose.core.jackson.serializer.sensitive.SensitiveType;
 import io.github.rose.mybatis.model.BaseEntity;
-import lombok.Data;
 
-@Data
 @TableName
 public class Account extends BaseEntity {
     private String name;
 
     @FieldSensitive(type = SensitiveType.PHONE)
     private String mobile;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 }

@@ -15,7 +15,6 @@
  */
 package io.github.rose.oss.props;
 
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 
@@ -24,7 +23,6 @@ import org.springframework.util.LinkedCaseInsensitiveMap;
  *
  * @author Chill
  */
-@Data
 @ConfigurationProperties(prefix = "oss")
 public class OssProperties {
 
@@ -72,4 +70,76 @@ public class OssProperties {
      * 自定义属性
      */
     private LinkedCaseInsensitiveMap<Object> args;
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Boolean getTenantMode() {
+        return tenantMode;
+    }
+
+    public void setTenantMode(Boolean tenantMode) {
+        this.tenantMode = tenantMode;
+    }
+
+    public String getEndpoint() {
+        return endpoint;
+    }
+
+    public void setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
+    }
+
+    public String getTransformEndpoint() {
+        return transformEndpoint;
+    }
+
+    public void setTransformEndpoint(String transformEndpoint) {
+        this.transformEndpoint = transformEndpoint;
+    }
+
+    public String getAccessKey() {
+        return accessKey;
+    }
+
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public String getBucketName() {
+        return bucketName;
+    }
+
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
+    }
+
+    public LinkedCaseInsensitiveMap<Object> getArgs() {
+        return args;
+    }
+
+    public void setArgs(LinkedCaseInsensitiveMap<Object> args) {
+        this.args = args;
+    }
 }

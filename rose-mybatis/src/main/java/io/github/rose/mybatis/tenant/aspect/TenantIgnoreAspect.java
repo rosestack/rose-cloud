@@ -17,10 +17,11 @@ package io.github.rose.mybatis.tenant.aspect;
 
 import io.github.rose.mybatis.tenant.annotation.TenantIgnore;
 import io.github.rose.mybatis.tenant.util.TenantUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 忽略多租户的 Aspect，基于 {@link TenantIgnore} 注解实现，用于一些全局的逻辑。 例如说，一个定时任务，读取所有数据，进行处理。
@@ -31,8 +32,9 @@ import org.aspectj.lang.annotation.Aspect;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  */
 @Aspect
-@Slf4j
 public class TenantIgnoreAspect {
+    private static final Logger log = LoggerFactory.getLogger(TenantIgnoreAspect.class);
+    
 
     @Around("@annotation(tenantIgnore)")
     public Object around(ProceedingJoinPoint joinPoint, TenantIgnore tenantIgnore) throws Throwable {

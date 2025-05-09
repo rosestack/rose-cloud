@@ -19,14 +19,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.rose.mybatis.encrypt.FieldSetProperty;
 import io.github.rose.mybatis.encrypt.IEncryptor;
 import io.github.rose.mybatis.encrypt.annotation.FieldEncrypt;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.resultset.DefaultResultSetHandler;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -36,10 +36,9 @@ import java.util.function.BiConsumer;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Data
-@Slf4j
 public class InterceptorHelper {
-
+    private static final Logger log = LoggerFactory.getLogger(InterceptorHelper.class);
+    
     private static Map<Class<? extends IEncryptor>, IEncryptor> encryptorMap;
 
     public static Object encrypt(Invocation invocation, IEncryptor encryptor, String password) throws Throwable {

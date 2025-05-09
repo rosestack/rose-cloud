@@ -25,11 +25,11 @@ import io.github.rose.oss.old.storage.properties.BaseOssProperties;
 import io.github.rose.oss.old.storage.properties.MinioOssProperties;
 import io.minio.*;
 import io.minio.messages.Item;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -41,13 +41,17 @@ import java.util.stream.StreamSupport;
 /**
  * @author Levin
  */
-@Slf4j
-@AllArgsConstructor
 public class MinioOssOperation implements OssOperation {
+    private static final Logger log = LoggerFactory.getLogger(MinioOssOperation.class);
 
     private final MinioClient minioClient;
 
     private final MinioOssProperties properties;
+
+    public MinioOssOperation(MinioClient minioClient, MinioOssProperties properties) {
+        this.minioClient = minioClient;
+        this.properties = properties;
+    }
 
     @Override
     public DownloadResponse download(String fileName) {
@@ -59,7 +63,9 @@ public class MinioOssOperation implements OssOperation {
         try {
             InputStream inputStream = minioClient.getObject(
                 GetObjectArgs.builder().bucket(bucketName).object(fileName).build());
-            return DownloadResponse.builder().inputStream(inputStream).build();
+            DownloadResponse downloadResponse = new DownloadResponse();
+            downloadResponse.setInputStream(inputStream);
+            return downloadResponse;
         } catch (Exception ex) {
             log.error("[文件下载异常]", ex);
             throw downloadError(BaseOssProperties.StorageType.MINIO, ex);

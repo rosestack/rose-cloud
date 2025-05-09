@@ -15,11 +15,9 @@
  */
 package io.github.rose.security.rest.mfa.provider;
 
-import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
 public class TotpMfaProviderConfig implements MfaProviderConfig {
 
     @NotBlank
@@ -28,5 +26,13 @@ public class TotpMfaProviderConfig implements MfaProviderConfig {
     @Override
     public MfaProviderType getProviderType() {
         return MfaProviderType.TOTP;
+    }
+
+    public String getIssuerName() {
+        return issuerName;
+    }
+
+    public void setIssuerName(String issuerName) {
+        this.issuerName = issuerName;
     }
 }

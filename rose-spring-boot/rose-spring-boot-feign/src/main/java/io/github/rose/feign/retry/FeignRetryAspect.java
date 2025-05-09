@@ -17,12 +17,13 @@ package io.github.rose.feign.retry;
 
 import feign.RetryableException;
 import io.github.rose.feign.annotation.FeignRetry;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.retry.backoff.BackOffPolicy;
 import org.springframework.retry.backoff.ExponentialBackOffPolicy;
 import org.springframework.retry.backoff.FixedBackOffPolicy;
@@ -38,9 +39,9 @@ import java.util.Map;
  * <p>
  * {@link org.springframework.cloud.loadbalancer.blocking.retry.BlockingLoadBalancedRetryPolicy}.
  */
-@Slf4j
 @Aspect
 public class FeignRetryAspect {
+    private static final Logger log = LoggerFactory.getLogger(FeignRetryAspect.class);
 
     @Around("@annotation(feignRetry)")
     public Object retry(ProceedingJoinPoint joinPoint, FeignRetry feignRetry) throws Throwable {

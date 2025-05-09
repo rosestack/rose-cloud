@@ -15,9 +15,6 @@
  */
 package io.github.rose.security;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.CollectionUtils;
 
@@ -25,9 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 @ConfigurationProperties(prefix = "security", ignoreUnknownFields = false)
 public class SecurityProperties {
 
@@ -60,6 +54,9 @@ public class SecurityProperties {
 
     private JwtProperties jwt = new JwtProperties();
 
+    public SecurityProperties() {
+    }
+
     public List<String> getPathsToSkip() {
         if (CollectionUtils.isEmpty(pathsToSkip)) {
             pathsToSkip.addAll(Arrays.asList(DEFAULT_PATH_TO_SKIP));
@@ -67,14 +64,91 @@ public class SecurityProperties {
         return pathsToSkip;
     }
 
-    @Data
-    public static class JwtProperties {
+    public void setPathsToSkip(List<String> pathsToSkip) {
+        this.pathsToSkip = pathsToSkip;
+    }
 
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    public String getLoginUrl() {
+        return loginUrl;
+    }
+
+    public void setLoginUrl(String loginUrl) {
+        this.loginUrl = loginUrl;
+    }
+
+    public String getTokenRefreshUrl() {
+        return tokenRefreshUrl;
+    }
+
+    public void setTokenRefreshUrl(String tokenRefreshUrl) {
+        this.tokenRefreshUrl = tokenRefreshUrl;
+    }
+
+    public Long getAccessTokenExpireTime() {
+        return accessTokenExpireTime;
+    }
+
+    public void setAccessTokenExpireTime(Long accessTokenExpireTime) {
+        this.accessTokenExpireTime = accessTokenExpireTime;
+    }
+
+    public Long getRefreshTokenExpireTime() {
+        return refreshTokenExpireTime;
+    }
+
+    public void setRefreshTokenExpireTime(Long refreshTokenExpireTime) {
+        this.refreshTokenExpireTime = refreshTokenExpireTime;
+    }
+
+    public JwtProperties getJwt() {
+        return jwt;
+    }
+
+    public void setJwt(JwtProperties jwt) {
+        this.jwt = jwt;
+    }
+
+    public static class JwtProperties {
         private boolean enabled = false;
 
         private String tokenIssuer = "rose.rose-group.github.io";
 
         private String tokenSigningKey =
             "secret12345678901234567890123456789012345678901234567890123456789012345678901234567890";
+
+        public JwtProperties() {
+        }
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        public String getTokenIssuer() {
+            return tokenIssuer;
+        }
+
+        public void setTokenIssuer(String tokenIssuer) {
+            this.tokenIssuer = tokenIssuer;
+        }
+
+        public String getTokenSigningKey() {
+            return tokenSigningKey;
+        }
+
+        public void setTokenSigningKey(String tokenSigningKey) {
+            this.tokenSigningKey = tokenSigningKey;
+        }
     }
 }

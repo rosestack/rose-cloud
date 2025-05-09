@@ -16,8 +16,6 @@
 package io.github.rose.mybatis.datapermission.aop;
 
 import io.github.rose.mybatis.datapermission.annotation.DataPermission;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import org.aopalliance.aop.Advice;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.support.AbstractPointcutAdvisor;
@@ -27,8 +25,6 @@ import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
 /**
  * {@link DataPermission} 注解的 Advisor 实现类
  */
-@Getter
-@EqualsAndHashCode(callSuper = true)
 public class DataPermissionAnnotationAdvisor extends AbstractPointcutAdvisor {
 
     private final Advice advice;
@@ -38,6 +34,16 @@ public class DataPermissionAnnotationAdvisor extends AbstractPointcutAdvisor {
     public DataPermissionAnnotationAdvisor() {
         this.advice = new DataPermissionAnnotationInterceptor();
         this.pointcut = this.buildPointcut();
+    }
+
+    @Override
+    public Advice getAdvice() {
+        return advice;
+    }
+
+    @Override
+    public Pointcut getPointcut() {
+        return pointcut;
     }
 
     protected Pointcut buildPointcut() {

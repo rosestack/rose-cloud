@@ -19,7 +19,6 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import io.github.rose.oss.old.storage.AliYunOssOperation;
 import io.github.rose.oss.old.storage.properties.AliYunOssProperties;
-import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +33,6 @@ import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_ALIY
  * @author Levin
  */
 @Configuration
-@AllArgsConstructor
 @EnableConfigurationProperties(AliYunOssProperties.class)
 @ConditionalOnProperty(prefix = OSS_CONFIG_PREFIX_ALIYUN, name = "enabled", havingValue = "true")
 public class AliYunOssAutoConfiguration {

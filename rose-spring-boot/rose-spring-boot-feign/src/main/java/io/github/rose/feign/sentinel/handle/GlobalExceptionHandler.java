@@ -18,7 +18,8 @@ package io.github.rose.feign.sentinel.handle;
 import com.alibaba.csp.sentinel.Tracer;
 import io.github.rose.core.exception.BusinessException;
 import io.github.rose.core.util.RestResponse;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -35,12 +36,12 @@ import javax.servlet.http.HttpServletRequest;
  * 全局异常处理器结合 sentinel 全局异常处理器不能作用在 oauth server
  * </p>
  */
-@Slf4j
 @Order(10000)
 @RestControllerAdvice
 @ConditionalOnExpression("!'${security.oauth2.client.clientId}'.isEmpty()")
 public class GlobalExceptionHandler {
-
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public RestResponse<String> handleGlobalException(Exception e, HttpServletRequest request) {

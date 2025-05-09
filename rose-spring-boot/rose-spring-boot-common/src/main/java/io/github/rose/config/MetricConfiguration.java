@@ -22,8 +22,9 @@ import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.aop.TimedAspect;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Tag;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.autoconfigure.endpoint.condition.ConditionalOnAvailableEndpoint;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.boot.actuate.autoconfigure.metrics.MetricsEndpointAutoConfiguration;
@@ -36,13 +37,13 @@ import org.springframework.context.annotation.Import;
 import java.util.Collections;
 import java.util.Objects;
 
-@Slf4j
 @Configuration
 @ConditionalOnClass(Timed.class)
 @Import(MetricsInterceptor.class)
 @AutoConfigureAfter(MetricsEndpointAutoConfiguration.class)
 public class MetricConfiguration {
-
+    private static final Logger log = LoggerFactory.getLogger(MetricConfiguration.class);
+    
     @Bean
     @ConditionalOnAvailableEndpoint
     public AggravateMetricsEndpoint aggravateMetricsEndpoint(MeterRegistry meterRegistry) {

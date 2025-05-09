@@ -15,9 +15,6 @@
  */
 package io.github.rose.upms.domain.hr;
 
-import lombok.Data;
-
-@Data
 public class EmployeeType {
     private String id;
 
@@ -33,4 +30,44 @@ public class EmployeeType {
 
     // 1：激活 2：未激活
     private Integer status;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 }

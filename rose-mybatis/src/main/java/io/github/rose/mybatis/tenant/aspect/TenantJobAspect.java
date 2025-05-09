@@ -22,8 +22,6 @@ import io.github.rose.core.util.FormatUtils;
 import io.github.rose.mybatis.tenant.annotation.TenantJob;
 import io.github.rose.mybatis.tenant.service.TenantService;
 import io.github.rose.mybatis.tenant.util.TenantUtils;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -41,11 +39,13 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  */
 @Aspect
-@RequiredArgsConstructor
-@Slf4j
 public class TenantJobAspect {
 
     private final TenantService tenantService;
+
+    public TenantJobAspect(TenantService tenantService) {
+        this.tenantService = tenantService;
+    }
 
     @Around("@annotation(tenantJob)")
     public String around(ProceedingJoinPoint joinPoint, TenantJob tenantJob) {

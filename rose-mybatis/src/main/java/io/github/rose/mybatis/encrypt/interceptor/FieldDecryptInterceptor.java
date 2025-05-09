@@ -22,11 +22,11 @@ import io.github.rose.mybatis.encrypt.annotation.FieldBind;
 import io.github.rose.mybatis.encrypt.annotation.FieldEncrypt;
 import io.github.rose.mybatis.encrypt.util.FieldSetPropertyHelper;
 import io.github.rose.mybatis.encrypt.util.InterceptorHelper;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Statement;
 import java.util.Properties;
@@ -41,10 +41,9 @@ import java.util.Properties;
         method = "handleResultSets",
         args = {Statement.class})
 })
-@Slf4j
-@Data
 public class FieldDecryptInterceptor implements Interceptor {
-
+    private static final Logger log = LoggerFactory.getLogger(FieldDecryptInterceptor.class);
+    
     private IEncryptor encryptor;
 
     private IFieldBinder fieldBinder;

@@ -15,8 +15,8 @@
  */
 package io.github.rose.core.util.date;
 
-import lombok.SneakyThrows;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -68,8 +68,7 @@ public class ConcurrentDateFormat {
         return result;
     }
 
-    @SneakyThrows
-    public Date parse(String source) {
+    public Date parse(String source) throws ParseException {
         SimpleDateFormat sdf = queue.poll();
         if (sdf == null) {
             sdf = createInstance();

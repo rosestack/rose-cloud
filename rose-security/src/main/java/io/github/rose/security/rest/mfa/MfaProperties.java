@@ -19,7 +19,6 @@ import io.github.rose.core.jackson.JacksonUtils;
 import io.github.rose.security.rest.mfa.config.MfaConfig;
 import io.github.rose.security.rest.mfa.provider.MfaProviderConfig;
 import io.github.rose.security.rest.mfa.provider.MfaProviderType;
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import javax.validation.Valid;
@@ -31,7 +30,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Data
 @ConfigurationProperties(prefix = "security.mfa", ignoreUnknownFields = false)
 public class MfaProperties {
 
@@ -56,6 +54,9 @@ public class MfaProperties {
     @NotNull
     private List<Map<String, Object>> configs;
 
+    public MfaProperties() {
+    }
+
     public List<MfaConfig> getAllConfigs() {
         return configs.stream()
             .map(twoFaConfig -> JacksonUtils.fromString(JacksonUtils.toString(twoFaConfig), MfaConfig.class))
@@ -75,5 +76,53 @@ public class MfaProperties {
                 JacksonUtils.fromString(JacksonUtils.toString(providerConfig), MfaProviderConfig.class))
             .filter(providerConfig -> providerConfig.getProviderType().equals(providerType))
             .findFirst());
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public List<Map<String, Object>> getProviders() {
+        return providers;
+    }
+
+    public void setProviders(List<Map<String, Object>> providers) {
+        this.providers = providers;
+    }
+
+    public Integer getMinVerificationCodeSendPeriod() {
+        return minVerificationCodeSendPeriod;
+    }
+
+    public void setMinVerificationCodeSendPeriod(Integer minVerificationCodeSendPeriod) {
+        this.minVerificationCodeSendPeriod = minVerificationCodeSendPeriod;
+    }
+
+    public Integer getMaxVerificationFailuresBeforeUserLockout() {
+        return maxVerificationFailuresBeforeUserLockout;
+    }
+
+    public void setMaxVerificationFailuresBeforeUserLockout(Integer maxVerificationFailuresBeforeUserLockout) {
+        this.maxVerificationFailuresBeforeUserLockout = maxVerificationFailuresBeforeUserLockout;
+    }
+
+    public Long getTotalAllowedTimeForVerification() {
+        return totalAllowedTimeForVerification;
+    }
+
+    public void setTotalAllowedTimeForVerification(Long totalAllowedTimeForVerification) {
+        this.totalAllowedTimeForVerification = totalAllowedTimeForVerification;
+    }
+
+    public List<Map<String, Object>> getConfigs() {
+        return configs;
+    }
+
+    public void setConfigs(List<Map<String, Object>> configs) {
+        this.configs = configs;
     }
 }

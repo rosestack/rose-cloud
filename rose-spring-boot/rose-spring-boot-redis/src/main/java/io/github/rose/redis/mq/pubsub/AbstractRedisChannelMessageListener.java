@@ -20,11 +20,10 @@ import io.github.rose.core.spring.ReflectionUtils;
 import io.github.rose.redis.mq.RedisMQTemplate;
 import io.github.rose.redis.mq.interceptor.RedisMessageInterceptor;
 import io.github.rose.redis.mq.message.AbstractRedisMessage;
-import lombok.Setter;
-import lombok.SneakyThrows;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -50,13 +49,33 @@ public abstract class AbstractRedisChannelMessageListener<T extends AbstractRedi
     /**
      * RedisMQTemplate
      */
-    @Setter
     private RedisMQTemplate redisMQTemplate;
 
-    @SneakyThrows
     protected AbstractRedisChannelMessageListener() {
         this.messageType = getMessageClass();
-        this.channel = messageType.getDeclaredConstructor().newInstance().getChannel();
+        try {
+            this.channel = messageType.getDeclaredConstructor().newInstance().getChannel();
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Class<T> getMessageType() {
+        return messageType;
+    }
+
+    public RedisMQTemplate getRedisMQTemplate() {
+        return redisMQTemplate;
+    }
+
+    public void setRedisMQTemplate(RedisMQTemplate redisMQTemplate) {
+        this.redisMQTemplate = redisMQTemplate;
     }
 
     /**

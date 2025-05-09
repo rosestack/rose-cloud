@@ -16,17 +16,14 @@
 package io.github.rose.mybatis.model;
 
 import com.baomidou.mybatisplus.annotation.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class BaseEntity extends AuditEntity implements Serializable {
 
     @TableId(value = "id", type = IdType.ASSIGN_ID)
@@ -37,4 +34,40 @@ public class BaseEntity extends AuditEntity implements Serializable {
 
     @TableField(value = "is_deleted", fill = FieldFill.INSERT)
     protected boolean isDeleted = false;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        BaseEntity that = (BaseEntity) o;
+        return isDeleted == that.isDeleted && Objects.equals(id, that.id) && Objects.equals(version, that.version);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, version, isDeleted);
+    }
 }

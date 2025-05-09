@@ -21,7 +21,6 @@ import io.github.rose.security.rest.filter.RestLoginProcessingFilter;
 import io.github.rose.security.rest.filter.RestRefreshProcessingFilter;
 import io.github.rose.security.support.IpAuthenticationDetailSource;
 import io.github.rose.security.util.SkipPathRequestMatcher;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.ApplicationContext;
@@ -58,7 +57,6 @@ import static io.github.rose.security.SecurityProperties.DEFAULT_PATH_TO_SKIP;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since TODO
  */
-@RequiredArgsConstructor
 @AutoConfiguration
 @AutoConfigureOrder(-1)
 @EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
@@ -75,6 +73,15 @@ public class WebSecurityConfig {
     private final AuthenticationFailureHandler restAuthenticationFailureHandler;
 
     private final AuthenticationManager authenticationManager;
+
+    public WebSecurityConfig(ApplicationContext applicationContext, AccessDeniedHandler accessDeniedHandler, SecurityProperties securityProperties, AuthenticationSuccessHandler restAuthenticationSuccessHandler, AuthenticationFailureHandler restAuthenticationFailureHandler, AuthenticationManager authenticationManager) {
+        this.applicationContext = applicationContext;
+        this.accessDeniedHandler = accessDeniedHandler;
+        this.securityProperties = securityProperties;
+        this.restAuthenticationSuccessHandler = restAuthenticationSuccessHandler;
+        this.restAuthenticationFailureHandler = restAuthenticationFailureHandler;
+        this.authenticationManager = authenticationManager;
+    }
 
     // @Nullable
     // @Qualifier("oauth2AuthenticationSuccessHandler")

@@ -17,15 +17,11 @@ package io.github.rose.mybatis.encrypt;
 
 import io.github.rose.mybatis.encrypt.annotation.FieldBind;
 import io.github.rose.mybatis.encrypt.annotation.FieldEncrypt;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Data
-@AllArgsConstructor
 public class FieldSetProperty {
 
     private String fieldName;
@@ -33,4 +29,37 @@ public class FieldSetProperty {
     private FieldEncrypt fieldEncrypt;
 
     private FieldBind fieldBind;
+
+    public FieldSetProperty() {
+    }
+
+    public FieldSetProperty(String fieldName, FieldEncrypt fieldEncrypt, FieldBind fieldBind) {
+        this.fieldName = fieldName;
+        this.fieldEncrypt = fieldEncrypt;
+        this.fieldBind = fieldBind;
+    }
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
+    }
+
+    public FieldEncrypt getFieldEncrypt() {
+        return fieldEncrypt;
+    }
+
+    public void setFieldEncrypt(FieldEncrypt fieldEncrypt) {
+        this.fieldEncrypt = fieldEncrypt;
+    }
+
+    public FieldBind getFieldBind() {
+        return fieldBind;
+    }
+
+    public void setFieldBind(FieldBind fieldBind) {
+        this.fieldBind = fieldBind;
+    }
 }

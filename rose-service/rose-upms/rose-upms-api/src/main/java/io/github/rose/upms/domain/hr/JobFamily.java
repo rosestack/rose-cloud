@@ -17,14 +17,10 @@ package io.github.rose.upms.domain.hr;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.rose.mybatis.model.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 序列是用户属性之一，用来为不同的用户定义不同的工作类型，例如产品、研发、测试、运营
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
 @TableName
 public class JobFamily extends BaseEntity {
 

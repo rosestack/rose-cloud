@@ -20,7 +20,6 @@ import io.github.rose.security.SecurityProperties;
 import io.github.rose.security.util.Authority;
 import io.github.rose.security.util.SecurityUser;
 import io.github.rose.security.util.TokenPair;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -37,12 +36,16 @@ import static io.github.rose.security.CacheConstants.USER_TOKEN_PREFIX;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since TODO
  */
-@RequiredArgsConstructor
 public class RestTokenFactory implements TokenFactory {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
     private final SecurityProperties securityProperties;
+
+    public RestTokenFactory(RedisTemplate<String, Object> redisTemplate, SecurityProperties securityProperties) {
+        this.redisTemplate = redisTemplate;
+        this.securityProperties = securityProperties;
+    }
 
     @Override
     public TokenPair createPreVerificationTokenPair(SecurityUser securityUser) {

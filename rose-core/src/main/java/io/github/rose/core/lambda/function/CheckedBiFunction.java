@@ -55,5 +55,5 @@ public interface CheckedBiFunction<T, U, R> {
      * @param u the second function argument
      * @return the function result
      */
-    R apply(T t, U u) throws Throwable;
+    R apply(T t, U u) throws Exception;
 }

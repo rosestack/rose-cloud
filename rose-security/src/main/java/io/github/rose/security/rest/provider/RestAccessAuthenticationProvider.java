@@ -18,7 +18,6 @@ package io.github.rose.security.rest.provider;
 import io.github.rose.security.rest.token.RestAccessAuthenticationToken;
 import io.github.rose.security.support.TokenFactory;
 import io.github.rose.security.util.SecurityUser;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,10 +26,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class RestAccessAuthenticationProvider implements AuthenticationProvider {
 
     private final TokenFactory tokenFactory;
+
+    public RestAccessAuthenticationProvider(TokenFactory tokenFactory) {
+        this.tokenFactory = tokenFactory;
+    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {

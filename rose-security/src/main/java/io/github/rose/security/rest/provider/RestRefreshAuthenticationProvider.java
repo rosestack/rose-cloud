@@ -18,7 +18,6 @@ package io.github.rose.security.rest.provider;
 import io.github.rose.security.rest.token.RestRefreshAuthenticationToken;
 import io.github.rose.security.support.TokenFactory;
 import io.github.rose.security.util.SecurityUser;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -29,12 +28,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 @Component
-@RequiredArgsConstructor
 public class RestRefreshAuthenticationProvider implements AuthenticationProvider {
 
     private final UserDetailsService userDetailsService;
 
     private final TokenFactory tokenFactory;
+
+    public RestRefreshAuthenticationProvider(UserDetailsService userDetailsService, TokenFactory tokenFactory) {
+        this.userDetailsService = userDetailsService;
+        this.tokenFactory = tokenFactory;
+    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {

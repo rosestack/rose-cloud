@@ -26,7 +26,6 @@ import io.github.rose.security.support.TokenFactory;
 import io.github.rose.security.util.SecurityUser;
 import io.github.rose.security.util.SecurityUtils;
 import io.github.rose.security.util.TokenPair;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +36,6 @@ import java.util.stream.Collectors;
 import static org.apache.commons.lang3.StringUtils.repeat;
 
 @Service
-@RequiredArgsConstructor
 public class DefaultMfaSettingService implements MfaSettingService {
 
     private static final RuntimeException PROVIDER_NOT_CONFIGURED_ERROR =
@@ -54,6 +52,12 @@ public class DefaultMfaSettingService implements MfaSettingService {
     private final MfaProperties mfaProperties;
 
     private final SecurityProperties securityProperties;
+
+    public DefaultMfaSettingService(TokenFactory tokenFactory, MfaProperties mfaProperties, SecurityProperties securityProperties) {
+        this.tokenFactory = tokenFactory;
+        this.mfaProperties = mfaProperties;
+        this.securityProperties = securityProperties;
+    }
 
     private static String obfuscate(
         String input, int seenMargin, char obfuscationChar, int startIndexInclusive, int endIndexExclusive) {

@@ -22,7 +22,6 @@ import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import io.github.rose.oss.AliossTemplate;
 import io.github.rose.oss.props.OssProperties;
 import io.github.rose.oss.rule.OssRule;
-import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -36,7 +35,6 @@ import org.springframework.context.annotation.Bean;
  *
  * @author Chill
  */
-@AllArgsConstructor
 @AutoConfigureAfter(OssConfiguration.class)
 @EnableConfigurationProperties(OssProperties.class)
 @ConditionalOnClass({OSSClient.class})
@@ -46,6 +44,11 @@ public class AliossConfiguration {
     private final OssProperties ossProperties;
 
     private final OssRule ossRule;
+
+    public AliossConfiguration(OssProperties ossProperties, OssRule ossRule) {
+        this.ossProperties = ossProperties;
+        this.ossRule = ossRule;
+    }
 
     @Bean(destroyMethod = "shutdown")
     @ConditionalOnMissingBean(OSSClient.class)

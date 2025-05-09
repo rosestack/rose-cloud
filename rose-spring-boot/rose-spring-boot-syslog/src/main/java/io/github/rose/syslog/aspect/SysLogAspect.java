@@ -20,22 +20,19 @@ import io.github.rose.syslog.annotation.SysLog;
 import io.github.rose.syslog.event.SysLogEvent;
 import io.github.rose.syslog.event.SysLogInfo;
 import io.github.rose.syslog.util.SysLogUtils;
-import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 操作日志使用spring event异步入库
  */
-@Slf4j
 @Aspect
-@AllArgsConstructor
 public class SysLogAspect {
+    private static final Logger log = LoggerFactory.getLogger(SysLogAspect.class);
 
-    @SneakyThrows
     @Around("@annotation(sysLog)")
     public Object around(ProceedingJoinPoint joinPoint, SysLog sysLog) {
         String strClassName = joinPoint.getTarget().getClass().getName();
@@ -48,10 +45,10 @@ public class SysLogAspect {
         Object result = null;
         try {
             result = joinPoint.proceed();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             sysLogInfo.setException(e.getMessage());
             sysLogInfo.setSuccess(false);
-            throw e;
+            throw new RuntimeException(e);
         } finally {
             sysLogInfo.setCostTime(System.currentTimeMillis() - startTime);
             SpringContextHolder.publishEvent(new SysLogEvent(sysLogInfo));

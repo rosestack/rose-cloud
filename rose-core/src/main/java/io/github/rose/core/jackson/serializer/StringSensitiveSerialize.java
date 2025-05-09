@@ -24,9 +24,6 @@ import com.fasterxml.jackson.databind.ser.ContextualSerializer;
 import io.github.rose.core.jackson.serializer.sensitive.FieldSensitive;
 import io.github.rose.core.jackson.serializer.sensitive.Sensitives;
 import io.github.rose.core.spring.expression.SpringExpressionResolver;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.SneakyThrows;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
@@ -36,13 +33,17 @@ import java.util.Objects;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@NoArgsConstructor
-@AllArgsConstructor
 public class StringSensitiveSerialize extends JsonSerializer<String> implements ContextualSerializer {
 
     private FieldSensitive fieldSensitive;
 
-    @SneakyThrows
+    public StringSensitiveSerialize(FieldSensitive fieldSensitive) {
+        this.fieldSensitive = fieldSensitive;
+    }
+
+    public StringSensitiveSerialize() {
+    }
+
     private String handler(FieldSensitive fieldSensitive, String origin) {
         Object disable = SpringExpressionResolver.getInstance().resolve(fieldSensitive.disabled());
         if (Boolean.TRUE.equals(disable)) {

@@ -22,9 +22,10 @@ import io.github.rose.redis.mq.RedisMQTemplate;
 import io.github.rose.redis.mq.job.RedisPendingMessageResendJob;
 import io.github.rose.redis.mq.pubsub.AbstractRedisChannelMessageListener;
 import io.github.rose.redis.mq.stream.AbstractRedisStreamMessageListener;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RedissonClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -51,10 +52,10 @@ import static java.lang.management.ManagementFactory.getRuntimeMXBean;
  *
  * @author EnjoyIot
  */
-@Slf4j
 @EnableScheduling // 启用定时任务，用于 RedisPendingMessageResendJob 重发消息
 @AutoConfiguration(after = RedisCacheConfig.class)
 public class EnjoyRedisMQConsumerAutoConfiguration {
+    private static final Logger log = LoggerFactory.getLogger(EnjoyRedisMQConsumerAutoConfiguration.class);
 
     /**
      * 构建消费者名字，使用本地 IP + 进程编号的方式。 参考自 RocketMQ clientId 的实现

@@ -15,15 +15,12 @@
  */
 package io.github.rose.xxljob.model;
 
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-@Data
 public class XxlJobGroup implements Serializable {
 
     private int id;
@@ -40,10 +37,62 @@ public class XxlJobGroup implements Serializable {
 
     private List<String> registryList; // 执行器地址列表(系统注册)
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getAppname() {
+        return appname;
+    }
+
+    public void setAppname(String appname) {
+        this.appname = appname;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getAddressType() {
+        return addressType;
+    }
+
+    public void setAddressType(int addressType) {
+        this.addressType = addressType;
+    }
+
+    public String getAddressList() {
+        return addressList;
+    }
+
+    public void setAddressList(String addressList) {
+        this.addressList = addressList;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
     public List<String> getRegistryList() {
         if (addressList != null && addressList.trim().length() > 0) {
             registryList = new ArrayList<String>(Arrays.asList(addressList.split(",")));
         }
         return registryList;
+    }
+
+    public void setRegistryList(List<String> registryList) {
+        this.registryList = registryList;
     }
 }

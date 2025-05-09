@@ -15,11 +15,8 @@
  */
 package io.github.rose.xxljob.model;
 
-import lombok.Data;
-
 import java.util.List;
 
-@Data
 public class XxlJobGroupPage {
 
     private Long recordsFiltered;
@@ -27,4 +24,28 @@ public class XxlJobGroupPage {
     private Long recordsTotal;
 
     private List<XxlJobGroup> data;
+
+    public Long getRecordsFiltered() {
+        return recordsFiltered;
+    }
+
+    public void setRecordsFiltered(Long recordsFiltered) {
+        this.recordsFiltered = recordsFiltered;
+    }
+
+    public Long getRecordsTotal() {
+        return recordsTotal;
+    }
+
+    public void setRecordsTotal(Long recordsTotal) {
+        this.recordsTotal = recordsTotal;
+    }
+
+    public List<XxlJobGroup> getData() {
+        return data;
+    }
+
+    public void setData(List<XxlJobGroup> data) {
+        this.data = data;
+    }
 }

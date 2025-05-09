@@ -17,10 +17,10 @@ package io.github.rose.redis.mq.job;
 
 import io.github.rose.redis.mq.RedisMQTemplate;
 import io.github.rose.redis.mq.stream.AbstractRedisStreamMessageListener;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Range;
 import org.springframework.data.redis.connection.stream.*;
 import org.springframework.data.redis.core.StreamOperations;
@@ -34,10 +34,9 @@ import java.util.Objects;
 /**
  * 这个任务用于处理，crash 之后的消费者未消费完的消息
  */
-@Slf4j
-@AllArgsConstructor
 public class RedisPendingMessageResendJob {
-
+    private static final Logger log = LoggerFactory.getLogger(RedisPendingMessageResendJob.class);
+    
     private static final String LOCK_KEY = "mq:pending:msg:lock";
 
     /**
@@ -54,6 +53,14 @@ public class RedisPendingMessageResendJob {
     private final String groupName;
 
     private final RedissonClient redissonClient;
+
+    public RedisPendingMessageResendJob(List<AbstractRedisStreamMessageListener<?>> listeners, RedisMQTemplate redisTemplate, String groupName, RedissonClient redissonClient) {
+        this.listeners = listeners;
+        this.redisTemplate = redisTemplate;
+        this.groupName = groupName;
+        this.redissonClient = redissonClient;
+    }
+
 
     /**
      * 一分钟执行一次,这里选择每分钟的35秒执行，是为了避免整点任务过多的问题

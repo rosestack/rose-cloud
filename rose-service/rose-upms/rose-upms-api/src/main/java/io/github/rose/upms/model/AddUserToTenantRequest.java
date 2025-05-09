@@ -15,9 +15,6 @@
  */
 package io.github.rose.upms.model;
 
-import lombok.Data;
-
-@Data
 public class AddUserToTenantRequest {
 
     private String userId;

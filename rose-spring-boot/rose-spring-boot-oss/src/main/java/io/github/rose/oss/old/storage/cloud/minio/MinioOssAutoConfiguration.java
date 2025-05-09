@@ -19,11 +19,16 @@ import io.github.rose.oss.old.storage.MinioOssOperation;
 import io.github.rose.oss.old.storage.properties.MinioOssProperties;
 import io.minio.BucketExistsArgs;
 import io.minio.MinioClient;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import io.minio.errors.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 import static io.github.rose.oss.old.storage.OssOperation.MINIO_OSS_OPERATION;
 import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_MINIO;
@@ -31,14 +36,13 @@ import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_MINI
 /**
  * @author Levin
  */
-@Slf4j
 @EnableConfigurationProperties(MinioOssProperties.class)
 @ConditionalOnProperty(prefix = OSS_CONFIG_PREFIX_MINIO, name = "enabled", havingValue = "true")
 public class MinioOssAutoConfiguration {
+    private static final Logger log = LoggerFactory.getLogger(MinioOssAutoConfiguration.class);
 
-    @SneakyThrows
     @Bean
-    public MinioClient minioClient(MinioOssProperties properties) {
+    public MinioClient minioClient(MinioOssProperties properties) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         MinioClient minioClient = MinioClient.builder()
             .endpoint(properties.getEndpoint())
             .credentials(properties.getAccessKey(), properties.getSecretKey())

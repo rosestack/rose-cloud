@@ -15,24 +15,24 @@
  */
 package io.github.rose.security.rest.mfa.provider.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.rose.security.rest.mfa.config.SmsMfaConfig;
 import io.github.rose.security.rest.mfa.provider.MfaProviderType;
 import io.github.rose.security.rest.mfa.provider.SmsMfaProviderConfig;
 import io.github.rose.security.util.SecurityUser;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
-@Slf4j
 @Service
 public class SmsMfaProvider extends OtpBasedMfaProvider<SmsMfaProviderConfig, SmsMfaConfig> {
+    private static final Logger log = LoggerFactory.getLogger(SmsMfaProvider.class);
 
     // private final SmsService smsService;
 
-    public SmsMfaProvider(CacheManager cacheManager, ObjectMapper objectMapper) {
-        super(cacheManager, objectMapper);
+    public SmsMfaProvider(CacheManager cacheManager) {
+        super(cacheManager);
         // this.smsService = smsService;
     }
 

@@ -17,14 +17,10 @@ package io.github.rose.upms.domain.hr;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.rose.mybatis.model.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 用户
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
 @TableName
 public class JobTitle extends BaseEntity {
 

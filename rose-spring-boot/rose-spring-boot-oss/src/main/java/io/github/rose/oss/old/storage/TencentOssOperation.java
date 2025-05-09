@@ -27,10 +27,9 @@ import io.github.rose.oss.old.storage.domain.StorageResponse;
 import io.github.rose.oss.old.storage.exception.StorageException;
 import io.github.rose.oss.old.storage.properties.BaseOssProperties;
 import io.github.rose.oss.old.storage.properties.TencentOssProperties;
-import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -39,13 +38,16 @@ import java.util.List;
 /**
  * @author Levin
  */
-@Slf4j
-@AllArgsConstructor
 public class TencentOssOperation implements OssOperation {
-
+    private static final Logger log = LoggerFactory.getLogger(TencentOssOperation.class);
     private final COSClient client;
 
     private final TencentOssProperties properties;
+
+    public TencentOssOperation(COSClient client, TencentOssProperties properties) {
+        this.client = client;
+        this.properties = properties;
+    }
 
     @Override
     public DownloadResponse download(String fileName) {
@@ -53,18 +55,23 @@ public class TencentOssOperation implements OssOperation {
     }
 
     @Override
-    @SneakyThrows
     public DownloadResponse download(String bucketName, String fileName) {
         final String path = StringUtils.defaultIfBlank(
             this.properties.getTmpDir(), this.getClass().getResource("/").getPath());
         final File file = new File(path + File.separator + fileName);
         log.debug("[文件目录] - [{}]", file.getPath());
         download(bucketName, fileName, file);
-        return DownloadResponse.builder()
-            .inputStream(new BufferedInputStream(new FileInputStream(file)))
-            .file(file)
-            .localFilePath(file.getPath())
-            .build();
+
+        DownloadResponse downloadResponse = new DownloadResponse();
+        downloadResponse.setFile(file);
+        try {
+            downloadResponse.setInputStream(new BufferedInputStream(new FileInputStream(file)));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        downloadResponse.setLocalFilePath(file.getPath());
+
+        return downloadResponse;
     }
 
     @Override

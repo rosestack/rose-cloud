@@ -16,7 +16,6 @@
 package io.github.rose.filter;
 
 import io.github.rose.core.util.EscapeUtils;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -38,10 +37,13 @@ import java.util.List;
 /**
  * 防止XSS攻击的过滤器
  */
-@RequiredArgsConstructor
 public class XssFilter extends OncePerRequestFilter {
 
     public final List<String> excludes;
+
+    public XssFilter(List<String> excludes) {
+        this.excludes = excludes;
+    }
 
     public static boolean matches(String str, List<String> strs) {
         if (ObjectUtils.isEmpty(str) || ObjectUtils.isEmpty(strs)) {

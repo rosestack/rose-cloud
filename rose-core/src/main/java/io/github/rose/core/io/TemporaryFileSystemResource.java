@@ -15,8 +15,8 @@
  */
 package io.github.rose.core.io;
 
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
 
 import java.io.*;
@@ -28,8 +28,8 @@ import java.nio.file.Files;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Slf4j
 public class TemporaryFileSystemResource extends FileSystemResource {
+    private static final Logger log = LoggerFactory.getLogger(TemporaryFileSystemResource.class);
 
     public TemporaryFileSystemResource(final File file) {
         super(file);
@@ -53,7 +53,7 @@ public class TemporaryFileSystemResource extends FileSystemResource {
 
     @Override
     public ReadableByteChannel readableChannel() throws IOException {
-        val readableChannel = super.readableChannel();
+        ReadableByteChannel readableChannel = super.readableChannel();
         return new ReadableByteChannel() {
 
             @Override
@@ -85,7 +85,7 @@ public class TemporaryFileSystemResource extends FileSystemResource {
         try {
             Files.delete(getFile().toPath());
         } catch (final IOException ex) {
-            val msg = String.format("Failed to delete temporary heap dump file %s", getFile());
+            String msg = String.format("Failed to delete temporary heap dump file %s", getFile());
             log.warn(msg, ex);
         }
     }

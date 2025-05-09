@@ -15,12 +15,15 @@
  */
 package io.github.rose.core.util;
 
-import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
-@Slf4j
 class UuidsTest {
+    private static final Logger log = LoggerFactory.getLogger(UuidsTest.class);
+    
     public static void main(String[] args) {
         log.info(UUIDs.timeBased().toString());
         log.info(UUIDs.timeBased().toString());

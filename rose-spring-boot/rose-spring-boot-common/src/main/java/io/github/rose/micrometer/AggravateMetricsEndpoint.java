@@ -59,7 +59,7 @@ public class AggravateMetricsEndpoint {
         // Cache stats
         results.put("cache", cacheMetrics());
         // Service stats
-        results.put("services", serviceMetrics());
+        results.put("services0", serviceMetrics());
         // Database stats
         results.put("hikaricp.connections", databaseMetrics());
         // Garbage collector

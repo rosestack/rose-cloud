@@ -21,8 +21,6 @@ import io.github.rose.security.util.Authority;
 import io.github.rose.security.util.SecurityUser;
 import io.github.rose.security.util.TokenPair;
 import io.jsonwebtoken.*;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
@@ -38,8 +36,6 @@ import java.util.stream.Collectors;
 import static io.github.rose.security.CacheConstants.USER_REFRESH_TOKEN_PREFIX;
 import static io.github.rose.security.CacheConstants.USER_TOKEN_PREFIX;
 
-@Slf4j
-@RequiredArgsConstructor
 public class JwtTokenFactory implements TokenFactory {
 
     private static final String SCOPES = "scopes";
@@ -49,6 +45,11 @@ public class JwtTokenFactory implements TokenFactory {
     private final RedisTemplate<String, Object> redisTemplate;
 
     private final SecurityProperties securityProperties;
+
+    public JwtTokenFactory(RedisTemplate<String, Object> redisTemplate, SecurityProperties securityProperties) {
+        this.redisTemplate = redisTemplate;
+        this.securityProperties = securityProperties;
+    }
 
     @Override
     public TokenPair createTokenPair(SecurityUser securityUser) {

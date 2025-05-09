@@ -19,7 +19,6 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import io.github.rose.mybatis.datapermission.annotation.DataPermission;
 import io.github.rose.mybatis.datapermission.aop.DataPermissionContextHolder;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Collections;
@@ -29,13 +28,16 @@ import java.util.stream.Collectors;
 /**
  * 默认的 DataPermissionRuleFactoryImpl 实现类 支持通过 {@link DataPermissionContextHolder} 过滤数据权限
  */
-@RequiredArgsConstructor
 public class DataPermissionRuleFactoryImpl implements DataPermissionRuleFactory {
 
     /**
      * 数据权限规则数组
      */
     private final List<DataPermissionRule> rules;
+
+    public DataPermissionRuleFactoryImpl(List<DataPermissionRule> rules) {
+        this.rules = rules;
+    }
 
     @Override
     public List<DataPermissionRule> getDataPermissionRules() {

@@ -19,8 +19,6 @@ import io.github.rose.oss.MinioTemplate;
 import io.github.rose.oss.props.OssProperties;
 import io.github.rose.oss.rule.OssRule;
 import io.minio.MinioClient;
-import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -34,7 +32,6 @@ import org.springframework.context.annotation.Bean;
  *
  * @author Chill
  */
-@AllArgsConstructor
 @AutoConfigureAfter(OssConfiguration.class)
 @ConditionalOnClass({MinioClient.class})
 @EnableConfigurationProperties(OssProperties.class)
@@ -45,8 +42,12 @@ public class MinioConfiguration {
 
     private final OssRule ossRule;
 
+    public MinioConfiguration(OssProperties ossProperties, OssRule ossRule) {
+        this.ossProperties = ossProperties;
+        this.ossRule = ossRule;
+    }
+
     @Bean
-    @SneakyThrows
     @ConditionalOnMissingBean(MinioClient.class)
     public MinioClient minioClient() {
         return MinioClient.builder()

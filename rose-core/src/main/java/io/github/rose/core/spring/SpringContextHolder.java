@@ -16,9 +16,8 @@
 package io.github.rose.core.spring;
 
 import io.github.rose.core.util.StringPool;
-import lombok.Getter;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -34,14 +33,22 @@ import java.util.stream.Collectors;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Slf4j
 @Lazy(false)
 public class SpringContextHolder implements ApplicationContextAware, DisposableBean {
 
-    @Getter
+    private static final Logger log = LoggerFactory.getLogger(SpringContextHolder.class);
     private static ApplicationContext applicationContext;
 
     private SpringContextHolder() {
+    }
+
+    public static ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        SpringContextHolder.applicationContext = applicationContext;
     }
 
     @SuppressWarnings("unchecked")
@@ -106,13 +113,7 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
     }
 
     @Override
-    @SneakyThrows
     public void destroy() {
         SpringContextHolder.clearHolder();
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        SpringContextHolder.applicationContext = applicationContext;
     }
 }

@@ -17,13 +17,13 @@ package io.github.rose.core.spring.expression;
 
 import io.github.rose.core.spring.SpringContextHolder;
 import io.github.rose.core.util.Maps;
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.expression.BeanFactoryResolver;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
@@ -46,7 +46,6 @@ import java.util.function.Function;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Slf4j
 public class SpringExpressionResolver implements Function<Object, Object> {
 
     private static final int HOUR_23 = 23;
@@ -61,9 +60,8 @@ public class SpringExpressionResolver implements Function<Object, Object> {
 
     private static final SpelExpressionParser EXPRESSION_PARSER = new SpelExpressionParser(
         new SpelParserConfiguration(SpelCompilerMode.IMMEDIATE, SpringExpressionResolver.class.getClassLoader()));
-
+    private static final Logger log = LoggerFactory.getLogger(SpringExpressionResolver.class);
     private static SpringExpressionResolver INSTANCE;
-
     private final StandardEvaluationContext evaluationContext = new StandardEvaluationContext();
 
     protected SpringExpressionResolver() {
@@ -181,13 +179,13 @@ public class SpringExpressionResolver implements Function<Object, Object> {
         evaluationContext.setVariable(
             "localDateTimeUtc", LocalDateTime.now(Clock.systemUTC()).toString());
 
-        val localStartWorkDay =
+        LocalDateTime localStartWorkDay =
             LocalDate.now(ZoneId.systemDefault()).atStartOfDay().plusHours(8);
         evaluationContext.setVariable("localStartWorkDay", localStartWorkDay.toString());
         evaluationContext.setVariable(
             "localEndWorkDay", localStartWorkDay.plusHours(9).toString());
 
-        val localStartDay = LocalDate.now(ZoneId.systemDefault()).atStartOfDay();
+        LocalDateTime localStartDay = LocalDate.now(ZoneId.systemDefault()).atStartOfDay();
         evaluationContext.setVariable("localStartDay", localStartDay.toString());
         evaluationContext.setVariable(
             "localEndDay",

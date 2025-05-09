@@ -16,8 +16,6 @@
 package io.github.rose.oss.old.storage.properties;
 
 import io.github.rose.oss.old.storage.cloud.qiniu.QiNiuRegion;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.time.Duration;
@@ -31,8 +29,6 @@ import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_QINI
  *
  * @author Levin
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(prefix = OSS_CONFIG_PREFIX_QINIU)
 public class QiNiuOssProperties extends BaseOssProperties {
 
@@ -51,7 +47,30 @@ public class QiNiuOssProperties extends BaseOssProperties {
      **/
     private Map<String, QiNiuStrategy> strategies = new HashMap<>();
 
-    @Data
+    public QiNiuRegion getRegion() {
+        return region;
+    }
+
+    public void setRegion(QiNiuRegion region) {
+        this.region = region;
+    }
+
+    public Boolean getStrict() {
+        return strict;
+    }
+
+    public void setStrict(Boolean strict) {
+        this.strict = strict;
+    }
+
+    public Map<String, QiNiuStrategy> getStrategies() {
+        return strategies;
+    }
+
+    public void setStrategies(Map<String, QiNiuStrategy> strategies) {
+        this.strategies = strategies;
+    }
+
     public static class QiNiuStrategy {
 
         private String domain;
@@ -177,5 +196,181 @@ public class QiNiuOssProperties extends BaseOssProperties {
          * 文件存储类型。0 为普通存储（默认），1 为低频存储。
          **/
         private Boolean fileType;
+
+        public String getDomain() {
+            return domain;
+        }
+
+        public void setDomain(String domain) {
+            this.domain = domain;
+        }
+
+        public String getScope() {
+            return scope;
+        }
+
+        public void setScope(String scope) {
+            this.scope = scope;
+        }
+
+        public String getKeyPrefix() {
+            return keyPrefix;
+        }
+
+        public void setKeyPrefix(String keyPrefix) {
+            this.keyPrefix = keyPrefix;
+        }
+
+        public Boolean getPrefixScope() {
+            return prefixScope;
+        }
+
+        public void setPrefixScope(Boolean prefixScope) {
+            this.prefixScope = prefixScope;
+        }
+
+        public Duration getDeadline() {
+            return deadline;
+        }
+
+        public void setDeadline(Duration deadline) {
+            this.deadline = deadline;
+        }
+
+        public Boolean getInsertOnly() {
+            return insertOnly;
+        }
+
+        public void setInsertOnly(Boolean insertOnly) {
+            this.insertOnly = insertOnly;
+        }
+
+        public String getEndUser() {
+            return endUser;
+        }
+
+        public void setEndUser(String endUser) {
+            this.endUser = endUser;
+        }
+
+        public String getReturnUrl() {
+            return returnUrl;
+        }
+
+        public void setReturnUrl(String returnUrl) {
+            this.returnUrl = returnUrl;
+        }
+
+        public String getReturnBody() {
+            return returnBody;
+        }
+
+        public void setReturnBody(String returnBody) {
+            this.returnBody = returnBody;
+        }
+
+        public String getCallbackUrl() {
+            return callbackUrl;
+        }
+
+        public void setCallbackUrl(String callbackUrl) {
+            this.callbackUrl = callbackUrl;
+        }
+
+        public String getCallbackHost() {
+            return callbackHost;
+        }
+
+        public void setCallbackHost(String callbackHost) {
+            this.callbackHost = callbackHost;
+        }
+
+        public String getCallbackBody() {
+            return callbackBody;
+        }
+
+        public void setCallbackBody(String callbackBody) {
+            this.callbackBody = callbackBody;
+        }
+
+        public String getCallbackBodyType() {
+            return callbackBodyType;
+        }
+
+        public void setCallbackBodyType(String callbackBodyType) {
+            this.callbackBodyType = callbackBodyType;
+        }
+
+        public String getPersistentOps() {
+            return persistentOps;
+        }
+
+        public void setPersistentOps(String persistentOps) {
+            this.persistentOps = persistentOps;
+        }
+
+        public String getPersistentNotifyUrl() {
+            return persistentNotifyUrl;
+        }
+
+        public void setPersistentNotifyUrl(String persistentNotifyUrl) {
+            this.persistentNotifyUrl = persistentNotifyUrl;
+        }
+
+        public String getPersistentPipeline() {
+            return persistentPipeline;
+        }
+
+        public void setPersistentPipeline(String persistentPipeline) {
+            this.persistentPipeline = persistentPipeline;
+        }
+
+        public String getSaveKey() {
+            return saveKey;
+        }
+
+        public void setSaveKey(String saveKey) {
+            this.saveKey = saveKey;
+        }
+
+        public Long getSizeMin() {
+            return sizeMin;
+        }
+
+        public void setSizeMin(Long sizeMin) {
+            this.sizeMin = sizeMin;
+        }
+
+        public Long getSizeMax() {
+            return sizeMax;
+        }
+
+        public void setSizeMax(Long sizeMax) {
+            this.sizeMax = sizeMax;
+        }
+
+        public Boolean getDetectMime() {
+            return detectMime;
+        }
+
+        public void setDetectMime(Boolean detectMime) {
+            this.detectMime = detectMime;
+        }
+
+        public String getMimeLimit() {
+            return mimeLimit;
+        }
+
+        public void setMimeLimit(String mimeLimit) {
+            this.mimeLimit = mimeLimit;
+        }
+
+        public Boolean getFileType() {
+            return fileType;
+        }
+
+        public void setFileType(Boolean fileType) {
+            this.fileType = fileType;
+        }
     }
 }

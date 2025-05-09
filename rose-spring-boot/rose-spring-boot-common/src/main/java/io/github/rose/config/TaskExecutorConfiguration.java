@@ -16,9 +16,9 @@
 package io.github.rose.config;
 
 import io.github.rose.util.ExceptionHandlingAsyncTaskExecutor;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
 import org.springframework.boot.autoconfigure.task.TaskExecutionProperties;
@@ -39,11 +39,14 @@ import static org.springframework.aop.interceptor.AsyncExecutionAspectSupport.DE
 @Configuration
 @EnableAsync
 @EnableScheduling
-@RequiredArgsConstructor
-@Slf4j
 public class TaskExecutorConfiguration implements AsyncConfigurer {
+    private static final Logger log = LoggerFactory.getLogger(TaskExecutorConfiguration.class);
 
     private final TaskExecutionProperties taskExecutionProperties;
+
+    public TaskExecutorConfiguration(TaskExecutionProperties taskExecutionProperties) {
+        this.taskExecutionProperties = taskExecutionProperties;
+    }
 
     @Override
     @Bean(name = DEFAULT_TASK_EXECUTOR_BEAN_NAME)

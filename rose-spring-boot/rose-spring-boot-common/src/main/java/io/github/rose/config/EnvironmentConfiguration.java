@@ -18,7 +18,8 @@ package io.github.rose.config;
 import io.github.rose.core.spring.SpringContextHolder;
 import io.github.rose.core.spring.factory.YamlPropertySourceFactory;
 import io.github.rose.core.util.StringPool;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.context.annotation.PropertySource;
@@ -26,12 +27,12 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
-@Slf4j
 @AutoConfiguration
 @Order(value = Ordered.HIGHEST_PRECEDENCE)
 @PropertySource(value = "classpath:common-config.yml", factory = YamlPropertySourceFactory.class)
 public class EnvironmentConfiguration {
-
+    private static final Logger log = LoggerFactory.getLogger(EnvironmentConfiguration.class);
+    
     @Order
     @EventListener(WebServerInitializedEvent.class)
     public void afterStart(WebServerInitializedEvent event) {

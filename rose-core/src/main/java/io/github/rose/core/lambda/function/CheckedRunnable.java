@@ -52,5 +52,5 @@ public interface CheckedRunnable {
     /**
      * Run this runnable.
      */
-    void run() throws Throwable;
+    void run() throws Exception;
 }

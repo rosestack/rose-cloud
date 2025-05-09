@@ -22,14 +22,12 @@ import com.qcloud.cos.auth.COSCredentials;
 import com.qcloud.cos.region.Region;
 import io.github.rose.oss.props.OssProperties;
 import io.minio.MinioClient;
-import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
-@AllArgsConstructor
 @AutoConfigureAfter(OssConfiguration.class)
 @ConditionalOnClass({MinioClient.class})
 @EnableConfigurationProperties(OssProperties.class)
@@ -37,6 +35,10 @@ import org.springframework.context.annotation.Bean;
 public class TencentOssConfiguration {
 
     private final OssProperties ossProperties;
+
+    public TencentOssConfiguration(OssProperties ossProperties) {
+        this.ossProperties = ossProperties;
+    }
 
     @Bean
     public COSClient cosClient() {

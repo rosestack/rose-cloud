@@ -20,16 +20,12 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.github.rose.mybatis.model.TenantEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 
 /**
  * 租户套餐
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
 @TableName(autoResultMap = true)
 public class TenantProfile extends TenantEntity {
 

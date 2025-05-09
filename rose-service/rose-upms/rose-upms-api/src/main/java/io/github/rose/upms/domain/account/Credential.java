@@ -17,11 +17,7 @@ package io.github.rose.upms.domain.account;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.rose.mybatis.model.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 @TableName
 public class Credential extends BaseEntity {
 
@@ -36,4 +32,44 @@ public class Credential extends BaseEntity {
     private String activateToken;
 
     private String resetToken;
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public String getActivateToken() {
+        return activateToken;
+    }
+
+    public void setActivateToken(String activateToken) {
+        this.activateToken = activateToken;
+    }
+
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
 }

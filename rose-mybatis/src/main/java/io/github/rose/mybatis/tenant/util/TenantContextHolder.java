@@ -17,29 +17,27 @@ package io.github.rose.mybatis.tenant.util;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 import io.github.rose.core.exception.BusinessException;
-import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 
-@UtilityClass
 public class TenantContextHolder {
 
-    private final ThreadLocal<String> THREAD_LOCAL_TENANT = new TransmittableThreadLocal<>();
+    private static final ThreadLocal<String> THREAD_LOCAL_TENANT = new TransmittableThreadLocal<>();
 
-    private final ThreadLocal<Boolean> THREAD_LOCAL_IGNORED = TransmittableThreadLocal.withInitial(() -> false);
+    private static final ThreadLocal<Boolean> THREAD_LOCAL_IGNORED = TransmittableThreadLocal.withInitial(() -> false);
 
-    public void setIgnore(Boolean ignored) {
-        THREAD_LOCAL_IGNORED.set(ignored);
-    }
-
-    public String getTenantId() {
+    public static String getTenantId() {
         return THREAD_LOCAL_TENANT.get();
     }
 
-    public void setTenantId(String tenantId) {
+    public static void setTenantId(String tenantId) {
         THREAD_LOCAL_TENANT.set(tenantId);
     }
 
-    public String getRequiredTenantId() {
+    public static void setIgnore(Boolean ignored) {
+        THREAD_LOCAL_IGNORED.set(ignored);
+    }
+
+    public static String getRequiredTenantId() {
         String tenantId = getTenantId();
         if (StringUtils.isBlank(tenantId)) {
             throw new BusinessException("TenantContextHolder不存在租户");
@@ -47,11 +45,11 @@ public class TenantContextHolder {
         return tenantId;
     }
 
-    public Boolean isIgnored() {
+    public static Boolean isIgnored() {
         return THREAD_LOCAL_IGNORED.get();
     }
 
-    public void clear() {
+    public static void clear() {
         THREAD_LOCAL_TENANT.remove();
         THREAD_LOCAL_IGNORED.remove();
     }

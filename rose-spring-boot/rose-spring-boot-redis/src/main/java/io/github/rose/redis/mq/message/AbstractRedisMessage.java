@@ -15,7 +15,6 @@
  */
 package io.github.rose.redis.mq.message;
 
-import lombok.Data;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +24,6 @@ import java.util.Map;
  *
  * @author EnjoyIot
  */
-@Data
 public abstract class AbstractRedisMessage {
 
     /**
@@ -39,5 +37,13 @@ public abstract class AbstractRedisMessage {
 
     public void addHeader(String key, String value) {
         headers.put(key, value);
+    }
+
+    public Map<String, String> getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(Map<String, String> headers) {
+        this.headers = headers;
     }
 }

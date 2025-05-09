@@ -17,10 +17,10 @@ package io.github.rose.core.io;
 
 import io.github.rose.core.lambda.function.CheckedConsumer;
 import io.github.rose.core.lambda.function.CheckedSupplier;
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 
 import java.io.File;
@@ -37,8 +37,8 @@ import static java.nio.file.StandardWatchEventKinds.*;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-@Slf4j
 public class PathWatcherService implements WatcherService, Runnable, DisposableBean {
+    private static final Logger log = LoggerFactory.getLogger(PathWatcherService.class);
 
     private static final String PROPERTY_DISABLE_WATCHER = PathWatcherService.class.getName();
 
@@ -81,7 +81,7 @@ public class PathWatcherService implements WatcherService, Runnable, DisposableB
                 WatchKey key = null;
                 while ((key = watchService.take()) != null) {
                     handleEvent(key);
-                    val valid = key.reset();
+                    boolean valid = key.reset();
                     if (!valid) {
                         log.info("Directory key is no longer valid. Quitting watcher util");
                     }

@@ -15,13 +15,11 @@
  */
 package io.github.rose.oss.old.storage.properties;
 
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
  * @author Levin
  */
-@Data
 public class BaseOssProperties implements java.io.Serializable {
 
     private Boolean enabled = false;
@@ -45,6 +43,46 @@ public class BaseOssProperties implements java.io.Serializable {
      * 本地文件临时目录
      */
     private String tmpDir;
+
+    public String getBucket() {
+        return bucket;
+    }
+
+    public void setBucket(String bucket) {
+        this.bucket = bucket;
+    }
+
+    public String getMappingPath() {
+        return mappingPath;
+    }
+
+    public void setMappingPath(String mappingPath) {
+        this.mappingPath = mappingPath;
+    }
+
+    public String getAccessKey() {
+        return accessKey;
+    }
+
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public String getTmpDir() {
+        return tmpDir;
+    }
+
+    public void setTmpDir(String tmpDir) {
+        this.tmpDir = tmpDir;
+    }
 
     public enum StorageType {
 

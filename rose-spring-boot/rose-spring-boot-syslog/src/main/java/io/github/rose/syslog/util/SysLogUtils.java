@@ -21,11 +21,11 @@ import io.github.rose.core.util.NetUtils;
 import io.github.rose.syslog.annotation.SysLog;
 import io.github.rose.syslog.annotation.SysLogIgnore;
 import io.github.rose.syslog.event.SysLogInfo;
-import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.StandardReflectionParameterNameDiscoverer;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
@@ -43,11 +43,10 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Slf4j
-@UtilityClass
 public class SysLogUtils {
+    private static final Logger log = LoggerFactory.getLogger(SysLogUtils.class);
 
-    public SysLogInfo getSysLog(ProceedingJoinPoint joinPoint, SysLog sysLog) {
+    public static SysLogInfo getSysLog(ProceedingJoinPoint joinPoint, SysLog sysLog) {
         SysLogInfo sysLogInfo = new SysLogInfo();
         sysLogInfo.setName(getSysLogValue(joinPoint, sysLog));
         sysLogInfo.setSuccess(true);
@@ -73,7 +72,7 @@ public class SysLogUtils {
         return sysLogInfo;
     }
 
-    private String getSysLogValue(ProceedingJoinPoint joinPoint, SysLog sysLog) {
+    private static String getSysLogValue(ProceedingJoinPoint joinPoint, SysLog sysLog) {
         String value = sysLog.value();
         String expression = sysLog.expression();
 
@@ -89,7 +88,7 @@ public class SysLogUtils {
         return value;
     }
 
-    private List<Object> dealArgs(Object[] args) {
+    private static List<Object> dealArgs(Object[] args) {
         if (args == null) {
             return new ArrayList<>();
         }
@@ -97,7 +96,7 @@ public class SysLogUtils {
     }
 
     @SuppressWarnings("rawtypes")
-    private boolean isFilterObject(Object o) {
+    private static boolean isFilterObject(Object o) {
         if (Objects.isNull(o)
             || o.getClass().isAnnotationPresent(SysLogIgnore.class)
             || o.getClass().isAnnotationPresent(PathVariable.class)) {
@@ -134,7 +133,7 @@ public class SysLogUtils {
      * @param <T>     返回泛型
      * @return 参数值
      */
-    private <T> T getValue(EvaluationContext context, String key, Class<T> clazz) {
+    private static <T> T getValue(EvaluationContext context, String key, Class<T> clazz) {
         SpelExpressionParser spelExpressionParser = new SpelExpressionParser();
         Expression expression = spelExpressionParser.parseExpression(key);
         return expression.getValue(context, clazz);
@@ -147,7 +146,7 @@ public class SysLogUtils {
      * @param signatureMethod 被执行的方法体
      * @return 装载参数的容器
      */
-    private EvaluationContext getContext(Object[] arguments, Method signatureMethod) {
+    private static EvaluationContext getContext(Object[] arguments, Method signatureMethod) {
         String[] parameterNames = new StandardReflectionParameterNameDiscoverer().getParameterNames(signatureMethod);
         EvaluationContext context = new StandardEvaluationContext();
         if (parameterNames == null) {
