@@ -17,7 +17,6 @@
     <dependency>
       <groupId>io.github.rose-group</groupId>
       <artifactId>rose-core</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
     </dependency>
 
     <dependency>
@@ -28,7 +27,6 @@
       <groupId>io.jsonwebtoken</groupId>
       <artifactId>jjwt</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot</artifactId>

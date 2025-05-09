@@ -15,10 +15,8 @@
  */
 package io.github.rose.mybatis.util;
 
-import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.mybatisplus.annotation.DbType;
 import io.github.rose.core.spring.SpringContextHolder;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -65,14 +63,7 @@ public class JdbcUtils {
      * @return DB 类型
      */
     public static DbType getDbType() {
-        DataSource dataSource;
-        try {
-            DynamicRoutingDataSource dynamicRoutingDataSource =
-                SpringContextHolder.getBean(DynamicRoutingDataSource.class);
-            dataSource = dynamicRoutingDataSource.determineDataSource();
-        } catch (NoSuchBeanDefinitionException e) {
-            dataSource = SpringContextHolder.getBean(DataSource.class);
-        }
+        DataSource dataSource = SpringContextHolder.getBean(DataSource.class);
         try (Connection conn = dataSource.getConnection()) {
             return DbTypeEnum.find(conn.getMetaData().getDatabaseProductName());
         } catch (SQLException e) {
