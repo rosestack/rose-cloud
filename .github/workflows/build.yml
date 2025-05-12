@@ -41,7 +41,7 @@ jobs:
           cache-dependency-path: '**/pom.xml'
 
       - name: Build with Maven
-        run: mvn -B --update-snapshots -f pom.xml install
+        run: mvn -B -ntp install
 
   quality:
     needs: [ build ]
