@@ -321,17 +321,5 @@
         <maven.source.skip>true</maven.source.skip>
       </properties>
     </profile>
-
-    <profile>
-      <id>sonar</id>
-      <properties>
-        <sonar.projectKey>io.github.rose-group:rose-microservice</sonar.projectKey>
-        <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
-        <!--suppress UnresolvedMavenProperty -->
-        <sonar.coverage.jacoco.xmlReportPaths>
-          ${maven.multiModuleProjectDirectory}/coverage/target/site/jacoco-aggregate/jacoco.xml
-        </sonar.coverage.jacoco.xmlReportPaths>
-      </properties>
-    </profile>
   </profiles>
 </project>
