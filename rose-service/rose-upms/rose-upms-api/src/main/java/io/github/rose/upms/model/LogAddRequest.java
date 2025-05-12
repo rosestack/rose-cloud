@@ -15,9 +15,8 @@
  */
 package io.github.rose.upms.model;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class LogAddRequest {
 

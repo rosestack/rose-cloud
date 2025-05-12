@@ -50,8 +50,8 @@ public interface SecurityConstants {
      * sys_client 表的字段，code 指 client_id
      */
     String CLIENT_FIELDS = "code, CONCAT('{noop}',secret) as client_secret, resource_ids, scope, "
-        + "authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, "
-        + "refresh_token_validity, additional_information, autoapprove";
+            + "authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, "
+            + "refresh_token_validity, additional_information, autoapprove";
 
     /**
      * JdbcClientDetailsService 查询语句

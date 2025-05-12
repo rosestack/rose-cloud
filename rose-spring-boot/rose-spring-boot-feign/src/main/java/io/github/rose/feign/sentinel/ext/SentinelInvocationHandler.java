@@ -15,6 +15,8 @@
  */
 package io.github.rose.feign.sentinel.ext;
 
+import static feign.Util.checkNotNull;
+
 import com.alibaba.cloud.sentinel.feign.SentinelContractHolder;
 import com.alibaba.csp.sentinel.Entry;
 import com.alibaba.csp.sentinel.EntryType;
@@ -28,11 +30,6 @@ import feign.MethodMetadata;
 import feign.Target;
 import io.github.rose.core.util.RestResponse;
 import io.github.rose.feign.annotation.FeignRetry;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.cloud.openfeign.FallbackFactory;
-import org.springframework.core.annotation.AnnotationUtils;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -40,8 +37,10 @@ import java.lang.reflect.Proxy;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
-
-import static feign.Util.checkNotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cloud.openfeign.FallbackFactory;
+import org.springframework.core.annotation.AnnotationUtils;
 
 /**
  * 支持自动降级注入 重写 {@link com.alibaba.cloud.sentinel.feign.SentinelInvocationHandler}
@@ -60,9 +59,9 @@ public class SentinelInvocationHandler implements InvocationHandler {
     private Map<Method, Method> fallbackMethodMap;
 
     SentinelInvocationHandler(
-        Target<?> target,
-        Map<Method, InvocationHandlerFactory.MethodHandler> dispatch,
-        FallbackFactory<?> fallbackFactory) {
+            Target<?> target,
+            Map<Method, InvocationHandlerFactory.MethodHandler> dispatch,
+            FallbackFactory<?> fallbackFactory) {
         this.target = checkNotNull(target, "target");
         this.dispatch = checkNotNull(dispatch, "dispatch");
         this.fallbackFactory = fallbackFactory;
@@ -104,15 +103,15 @@ public class SentinelInvocationHandler implements InvocationHandler {
         if (target instanceof Target.HardCodedTarget) {
             Target.HardCodedTarget<?> hardCodedTarget = (Target.HardCodedTarget) target;
             MethodMetadata methodMetadata = SentinelContractHolder.METADATA_MAP.get(
-                hardCodedTarget.type().getName() + Feign.configKey(hardCodedTarget.type(), method));
+                    hardCodedTarget.type().getName() + Feign.configKey(hardCodedTarget.type(), method));
             // resource default is HttpMethod:protocol://url
             if (methodMetadata == null) {
                 result = methodHandler.invoke(args);
             } else {
                 String resourceName = methodMetadata.template().method().toUpperCase()
-                    + ':'
-                    + hardCodedTarget.url()
-                    + methodMetadata.template().path();
+                        + ':'
+                        + hardCodedTarget.url()
+                        + methodMetadata.template().path();
                 Entry entry = null;
                 try {
                     ContextUtil.enter(resourceName);

@@ -16,11 +16,10 @@
 package io.github.rose.mybatis.extension.query;
 
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import java.util.Collection;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.util.StringUtils;
-
-import java.util.Collection;
 
 /**
  * 拓展 MyBatis Plus QueryWrapper 类，主要增加如下功能：

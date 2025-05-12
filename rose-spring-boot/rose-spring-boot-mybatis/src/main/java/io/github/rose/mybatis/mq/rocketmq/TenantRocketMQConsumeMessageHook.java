@@ -15,17 +15,16 @@
  */
 package io.github.rose.mybatis.mq.rocketmq;
 
+import static io.github.rose.core.CommonConstants.HEADER_TENANT_ID;
+
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.github.rose.mybatis.tenant.util.TenantContextHolder;
+import java.util.List;
 import org.apache.rocketmq.client.hook.ConsumeMessageContext;
 import org.apache.rocketmq.client.hook.ConsumeMessageHook;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.springframework.messaging.handler.invocation.InvocableHandlerMethod;
-
-import java.util.List;
-
-import static io.github.rose.core.CommonConstants.HEADER_TENANT_ID;
 
 /**
  * RocketMQ 消息队列的多租户 {@link ConsumeMessageHook} 实现类

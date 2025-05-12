@@ -16,14 +16,13 @@
 package io.github.rose.core.util;
 
 import io.github.rose.core.exception.ResultCode;
-import org.apache.commons.lang3.ObjectUtils;
-
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * 简化{@code RestResponse<T>} 的访问操作,例子
@@ -120,7 +119,7 @@ public class RetOps<T> {
      * @throws Ex 断言失败时抛出
      */
     public <Ex extends Exception> RetOps<T> assertCode(int expect, Function<? super RestResponse<T>, ? extends Ex> func)
-        throws Ex {
+            throws Ex {
         if (codeNotEquals(expect)) {
             throw func.apply(original);
         }
@@ -136,7 +135,7 @@ public class RetOps<T> {
      * @throws Ex 断言失败时抛出
      */
     public <Ex extends Exception> RetOps<T> assertSuccess(Function<? super RestResponse<T>, ? extends Ex> func)
-        throws Ex {
+            throws Ex {
         if (!CODE_SUCCESS.test(original)) {
             throw func.apply(original);
         }
@@ -152,7 +151,7 @@ public class RetOps<T> {
      * @throws Ex 断言失败时抛出
      */
     public <Ex extends Exception> RetOps<T> assertHasData(Function<? super RestResponse<T>, ? extends Ex> func)
-        throws Ex {
+            throws Ex {
         if (!HAS_DATA.test(original)) {
             throw func.apply(original);
         }
@@ -168,7 +167,7 @@ public class RetOps<T> {
      */
     public <U> RetOps<U> map(Function<? super T, ? extends U> mapper) {
         RestResponse<U> result =
-            RestResponse.build(mapper.apply(original.getData()), original.getCode(), original.getMessage());
+                RestResponse.build(mapper.apply(original.getData()), original.getCode(), original.getMessage());
         return of(result);
     }
 
@@ -216,10 +215,10 @@ public class RetOps<T> {
      */
     public void acceptIf(Consumer<? super T> consumer, int... codes) {
         acceptIf(
-            o -> Arrays.stream(codes)
-                .filter(c -> original.getCode() == c)
-                .findFirst()
-                .isPresent(),
-            consumer);
+                o -> Arrays.stream(codes)
+                        .filter(c -> original.getCode() == c)
+                        .findFirst()
+                        .isPresent(),
+                consumer);
     }
 }

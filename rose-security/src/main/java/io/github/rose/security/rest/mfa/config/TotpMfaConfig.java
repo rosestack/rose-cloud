@@ -16,7 +16,6 @@
 package io.github.rose.security.rest.mfa.config;
 
 import io.github.rose.security.rest.mfa.provider.MfaProviderType;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -41,9 +40,8 @@ public class TotpMfaConfig extends MfaConfig {
 
     @Override
     public String toString() {
-        return "TotpMfaConfig{" +
-            "authUrl='" + authUrl + '\'' +
-            ", serializeHiddenFields=" + serializeHiddenFields +
-            '}';
+        return "TotpMfaConfig{" + "authUrl='"
+                + authUrl + '\'' + ", serializeHiddenFields="
+                + serializeHiddenFields + '}';
     }
 }

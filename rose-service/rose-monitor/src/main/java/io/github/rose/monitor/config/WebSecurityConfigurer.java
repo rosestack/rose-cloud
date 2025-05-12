@@ -37,34 +37,34 @@ public class WebSecurityConfigurer {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         SavedRequestAwareAuthenticationSuccessHandler successHandler =
-            new SavedRequestAwareAuthenticationSuccessHandler();
+                new SavedRequestAwareAuthenticationSuccessHandler();
         successHandler.setTargetUrlParameter("redirectTo");
         successHandler.setDefaultTargetUrl(adminContextPath + "/");
         http.headers()
-            .frameOptions()
-            .disable()
-            .and()
-            .authorizeRequests()
-            .antMatchers(
-                adminContextPath + "/assets/**",
-                adminContextPath + "/login",
-                adminContextPath + "/instances/**",
-                adminContextPath + "/actuator/**")
-            .permitAll()
-            .anyRequest()
-            .authenticated()
-            .and()
-            .formLogin()
-            .loginPage(adminContextPath + "/login")
-            .successHandler(successHandler)
-            .and()
-            .logout()
-            .logoutUrl(adminContextPath + "/logout")
-            .and()
-            .httpBasic()
-            .and()
-            .csrf()
-            .disable();
+                .frameOptions()
+                .disable()
+                .and()
+                .authorizeRequests()
+                .antMatchers(
+                        adminContextPath + "/assets/**",
+                        adminContextPath + "/login",
+                        adminContextPath + "/instances/**",
+                        adminContextPath + "/actuator/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
+                .loginPage(adminContextPath + "/login")
+                .successHandler(successHandler)
+                .and()
+                .logout()
+                .logoutUrl(adminContextPath + "/logout")
+                .and()
+                .httpBasic()
+                .and()
+                .csrf()
+                .disable();
         return http.build();
     }
 }

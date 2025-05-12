@@ -20,7 +20,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.github.rose.mybatis.model.TenantEntity;
-
 import java.time.LocalDateTime;
 
 /**

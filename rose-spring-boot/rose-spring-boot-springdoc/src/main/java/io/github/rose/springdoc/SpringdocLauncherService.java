@@ -17,10 +17,9 @@ package io.github.rose.springdoc;
 
 import io.github.rose.core.spi.LauncherService;
 import io.github.rose.processor.AutoService;
+import java.util.Properties;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
-
-import java.util.Properties;
 
 @AutoService(LauncherService.class)
 public class SpringdocLauncherService implements LauncherService {

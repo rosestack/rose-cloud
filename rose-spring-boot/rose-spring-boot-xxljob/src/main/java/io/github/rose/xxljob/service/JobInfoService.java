@@ -16,7 +16,6 @@
 package io.github.rose.xxljob.service;
 
 import io.github.rose.xxljob.model.XxlJobInfo;
-
 import java.util.List;
 
 public interface JobInfoService {

@@ -15,19 +15,18 @@
  */
 package io.github.rose.core.groovy;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.util.FileCopyUtils;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.attribute.FileTime;
 import java.time.Instant;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import org.apache.commons.lang3.ArrayUtils;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.util.FileCopyUtils;
 
 @Tag("Groovy")
 class WatchableGroovyScriptTests {

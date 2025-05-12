@@ -27,14 +27,13 @@ import io.github.rose.oss.model.BladeFile;
 import io.github.rose.oss.model.OssFile;
 import io.github.rose.oss.props.OssProperties;
 import io.github.rose.oss.rule.OssRule;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * QiniuTemplate
@@ -53,7 +52,12 @@ public class QiniuTemplate implements OssTemplate {
 
     private final OssRule ossRule;
 
-    public QiniuTemplate(Auth auth, UploadManager uploadManager, BucketManager bucketManager, OssProperties ossProperties, OssRule ossRule) {
+    public QiniuTemplate(
+            Auth auth,
+            UploadManager uploadManager,
+            BucketManager bucketManager,
+            OssProperties ossProperties,
+            OssRule ossRule) {
         this.auth = auth;
         this.uploadManager = uploadManager;
         this.bucketManager = bucketManager;
@@ -66,7 +70,7 @@ public class QiniuTemplate implements OssTemplate {
         try {
             if (!ArrayUtils.contains(bucketManager.buckets(), getBucketName(bucketName))) {
                 bucketManager.createBucket(
-                    getBucketName(bucketName), Zone.autoZone().getRegion());
+                        getBucketName(bucketName), Zone.autoZone().getRegion());
             }
         } catch (QiniuException e) {
             throw new RuntimeException(e);
@@ -74,8 +78,7 @@ public class QiniuTemplate implements OssTemplate {
     }
 
     @Override
-    public void removeBucket(String bucketName) {
-    }
+    public void removeBucket(String bucketName) {}
 
     @Override
     public boolean bucketExists(String bucketName) {

@@ -15,7 +15,6 @@
  */
 package io.github.rose.redis.mq.message;
 
-
 import java.util.HashMap;
 import java.util.Map;
 

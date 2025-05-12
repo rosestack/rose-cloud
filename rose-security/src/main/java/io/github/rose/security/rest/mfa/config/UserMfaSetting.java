@@ -16,15 +16,13 @@
 package io.github.rose.security.rest.mfa.config;
 
 import io.github.rose.security.rest.mfa.provider.MfaProviderType;
-
 import java.util.LinkedHashMap;
 
 public class UserMfaSetting {
 
     private LinkedHashMap<MfaProviderType, MfaConfig> configs;
 
-    public UserMfaSetting() {
-    }
+    public UserMfaSetting() {}
 
     public LinkedHashMap<MfaProviderType, MfaConfig> getConfigs() {
         return configs;

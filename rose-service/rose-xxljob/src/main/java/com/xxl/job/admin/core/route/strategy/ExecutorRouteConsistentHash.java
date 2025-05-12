@@ -18,7 +18,6 @@ package com.xxl.job.admin.core.route.strategy;
 import com.xxl.job.admin.core.route.ExecutorRouter;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.biz.model.TriggerParam;
-
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -63,9 +62,9 @@ public class ExecutorRouteConsistentHash extends ExecutorRouter {
 
         // hash code, Truncate to 32-bits
         long hashCode = ((long) (digest[3] & 0xFF) << 24)
-            | ((long) (digest[2] & 0xFF) << 16)
-            | ((long) (digest[1] & 0xFF) << 8)
-            | (digest[0] & 0xFF);
+                | ((long) (digest[2] & 0xFF) << 16)
+                | ((long) (digest[1] & 0xFF) << 8)
+                | (digest[0] & 0xFF);
 
         long truncateHashCode = hashCode & 0xffffffffL;
         return truncateHashCode;

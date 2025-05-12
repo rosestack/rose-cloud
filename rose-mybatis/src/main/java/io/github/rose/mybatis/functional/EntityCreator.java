@@ -18,13 +18,12 @@ package io.github.rose.mybatis.functional;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.github.rose.core.validation.Insert;
 import io.vavr.control.Try;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <code>
@@ -40,7 +39,7 @@ import java.util.function.Supplier;
  */
 public class EntityCreator<T> extends BaseEntityOperation implements Create<T>, UpdateHandler<T>, Executor<T> {
     private static final Logger log = LoggerFactory.getLogger(EntityCreator.class);
-    
+
     private final BaseMapper<T> baseMapper;
 
     private T entity;
@@ -70,12 +69,12 @@ public class EntityCreator<T> extends BaseEntityOperation implements Create<T>, 
     public Optional<T> execute() {
         doValidate(this.entity, Insert.class);
         T save = Try.of(() -> {
-                baseMapper.insert(entity);
-                return this.entity;
-            })
-            .onSuccess(successHook)
-            .onFailure(errorHook)
-            .getOrNull();
+                    baseMapper.insert(entity);
+                    return this.entity;
+                })
+                .onSuccess(successHook)
+                .onFailure(errorHook)
+                .getOrNull();
         return Optional.ofNullable(save);
     }
 

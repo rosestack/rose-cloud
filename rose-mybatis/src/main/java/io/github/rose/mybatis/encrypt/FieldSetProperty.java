@@ -30,8 +30,7 @@ public class FieldSetProperty {
 
     private FieldBind fieldBind;
 
-    public FieldSetProperty() {
-    }
+    public FieldSetProperty() {}
 
     public FieldSetProperty(String fieldName, FieldEncrypt fieldEncrypt, FieldBind fieldBind) {
         this.fieldName = fieldName;

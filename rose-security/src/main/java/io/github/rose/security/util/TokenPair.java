@@ -16,9 +16,8 @@
 package io.github.rose.security.util;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.security.core.GrantedAuthority;
-
 import java.util.Collection;
+import org.springframework.security.core.GrantedAuthority;
 
 public class TokenPair {
 
@@ -36,8 +35,7 @@ public class TokenPair {
         this.authorities = authorities;
     }
 
-    public TokenPair() {
-    }
+    public TokenPair() {}
 
     public String getAccessToken() {
         return accessToken;

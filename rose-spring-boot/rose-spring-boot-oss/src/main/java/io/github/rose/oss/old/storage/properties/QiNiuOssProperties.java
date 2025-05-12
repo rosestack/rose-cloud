@@ -15,14 +15,13 @@
  */
 package io.github.rose.oss.old.storage.properties;
 
-import io.github.rose.oss.old.storage.cloud.qiniu.QiNiuRegion;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_QINIU;
 
+import io.github.rose.oss.old.storage.cloud.qiniu.QiNiuRegion;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-
-import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_QINIU;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * <a href="https://developer.qiniu.com/kodo/manual/1206/put-policy">上传策略配置</a>

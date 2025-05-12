@@ -1,6 +1,6 @@
 # https://github.com/infinispan/infinispan/blob/15.2.1.Final/.github/workflows/tag.yml
 
-name: Maven Publish
+name: Maven Release
 
 on:
   workflow_dispatch:

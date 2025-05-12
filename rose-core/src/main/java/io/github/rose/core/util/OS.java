@@ -8,7 +8,11 @@ package io.github.rose.core.util;
  * @since 9.2 infinispan
  */
 public enum OS {
-    UNIX, WINDOWS, SOLARIS, LINUX, MAC_OS;
+    UNIX,
+    WINDOWS,
+    SOLARIS,
+    LINUX,
+    MAC_OS;
 
     public static OS getCurrentOs() {
         String os = System.getProperty("os.name").toLowerCase();

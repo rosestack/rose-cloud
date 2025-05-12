@@ -15,6 +15,9 @@
  */
 package io.github.rose.oss.old.storage.cloud.aliyun;
 
+import static io.github.rose.oss.old.storage.OssOperation.ALI_YUN_OSS_OPERATION;
+import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_ALIYUN;
+
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import io.github.rose.oss.old.storage.AliYunOssOperation;
@@ -23,9 +26,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import static io.github.rose.oss.old.storage.OssOperation.ALI_YUN_OSS_OPERATION;
-import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_ALIYUN;
 
 /**
  * 阿里云 OSS
@@ -40,7 +40,7 @@ public class AliYunOssAutoConfiguration {
     @Bean(destroyMethod = "shutdown")
     public OSS ossClient(AliYunOssProperties properties) {
         return new OSSClientBuilder()
-            .build(properties.getEndpoint(), properties.getAccessKey(), properties.getSecretKey());
+                .build(properties.getEndpoint(), properties.getAccessKey(), properties.getSecretKey());
     }
 
     @Bean(ALI_YUN_OSS_OPERATION)

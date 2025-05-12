@@ -24,10 +24,9 @@ import com.fasterxml.jackson.databind.ser.ContextualSerializer;
 import io.github.rose.core.jackson.serializer.sensitive.FieldSensitive;
 import io.github.rose.core.jackson.serializer.sensitive.Sensitives;
 import io.github.rose.core.spring.expression.SpringExpressionResolver;
-import org.apache.commons.lang3.ObjectUtils;
-
 import java.io.IOException;
 import java.util.Objects;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -41,8 +40,7 @@ public class StringSensitiveSerialize extends JsonSerializer<String> implements 
         this.fieldSensitive = fieldSensitive;
     }
 
-    public StringSensitiveSerialize() {
-    }
+    public StringSensitiveSerialize() {}
 
     private String handler(FieldSensitive fieldSensitive, String origin) {
         Object disable = SpringExpressionResolver.getInstance().resolve(fieldSensitive.disabled());
@@ -78,7 +76,7 @@ public class StringSensitiveSerialize extends JsonSerializer<String> implements 
                 return Sensitives.deSensitive(origin, 1, 0, fieldSensitive.mask());
             case CUSTOM:
                 return Sensitives.deSensitive(
-                    origin, fieldSensitive.prefixKeep(), fieldSensitive.suffixKeep(), fieldSensitive.mask());
+                        origin, fieldSensitive.prefixKeep(), fieldSensitive.suffixKeep(), fieldSensitive.mask());
             default:
                 throw new IllegalArgumentException("Unknown sensitive type enum " + fieldSensitive.type());
         }
@@ -86,17 +84,17 @@ public class StringSensitiveSerialize extends JsonSerializer<String> implements 
 
     @Override
     public void serialize(
-        final String origin, final JsonGenerator jsonGenerator, final SerializerProvider serializerProvider)
-        throws IOException {
+            final String origin, final JsonGenerator jsonGenerator, final SerializerProvider serializerProvider)
+            throws IOException {
         jsonGenerator.writeString(handler(fieldSensitive, origin));
     }
 
     @Override
     public JsonSerializer<?> createContextual(
-        final SerializerProvider serializerProvider, final BeanProperty beanProperty) throws JsonMappingException {
+            final SerializerProvider serializerProvider, final BeanProperty beanProperty) throws JsonMappingException {
         FieldSensitive annotation = beanProperty.getAnnotation(FieldSensitive.class);
         if (Objects.nonNull(annotation)
-            && Objects.equals(String.class, beanProperty.getType().getRawClass())) {
+                && Objects.equals(String.class, beanProperty.getType().getRawClass())) {
             return new StringSensitiveSerialize(annotation);
         }
         return serializerProvider.findValueSerializer(beanProperty.getType(), beanProperty);

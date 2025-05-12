@@ -37,7 +37,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 @EnableConfigurationProperties(CacheProperties.class)
 public class RedisCacheConfig {
     private static final Logger log = LoggerFactory.getLogger(RedisCacheConfig.class);
-    
+
     private final CacheProperties cacheProperties;
     private final CacheManagerCustomizers cacheManagerCustomizers;
 
@@ -51,19 +51,19 @@ public class RedisCacheConfig {
         log.info("Initializing RedisCacheManager");
 
         RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory)
-            .withStatisticsCollector(CacheStatisticsCollector.create());
+                .withStatisticsCollector(CacheStatisticsCollector.create());
         TtlRedisCacheManager cacheManager = new TtlRedisCacheManager(
-            redisCacheWriter,
-            redisCacheConfiguration(),
-            cacheProperties.getCacheNames().toArray(new String[]{}));
+                redisCacheWriter,
+                redisCacheConfiguration(),
+                cacheProperties.getCacheNames().toArray(new String[] {}));
         cacheManager.setTransactionAware(false);
         return this.cacheManagerCustomizers.customize(cacheManager);
     }
 
     private RedisCacheConfiguration redisCacheConfiguration() {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-            .serializeValuesWith(
-                RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.java()));
+                .serializeValuesWith(
+                        RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.java()));
 
         CacheProperties.Redis redisProperties = this.cacheProperties.getRedis();
         if (redisProperties.getTimeToLive() != null) {

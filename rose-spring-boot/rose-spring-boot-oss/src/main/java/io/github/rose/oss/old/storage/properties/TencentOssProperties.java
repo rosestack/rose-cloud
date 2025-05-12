@@ -15,9 +15,9 @@
  */
 package io.github.rose.oss.old.storage.properties;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_TENCENT;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author Levin

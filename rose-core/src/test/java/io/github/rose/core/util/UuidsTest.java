@@ -15,15 +15,13 @@
  */
 package io.github.rose.core.util;
 
-
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.UUID;
-
 class UuidsTest {
     private static final Logger log = LoggerFactory.getLogger(UuidsTest.class);
-    
+
     public static void main(String[] args) {
         log.info(UUIDs.timeBased().toString());
         log.info(UUIDs.timeBased().toString());

@@ -20,14 +20,13 @@ import io.github.rose.security.rest.mfa.MfaAuthenticationToken;
 import io.github.rose.security.support.TokenFactory;
 import io.github.rose.security.util.SecurityUser;
 import io.github.rose.security.util.TokenPair;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
@@ -39,8 +38,8 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 
     @Override
     public void onAuthenticationSuccess(
-        HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-        throws IOException, ServletException {
+            HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+            throws IOException, ServletException {
         SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
 
         TokenPair tokenPair;

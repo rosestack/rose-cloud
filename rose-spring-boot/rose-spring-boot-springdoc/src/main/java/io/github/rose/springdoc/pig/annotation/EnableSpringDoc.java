@@ -17,10 +17,9 @@ package io.github.rose.springdoc.pig.annotation;
 
 import io.github.rose.springdoc.pig.config.OpenAPIDefinitionImportSelector;
 import io.github.rose.springdoc.pig.config.SwaggerProperties;
+import java.lang.annotation.*;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.*;
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

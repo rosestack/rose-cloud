@@ -19,10 +19,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.rose.mybatis.model.AuditEntity;
-import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import javax.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.Length;
 
 @TableName
 public class Tenant extends AuditEntity {

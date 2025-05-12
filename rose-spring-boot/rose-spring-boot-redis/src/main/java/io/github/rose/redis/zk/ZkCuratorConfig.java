@@ -43,7 +43,7 @@ public class ZkCuratorConfig {
     @Bean(initMethod = "start", destroyMethod = "close")
     public CuratorFramework curatorFramework() {
         return CuratorFrameworkFactory.newClient(
-            connectUrl, sessionTimeOutMs, connectionTimeOutMs, new RetryNTimes(retryCount, elapsedTimeMs));
+                connectUrl, sessionTimeOutMs, connectionTimeOutMs, new RetryNTimes(retryCount, elapsedTimeMs));
     }
 
     @Bean

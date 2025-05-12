@@ -15,14 +15,13 @@
  */
 package io.github.rose.mybatis.model;
 
+import static io.github.rose.core.util.date.DatePattern.NORM_DATETIME_PATTERN;
+
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-import static io.github.rose.core.util.date.DatePattern.NORM_DATETIME_PATTERN;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>

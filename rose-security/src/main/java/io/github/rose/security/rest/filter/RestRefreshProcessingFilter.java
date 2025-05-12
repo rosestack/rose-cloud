@@ -19,6 +19,11 @@ import io.github.rose.core.jackson.JacksonUtils;
 import io.github.rose.security.exception.AuthMethodNotSupportedException;
 import io.github.rose.security.rest.param.RefreshTokenRequest;
 import io.github.rose.security.rest.token.RestRefreshAuthenticationToken;
+import java.io.IOException;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,23 +36,17 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 public class RestRefreshProcessingFilter extends AbstractAuthenticationProcessingFilter {
     private static final Logger log = LoggerFactory.getLogger(RestRefreshProcessingFilter.class);
-    
+
     private final AuthenticationSuccessHandler successHandler;
 
     private final AuthenticationFailureHandler failureHandler;
 
     public RestRefreshProcessingFilter(
-        String defaultProcessUrl,
-        AuthenticationSuccessHandler successHandler,
-        AuthenticationFailureHandler failureHandler) {
+            String defaultProcessUrl,
+            AuthenticationSuccessHandler successHandler,
+            AuthenticationFailureHandler failureHandler) {
         super(defaultProcessUrl);
         this.successHandler = successHandler;
         this.failureHandler = failureHandler;
@@ -55,7 +54,7 @@ public class RestRefreshProcessingFilter extends AbstractAuthenticationProcessin
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-        throws AuthenticationException {
+            throws AuthenticationException {
         if (!HttpMethod.POST.name().equals(request.getMethod())) {
             if (log.isDebugEnabled()) {
                 log.debug("Authentication method not supported. Request method: " + request.getMethod());
@@ -74,7 +73,7 @@ public class RestRefreshProcessingFilter extends AbstractAuthenticationProcessin
             throw new AuthenticationServiceException("Refresh token is not provided");
         }
         RestRefreshAuthenticationToken authenticationToken =
-            new RestRefreshAuthenticationToken(refreshTokenRequest.getRefreshToken());
+                new RestRefreshAuthenticationToken(refreshTokenRequest.getRefreshToken());
         authenticationToken.setDetails(authenticationDetailsSource.buildDetails(request));
 
         return this.getAuthenticationManager().authenticate(authenticationToken);
@@ -82,15 +81,15 @@ public class RestRefreshProcessingFilter extends AbstractAuthenticationProcessin
 
     @Override
     protected void successfulAuthentication(
-        HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult)
-        throws IOException, ServletException {
+            HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult)
+            throws IOException, ServletException {
         successHandler.onAuthenticationSuccess(request, response, authResult);
     }
 
     @Override
     protected void unsuccessfulAuthentication(
-        HttpServletRequest request, HttpServletResponse response, AuthenticationException failed)
-        throws IOException, ServletException {
+            HttpServletRequest request, HttpServletResponse response, AuthenticationException failed)
+            throws IOException, ServletException {
         failureHandler.onAuthenticationFailure(request, response, failed);
         SecurityContextHolder.clearContext();
     }

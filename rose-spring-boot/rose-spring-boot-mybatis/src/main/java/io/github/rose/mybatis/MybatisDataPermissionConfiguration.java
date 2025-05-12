@@ -23,10 +23,9 @@ import io.github.rose.mybatis.datapermission.rule.DataPermissionRule;
 import io.github.rose.mybatis.datapermission.rule.DataPermissionRuleFactory;
 import io.github.rose.mybatis.datapermission.rule.DataPermissionRuleFactoryImpl;
 import io.github.rose.mybatis.util.MyBatisUtils;
+import java.util.List;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-
-import java.util.List;
 
 /**
  * 数据权限的自动配置类
@@ -41,7 +40,7 @@ public class MybatisDataPermissionConfiguration {
 
     @Bean
     public DataPermissionRuleHandler dataPermissionRuleHandler(
-        MybatisPlusInterceptor interceptor, DataPermissionRuleFactory ruleFactory) {
+            MybatisPlusInterceptor interceptor, DataPermissionRuleFactory ruleFactory) {
         // 创建 DataPermissionInterceptor 拦截器
         DataPermissionRuleHandler handler = new DataPermissionRuleHandler(ruleFactory);
         DataPermissionInterceptor inner = new DataPermissionInterceptor(handler);

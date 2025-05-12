@@ -17,10 +17,9 @@ package io.github.rose.security.rest.mfa;
 
 import io.github.rose.security.rest.mfa.provider.MfaProviderType;
 import io.github.rose.security.util.TokenPair;
+import java.util.List;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth/mfa")
@@ -60,8 +59,7 @@ public class MfaAuthController {
 
         private Integer minVerificationCodeSendPeriod;
 
-        public TwoFaProviderInfo() {
-        }
+        public TwoFaProviderInfo() {}
 
         public static TwoFaProviderInfo.Builder builder() {
             return new Builder();
@@ -99,7 +97,7 @@ public class MfaAuthController {
             this.minVerificationCodeSendPeriod = minVerificationCodeSendPeriod;
         }
 
-        //创建一个 Builder 类
+        // 创建一个 Builder 类
         public static class Builder {
             private MfaProviderType type;
             private boolean useByDefault;
@@ -135,6 +133,5 @@ public class MfaAuthController {
                 return info;
             }
         }
-
     }
 }

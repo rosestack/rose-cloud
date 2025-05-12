@@ -15,18 +15,17 @@
  */
 package io.github.rose.mybatis.redis;
 
+import static io.github.rose.core.util.StringPool.COLON;
+
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import io.github.rose.mybatis.tenant.util.TenantContextHolder;
 import io.github.rose.redis.support.TtlRedisCacheManager;
+import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.Cache;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
-
-import java.util.Set;
-
-import static io.github.rose.core.util.StringPool.COLON;
 
 /**
  * 多租户的 {@link RedisCacheManager} 实现类
@@ -40,9 +39,9 @@ public class TenantRedisCacheManager extends TtlRedisCacheManager {
     private final Set<String> ignoredCaches;
 
     public TenantRedisCacheManager(
-        Set<String> ignoredCaches,
-        RedisCacheWriter cacheWriter,
-        RedisCacheConfiguration defaultCacheConfiguration) {
+            Set<String> ignoredCaches,
+            RedisCacheWriter cacheWriter,
+            RedisCacheConfiguration defaultCacheConfiguration) {
         super(cacheWriter, defaultCacheConfiguration);
         this.ignoredCaches = ignoredCaches;
     }
@@ -51,8 +50,8 @@ public class TenantRedisCacheManager extends TtlRedisCacheManager {
     public Cache getCache(String name) {
         // 如果开启多租户，则 name 拼接租户后缀
         if (!TenantContextHolder.isIgnored()
-            && StringUtils.isNotBlank(TenantContextHolder.getTenantId())
-            && (CollectionUtils.isEmpty(ignoredCaches) || !ignoredCaches.contains(name))) {
+                && StringUtils.isNotBlank(TenantContextHolder.getTenantId())
+                && (CollectionUtils.isEmpty(ignoredCaches) || !ignoredCaches.contains(name))) {
             name = name + COLON + TenantContextHolder.getTenantId();
         }
 

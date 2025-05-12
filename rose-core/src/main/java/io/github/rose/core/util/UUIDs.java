@@ -15,10 +15,6 @@
  */
 package io.github.rose.core.util;
 
-import org.apache.commons.io.Charsets;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
@@ -30,6 +26,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicLong;
+import org.apache.commons.io.Charsets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility methods to help working with UUIDs, and more specifically, with time-based UUIDs (also
@@ -94,8 +93,7 @@ public final class UUIDs {
         }
     }
 
-    private UUIDs() {
-    }
+    private UUIDs() {}
 
     private static long makeEpoch() {
         // UUID v1 timestamp must be in 100-nanoseconds interval since 00:00:00.000 15 Oct 1582.
@@ -156,9 +154,9 @@ public final class UUIDs {
                 LOGGER.info("PID obtained from System property {}: {}", PID_SYSTEM_PROPERTY, pid);
             } catch (NumberFormatException e) {
                 LOGGER.warn(
-                    "Incorrect integer specified for PID in System property {}: {}",
-                    PID_SYSTEM_PROPERTY,
-                    pidProperty);
+                        "Incorrect integer specified for PID in System property {}: {}",
+                        PID_SYSTEM_PROPERTY,
+                        pidProperty);
             }
         }
         //        if (pid == null && Native.isGetpidAvailable()) {
@@ -354,7 +352,7 @@ public final class UUIDs {
     public static long unixTimestamp(UUID uuid) {
         if (uuid.version() != 1)
             throw new IllegalArgumentException(String.format(
-                "Can only retrieve the unix timestamp for version 1 uuid (provided version %d)", uuid.version()));
+                    "Can only retrieve the unix timestamp for version 1 uuid (provided version %d)", uuid.version()));
 
         long timestamp = uuid.timestamp();
         return (timestamp / 10000) + START_EPOCH;

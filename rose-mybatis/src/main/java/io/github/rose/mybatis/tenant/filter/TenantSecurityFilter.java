@@ -20,18 +20,17 @@ import io.github.rose.core.util.RestResponse;
 import io.github.rose.mybatis.tenant.util.TenantContextHolder;
 import io.github.rose.security.util.SecurityUser;
 import io.github.rose.security.util.SecurityUtils;
+import java.io.IOException;
+import java.util.Set;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Set;
 
 /**
  * 多租户 Security Web 过滤器 1. 如果是登陆的用户，校验是否有权限访问该租户，避免越权问题。 2. 如果请求未带租户的编号，检查是否是忽略的
@@ -41,7 +40,7 @@ import java.util.Set;
  */
 public class TenantSecurityFilter extends OncePerRequestFilter {
     private static final Logger log = LoggerFactory.getLogger(TenantSecurityFilter.class);
-    
+
     private static final AntPathMatcher pathMatcher = new AntPathMatcher();
 
     private final Set<String> ignoreUrls;
@@ -52,7 +51,7 @@ public class TenantSecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         String tenantId = TenantContextHolder.getTenantId();
 
         // 如果非允许忽略租户的 URL，则校验租户是否合法
@@ -89,11 +88,11 @@ public class TenantSecurityFilter extends OncePerRequestFilter {
                 // 如果传递了租户编号，则进行比对租户编号，避免越权问题
             } else if (!user.getTenants().contains(TenantContextHolder.getTenantId())) {
                 log.error(
-                    "用户{}越权访问租户({}) URL({}/{})]",
-                    user.getUsername(),
-                    TenantContextHolder.getTenantId(),
-                    request.getRequestURI(),
-                    request.getMethod());
+                        "用户{}越权访问租户({}) URL({}/{})]",
+                        user.getUsername(),
+                        TenantContextHolder.getTenantId(),
+                        request.getRequestURI(),
+                        request.getMethod());
                 WebUtils.renderJson(HttpStatus.FORBIDDEN.value(), RestResponse.error("您无权访问该租户的数据"));
                 return;
             }

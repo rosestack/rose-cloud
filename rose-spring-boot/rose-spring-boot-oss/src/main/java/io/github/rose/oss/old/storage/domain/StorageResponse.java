@@ -15,9 +15,8 @@
  */
 package io.github.rose.oss.old.storage.domain;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 响应结果
@@ -58,16 +57,16 @@ public class StorageResponse implements java.io.Serializable {
     private Map<String, Object> extend;
 
     public StorageResponse(
-        String fileId,
-        String etag,
-        String originName,
-        String targetName,
-        String mappingPath,
-        String bucket,
-        long size,
-        String md5,
-        String fullUrl,
-        Map<String, Object> extend) {
+            String fileId,
+            String etag,
+            String originName,
+            String targetName,
+            String mappingPath,
+            String bucket,
+            long size,
+            String md5,
+            String fullUrl,
+            Map<String, Object> extend) {
         this.fileId = fileId;
         this.etag = etag;
         this.originName = originName;
@@ -239,17 +238,7 @@ public class StorageResponse implements java.io.Serializable {
 
         public StorageResponse build() {
             return new StorageResponse(
-                fileId,
-                etag,
-                originName,
-                targetName,
-                mappingPath,
-                bucket,
-                size,
-                md5,
-                fullUrl,
-                extend
-            );
+                    fileId, etag, originName, targetName, mappingPath, bucket, size, md5, fullUrl, extend);
         }
     }
 }

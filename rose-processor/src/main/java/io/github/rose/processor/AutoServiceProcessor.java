@@ -1,5 +1,8 @@
 package io.github.rose.processor;
 
+import java.io.*;
+import java.nio.file.NoSuchFileException;
+import java.util.*;
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
@@ -12,9 +15,6 @@ import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
-import java.io.*;
-import java.nio.file.NoSuchFileException;
-import java.util.*;
 
 /**
  * Processes {@link AutoService} annotations and generates the service provider configuration files
@@ -95,7 +95,9 @@ public class AutoServiceProcessor extends AbstractProcessor {
             } catch (FileNotFoundException | NoSuchFileException x) {
                 // doesn't exist
             } catch (IOException x) {
-                processingEnv.getMessager().printMessage(Kind.ERROR, "Failed to load existing service definition files: " + x);
+                processingEnv
+                        .getMessager()
+                        .printMessage(Kind.ERROR, "Failed to load existing service definition files: " + x);
             }
         }
 
@@ -129,13 +131,15 @@ public class AutoServiceProcessor extends AbstractProcessor {
             for (TypeMirror m : e.getTypeMirrors()) {
                 if (m.getKind() == TypeKind.VOID) {
                     // contract inferred from the signature
-                    boolean hasBaseClass = type.getSuperclass().getKind() != TypeKind.NONE && !isObject(type.getSuperclass());
+                    boolean hasBaseClass =
+                            type.getSuperclass().getKind() != TypeKind.NONE && !isObject(type.getSuperclass());
                     boolean hasInterfaces = !type.getInterfaces().isEmpty();
                     if (hasBaseClass ^ hasInterfaces) {
                         if (hasBaseClass) {
                             typeElementList.add((TypeElement) ((DeclaredType) type.getSuperclass()).asElement());
                         } else {
-                            typeElementList.add((TypeElement) ((DeclaredType) type.getInterfaces().get(0)).asElement());
+                            typeElementList.add((TypeElement)
+                                    ((DeclaredType) type.getInterfaces().get(0)).asElement());
                         }
                         continue;
                     }

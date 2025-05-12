@@ -15,12 +15,10 @@
  */
 package io.github.rose.core.io;
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.util.function.Consumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -30,15 +28,15 @@ public class FileWatcherService extends PathWatcherService {
     private static final Logger log = LoggerFactory.getLogger(FileWatcherService.class);
 
     public FileWatcherService(
-        final File watchableFile,
-        final Consumer<File> onCreate,
-        final Consumer<File> onModify,
-        final Consumer<File> onDelete) {
+            final File watchableFile,
+            final Consumer<File> onCreate,
+            final Consumer<File> onModify,
+            final Consumer<File> onDelete) {
         super(
-            watchableFile.getParentFile().toPath(),
-            getWatchedFileConsumer(watchableFile, onCreate),
-            getWatchedFileConsumer(watchableFile, onModify),
-            getWatchedFileConsumer(watchableFile, onDelete));
+                watchableFile.getParentFile().toPath(),
+                getWatchedFileConsumer(watchableFile, onCreate),
+                getWatchedFileConsumer(watchableFile, onModify),
+                getWatchedFileConsumer(watchableFile, onDelete));
     }
 
     public FileWatcherService(final File watchableFile, final Consumer<File> onModify) {

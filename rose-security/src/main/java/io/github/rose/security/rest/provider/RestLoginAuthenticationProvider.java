@@ -37,7 +37,8 @@ public class RestLoginAuthenticationProvider implements AuthenticationProvider {
 
     private final MfaProperties mfaProperties;
 
-    public RestLoginAuthenticationProvider(UserDetailsService userDetailsService, PasswordEncoder encoder, MfaProperties mfaProperties) {
+    public RestLoginAuthenticationProvider(
+            UserDetailsService userDetailsService, PasswordEncoder encoder, MfaProperties mfaProperties) {
         this.userDetailsService = userDetailsService;
         this.encoder = encoder;
         this.mfaProperties = mfaProperties;
@@ -60,7 +61,7 @@ public class RestLoginAuthenticationProvider implements AuthenticationProvider {
     }
 
     private SecurityUser authenticateByUsernameAndPassword(
-        Authentication authentication, String username, String password) {
+            Authentication authentication, String username, String password) {
         UserDetails user = userDetailsService.loadUserByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found: " + username);

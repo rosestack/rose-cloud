@@ -18,11 +18,10 @@ package io.github.rose.mybatis.tenant.handler;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.baomidou.mybatisplus.extension.toolkit.SqlParserUtils;
 import io.github.rose.mybatis.tenant.util.TenantContextHolder;
-import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.StringValue;
-
 import java.util.HashSet;
 import java.util.Set;
+import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.StringValue;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -48,6 +47,6 @@ public class DefaultTenantLineHandler implements TenantLineHandler {
     @Override
     public boolean ignoreTable(String tableName) {
         return TenantContextHolder.isIgnored() // 情况一，全局忽略多租户
-            || ignoredTables.contains(SqlParserUtils.removeWrapperSymbol(tableName)); // 情况二，忽略多租户的表
+                || ignoredTables.contains(SqlParserUtils.removeWrapperSymbol(tableName)); // 情况二，忽略多租户的表
     }
 }

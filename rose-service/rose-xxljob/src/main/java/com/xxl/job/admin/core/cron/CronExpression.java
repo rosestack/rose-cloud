@@ -470,16 +470,16 @@ public final class CronExpression implements Serializable, Cloneable {
                 // throw an exception if L is used with other days of the month
                 if (exprOn == DAY_OF_MONTH && expr.indexOf('L') != -1 && expr.length() > 1 && expr.contains(",")) {
                     throw new ParseException(
-                        "Support for specifying 'L' and 'LW' with other days of the month is not implemented", -1);
+                            "Support for specifying 'L' and 'LW' with other days of the month is not implemented", -1);
                 }
                 // throw an exception if L is used with other days of the week
                 if (exprOn == DAY_OF_WEEK && expr.indexOf('L') != -1 && expr.length() > 1 && expr.contains(",")) {
                     throw new ParseException(
-                        "Support for specifying 'L' with other days of the week is not implemented", -1);
+                            "Support for specifying 'L' with other days of the week is not implemented", -1);
                 }
                 if (exprOn == DAY_OF_WEEK
-                    && expr.indexOf('#') != -1
-                    && expr.indexOf('#', expr.indexOf('#') + 1) != -1) {
+                        && expr.indexOf('#') != -1
+                        && expr.indexOf('#', expr.indexOf('#') + 1) != -1) {
                     throw new ParseException("Support for specifying multiple \"nth\" days is not implemented.", -1);
                 }
 
@@ -510,8 +510,8 @@ public final class CronExpression implements Serializable, Cloneable {
             if (!dayOfMSpec || dayOfWSpec) {
                 if (!dayOfWSpec || dayOfMSpec) {
                     throw new ParseException(
-                        "Support for specifying both a day-of-week AND a day-of-month parameter is not implemented.",
-                        0);
+                            "Support for specifying both a day-of-week AND a day-of-month parameter is not implemented.",
+                            0);
                 }
             }
         } catch (ParseException pe) {
@@ -735,8 +735,8 @@ public final class CronExpression implements Serializable, Cloneable {
             }
             if (val > 31) {
                 throw new ParseException(
-                    "The 'W' option does not make sense with values larger than 31 (max number of days in a month)",
-                    i);
+                        "The 'W' option does not make sense with values larger than 31 (max number of days in a month)",
+                        i);
             }
             TreeSet<Integer> set = getSet(type);
             set.add(val);
@@ -935,15 +935,13 @@ public final class CronExpression implements Serializable, Cloneable {
     }
 
     protected int skipWhiteSpace(int i, String s) {
-        for (; i < s.length() && (s.charAt(i) == ' ' || s.charAt(i) == '\t'); i++) {
-        }
+        for (; i < s.length() && (s.charAt(i) == ' ' || s.charAt(i) == '\t'); i++) {}
 
         return i;
     }
 
     protected int findNextWhiteSpace(int i, String s) {
-        for (; i < s.length() && (s.charAt(i) != ' ' || s.charAt(i) != '\t'); i++) {
-        }
+        for (; i < s.length() && (s.charAt(i) != ' ' || s.charAt(i) != '\t'); i++) {}
 
         return i;
     }
@@ -1489,7 +1487,7 @@ public final class CronExpression implements Serializable, Cloneable {
                 }
             } else { // dayOfWSpec && !dayOfMSpec
                 throw new UnsupportedOperationException(
-                    "Support for specifying both a day-of-week AND a day-of-month parameter is not implemented.");
+                        "Support for specifying both a day-of-week AND a day-of-month parameter is not implemented.");
             }
             cl.set(Calendar.DAY_OF_MONTH, day);
 

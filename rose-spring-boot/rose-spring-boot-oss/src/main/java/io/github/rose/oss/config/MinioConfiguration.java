@@ -51,9 +51,9 @@ public class MinioConfiguration {
     @ConditionalOnMissingBean(MinioClient.class)
     public MinioClient minioClient() {
         return MinioClient.builder()
-            .endpoint(ossProperties.getEndpoint())
-            .credentials(ossProperties.getAccessKey(), ossProperties.getSecretKey())
-            .build();
+                .endpoint(ossProperties.getEndpoint())
+                .credentials(ossProperties.getAccessKey(), ossProperties.getSecretKey())
+                .build();
     }
 
     @Bean

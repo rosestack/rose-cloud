@@ -29,22 +29,19 @@ public interface WatcherService extends Closeable {
      * @return the watcher util
      */
     static WatcherService noOp() {
-        return new WatcherService() {
-        };
+        return new WatcherService() {};
     }
 
     /**
      * Close.
      */
     @Override
-    default void close() {
-    }
+    default void close() {}
 
     /**
      * Start the watch.
      *
      * @param name the name
      */
-    default void start(final String name) {
-    }
+    default void start(final String name) {}
 }

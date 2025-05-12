@@ -15,12 +15,11 @@
  */
 package io.github.rose.oss.old.storage.properties;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_MINIO;
 
 import java.time.Duration;
 import java.util.Objects;
-
-import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_MINIO;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * minio 配置信息
@@ -159,11 +158,30 @@ public class MinioOssProperties extends BaseOssProperties {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         MinioOssProperties that = (MinioOssProperties) o;
-        return port == that.port && Objects.equals(endpoint, that.endpoint) && Objects.equals(region, that.region) && Objects.equals(accessKey, that.accessKey) && Objects.equals(secretKey, that.secretKey) && Objects.equals(secure, that.secure) && Objects.equals(metricName, that.metricName) && Objects.equals(connectTimeout, that.connectTimeout) && Objects.equals(writeTimeout, that.writeTimeout) && Objects.equals(readTimeout, that.readTimeout);
+        return port == that.port
+                && Objects.equals(endpoint, that.endpoint)
+                && Objects.equals(region, that.region)
+                && Objects.equals(accessKey, that.accessKey)
+                && Objects.equals(secretKey, that.secretKey)
+                && Objects.equals(secure, that.secure)
+                && Objects.equals(metricName, that.metricName)
+                && Objects.equals(connectTimeout, that.connectTimeout)
+                && Objects.equals(writeTimeout, that.writeTimeout)
+                && Objects.equals(readTimeout, that.readTimeout);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(endpoint, port, region, accessKey, secretKey, secure, metricName, connectTimeout, writeTimeout, readTimeout);
+        return Objects.hash(
+                endpoint,
+                port,
+                region,
+                accessKey,
+                secretKey,
+                secure,
+                metricName,
+                connectTimeout,
+                writeTimeout,
+                readTimeout);
     }
 }

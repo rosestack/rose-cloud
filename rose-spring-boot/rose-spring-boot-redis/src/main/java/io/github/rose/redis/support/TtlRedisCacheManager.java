@@ -16,6 +16,7 @@
 package io.github.rose.redis.support;
 
 import io.github.rose.core.util.StringPool;
+import java.time.Duration;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.cache.RedisCache;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -23,8 +24,6 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
-
-import java.time.Duration;
 
 /**
  * 支持自定义过期时间的 {@link RedisCacheManager} 实现类
@@ -39,9 +38,9 @@ public class TtlRedisCacheManager extends RedisCacheManager {
     }
 
     public TtlRedisCacheManager(
-        RedisCacheWriter cacheWriter,
-        RedisCacheConfiguration defaultCacheConfiguration,
-        String... initialCacheNames) {
+            RedisCacheWriter cacheWriter,
+            RedisCacheConfiguration defaultCacheConfiguration,
+            String... initialCacheNames) {
         super(cacheWriter, defaultCacheConfiguration, true, initialCacheNames);
     }
 

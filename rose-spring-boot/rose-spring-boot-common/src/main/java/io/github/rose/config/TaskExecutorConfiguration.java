@@ -15,7 +15,13 @@
  */
 package io.github.rose.config;
 
+import static org.springframework.aop.interceptor.AsyncExecutionAspectSupport.DEFAULT_TASK_EXECUTOR_BEAN_NAME;
+
 import io.github.rose.util.ExceptionHandlingAsyncTaskExecutor;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,13 +34,6 @@ import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-
-import java.util.concurrent.Executor;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadPoolExecutor;
-
-import static org.springframework.aop.interceptor.AsyncExecutionAspectSupport.DEFAULT_TASK_EXECUTOR_BEAN_NAME;
 
 @Configuration
 @EnableAsync
@@ -59,11 +58,11 @@ public class TaskExecutorConfiguration implements AsyncConfigurer {
         executor.setThreadNamePrefix(taskExecutionProperties.getThreadNamePrefix());
         executor.setAllowCoreThreadTimeOut(taskExecutionProperties.getPool().isAllowCoreThreadTimeout());
         executor.setWaitForTasksToCompleteOnShutdown(
-            taskExecutionProperties.getShutdown().isAwaitTermination());
+                taskExecutionProperties.getShutdown().isAwaitTermination());
         executor.setAwaitTerminationSeconds((int) taskExecutionProperties
-            .getShutdown()
-            .getAwaitTerminationPeriod()
-            .getSeconds());
+                .getShutdown()
+                .getAwaitTerminationPeriod()
+                .getSeconds());
         return new ExceptionHandlingAsyncTaskExecutor(executor);
     }
 
@@ -77,12 +76,12 @@ public class TaskExecutorConfiguration implements AsyncConfigurer {
         log.info("Initializing ScheduledExecutorService");
 
         return new ScheduledThreadPoolExecutor(
-            taskExecutionProperties.getPool().getCoreSize(),
-            new BasicThreadFactory.Builder()
-                .namingPattern("schedule-pool-%d")
-                .daemon(true)
-                .build(),
-            new ThreadPoolExecutor.CallerRunsPolicy()) {
+                taskExecutionProperties.getPool().getCoreSize(),
+                new BasicThreadFactory.Builder()
+                        .namingPattern("schedule-pool-%d")
+                        .daemon(true)
+                        .build(),
+                new ThreadPoolExecutor.CallerRunsPolicy()) {
             @Override
             protected void afterExecute(Runnable r, Throwable t) {
                 super.afterExecute(r, t);

@@ -15,10 +15,9 @@
  */
 package io.github.rose.springdoc.pig.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties("swagger")
 public class SwaggerProperties {

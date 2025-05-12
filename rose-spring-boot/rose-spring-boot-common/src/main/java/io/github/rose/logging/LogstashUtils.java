@@ -21,6 +21,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.LoggerContextListener;
 import ch.qos.logback.core.ConsoleAppender;
 import ch.qos.logback.core.spi.ContextAwareBase;
+import java.net.InetSocketAddress;
 import net.logstash.logback.appender.LogstashTcpSocketAppender;
 import net.logstash.logback.composite.ContextJsonProvider;
 import net.logstash.logback.composite.GlobalCustomFieldsJsonProvider;
@@ -31,8 +32,6 @@ import net.logstash.logback.encoder.LogstashEncoder;
 import net.logstash.logback.stacktrace.ShortenedThrowableConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.net.InetSocketAddress;
 
 /**
  * Utility methods to add appenders to a {@link LoggerContext}.
@@ -45,8 +44,7 @@ public final class LogstashUtils {
 
     private static final String ASYNC_LOGSTASH_APPENDER_NAME = "ASYNC_LOGSTASH";
 
-    private LogstashUtils() {
-    }
+    private LogstashUtils() {}
 
     /**
      * <p>
@@ -81,14 +79,14 @@ public final class LogstashUtils {
      * @param logstashProperties a {@link Logging.Logstash} object.
      */
     public static void addLogstashTcpSocketAppender(
-        LoggerContext context, String customFields, Logging.Logstash logstashProperties) {
+            LoggerContext context, String customFields, Logging.Logstash logstashProperties) {
         log.info("Add LogstashTcpSocketAppender");
 
         // More documentation is available at:
         // https://github.com/logstash/logstash-logback-encoder
         LogstashTcpSocketAppender logstashAppender = new LogstashTcpSocketAppender();
         logstashAppender.addDestinations(
-            new InetSocketAddress(logstashProperties.getHost(), logstashProperties.getPort()));
+                new InetSocketAddress(logstashProperties.getHost(), logstashProperties.getPort()));
         logstashAppender.setContext(context);
         logstashAppender.setEncoder(logstashEncoder(customFields));
         logstashAppender.setName(ASYNC_LOGSTASH_APPENDER_NAME);
@@ -173,7 +171,7 @@ public final class LogstashUtils {
 
     private static LoggingEventFormattedTimestampJsonProvider timestampJsonProvider() {
         LoggingEventFormattedTimestampJsonProvider timestampJsonProvider =
-            new LoggingEventFormattedTimestampJsonProvider();
+                new LoggingEventFormattedTimestampJsonProvider();
         timestampJsonProvider.setTimeZone("UTC");
         timestampJsonProvider.setFieldName("timestamp");
         return timestampJsonProvider;

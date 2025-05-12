@@ -15,6 +15,9 @@
  */
 package io.github.rose.config;
 
+import static io.github.rose.core.CommonConstants.*;
+import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
+
 import io.github.rose.core.CommonConstants;
 import io.github.rose.core.jackson.Java8TimeModule;
 import io.github.rose.core.spring.WebUtils;
@@ -40,16 +43,13 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import static io.github.rose.core.CommonConstants.*;
-import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
-
 @Configuration
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ConditionalOnWebApplication(type = SERVLET)
 @EnableConfigurationProperties({XssProperties.class})
 public class WebMvcConfiguration implements WebMvcConfigurer {
     private static final Logger log = LoggerFactory.getLogger(WebMvcConfiguration.class);
-    
+
     private final XssProperties xssProperties;
 
     @Value("${server.http.max-response-time-to-log-in-ms:2000}")
@@ -102,10 +102,10 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/**")
-            .allowedOrigins("**")
-            .allowedHeaders("*")
-            .allowedMethods("*")
-            .maxAge(86400);
+                .allowedOrigins("**")
+                .allowedHeaders("*")
+                .allowedMethods("*")
+                .maxAge(86400);
     }
 
     @Bean

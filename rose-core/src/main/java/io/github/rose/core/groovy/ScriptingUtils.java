@@ -18,6 +18,16 @@ package io.github.rose.core.groovy;
 import groovy.lang.*;
 import groovy.transform.CompileStatic;
 import io.github.rose.core.lambda.function.CheckedSupplier;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Constructor;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.groovy.control.CompilerConfiguration;
@@ -30,17 +40,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StreamUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Constructor;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  */
@@ -49,6 +48,7 @@ public abstract class ScriptingUtils {
      * System property to indicate groovy compilation must be static.
      */
     public static final String SYSTEM_PROPERTY_GROOVY_COMPILE_STATIC = "org.apereo.cas.groovy.compile.static";
+
     private static final Logger log = LoggerFactory.getLogger(ScriptingUtils.class);
     private static final CompilerConfiguration GROOVY_COMPILER_CONFIG;
 
@@ -62,7 +62,7 @@ public abstract class ScriptingUtils {
      * Pattern indicating groovy script is inlined.
      */
     private static final Pattern INLINE_GROOVY_PATTERN =
-        Pattern.compile(String.format(INLINE_PATTERN, "groovy"), Pattern.DOTALL | Pattern.MULTILINE);
+            Pattern.compile(String.format(INLINE_PATTERN, "groovy"), Pattern.DOTALL | Pattern.MULTILINE);
 
     /**
      * Pattern indicating groovy script is a file/resource.
@@ -78,45 +78,45 @@ public abstract class ScriptingUtils {
         // }
         ImportCustomizer imports = new ImportCustomizer();
         imports.addStarImports(
-            "java.time",
-            "java.util",
-            "java.io",
-            "java.math",
-            "java.beans",
-            "java.net",
-            "java.nio",
-            "java.nio.charset",
-            "java.util.stream",
-            "groovy.net",
-            "groovy.jackson",
-            "groovy.text",
-            "groovy.util",
-            "groovy.lang",
-            "groovy.transform",
-            "org.slf4j",
-            "org.apache.http",
-            "org.apache.http.util",
-            "org.apache.http.client.methods",
-            "org.apache.http.impl.client",
-            "org.apache.commons.lang3",
-            "org.apache.commons.text",
-            "org.apache.commons.io",
-            "org.apache.commons.io.output",
-            "org.apache.commons.codec.digest",
-            "javax.servlet",
-            "javax.servlet.http",
-            "org.springframework.context",
-            "org.springframework.support",
-            "org.springframework.support.io",
-            "org.springframework.webflow",
-            "org.springframework.webflow.execution",
-            "org.springframework.webflow.action",
-            "org.opensaml.support.xml",
-            "org.opensaml.saml.metadata.resolver",
-            "org.opensaml.saml.saml2.support",
-            "org.opensaml.saml.saml2.binding",
-            "org.opensaml.saml.metadata.resolver",
-            "org.opensaml.saml.common");
+                "java.time",
+                "java.util",
+                "java.io",
+                "java.math",
+                "java.beans",
+                "java.net",
+                "java.nio",
+                "java.nio.charset",
+                "java.util.stream",
+                "groovy.net",
+                "groovy.jackson",
+                "groovy.text",
+                "groovy.util",
+                "groovy.lang",
+                "groovy.transform",
+                "org.slf4j",
+                "org.apache.http",
+                "org.apache.http.util",
+                "org.apache.http.client.methods",
+                "org.apache.http.impl.client",
+                "org.apache.commons.lang3",
+                "org.apache.commons.text",
+                "org.apache.commons.io",
+                "org.apache.commons.io.output",
+                "org.apache.commons.codec.digest",
+                "javax.servlet",
+                "javax.servlet.http",
+                "org.springframework.context",
+                "org.springframework.support",
+                "org.springframework.support.io",
+                "org.springframework.webflow",
+                "org.springframework.webflow.execution",
+                "org.springframework.webflow.action",
+                "org.opensaml.support.xml",
+                "org.opensaml.saml.metadata.resolver",
+                "org.opensaml.saml.saml2.support",
+                "org.opensaml.saml.saml2.binding",
+                "org.opensaml.saml.metadata.resolver",
+                "org.opensaml.saml.common");
 
         GROOVY_COMPILER_CONFIG.addCompilationCustomizers(imports);
     }
@@ -193,7 +193,7 @@ public abstract class ScriptingUtils {
      * @return the t
      */
     public static <T> T executeGroovyShellScript(
-        final Script script, final Map<String, Object> variables, final Class<T> clazz) {
+            final Script script, final Map<String, Object> variables, final Class<T> clazz) {
         try {
             Binding binding = script.getBinding();
             if (!binding.hasVariable("log")) {
@@ -224,9 +224,9 @@ public abstract class ScriptingUtils {
      * @return the object
      */
     public static <T> T executeGroovyScript(
-        final Resource groovyScript, final Object[] args, final Class<T> clazz, final boolean failOnError) {
+            final Resource groovyScript, final Object[] args, final Class<T> clazz, final boolean failOnError) {
         return CheckedSupplier.unchecked(() -> executeGroovyScript(groovyScript, "run", args, clazz, failOnError))
-            .get();
+                .get();
     }
 
     /**
@@ -240,7 +240,8 @@ public abstract class ScriptingUtils {
      * @return the result the exception
      */
     public static <T> T executeGroovyScript(
-        final GroovyObject groovyObject, final Object[] args, final Class<T> clazz, final boolean failOnError) throws Throwable {
+            final GroovyObject groovyObject, final Object[] args, final Class<T> clazz, final boolean failOnError)
+            throws Throwable {
         return executeGroovyScript(groovyObject, "run", args, clazz, failOnError);
     }
 
@@ -255,8 +256,8 @@ public abstract class ScriptingUtils {
      * @return the type to return the exception
      */
     public static <T> T executeGroovyScript(
-        final Resource groovyScript, final String methodName, final Class<T> clazz, final Object... args)
-        throws Throwable {
+            final Resource groovyScript, final String methodName, final Class<T> clazz, final Object... args)
+            throws Throwable {
         return executeGroovyScript(groovyScript, methodName, args, clazz, false);
     }
 
@@ -270,7 +271,7 @@ public abstract class ScriptingUtils {
      * @return the t
      */
     public static <T> T executeGroovyScript(
-        final Resource groovyScript, final String methodName, final Class<T> clazz) {
+            final Resource groovyScript, final String methodName, final Class<T> clazz) {
         return executeGroovyScript(groovyScript, methodName, ArrayUtils.EMPTY_OBJECT_ARRAY, clazz, false);
     }
 
@@ -286,11 +287,11 @@ public abstract class ScriptingUtils {
      * @return the t
      */
     public static <T> T executeGroovyScript(
-        final Resource groovyScript,
-        final String methodName,
-        final Object[] args,
-        final Class<T> clazz,
-        final boolean failOnError) {
+            final Resource groovyScript,
+            final String methodName,
+            final Object[] args,
+            final Class<T> clazz,
+            final boolean failOnError) {
         try {
             if (groovyScript == null || StringUtils.isBlank(methodName)) {
                 return null;
@@ -317,12 +318,12 @@ public abstract class ScriptingUtils {
      * @return the t the throwable
      */
     public static <T> T executeGroovyScript(
-        final GroovyObject groovyObject,
-        final String methodName,
-        final Object[] args,
-        final Class<T> clazz,
-        final boolean failOnError)
-        throws Throwable {
+            final GroovyObject groovyObject,
+            final String methodName,
+            final Object[] args,
+            final Class<T> clazz,
+            final boolean failOnError)
+            throws Throwable {
         try {
             log.trace("Executing groovy script's [{}] method, with parameters [{}]", methodName, args);
             Object result = groovyObject.invokeMethod(methodName, args);
@@ -381,13 +382,13 @@ public abstract class ScriptingUtils {
             Class groovyClass = loadGroovyClass(groovyScript, loader);
             if (groovyClass != null) {
                 log.trace(
-                    "Creating groovy object instance from class [{}]",
-                    groovyScript.getURI().getPath());
+                        "Creating groovy object instance from class [{}]",
+                        groovyScript.getURI().getPath());
                 return (GroovyObject) groovyClass.getDeclaredConstructor().newInstance();
             }
             log.warn(
-                "Groovy script at [{}] does not exist",
-                groovyScript.getURI().getPath());
+                    "Groovy script at [{}] does not exist",
+                    groovyScript.getURI().getPath());
         } catch (final Exception e) {
             if (failOnError) {
                 throw new RuntimeException(e);
@@ -407,10 +408,10 @@ public abstract class ScriptingUtils {
     }
 
     private static Class loadGroovyClass(final Resource groovyScript, final GroovyClassLoader loader)
-        throws IOException {
+            throws IOException {
         if (ResourceUtils.isJarFileURL(groovyScript.getURL())) {
             try (BufferedReader groovyReader =
-                     new BufferedReader(new InputStreamReader(groovyScript.getInputStream(), StandardCharsets.UTF_8))) {
+                    new BufferedReader(new InputStreamReader(groovyScript.getInputStream(), StandardCharsets.UTF_8))) {
                 return loader.parseClass(groovyReader, groovyScript.getFilename());
             }
         }
@@ -423,12 +424,12 @@ public abstract class ScriptingUtils {
     }
 
     private static <T> T getGroovyResult(
-        final Resource groovyScript,
-        final String methodName,
-        final Object[] args,
-        final Class<T> clazz,
-        final boolean failOnError)
-        throws Throwable {
+            final Resource groovyScript,
+            final String methodName,
+            final Object[] args,
+            final Class<T> clazz,
+            final boolean failOnError)
+            throws Throwable {
         try {
             GroovyObject groovyObject = parseGroovyScript(groovyScript, failOnError);
             if (groovyObject == null) {
@@ -448,7 +449,7 @@ public abstract class ScriptingUtils {
     private static <T> T getGroovyScriptExecutionResultOrThrow(final Class<T> clazz, final Object result) {
         if (result != null && !clazz.isAssignableFrom(result.getClass())) {
             throw new ClassCastException(
-                "Result [" + result + " is of type " + result.getClass() + " when we were expecting " + clazz);
+                    "Result [" + result + " is of type " + result.getClass() + " when we were expecting " + clazz);
         }
         return (T) result;
     }
@@ -463,7 +464,7 @@ public abstract class ScriptingUtils {
      */
     public static <T> T getObjectInstanceFromGroovyResource(final Resource resource, final Class<T> expectedType) {
         return getObjectInstanceFromGroovyResource(
-            resource, ArrayUtils.EMPTY_CLASS_ARRAY, ArrayUtils.EMPTY_OBJECT_ARRAY, expectedType);
+                resource, ArrayUtils.EMPTY_CLASS_ARRAY, ArrayUtils.EMPTY_OBJECT_ARRAY, expectedType);
     }
 
     /**
@@ -477,7 +478,7 @@ public abstract class ScriptingUtils {
      * @return the object instance from groovy resource
      */
     public static <T> T getObjectInstanceFromGroovyResource(
-        final Resource resource, final Class[] constructorArgs, final Object[] args, final Class<T> expectedType) {
+            final Resource resource, final Class[] constructorArgs, final Object[] args, final Class<T> expectedType) {
         try {
             if (resource == null) {
                 log.debug("No groovy script is defined");
@@ -491,7 +492,7 @@ public abstract class ScriptingUtils {
                 Object result = ctor.newInstance(args);
                 if (!expectedType.isAssignableFrom(result.getClass())) {
                     throw new ClassCastException("Result [" + result + " is of type " + result.getClass()
-                        + " when we were expecting " + expectedType);
+                            + " when we were expecting " + expectedType);
                 }
                 return (T) result;
             }

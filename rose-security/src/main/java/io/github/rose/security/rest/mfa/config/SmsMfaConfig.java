@@ -16,7 +16,6 @@
 package io.github.rose.security.rest.mfa.config;
 
 import io.github.rose.security.rest.mfa.provider.MfaProviderType;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -41,9 +40,8 @@ public class SmsMfaConfig extends OtpBasedMfaConfig {
 
     @Override
     public String toString() {
-        return "SmsMfaConfig{" +
-            "phoneNumber='" + phoneNumber + '\'' +
-            ", serializeHiddenFields=" + serializeHiddenFields +
-            '}';
+        return "SmsMfaConfig{" + "phoneNumber='"
+                + phoneNumber + '\'' + ", serializeHiddenFields="
+                + serializeHiddenFields + '}';
     }
 }

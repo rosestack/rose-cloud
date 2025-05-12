@@ -18,7 +18,6 @@ package io.github.rose.core.jackson.serializer.sensitive;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.github.rose.core.jackson.serializer.StringSensitiveSerialize;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

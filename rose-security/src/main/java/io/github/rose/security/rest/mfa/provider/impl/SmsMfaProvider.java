@@ -43,7 +43,7 @@ public class SmsMfaProvider extends OtpBasedMfaProvider<SmsMfaProviderConfig, Sm
 
     @Override
     protected void sendVerificationCode(
-        SecurityUser user, String verificationCode, SmsMfaProviderConfig providerConfig, SmsMfaConfig twoFaConfig) {
+            SecurityUser user, String verificationCode, SmsMfaProviderConfig providerConfig, SmsMfaConfig twoFaConfig) {
         log.info("send verification code {} to phoneNumber ", verificationCode, twoFaConfig.getPhoneNumber());
 
         // Map<String, String> messageData = Map.of(

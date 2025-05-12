@@ -17,6 +17,9 @@ package io.github.rose.feign.retry;
 
 import feign.RetryableException;
 import io.github.rose.feign.annotation.FeignRetry;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -29,10 +32,6 @@ import org.springframework.retry.backoff.ExponentialBackOffPolicy;
 import org.springframework.retry.backoff.FixedBackOffPolicy;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
-
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * FeignRetry 注解切面注入 retryTemplate
@@ -55,11 +54,11 @@ public class FeignRetryAspect {
         return retryTemplate.execute(arg0 -> {
             int retryCount = arg0.getRetryCount();
             log.info(
-                "Sending request method: {}, max attempt: {}, delay: {}, retryCount: {}",
-                method.getName(),
-                feignRetry.maxAttempt(),
-                feignRetry.backoff().delay(),
-                retryCount);
+                    "Sending request method: {}, max attempt: {}, delay: {}, retryCount: {}",
+                    method.getName(),
+                    feignRetry.maxAttempt(),
+                    feignRetry.backoff().delay(),
+                    retryCount);
             return joinPoint.proceed(joinPoint.getArgs());
         });
     }

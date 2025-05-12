@@ -17,6 +17,10 @@ package io.github.rose.core.spring.expression;
 
 import io.github.rose.core.spring.SpringContextHolder;
 import io.github.rose.core.util.Maps;
+import java.lang.reflect.Method;
+import java.time.*;
+import java.util.*;
+import java.util.function.Function;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -37,11 +41,6 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.util.CollectionUtils;
 
-import java.lang.reflect.Method;
-import java.time.*;
-import java.util.*;
-import java.util.function.Function;
-
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
@@ -59,7 +58,7 @@ public class SpringExpressionResolver implements Function<Object, Object> {
     private static final ParameterNameDiscoverer PARAMETER_NAME_DISCOVERER = new DefaultParameterNameDiscoverer();
 
     private static final SpelExpressionParser EXPRESSION_PARSER = new SpelExpressionParser(
-        new SpelParserConfiguration(SpelCompilerMode.IMMEDIATE, SpringExpressionResolver.class.getClassLoader()));
+            new SpelParserConfiguration(SpelCompilerMode.IMMEDIATE, SpringExpressionResolver.class.getClassLoader()));
     private static final Logger log = LoggerFactory.getLogger(SpringExpressionResolver.class);
     private static SpringExpressionResolver INSTANCE;
     private final StandardEvaluationContext evaluationContext = new StandardEvaluationContext();
@@ -175,34 +174,34 @@ public class SpringExpressionResolver implements Function<Object, Object> {
         evaluationContext.setVariable("uuid", UUID.randomUUID().toString());
 
         evaluationContext.setVariable(
-            "localDateTime", LocalDateTime.now(ZoneId.systemDefault()).toString());
+                "localDateTime", LocalDateTime.now(ZoneId.systemDefault()).toString());
         evaluationContext.setVariable(
-            "localDateTimeUtc", LocalDateTime.now(Clock.systemUTC()).toString());
+                "localDateTimeUtc", LocalDateTime.now(Clock.systemUTC()).toString());
 
         LocalDateTime localStartWorkDay =
-            LocalDate.now(ZoneId.systemDefault()).atStartOfDay().plusHours(8);
+                LocalDate.now(ZoneId.systemDefault()).atStartOfDay().plusHours(8);
         evaluationContext.setVariable("localStartWorkDay", localStartWorkDay.toString());
         evaluationContext.setVariable(
-            "localEndWorkDay", localStartWorkDay.plusHours(9).toString());
+                "localEndWorkDay", localStartWorkDay.plusHours(9).toString());
 
         LocalDateTime localStartDay = LocalDate.now(ZoneId.systemDefault()).atStartOfDay();
         evaluationContext.setVariable("localStartDay", localStartDay.toString());
         evaluationContext.setVariable(
-            "localEndDay",
-            localStartDay
-                .plusHours(HOUR_23)
-                .plusMinutes(MINUTE_59)
-                .plusSeconds(SECOND_59)
-                .toString());
+                "localEndDay",
+                localStartDay
+                        .plusHours(HOUR_23)
+                        .plusMinutes(MINUTE_59)
+                        .plusSeconds(SECOND_59)
+                        .toString());
 
         evaluationContext.setVariable(
-            "localDate", LocalDate.now(ZoneId.systemDefault()).toString());
+                "localDate", LocalDate.now(ZoneId.systemDefault()).toString());
         evaluationContext.setVariable(
-            "localDateUtc", LocalDate.now(Clock.systemUTC()).toString());
+                "localDateUtc", LocalDate.now(Clock.systemUTC()).toString());
 
         evaluationContext.setVariable(
-            "zonedDateTime", ZonedDateTime.now(ZoneId.systemDefault()).toString());
+                "zonedDateTime", ZonedDateTime.now(ZoneId.systemDefault()).toString());
         evaluationContext.setVariable(
-            "zonedDateTimeUtc", ZonedDateTime.now(Clock.systemUTC()).toString());
+                "zonedDateTimeUtc", ZonedDateTime.now(Clock.systemUTC()).toString());
     }
 }

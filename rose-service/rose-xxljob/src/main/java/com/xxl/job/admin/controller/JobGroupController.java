@@ -24,15 +24,14 @@ import com.xxl.job.admin.dao.XxlJobInfoDao;
 import com.xxl.job.admin.dao.XxlJobRegistryDao;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.enums.RegistryConfig;
+import java.util.*;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
 
 /**
  * job group controller
@@ -62,11 +61,11 @@ public class JobGroupController {
     @ResponseBody
     @PermissionLimit(adminuser = true)
     public Map<String, Object> pageList(
-        HttpServletRequest request,
-        @RequestParam(required = false, defaultValue = "0") int start,
-        @RequestParam(required = false, defaultValue = "10") int length,
-        String appname,
-        String title) {
+            HttpServletRequest request,
+            @RequestParam(required = false, defaultValue = "0") int start,
+            @RequestParam(required = false, defaultValue = "10") int length,
+            String appname,
+            String title) {
 
         // page query
         List<XxlJobGroup> list = xxlJobGroupDao.pageList(start, length, appname, title);
@@ -97,21 +96,21 @@ public class JobGroupController {
         }
         if (xxlJobGroup.getTitle() == null || xxlJobGroup.getTitle().trim().length() == 0) {
             return new ReturnT<String>(
-                500, (I18nUtil.getString("system_please_input") + I18nUtil.getString("jobgroup_field_title")));
+                    500, (I18nUtil.getString("system_please_input") + I18nUtil.getString("jobgroup_field_title")));
         }
         if (xxlJobGroup.getTitle().contains(">") || xxlJobGroup.getTitle().contains("<")) {
             return new ReturnT<String>(
-                500, I18nUtil.getString("jobgroup_field_title") + I18nUtil.getString("system_unvalid"));
+                    500, I18nUtil.getString("jobgroup_field_title") + I18nUtil.getString("system_unvalid"));
         }
         if (xxlJobGroup.getAddressType() != 0) {
             if (xxlJobGroup.getAddressList() == null
-                || xxlJobGroup.getAddressList().trim().length() == 0) {
+                    || xxlJobGroup.getAddressList().trim().length() == 0) {
                 return new ReturnT<String>(500, I18nUtil.getString("jobgroup_field_addressType_limit"));
             }
             if (xxlJobGroup.getAddressList().contains(">")
-                || xxlJobGroup.getAddressList().contains("<")) {
+                    || xxlJobGroup.getAddressList().contains("<")) {
                 return new ReturnT<String>(
-                    500, I18nUtil.getString("jobgroup_field_registryList") + I18nUtil.getString("system_unvalid"));
+                        500, I18nUtil.getString("jobgroup_field_registryList") + I18nUtil.getString("system_unvalid"));
             }
 
             String[] addresss = xxlJobGroup.getAddressList().split(",");
@@ -142,7 +141,7 @@ public class JobGroupController {
         }
         if (xxlJobGroup.getTitle() == null || xxlJobGroup.getTitle().trim().length() == 0) {
             return new ReturnT<String>(
-                500, (I18nUtil.getString("system_please_input") + I18nUtil.getString("jobgroup_field_title")));
+                    500, (I18nUtil.getString("system_please_input") + I18nUtil.getString("jobgroup_field_title")));
         }
         if (xxlJobGroup.getAddressType() == 0) {
             // 0=自动注册
@@ -160,7 +159,7 @@ public class JobGroupController {
         } else {
             // 1=手动录入
             if (xxlJobGroup.getAddressList() == null
-                || xxlJobGroup.getAddressList().trim().length() == 0) {
+                    || xxlJobGroup.getAddressList().trim().length() == 0) {
                 return new ReturnT<String>(500, I18nUtil.getString("jobgroup_field_addressType_limit"));
             }
             String[] addresss = xxlJobGroup.getAddressList().split(",");
@@ -226,7 +225,7 @@ public class JobGroupController {
     public ReturnT<XxlJobGroup> loadById(int id) {
         XxlJobGroup jobGroup = xxlJobGroupDao.load(id);
         return jobGroup != null
-            ? new ReturnT<XxlJobGroup>(jobGroup)
-            : new ReturnT<XxlJobGroup>(ReturnT.FAIL_CODE, null);
+                ? new ReturnT<XxlJobGroup>(jobGroup)
+                : new ReturnT<XxlJobGroup>(ReturnT.FAIL_CODE, null);
     }
 }

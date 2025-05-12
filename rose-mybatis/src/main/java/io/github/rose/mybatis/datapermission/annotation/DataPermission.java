@@ -16,7 +16,6 @@
 package io.github.rose.mybatis.datapermission.annotation;
 
 import io.github.rose.mybatis.datapermission.rule.DataPermissionRule;
-
 import java.lang.annotation.*;
 
 /**

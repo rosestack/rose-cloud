@@ -17,11 +17,10 @@ package io.github.rose.security.rest.mfa.config;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import io.github.rose.security.rest.mfa.provider.MfaProviderType;
-
-import javax.validation.constraints.NotBlank;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
+import javax.validation.constraints.NotBlank;
 
 public class BackupCodeMfaConfig extends MfaConfig {
 
@@ -61,9 +60,8 @@ public class BackupCodeMfaConfig extends MfaConfig {
 
     @Override
     public String toString() {
-        return "BackupCodeMfaConfig{" +
-            "codes='" + codes + '\'' +
-            ", serializeHiddenFields=" + serializeHiddenFields +
-            '}';
+        return "BackupCodeMfaConfig{" + "codes='"
+                + codes + '\'' + ", serializeHiddenFields="
+                + serializeHiddenFields + '}';
     }
 }

@@ -15,7 +15,6 @@
  */
 package io.github.rose.core.util;
 
-
 public class Pair<S, T> {
 
     private S first;

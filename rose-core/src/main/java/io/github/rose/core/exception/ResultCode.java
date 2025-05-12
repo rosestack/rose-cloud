@@ -15,7 +15,6 @@
  */
 package io.github.rose.core.exception;
 
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -68,7 +67,7 @@ public enum ResultCode {
     INTERFACE_EXCEED_LOAD(5004, "INTERFACE_EXCEED_LOAD");
 
     private static Map<Integer, ResultCode> reverseLookup = Arrays.asList(ResultCode.class.getEnumConstants()).stream()
-        .collect(Collectors.toMap(ResultCode::getCode, t -> t));
+            .collect(Collectors.toMap(ResultCode::getCode, t -> t));
 
     Integer code;
 

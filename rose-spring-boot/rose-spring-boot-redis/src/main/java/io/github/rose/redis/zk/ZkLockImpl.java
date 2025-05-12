@@ -15,6 +15,10 @@
  */
 package io.github.rose.redis.zk;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.locks.ReentrantLock;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.PathChildrenCache;
 import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
@@ -23,11 +27,6 @@ import org.apache.zookeeper.ZooDefs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class ZkLockImpl implements ZkLock, InitializingBean {
 
@@ -47,18 +46,18 @@ public class ZkLockImpl implements ZkLock, InitializingBean {
         String keyPath = LOCK_ROOT_PATH + lockpath;
         try {
             curatorFramework
-                .create()
-                .creatingParentsIfNeeded()
-                .withMode(CreateMode.EPHEMERAL)
-                .withACL(ZooDefs.Ids.OPEN_ACL_UNSAFE)
-                .forPath(keyPath);
+                    .create()
+                    .creatingParentsIfNeeded()
+                    .withMode(CreateMode.EPHEMERAL)
+                    .withACL(ZooDefs.Ids.OPEN_ACL_UNSAFE)
+                    .forPath(keyPath);
             result = true;
             log.info("success to acquire mutex lock for path:{}", keyPath);
         } catch (Exception e) {
             log.info(
-                "Thread:{};failed to acquire mutex lock for path:{}",
-                Thread.currentThread().getName(),
-                keyPath);
+                    "Thread:{};failed to acquire mutex lock for path:{}",
+                    Thread.currentThread().getName(),
+                    keyPath);
             if (!concurrentMap.containsKey(lockpath)) {
                 try {
                     /*
@@ -139,11 +138,11 @@ public class ZkLockImpl implements ZkLock, InitializingBean {
         try {
             if (curatorFramework.checkExists().forPath(LOCK_ROOT_PATH) == null) {
                 curatorFramework
-                    .create()
-                    .creatingParentsIfNeeded()
-                    .withMode(CreateMode.PERSISTENT)
-                    .withACL(ZooDefs.Ids.OPEN_ACL_UNSAFE)
-                    .forPath(LOCK_ROOT_PATH);
+                        .create()
+                        .creatingParentsIfNeeded()
+                        .withMode(CreateMode.PERSISTENT)
+                        .withACL(ZooDefs.Ids.OPEN_ACL_UNSAFE)
+                        .forPath(LOCK_ROOT_PATH);
             }
             // 启动监听器
             addWatcher(LOCK_ROOT_PATH);

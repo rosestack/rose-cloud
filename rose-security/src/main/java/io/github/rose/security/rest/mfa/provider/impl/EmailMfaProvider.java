@@ -54,10 +54,10 @@ public class EmailMfaProvider extends OtpBasedMfaProvider<EmailMfaProviderConfig
 
     @Override
     protected void sendVerificationCode(
-        SecurityUser user,
-        String verificationCode,
-        EmailMfaProviderConfig providerConfig,
-        EmailMfaConfig twoFaConfig) {
+            SecurityUser user,
+            String verificationCode,
+            EmailMfaProviderConfig providerConfig,
+            EmailMfaConfig twoFaConfig) {
         log.info("send verification code {} to email {}", verificationCode, twoFaConfig.getEmail());
         // mailService.sendTwoFaVerificationEmail(twoFaConfig.getEmail(),
         // verificationCode, providerConfig.getVerificationCodeLifetime());

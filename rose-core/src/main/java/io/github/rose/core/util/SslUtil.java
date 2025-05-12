@@ -15,6 +15,16 @@
  */
 package io.github.rose.core.util;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.security.PrivateKey;
+import java.security.Security;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.cert.X509CertificateHolder;
@@ -33,17 +43,6 @@ import org.bouncycastle.pkcs.jcajce.JcePKCSPBEInputDecryptorProviderBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.security.PrivateKey;
-import java.security.Security;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.List;
-
 public class SslUtil {
     public static final char[] EMPTY_PASS = {};
     public static final BouncyCastleProvider DEFAULT_PROVIDER = new BouncyCastleProvider();
@@ -55,8 +54,7 @@ public class SslUtil {
         }
     }
 
-    private SslUtil() {
-    }
+    private SslUtil() {}
 
     public static List<X509Certificate> readCertFile(String fileContent) throws CertificateException, IOException {
         return readCertFile(new StringReader(fileContent));
@@ -89,7 +87,8 @@ public class SslUtil {
         return null;
     }
 
-    public static PrivateKey readPrivateKeyByFilePath(String filePath, String passStr) throws IOException, PKCSException {
+    public static PrivateKey readPrivateKeyByFilePath(String filePath, String passStr)
+            throws IOException, PKCSException {
         if (StringUtils.isNotEmpty(filePath)) {
             FileReader fileReader = new FileReader(filePath);
             return readPrivateKey(fileReader, passStr);
@@ -107,15 +106,15 @@ public class SslUtil {
                 if (object instanceof PEMEncryptedKeyPair) {
                     PEMDecryptorProvider decProv = new JcePEMDecryptorProviderBuilder().build(password);
                     privateKey = keyConverter
-                        .getKeyPair(((PEMEncryptedKeyPair) object).decryptKeyPair(decProv))
-                        .getPrivate();
+                            .getKeyPair(((PEMEncryptedKeyPair) object).decryptKeyPair(decProv))
+                            .getPrivate();
                     break;
                 } else if (object instanceof PKCS8EncryptedPrivateKeyInfo) {
                     InputDecryptorProvider decProv = new JcePKCSPBEInputDecryptorProviderBuilder()
-                        .setProvider(DEFAULT_PROVIDER)
-                        .build(password);
+                            .setProvider(DEFAULT_PROVIDER)
+                            .build(password);
                     privateKey = keyConverter.getPrivateKey(
-                        ((PKCS8EncryptedPrivateKeyInfo) object).decryptPrivateKeyInfo(decProv));
+                            ((PKCS8EncryptedPrivateKeyInfo) object).decryptPrivateKeyInfo(decProv));
                     break;
                 } else if (object instanceof PEMKeyPair) {
                     privateKey = keyConverter.getKeyPair((PEMKeyPair) object).getPrivate();

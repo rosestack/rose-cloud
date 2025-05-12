@@ -24,7 +24,6 @@ import com.qiniu.util.Auth;
 import com.qiniu.util.StringMap;
 import io.github.rose.oss.old.storage.cloud.qiniu.QiNiuScope;
 import io.github.rose.oss.old.storage.properties.QiNiuOssProperties;
-
 import java.util.Map;
 
 /**
@@ -108,7 +107,7 @@ public class QiNiuOssClientConnectionFactory implements QiNiuConnectionFactory {
      * @param policy   policy
      */
     private void applyScope(
-        QiNiuOssProperties.QiNiuStrategy strategy, QiNiuScope scope, String bucket, String key, StringMap policy) {
+            QiNiuOssProperties.QiNiuStrategy strategy, QiNiuScope scope, String bucket, String key, StringMap policy) {
         if (QiNiuScope.REPLACE.equals(scope)) {
             policy.put("scope", bucket + ":" + key);
             policy.put("insertOnly", 0);

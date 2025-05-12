@@ -18,10 +18,9 @@ package io.github.rose.oss.rule;
 import io.github.rose.core.util.StringPool;
 import io.github.rose.core.util.date.DatePattern;
 import io.github.rose.core.util.date.TimeUtils;
-import org.apache.commons.io.FilenameUtils;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
+import org.apache.commons.io.FilenameUtils;
 
 /**
  * 默认存储桶生成规则
@@ -38,6 +37,6 @@ public class BladeOssRule implements OssRule {
     @Override
     public String fileName(String originalFilename) {
         return "upload" + StringPool.SLASH + TimeUtils.format(LocalDateTime.now(), DatePattern.PURE_DATE_PATTERN)
-            + StringPool.SLASH + UUID.randomUUID() + StringPool.DOT + FilenameUtils.getExtension(originalFilename);
+                + StringPool.SLASH + UUID.randomUUID() + StringPool.DOT + FilenameUtils.getExtension(originalFilename);
     }
 }

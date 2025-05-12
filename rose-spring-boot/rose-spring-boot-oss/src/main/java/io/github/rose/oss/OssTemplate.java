@@ -17,10 +17,9 @@ package io.github.rose.oss;
 
 import io.github.rose.oss.model.BladeFile;
 import io.github.rose.oss.model.OssFile;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.InputStream;
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * OssTemplate抽象API

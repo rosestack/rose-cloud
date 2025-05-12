@@ -15,26 +15,25 @@
  */
 package io.github.rose.security.support;
 
+import static io.github.rose.security.CacheConstants.USER_REFRESH_TOKEN_PREFIX;
+import static io.github.rose.security.CacheConstants.USER_TOKEN_PREFIX;
+
 import io.github.rose.security.SecurityProperties;
 import io.github.rose.security.exception.ExpiredTokenException;
 import io.github.rose.security.util.Authority;
 import io.github.rose.security.util.SecurityUser;
 import io.github.rose.security.util.TokenPair;
 import io.jsonwebtoken.*;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-
 import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
-import static io.github.rose.security.CacheConstants.USER_REFRESH_TOKEN_PREFIX;
-import static io.github.rose.security.CacheConstants.USER_TOKEN_PREFIX;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 
 public class JwtTokenFactory implements TokenFactory {
 
@@ -57,17 +56,17 @@ public class JwtTokenFactory implements TokenFactory {
         String refreshToken = createRefreshToken(securityUser, securityProperties.getRefreshTokenExpireTime());
 
         redisTemplate
-            .opsForValue()
-            .set(
-                USER_TOKEN_PREFIX + accessToken,
-                securityProperties.getAccessTokenExpireTime(),
-                securityProperties.getAccessTokenExpireTime());
+                .opsForValue()
+                .set(
+                        USER_TOKEN_PREFIX + accessToken,
+                        securityProperties.getAccessTokenExpireTime(),
+                        securityProperties.getAccessTokenExpireTime());
         redisTemplate
-            .opsForValue()
-            .set(
-                USER_REFRESH_TOKEN_PREFIX + refreshToken,
-                securityProperties.getRefreshTokenExpireTime(),
-                securityProperties.getRefreshTokenExpireTime());
+                .opsForValue()
+                .set(
+                        USER_REFRESH_TOKEN_PREFIX + refreshToken,
+                        securityProperties.getRefreshTokenExpireTime(),
+                        securityProperties.getRefreshTokenExpireTime());
 
         return new TokenPair(accessToken, refreshToken, securityUser.getAuthorities());
     }
@@ -88,7 +87,7 @@ public class JwtTokenFactory implements TokenFactory {
         }
 
         return new SecurityUser(
-            subject, accessToken, AuthorityUtils.createAuthorityList(scopes.toArray(new String[0])));
+                subject, accessToken, AuthorityUtils.createAuthorityList(scopes.toArray(new String[0])));
     }
 
     @Override
@@ -110,26 +109,26 @@ public class JwtTokenFactory implements TokenFactory {
             throw new IllegalArgumentException("Invalid Refresh Token scope");
         }
         return new SecurityUser(
-            subject, refreshToken, AuthorityUtils.createAuthorityList(scopes.toArray(new String[0])));
+                subject, refreshToken, AuthorityUtils.createAuthorityList(scopes.toArray(new String[0])));
     }
 
     @Override
     public TokenPair createPreVerificationTokenPair(SecurityUser user) {
         JwtBuilder jwtBuilder = setUpToken(
-            user,
-            Collections.singletonList(Authority.PRE_VERIFICATION_TOKEN.name()),
-            securityProperties.getAccessTokenExpireTime());
+                user,
+                Collections.singletonList(Authority.PRE_VERIFICATION_TOKEN.name()),
+                securityProperties.getAccessTokenExpireTime());
         String accessToken = jwtBuilder.compact();
         return new TokenPair(
-            accessToken, null, AuthorityUtils.createAuthorityList(Authority.PRE_VERIFICATION_TOKEN.name()));
+                accessToken, null, AuthorityUtils.createAuthorityList(Authority.PRE_VERIFICATION_TOKEN.name()));
     }
 
     private Jws<Claims> parseTokenClaims(String token) {
         try {
             return Jwts.parser()
-                .setSigningKey(securityProperties.getJwt().getTokenSigningKey())
-                .build()
-                .parseClaimsJws(token);
+                    .setSigningKey(securityProperties.getJwt().getTokenSigningKey())
+                    .build()
+                    .parseClaimsJws(token);
         } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException ex) {
             throw new BadCredentialsException("Token is Invalid", ex);
         } catch (SignatureException | ExpiredJwtException expiredEx) {
@@ -139,11 +138,11 @@ public class JwtTokenFactory implements TokenFactory {
 
     private String createAccessToken(SecurityUser securityUser, Long accessTokenExpireTime) {
         JwtBuilder jwtBuilder = setUpToken(
-            securityUser,
-            securityUser.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList()),
-            accessTokenExpireTime);
+                securityUser,
+                securityUser.getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.toList()),
+                accessTokenExpireTime);
         jwtBuilder.claim(ENABLED, securityUser.isEnabled());
 
         return jwtBuilder.compact();
@@ -151,24 +150,24 @@ public class JwtTokenFactory implements TokenFactory {
 
     private String createRefreshToken(SecurityUser securityUser, Long refreshTokenExpireTime) {
         return setUpToken(
-            securityUser, Collections.singletonList(Authority.REFRESH_TOKEN.name()), refreshTokenExpireTime)
-            .id(UUID.randomUUID().toString())
-            .compact();
+                        securityUser, Collections.singletonList(Authority.REFRESH_TOKEN.name()), refreshTokenExpireTime)
+                .id(UUID.randomUUID().toString())
+                .compact();
     }
 
     private JwtBuilder setUpToken(SecurityUser securityUser, List<String> scopes, long expirationTime) {
         Claims claims = Jwts.claims()
-            .setSubject(securityUser.getUsername())
-            .add(SCOPES, scopes)
-            .build();
+                .setSubject(securityUser.getUsername())
+                .add(SCOPES, scopes)
+                .build();
 
         ZonedDateTime currentTime = ZonedDateTime.now();
 
         return Jwts.builder()
-            .setClaims(claims)
-            .issuer(securityProperties.getJwt().getTokenIssuer())
-            .issuedAt(Date.from(currentTime.toInstant()))
-            .expiration(Date.from(currentTime.plusSeconds(expirationTime).toInstant()))
-            .signWith(SignatureAlgorithm.HS512, securityProperties.getJwt().getTokenSigningKey());
+                .setClaims(claims)
+                .issuer(securityProperties.getJwt().getTokenIssuer())
+                .issuedAt(Date.from(currentTime.toInstant()))
+                .expiration(Date.from(currentTime.plusSeconds(expirationTime).toInstant()))
+                .signWith(SignatureAlgorithm.HS512, securityProperties.getJwt().getTokenSigningKey());
     }
 }

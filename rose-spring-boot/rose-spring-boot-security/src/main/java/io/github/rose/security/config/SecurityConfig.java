@@ -65,7 +65,10 @@ public class SecurityConfig {
 
     private final ObjectPostProcessor<Object> objectPostProcessor;
 
-    public SecurityConfig(MfaProperties mfaProperties, UserDetailsService userDetailsService, ObjectPostProcessor<Object> objectPostProcessor) {
+    public SecurityConfig(
+            MfaProperties mfaProperties,
+            UserDetailsService userDetailsService,
+            ObjectPostProcessor<Object> objectPostProcessor) {
         this.mfaProperties = mfaProperties;
         this.userDetailsService = userDetailsService;
         this.objectPostProcessor = objectPostProcessor;
@@ -75,11 +78,11 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(TokenFactory tokenFactory) throws Exception {
         AuthenticationManagerBuilder auth = new AuthenticationManagerBuilder(objectPostProcessor);
         DefaultAuthenticationEventPublisher eventPublisher =
-            objectPostProcessor.postProcess(new DefaultAuthenticationEventPublisher());
+                objectPostProcessor.postProcess(new DefaultAuthenticationEventPublisher());
         auth.authenticationEventPublisher(eventPublisher);
 
         auth.authenticationProvider(
-            new RestLoginAuthenticationProvider(userDetailsService, passwordEncoder(), mfaProperties));
+                new RestLoginAuthenticationProvider(userDetailsService, passwordEncoder(), mfaProperties));
         auth.authenticationProvider(new RestAccessAuthenticationProvider(tokenFactory));
         auth.authenticationProvider(new RestRefreshAuthenticationProvider(userDetailsService, tokenFactory));
         return auth.build();
@@ -142,6 +145,5 @@ public class SecurityConfig {
 
     @ConditionalOnProperty(prefix = "security.jwt.mfa", value = "enabled", havingValue = "true")
     @ComponentScan(basePackageClasses = MfaAuthController.class)
-    public class MfaConfig {
-    }
+    public class MfaConfig {}
 }

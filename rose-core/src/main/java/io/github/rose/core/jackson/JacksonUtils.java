@@ -28,15 +28,14 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import io.github.rose.core.util.StringPool;
 import io.github.rose.core.validation.Views;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.BiFunction;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * TODO
@@ -47,30 +46,30 @@ import java.util.function.BiFunction;
 public class JacksonUtils {
     public static final ObjectMapper OBJECT_MAPPER = getObjectMapperWithJavaTimeModule();
     public static final ObjectMapper PRETTY_SORTED_JSON_MAPPER = JsonMapper.builder()
-        .addModule(new Java8TimeModule())
-        .addModule(new Jdk8Module())
-        .enable(SerializationFeature.INDENT_OUTPUT)
-        .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true)
-        .configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true)
-        .build();
+            .addModule(new Java8TimeModule())
+            .addModule(new Jdk8Module())
+            .enable(SerializationFeature.INDENT_OUTPUT)
+            .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true)
+            .configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true)
+            .build();
     public static final ObjectMapper IGNORE_UNKNOWN_PROPERTIES_JSON_MAPPER = JsonMapper.builder()
-        .addModule(new Java8TimeModule())
-        .addModule(new Jdk8Module())
-        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        .build();
+            .addModule(new Java8TimeModule())
+            .addModule(new Jdk8Module())
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .build();
     private static final Logger log = LoggerFactory.getLogger(JacksonUtils.class);
     public static ObjectMapper ALLOW_UNQUOTED_FIELD_NAMES_MAPPER = JsonMapper.builder()
-        .addModule(new Java8TimeModule())
-        .addModule(new Jdk8Module())
-        .configure(JsonWriteFeature.QUOTE_FIELD_NAMES.mappedFeature(), false)
-        .configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true)
-        .build();
+            .addModule(new Java8TimeModule())
+            .addModule(new Jdk8Module())
+            .configure(JsonWriteFeature.QUOTE_FIELD_NAMES.mappedFeature(), false)
+            .configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true)
+            .build();
 
     public static ObjectMapper getObjectMapperWithJavaTimeModule() {
         return JsonMapper.builder()
-            .addModule(new Java8TimeModule())
-            .addModule(new Jdk8Module())
-            .build();
+                .addModule(new Java8TimeModule())
+                .addModule(new Jdk8Module())
+                .build();
     }
 
     public static <T> T convertValue(Object fromValue, Class<T> toValueType) {
@@ -78,7 +77,7 @@ public class JacksonUtils {
             return fromValue != null ? OBJECT_MAPPER.convertValue(fromValue, toValueType) : null;
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(
-                "The given object value cannot be converted to " + toValueType + ": " + fromValue, e);
+                    "The given object value cannot be converted to " + toValueType + ": " + fromValue, e);
         }
     }
 
@@ -87,7 +86,7 @@ public class JacksonUtils {
             return fromValue != null ? OBJECT_MAPPER.convertValue(fromValue, toValueTypeRef) : null;
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(
-                "The given object value cannot be converted to " + toValueTypeRef + ": " + fromValue, e);
+                    "The given object value cannot be converted to " + toValueTypeRef + ": " + fromValue, e);
         }
     }
 
@@ -96,7 +95,7 @@ public class JacksonUtils {
             return string != null ? OBJECT_MAPPER.readValue(string, clazz) : null;
         } catch (IOException e) {
             throw new IllegalArgumentException(
-                "The given string value cannot be transformed to Json object: " + string, e);
+                    "The given string value cannot be transformed to Json object: " + string, e);
         }
     }
 
@@ -105,7 +104,7 @@ public class JacksonUtils {
             return string != null ? OBJECT_MAPPER.readValue(string, valueTypeRef) : null;
         } catch (IOException e) {
             throw new IllegalArgumentException(
-                "The given string value cannot be transformed to Json object: " + string, e);
+                    "The given string value cannot be transformed to Json object: " + string, e);
         }
     }
 
@@ -114,7 +113,7 @@ public class JacksonUtils {
             return string != null ? OBJECT_MAPPER.readValue(string, javaType) : null;
         } catch (IOException e) {
             throw new IllegalArgumentException(
-                "The given String value cannot be transformed to Json object: " + string, e);
+                    "The given String value cannot be transformed to Json object: " + string, e);
         }
     }
 
@@ -123,7 +122,7 @@ public class JacksonUtils {
             return string != null ? IGNORE_UNKNOWN_PROPERTIES_JSON_MAPPER.readValue(string, clazz) : null;
         } catch (IOException e) {
             throw new IllegalArgumentException(
-                "The given string value cannot be transformed to Json object: " + string, e);
+                    "The given string value cannot be transformed to Json object: " + string, e);
         }
     }
 
@@ -132,7 +131,7 @@ public class JacksonUtils {
             return bytes != null ? OBJECT_MAPPER.readValue(bytes, clazz) : null;
         } catch (IOException e) {
             throw new IllegalArgumentException(
-                "The given byte[] value cannot be transformed to Json object:" + Arrays.toString(bytes), e);
+                    "The given byte[] value cannot be transformed to Json object:" + Arrays.toString(bytes), e);
         }
     }
 
@@ -141,7 +140,7 @@ public class JacksonUtils {
             return bytes != null ? OBJECT_MAPPER.readValue(bytes, valueTypeRef) : null;
         } catch (IOException e) {
             throw new IllegalArgumentException(
-                "The given string value cannot be transformed to Json object: " + Arrays.toString(bytes), e);
+                    "The given string value cannot be transformed to Json object: " + Arrays.toString(bytes), e);
         }
     }
 
@@ -150,7 +149,7 @@ public class JacksonUtils {
             return OBJECT_MAPPER.readTree(bytes);
         } catch (IOException e) {
             throw new IllegalArgumentException(
-                "The given byte[] value cannot be transformed to Json object: " + Arrays.toString(bytes), e);
+                    "The given byte[] value cannot be transformed to Json object: " + Arrays.toString(bytes), e);
         }
     }
 
@@ -159,7 +158,7 @@ public class JacksonUtils {
             return value != null ? OBJECT_MAPPER.writeValueAsBytes(value) : null;
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException(
-                "The given Json object value cannot be transformed to a String: " + value, e);
+                    "The given Json object value cannot be transformed to a String: " + value, e);
         }
     }
 
@@ -168,15 +167,15 @@ public class JacksonUtils {
             return value != null ? OBJECT_MAPPER.writeValueAsString(value) : null;
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException(
-                "The given Json object value cannot be transformed to a String: " + value, e);
+                    "The given Json object value cannot be transformed to a String: " + value, e);
         }
     }
 
     public static String toStringWithView(Object value, Class<Views.Public> serializationView)
-        throws JsonProcessingException {
+            throws JsonProcessingException {
         return value == null
-            ? ""
-            : OBJECT_MAPPER.writerWithView(serializationView).writeValueAsString(value);
+                ? ""
+                : OBJECT_MAPPER.writerWithView(serializationView).writeValueAsString(value);
     }
 
     public static String toPrettyString(Object o) {
@@ -278,7 +277,7 @@ public class JacksonUtils {
             return value != null ? OBJECT_MAPPER.readTree(value) : null;
         } catch (IOException e) {
             throw new IllegalArgumentException(
-                "The given File object value: " + value + " cannot be transformed to a JsonNode", e);
+                    "The given File object value: " + value + " cannot be transformed to a JsonNode", e);
         }
     }
 
@@ -287,7 +286,7 @@ public class JacksonUtils {
             return value != null ? OBJECT_MAPPER.readTree(value) : null;
         } catch (IOException e) {
             throw new IllegalArgumentException(
-                "The given InputStream value: " + value + " cannot be transformed to a JsonNode", e);
+                    "The given InputStream value: " + value + " cannot be transformed to a JsonNode", e);
         }
     }
 
@@ -322,7 +321,7 @@ public class JacksonUtils {
             return OBJECT_MAPPER.writeValueAsBytes(value);
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException(
-                "The given Json object value cannot be transformed to a String: " + value, e);
+                    "The given Json object value cannot be transformed to a String: " + value, e);
         }
     }
 
@@ -419,10 +418,10 @@ public class JacksonUtils {
     }
 
     public static void replaceAllByMapping(
-        JsonNode jsonNode,
-        Map<String, String> mapping,
-        Map<String, String> templateParams,
-        BiFunction<String, String, String> processor) {
+            JsonNode jsonNode,
+            Map<String, String> mapping,
+            Map<String, String> templateParams,
+            BiFunction<String, String, String> processor) {
         replaceByMapping(jsonNode, mapping, templateParams, (name, value) -> {
             if (value.isTextual()) {
                 return new TextNode(processor.apply(name, value.asText()));
@@ -439,10 +438,10 @@ public class JacksonUtils {
     }
 
     public static void replaceByMapping(
-        JsonNode jsonNode,
-        Map<String, String> mapping,
-        Map<String, String> templateParams,
-        BiFunction<String, JsonNode, JsonNode> processor) {
+            JsonNode jsonNode,
+            Map<String, String> mapping,
+            Map<String, String> templateParams,
+            BiFunction<String, JsonNode, JsonNode> processor) {
         for (Map.Entry<String, String> entry : mapping.entrySet()) {
             String expression = entry.getValue();
             Queue<JsonPathProcessingTask> tasks = new LinkedList<>();
@@ -482,17 +481,17 @@ public class JacksonUtils {
                     if (node.has(token)) {
                         JsonNode value = node.get(token);
                         if (variableName != null
-                            && value.has(variableName)
-                            && value.get(variableName).isTextual()) {
+                                && value.has(variableName)
+                                && value.get(variableName).isTextual()) {
                             variableValue = value.get(variableName).asText();
                         }
                         if (task.isLast()) {
                             String name = expression;
                             for (Map.Entry<String, String> replacement :
-                                task.getVariables().entrySet()) {
+                                    task.getVariables().entrySet()) {
                                 name = name.replace(
-                                    "$" + replacement.getKey(),
-                                    StringUtils.defaultString(replacement.getValue(), StringPool.EMPTY));
+                                        "$" + replacement.getKey(),
+                                        StringUtils.defaultString(replacement.getValue(), StringPool.EMPTY));
                             }
                             ((ObjectNode) node).set(token, processor.apply(name, value));
                         } else {
@@ -561,7 +560,7 @@ public class JacksonUtils {
         @Override
         public String toString() {
             return "JsonPathProcessingTask{" + "tokens=" + Arrays.toString(tokens) + ", variables=" + variables
-                + ", node=" + node.toString().substring(0, 20) + '}';
+                    + ", node=" + node.toString().substring(0, 20) + '}';
         }
 
         public String[] getTokens() {

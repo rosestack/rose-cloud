@@ -15,7 +15,6 @@
  */
 package io.github.rose.security.rest.mfa.provider;
 
-
 import javax.validation.constraints.Min;
 
 public class BackupCodeMfaProviderConfig implements MfaProviderConfig {
@@ -38,8 +37,6 @@ public class BackupCodeMfaProviderConfig implements MfaProviderConfig {
 
     @Override
     public String toString() {
-        return "BackupCodeMfaProviderConfig{" +
-            "codesQuantity=" + codesQuantity +
-            '}';
+        return "BackupCodeMfaProviderConfig{" + "codesQuantity=" + codesQuantity + '}';
     }
 }

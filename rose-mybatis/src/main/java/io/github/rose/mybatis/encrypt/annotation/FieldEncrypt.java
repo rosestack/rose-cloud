@@ -17,7 +17,6 @@ package io.github.rose.mybatis.encrypt.annotation;
 
 import io.github.rose.mybatis.encrypt.IEncryptor;
 import io.github.rose.mybatis.encrypt.util.Algorithm;
-
 import java.lang.annotation.*;
 
 /**

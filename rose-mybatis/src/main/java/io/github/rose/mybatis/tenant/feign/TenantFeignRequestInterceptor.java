@@ -15,12 +15,12 @@
  */
 package io.github.rose.mybatis.tenant.feign;
 
+import static io.github.rose.core.CommonConstants.HEADER_TENANT_ID;
+
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import io.github.rose.mybatis.tenant.util.TenantContextHolder;
 import org.apache.commons.lang3.StringUtils;
-
-import static io.github.rose.core.CommonConstants.HEADER_TENANT_ID;
 
 public class TenantFeignRequestInterceptor implements RequestInterceptor {
 

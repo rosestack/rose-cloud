@@ -19,7 +19,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.github.rose.mybatis.model.BaseEntity;
 import io.github.rose.security.util.Authority;
-
 import java.time.LocalDateTime;
 
 /**

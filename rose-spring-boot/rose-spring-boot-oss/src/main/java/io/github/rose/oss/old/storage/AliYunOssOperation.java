@@ -28,24 +28,23 @@ import io.github.rose.oss.old.storage.domain.StorageResponse;
 import io.github.rose.oss.old.storage.exception.StorageException;
 import io.github.rose.oss.old.storage.properties.AliYunOssProperties;
 import io.github.rose.oss.old.storage.properties.BaseOssProperties;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.DisposableBean;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.DisposableBean;
 
 /**
  * @author Levin
  */
 public class AliYunOssOperation implements OssOperation, DisposableBean {
     private static final Logger log = LoggerFactory.getLogger(AliYunOssOperation.class);
-    
+
     private final OSS ossClient;
 
     private final AliYunOssProperties properties;
@@ -136,11 +135,11 @@ public class AliYunOssOperation implements OssOperation, DisposableBean {
                 throw uploadError(BaseOssProperties.StorageType.ALIYUN, response.getErrorResponseAsString());
             }
             return StorageResponse.builder()
-                .originName(fileName)
-                .targetName(fileName)
-                .size(response.getContentLength())
-                .fullUrl(response.getUri())
-                .build();
+                    .originName(fileName)
+                    .targetName(fileName)
+                    .size(response.getContentLength())
+                    .fullUrl(response.getUri())
+                    .build();
         } catch (Exception ex) {
             ossClient.putObject(bucketName, fileName, bis);
             log.error("[异常信息]", ex);
@@ -156,11 +155,11 @@ public class AliYunOssOperation implements OssOperation, DisposableBean {
             PutObjectRequest objectRequest = new PutObjectRequest(bucket, fileName, request.getInputStream());
             final PutObjectResult object = ossClient.putObject(objectRequest);
             return StorageResponse.builder()
-                .etag(object.getETag())
-                .originName(request.getOriginName())
-                .targetName(fileName)
-                .fullUrl(properties.getMappingPath() + fileName)
-                .build();
+                    .etag(object.getETag())
+                    .originName(request.getOriginName())
+                    .targetName(fileName)
+                    .fullUrl(properties.getMappingPath() + fileName)
+                    .build();
         } catch (Exception e) {
             log.error("[文件上传失败]", e);
             throw new StorageException(BaseOssProperties.StorageType.ALIYUN, "文件上传失败," + e.getLocalizedMessage());

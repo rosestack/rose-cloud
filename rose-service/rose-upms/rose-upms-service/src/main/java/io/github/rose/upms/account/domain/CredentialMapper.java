@@ -20,5 +20,4 @@ import io.github.rose.upms.domain.account.Credential;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface CredentialMapper extends BaseMapper<Credential> {
-}
+public interface CredentialMapper extends BaseMapper<Credential> {}

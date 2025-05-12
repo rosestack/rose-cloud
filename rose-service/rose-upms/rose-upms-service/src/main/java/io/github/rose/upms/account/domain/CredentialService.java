@@ -15,5 +15,4 @@
  */
 package io.github.rose.upms.account.domain;
 
-public class CredentialService {
-}
+public class CredentialService {}

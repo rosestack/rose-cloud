@@ -29,7 +29,7 @@ import org.springframework.core.io.Resource;
  */
 public class WatchableGroovyScript implements ExecutableScript {
     private static final Logger log = LoggerFactory.getLogger(WatchableGroovyScript.class);
-    
+
     private final TryLock lock = new TryLock();
 
     private final Resource resource;
@@ -45,12 +45,12 @@ public class WatchableGroovyScript implements ExecutableScript {
         if (script.exists()) {
             if (script.isFile() && enableWatcher) {
                 watcherService = CheckedSupplier.unchecked(
-                        () -> new FileWatcherService(script.getFile(), CheckedConsumer.unchecked(file -> {
-                            log.debug("Reloading script at [{}]", file);
-                            compileScriptResource(script);
-                            log.info("Reloaded script at [{}]", file);
-                        })))
-                    .get();
+                                () -> new FileWatcherService(script.getFile(), CheckedConsumer.unchecked(file -> {
+                                    log.debug("Reloading script at [{}]", file);
+                                    compileScriptResource(script);
+                                    log.info("Reloaded script at [{}]", file);
+                                })))
+                        .get();
                 watcherService.start(script.getFilename());
             }
             compileScriptResource(script);
@@ -86,8 +86,8 @@ public class WatchableGroovyScript implements ExecutableScript {
             try {
                 log.trace("Beginning to execute script [{}]", this);
                 return groovyScript != null
-                    ? ScriptingUtils.executeGroovyScript(this.groovyScript, args, clazz, failOnError)
-                    : null;
+                        ? ScriptingUtils.executeGroovyScript(this.groovyScript, args, clazz, failOnError)
+                        : null;
             } finally {
                 log.trace("Completed script execution [{}]", this);
             }
@@ -105,13 +105,13 @@ public class WatchableGroovyScript implements ExecutableScript {
      * @return the t
      */
     public <T> T execute(final String methodName, final Class<T> clazz, final boolean failOnError, final Object... args)
-        throws Throwable {
+            throws Throwable {
         return lock.tryLock(() -> {
             try {
                 log.trace("Beginning to execute script [{}]", this);
                 return groovyScript != null
-                    ? ScriptingUtils.executeGroovyScript(groovyScript, methodName, args, clazz, failOnError)
-                    : null;
+                        ? ScriptingUtils.executeGroovyScript(groovyScript, methodName, args, clazz, failOnError)
+                        : null;
             } finally {
                 log.trace("Completed script execution [{}]", this);
             }

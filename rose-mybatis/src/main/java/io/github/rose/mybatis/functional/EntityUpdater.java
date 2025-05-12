@@ -19,14 +19,13 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.github.rose.core.exception.BusinessException;
 import io.github.rose.core.validation.Update;
 import io.vavr.control.Try;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -34,7 +33,7 @@ import java.util.function.Supplier;
  */
 public class EntityUpdater<T> extends BaseEntityOperation implements Loader<T>, UpdateHandler<T>, Executor<T> {
     private static final Logger log = LoggerFactory.getLogger(EntityUpdater.class);
-    
+
     private final BaseMapper<T> baseMapper;
 
     private T entity;
@@ -51,12 +50,12 @@ public class EntityUpdater<T> extends BaseEntityOperation implements Loader<T>, 
     public Optional<T> execute() {
         doValidate(this.entity, Update.class);
         T save = Try.of(() -> {
-                baseMapper.updateById(entity);
-                return this.entity;
-            })
-            .onSuccess(successHook)
-            .onFailure(errorHook)
-            .getOrNull();
+                    baseMapper.updateById(entity);
+                    return this.entity;
+                })
+                .onSuccess(successHook)
+                .onFailure(errorHook)
+                .getOrNull();
         return Optional.ofNullable(save);
     }
 

@@ -20,5 +20,4 @@ import io.github.rose.upms.domain.account.Account;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface AccountMapper extends BaseMapper<Account> {
-}
+public interface AccountMapper extends BaseMapper<Account> {}

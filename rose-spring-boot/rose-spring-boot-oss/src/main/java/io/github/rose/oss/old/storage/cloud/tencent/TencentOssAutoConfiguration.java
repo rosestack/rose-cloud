@@ -15,6 +15,9 @@
  */
 package io.github.rose.oss.old.storage.cloud.tencent;
 
+import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_TENCENT;
+import static io.github.rose.oss.old.storage.OssOperation.TENCENT_OSS_OPERATION;
+
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
@@ -26,9 +29,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_TENCENT;
-import static io.github.rose.oss.old.storage.OssOperation.TENCENT_OSS_OPERATION;
 
 /**
  * OSS自动配置

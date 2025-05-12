@@ -20,5 +20,4 @@ import io.github.rose.upms.domain.contact.UserSetting;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface UserSettingMapper extends BaseMapper<UserSetting> {
-}
+public interface UserSettingMapper extends BaseMapper<UserSetting> {}

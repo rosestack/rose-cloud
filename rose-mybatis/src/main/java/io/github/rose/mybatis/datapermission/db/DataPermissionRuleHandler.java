@@ -20,11 +20,10 @@ import com.baomidou.mybatisplus.extension.plugins.handler.MultiDataPermissionHan
 import io.github.rose.mybatis.datapermission.rule.DataPermissionRule;
 import io.github.rose.mybatis.datapermission.rule.DataPermissionRuleFactory;
 import io.github.rose.mybatis.util.MyBatisUtils;
+import java.util.List;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.schema.Table;
-
-import java.util.List;
 
 /**
  * 基于 {@link DataPermissionRule} 的数据权限处理器

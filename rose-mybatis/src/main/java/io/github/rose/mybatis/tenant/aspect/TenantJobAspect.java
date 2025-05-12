@@ -22,14 +22,13 @@ import io.github.rose.core.util.FormatUtils;
 import io.github.rose.mybatis.tenant.annotation.TenantJob;
 import io.github.rose.mybatis.tenant.service.TenantService;
 import io.github.rose.mybatis.tenant.util.TenantUtils;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 多租户 JobHandler AOP 任务执行时，会按照租户逐个执行 Job 的逻辑
@@ -63,10 +62,10 @@ public class TenantJobAspect {
                 } catch (Throwable e) {
                     results.put(tenantId, ExceptionUtils.getRootCauseMessage(e));
                     XxlJobHelper.log(FormatUtils.format(
-                        "{}租户执行任务({})，发生异常：{}]",
-                        tenantId,
-                        joinPoint.getSignature(),
-                        ExceptionUtils.getStackTrace(e)));
+                            "{}租户执行任务({})，发生异常：{}]",
+                            tenantId,
+                            joinPoint.getSignature(),
+                            ExceptionUtils.getStackTrace(e)));
                 }
             });
         });

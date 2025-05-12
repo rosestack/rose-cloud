@@ -5,19 +5,12 @@ updates:
     schedule:
       interval: daily
     open-pull-requests-limit: 10
-    labels:
-      - maintenance
-    commit-message:
-      prefix: "[DEPENDABOT]"
 
   - package-ecosystem: "maven"
     directory: "/"
     open-pull-requests-limit: 10
-    rebase-strategy: disabled
     schedule:
       interval: "daily"
-      time: "00:00"
-      timezone: "Asia/Shanghai"
     ignore:
       # 忽略所有主要版本更新
       - dependency-name: "*"

@@ -16,7 +16,6 @@
 package io.github.rose.core.lambda;
 
 import io.github.rose.core.lambda.function.*;
-
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Comparator;
@@ -51,8 +50,7 @@ public final class Unchecked {
     /**
      * No instances
      */
-    private Unchecked() {
-    }
+    private Unchecked() {}
 
     @SuppressWarnings("unchecked")
     public static <E extends Throwable> void sneakyThrow(Throwable t) throws E {
@@ -256,7 +254,7 @@ public final class Unchecked {
      * </code></pre>
      */
     public static <T, U, R> BiFunction<T, U, R> biFunction(
-        CheckedBiFunction<T, U, R> function, Consumer<Throwable> handler) {
+            CheckedBiFunction<T, U, R> function, Consumer<Throwable> handler) {
         return (t, u) -> {
             try {
                 return function.apply(t, u);
@@ -280,7 +278,7 @@ public final class Unchecked {
      * for checked exceptions.
      */
     public static <T, U> BiPredicate<T, U> biPredicate(
-        CheckedBiPredicate<T, U> predicate, Consumer<Throwable> handler) {
+            CheckedBiPredicate<T, U> predicate, Consumer<Throwable> handler) {
         return (t, u) -> {
             try {
                 return predicate.test(t, u);

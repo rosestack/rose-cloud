@@ -18,6 +18,7 @@ package io.github.rose.feign.sentinel.handle;
 import com.alibaba.csp.sentinel.Tracer;
 import io.github.rose.core.exception.BusinessException;
 import io.github.rose.core.util.RestResponse;
+import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
@@ -29,8 +30,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * <p>
  * 全局异常处理器结合 sentinel 全局异常处理器不能作用在 oauth server
@@ -41,7 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 @ConditionalOnExpression("!'${security.oauth2.client.clientId}'.isEmpty()")
 public class GlobalExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-    
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public RestResponse<String> handleGlobalException(Exception e, HttpServletRequest request) {
@@ -63,7 +62,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public RestResponse<String> handleAccessDeniedException(AccessDeniedException e, HttpServletRequest request) {
         String msg = SpringSecurityMessageSource.getAccessor()
-            .getMessage("AbstractAccessDecisionManager.accessDenied", e.getMessage());
+                .getMessage("AbstractAccessDecisionManager.accessDenied", e.getMessage());
         log.warn("无权限访问, {}, {}", request.getRequestURI(), msg, e);
         return RestResponse.error(msg);
     }

@@ -17,10 +17,9 @@ package io.github.rose.mybatis.extension.interceptor;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import io.github.rose.core.spring.WebUtils;
+import java.time.LocalDateTime;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.util.ClassUtils;
-
-import java.time.LocalDateTime;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -37,7 +36,7 @@ public class DefaultMetaObjectHandler implements MetaObjectHandler {
      * @param isCover    是否覆盖原有值,避免更新操作手动入参
      */
     protected static void fillValIfNullByName(
-        String fieldName, Object fieldVal, MetaObject metaObject, boolean isCover) {
+            String fieldName, Object fieldVal, MetaObject metaObject, boolean isCover) {
         // 1. 没有 set 方法
         if (!metaObject.hasSetter(fieldName)) {
             return;

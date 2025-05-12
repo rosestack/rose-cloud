@@ -16,20 +16,19 @@
 package io.github.rose.springdoc.pig.config;
 
 import io.github.rose.springdoc.pig.annotation.EnableSpringDoc;
+import java.util.Map;
+import java.util.Objects;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
-
-import java.util.Map;
-import java.util.Objects;
 
 public class OpenAPIDefinitionImportSelector implements ImportBeanDefinitionRegistrar {
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
         Map<String, Object> annotationAttributes =
-            metadata.getAnnotationAttributes(EnableSpringDoc.class.getName(), true);
+                metadata.getAnnotationAttributes(EnableSpringDoc.class.getName(), true);
         Object value = annotationAttributes.get("value");
         if (Objects.isNull(value)) {
             return;
@@ -48,7 +47,7 @@ public class OpenAPIDefinitionImportSelector implements ImportBeanDefinitionRegi
         }
 
         BeanDefinitionBuilder openAPIMetadata =
-            BeanDefinitionBuilder.genericBeanDefinition(OpenAPIMetadataConfiguration.class);
+                BeanDefinitionBuilder.genericBeanDefinition(OpenAPIMetadataConfiguration.class);
         openAPIMetadata.addPropertyValue("path", value);
         registry.registerBeanDefinition("openAPIMetadata", openAPIMetadata.getBeanDefinition());
     }

@@ -32,6 +32,12 @@ import com.xxl.job.core.biz.model.LogParam;
 import com.xxl.job.core.biz.model.LogResult;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.util.DateUtil;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -41,13 +47,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * index controller
@@ -71,9 +70,9 @@ public class JobLogController {
 
     @RequestMapping
     public String index(
-        HttpServletRequest request,
-        Model model,
-        @RequestParam(required = false, defaultValue = "0") Integer jobId) {
+            HttpServletRequest request,
+            Model model,
+            @RequestParam(required = false, defaultValue = "0") Integer jobId) {
 
         // 执行器列表
         List<XxlJobGroup> jobGroupList_all = xxlJobGroupDao.findAll();
@@ -91,7 +90,7 @@ public class JobLogController {
             XxlJobInfo jobInfo = xxlJobInfoDao.loadById(jobId);
             if (jobInfo == null) {
                 throw new RuntimeException(
-                    I18nUtil.getString("jobinfo_field_id") + I18nUtil.getString("system_unvalid"));
+                        I18nUtil.getString("jobinfo_field_id") + I18nUtil.getString("system_unvalid"));
             }
 
             model.addAttribute("jobInfo", jobInfo);
@@ -113,13 +112,13 @@ public class JobLogController {
     @RequestMapping("/pageList")
     @ResponseBody
     public Map<String, Object> pageList(
-        HttpServletRequest request,
-        @RequestParam(required = false, defaultValue = "0") int start,
-        @RequestParam(required = false, defaultValue = "10") int length,
-        int jobGroup,
-        int jobId,
-        int logStatus,
-        String filterTime) {
+            HttpServletRequest request,
+            @RequestParam(required = false, defaultValue = "0") int start,
+            @RequestParam(required = false, defaultValue = "10") int length,
+            int jobGroup,
+            int jobId,
+            int logStatus,
+            String filterTime) {
 
         // valid permission
         PermissionInterceptor.validJobGroupPermission(request, jobGroup); // 仅管理员支持查询全部；普通用户仅支持查询有权限的
@@ -138,9 +137,9 @@ public class JobLogController {
 
         // page query
         List<XxlJobLog> list =
-            xxlJobLogDao.pageList(start, length, jobGroup, jobId, triggerTimeStart, triggerTimeEnd, logStatus);
+                xxlJobLogDao.pageList(start, length, jobGroup, jobId, triggerTimeStart, triggerTimeEnd, logStatus);
         int list_count =
-            xxlJobLogDao.pageListCount(start, length, jobGroup, jobId, triggerTimeStart, triggerTimeEnd, logStatus);
+                xxlJobLogDao.pageListCount(start, length, jobGroup, jobId, triggerTimeStart, triggerTimeEnd, logStatus);
 
         // package result
         Map<String, Object> maps = new HashMap<String, Object>();
@@ -180,12 +179,12 @@ public class JobLogController {
             // log cat
             ExecutorBiz executorBiz = XxlJobScheduler.getExecutorBiz(jobLog.getExecutorAddress());
             ReturnT<LogResult> logResult =
-                executorBiz.log(new LogParam(jobLog.getTriggerTime().getTime(), logId, fromLineNum));
+                    executorBiz.log(new LogParam(jobLog.getTriggerTime().getTime(), logId, fromLineNum));
 
             // is end
             if (logResult.getContent() != null
-                && logResult.getContent().getFromLineNum()
-                > logResult.getContent().getToLineNum()) {
+                    && logResult.getContent().getFromLineNum()
+                            > logResult.getContent().getToLineNum()) {
                 if (jobLog.getHandleCode() > 0) {
                     logResult.getContent().setEnd(true);
                 }
@@ -193,7 +192,7 @@ public class JobLogController {
 
             // fix xss
             if (logResult.getContent() != null
-                && StringUtils.hasText(logResult.getContent().getLogContent())) {
+                    && StringUtils.hasText(logResult.getContent().getLogContent())) {
                 String newLogContent = logResult.getContent().getLogContent();
                 newLogContent = HtmlUtils.htmlEscape(newLogContent, "UTF-8");
                 logResult.getContent().setLogContent(newLogContent);
@@ -232,7 +231,7 @@ public class JobLogController {
         if (ReturnT.SUCCESS_CODE == runResult.getCode()) {
             log.setHandleCode(ReturnT.FAIL_CODE);
             log.setHandleMsg(I18nUtil.getString("joblog_kill_log_byman") + ":"
-                + (runResult.getMsg() != null ? runResult.getMsg() : ""));
+                    + (runResult.getMsg() != null ? runResult.getMsg() : ""));
             log.setHandleTime(new Date());
             XxlJobCompleter.updateHandleInfoAndFinish(log);
             return new ReturnT<String>(runResult.getMsg());

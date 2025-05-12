@@ -32,8 +32,6 @@ public abstract class OtpBasedMfaProviderConfig implements MfaProviderConfig {
 
     @Override
     public String toString() {
-        return "OtpBasedMfaProviderConfig{" +
-            "verificationCodeExpireTime=" + verificationCodeExpireTime +
-            '}';
+        return "OtpBasedMfaProviderConfig{" + "verificationCodeExpireTime=" + verificationCodeExpireTime + '}';
     }
 }

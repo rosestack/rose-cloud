@@ -15,6 +15,7 @@
  */
 package io.github.rose.gateway.filter;
 
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -24,8 +25,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 /**
  * 全局拦截器，作用所有的微服务
  * 1. 对请求的API调用过滤，记录接口的请求时间，方便日志审计、告警、分析等运维操作 2. 后期可以扩展对接其他日志系统
@@ -33,7 +32,7 @@ import java.util.List;
 @Component
 public class ApiLoggingFilter implements GlobalFilter, Ordered {
     private static final Logger log = LoggerFactory.getLogger(ApiLoggingFilter.class);
-    
+
     private static final String START_TIME = "startTime";
 
     private static final String X_REAL_IP = "X-Real-IP"; // nginx需要配置
@@ -42,11 +41,11 @@ public class ApiLoggingFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         if (log.isDebugEnabled()) {
             String info = String.format(
-                "Method:{%s} Host:{%s} Path:{%s} Query:{%s}",
-                exchange.getRequest().getMethod().name(),
-                exchange.getRequest().getURI().getHost(),
-                exchange.getRequest().getURI().getPath(),
-                exchange.getRequest().getQueryParams());
+                    "Method:{%s} Host:{%s} Path:{%s} Query:{%s}",
+                    exchange.getRequest().getMethod().name(),
+                    exchange.getRequest().getURI().getHost(),
+                    exchange.getRequest().getURI().getPath(),
+                    exchange.getRequest().getQueryParams());
             log.debug(info);
         }
         exchange.getAttributes().put(START_TIME, System.currentTimeMillis());

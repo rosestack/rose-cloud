@@ -15,14 +15,10 @@
  */
 package io.github.rose.core.io;
 
+import static java.nio.file.StandardWatchEventKinds.*;
+
 import io.github.rose.core.lambda.function.CheckedConsumer;
 import io.github.rose.core.lambda.function.CheckedSupplier;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.DisposableBean;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -30,8 +26,11 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-
-import static java.nio.file.StandardWatchEventKinds.*;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.DisposableBean;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -55,16 +54,14 @@ public class PathWatcherService implements WatcherService, Runnable, DisposableB
     private Thread thread;
 
     public PathWatcherService(final File watchablePath, final Consumer<File> onModify) {
-        this(watchablePath.toPath(), __ -> {
-        }, onModify, __ -> {
-        });
+        this(watchablePath.toPath(), __ -> {}, onModify, __ -> {});
     }
 
     public PathWatcherService(
-        final Path watchablePath,
-        final Consumer<File> onCreate,
-        final Consumer<File> onModify,
-        final Consumer<File> onDelete) {
+            final Path watchablePath,
+            final Consumer<File> onCreate,
+            final Consumer<File> onModify,
+            final Consumer<File> onDelete) {
         log.info("Watching directory path at [{}]", watchablePath);
         this.onCreate = onCreate;
         this.onModify = onModify;
@@ -147,17 +144,17 @@ public class PathWatcherService implements WatcherService, Runnable, DisposableB
 
     protected boolean shouldEnableWatchService() {
         String watchServiceEnabled = StringUtils.defaultIfBlank(
-            System.getenv(PROPERTY_DISABLE_WATCHER), System.getProperty(PROPERTY_DISABLE_WATCHER));
+                System.getenv(PROPERTY_DISABLE_WATCHER), System.getProperty(PROPERTY_DISABLE_WATCHER));
         return StringUtils.isBlank(watchServiceEnabled) || BooleanUtils.toBoolean(watchServiceEnabled);
     }
 
     protected void initializeWatchService(final Path watchablePath) {
         this.watchService = CheckedSupplier.unchecked(
-                () -> watchablePath.getFileSystem().newWatchService())
-            .get();
+                        () -> watchablePath.getFileSystem().newWatchService())
+                .get();
         log.debug(
-            "Created watcher for events of type [{}]",
-            Arrays.stream(KINDS).map(WatchEvent.Kind::name).collect(Collectors.joining(",")));
+                "Created watcher for events of type [{}]",
+                Arrays.stream(KINDS).map(WatchEvent.Kind::name).collect(Collectors.joining(",")));
         CheckedConsumer.unchecked(__ -> watchablePath.register(Objects.requireNonNull(this.watchService), KINDS));
     }
 }

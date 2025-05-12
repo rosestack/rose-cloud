@@ -34,7 +34,6 @@ import org.slf4j.LoggerFactory;
 @Aspect
 public class TenantIgnoreAspect {
     private static final Logger log = LoggerFactory.getLogger(TenantIgnoreAspect.class);
-    
 
     @Around("@annotation(tenantIgnore)")
     public Object around(ProceedingJoinPoint joinPoint, TenantIgnore tenantIgnore) throws Throwable {

@@ -5,15 +5,15 @@
   <parent>
     <groupId>io.github.rose-group</groupId>
     <artifactId>rose-build</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3-SNAPSHOT</version>
   </parent>
   <groupId>io.github.rose-group</groupId>
   <artifactId>rose-microservice</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>rose-microservice</name>
-  <description>Rose Microservice Projects</description>
+  <name>Rose :: Microservice</name>
+  <description>Rose Microservice</description>
   <url>https://github.com/rose-group/rose-microservice</url>
   <inceptionYear>2025</inceptionYear>
 
@@ -319,6 +319,18 @@
         <maven.deploy.skip>true</maven.deploy.skip>
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <maven.source.skip>true</maven.source.skip>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>sonar</id>
+      <properties>
+        <sonar.projectKey>io.github.rose-group:rose-microservice</sonar.projectKey>
+        <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
+        <!--suppress UnresolvedMavenProperty -->
+        <sonar.coverage.jacoco.xmlReportPaths>
+          ${maven.multiModuleProjectDirectory}/coverage/target/site/jacoco-aggregate/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
       </properties>
     </profile>
   </profiles>

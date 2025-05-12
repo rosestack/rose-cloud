@@ -15,10 +15,9 @@
  */
 package io.github.rose.mybatis;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import java.util.Collections;
 import java.util.Set;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "mybatis-plus.tenant")
 public class TenantProperties {

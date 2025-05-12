@@ -17,16 +17,15 @@ package io.github.rose.filter;
 
 import io.github.rose.core.util.date.DatePattern;
 import io.github.rose.core.util.date.TimeUtils;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
-
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * TODO Comment
@@ -40,7 +39,7 @@ public class CustomRequestLoggingFilter extends CommonsRequestLoggingFilter {
     private final int maxResponseTimeToLogInMs;
 
     private List<String> ignoreHeaders =
-        Arrays.asList("password", "authorization", "token", "accessToken", "access_token", "refreshToken");
+            Arrays.asList("password", "authorization", "token", "accessToken", "access_token", "refreshToken");
 
     public CustomRequestLoggingFilter(int maxResponseTimeToLogInMs) {
         this.maxResponseTimeToLogInMs = maxResponseTimeToLogInMs;
@@ -49,7 +48,7 @@ public class CustomRequestLoggingFilter extends CommonsRequestLoggingFilter {
     @PostConstruct
     public void init() {
         Predicate<String> headerPredicate =
-            headerName -> ObjectUtils.isEmpty(ignoreHeaders) || !ignoreHeaders.contains(headerName);
+                headerName -> ObjectUtils.isEmpty(ignoreHeaders) || !ignoreHeaders.contains(headerName);
         if (getHeaderPredicate() == null) {
             setHeaderPredicate(headerPredicate);
         } else {
@@ -76,7 +75,7 @@ public class CustomRequestLoggingFilter extends CommonsRequestLoggingFilter {
 
             if (cost >= this.maxResponseTimeToLogInMs) {
                 String execTime =
-                    TimeUtils.format(TimeUtils.fromMilliseconds(startTime), DatePattern.NORM_DATETIME_MS_PATTERN);
+                        TimeUtils.format(TimeUtils.fromMilliseconds(startTime), DatePattern.NORM_DATETIME_MS_PATTERN);
                 log.warn("[SLOW_REQUEST] {} {} {} {}", execTime, request.getMethod(), request.getRequestURI(), cost);
             }
         }

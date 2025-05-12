@@ -15,7 +15,6 @@
  */
 package io.github.rose.core.util.tree;
 
-
 import java.io.Serializable;
 
 /**
@@ -48,8 +47,7 @@ public class TreeNodeConfig implements Serializable {
     // 可以配置递归深度 从0开始计算 默认此配置为空,即不限制
     private Integer deep;
 
-    public TreeNodeConfig() {
-    }
+    public TreeNodeConfig() {}
 
     public String getIdKey() {
         return idKey;

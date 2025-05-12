@@ -16,7 +16,6 @@
 package io.github.rose.feign.sentinel.parser;
 
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.RequestOriginParser;
-
 import javax.servlet.http.HttpServletRequest;
 
 /**

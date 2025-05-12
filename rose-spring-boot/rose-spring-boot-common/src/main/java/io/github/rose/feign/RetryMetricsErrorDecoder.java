@@ -29,12 +29,12 @@ public class RetryMetricsErrorDecoder extends MetricsErrorDecoder {
         int status = response.status();
         if (status >= 400) {
             return new RetryableException(
-                response.status(),
-                exception.getMessage(),
-                response.request().httpMethod(),
-                exception,
-                null,
-                response.request());
+                    response.status(),
+                    exception.getMessage(),
+                    response.request().httpMethod(),
+                    exception,
+                    null,
+                    response.request());
         }
         return exception;
     }

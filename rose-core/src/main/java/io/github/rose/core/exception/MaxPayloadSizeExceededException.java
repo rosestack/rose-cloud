@@ -15,7 +15,6 @@
  */
 package io.github.rose.core.exception;
 
-
 public class MaxPayloadSizeExceededException extends RuntimeException {
 
     private final long limit;

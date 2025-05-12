@@ -19,11 +19,10 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import io.github.rose.mybatis.datapermission.annotation.DataPermission;
 import io.github.rose.mybatis.datapermission.aop.DataPermissionContextHolder;
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * 默认的 DataPermissionRuleFactoryImpl 实现类 支持通过 {@link DataPermissionContextHolder} 过滤数据权限
@@ -64,14 +63,14 @@ public class DataPermissionRuleFactoryImpl implements DataPermissionRuleFactory 
         // 4. 已配置，只选择部分规则
         if (ObjectUtils.isNotEmpty(dataPermission.includeRules())) {
             return rules.stream()
-                .filter(rule -> ArrayUtils.contains(dataPermission.includeRules(), rule.getClass()))
-                .collect(Collectors.toList()); // 一般规则不会太多，所以不采用 HashSet 查询
+                    .filter(rule -> ArrayUtils.contains(dataPermission.includeRules(), rule.getClass()))
+                    .collect(Collectors.toList()); // 一般规则不会太多，所以不采用 HashSet 查询
         }
         // 5. 已配置，只排除部分规则
         if (ObjectUtils.isNotEmpty(dataPermission.excludeRules())) {
             return rules.stream()
-                .filter(rule -> !ArrayUtils.contains(dataPermission.excludeRules(), rule.getClass()))
-                .collect(Collectors.toList()); // 一般规则不会太多，所以不采用 HashSet 查询
+                    .filter(rule -> !ArrayUtils.contains(dataPermission.excludeRules(), rule.getClass()))
+                    .collect(Collectors.toList()); // 一般规则不会太多，所以不采用 HashSet 查询
         }
         // 6. 已配置，全部规则
         return rules;

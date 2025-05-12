@@ -15,12 +15,12 @@
  */
 package io.github.rose.core.util;
 
+import static java.util.Collections.singletonMap;
+import static java.util.Collections.unmodifiableMap;
+
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
-
-import static java.util.Collections.singletonMap;
-import static java.util.Collections.unmodifiableMap;
 
 /**
  * The utilities class for Java {@link Map}
@@ -127,7 +127,7 @@ public abstract class Maps {
      * @return {@link Map}<{@link K}, {@link V}>
      */
     public static <K, V> Map<K, V> of(
-        K key1, V value1, K key2, V value2, K key3, V value3, K key4, V value4, K key5, V value5) {
+            K key1, V value1, K key2, V value2, K key3, V value3, K key4, V value4, K key5, V value5) {
         return ofMap(key1, value1, key2, value2, key3, value3, key4, value4, key5, value5);
     }
 

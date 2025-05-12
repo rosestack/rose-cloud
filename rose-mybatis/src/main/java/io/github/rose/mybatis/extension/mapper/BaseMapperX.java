@@ -24,7 +24,6 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.github.yulichang.base.MPJBaseMapper;
 import io.github.rose.mybatis.util.JdbcUtils;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -54,16 +53,16 @@ public interface BaseMapperX<T> extends MPJBaseMapper<T> {
     }
 
     default T selectOne(
-        SFunction<T, ?> field1,
-        Object value1,
-        SFunction<T, ?> field2,
-        Object value2,
-        SFunction<T, ?> field3,
-        Object value3) {
+            SFunction<T, ?> field1,
+            Object value1,
+            SFunction<T, ?> field2,
+            Object value2,
+            SFunction<T, ?> field3,
+            Object value3) {
         return selectOne(new LambdaQueryWrapper<T>()
-            .eq(field1, value1)
-            .eq(field2, value2)
-            .eq(field3, value3));
+                .eq(field1, value1)
+                .eq(field2, value2)
+                .eq(field3, value3));
     }
 
     default Long selectCount() {

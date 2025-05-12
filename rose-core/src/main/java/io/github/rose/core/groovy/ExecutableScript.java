@@ -67,10 +67,8 @@ public interface ExecutableScript extends AutoCloseable {
      *
      * @param args the args
      */
-    default void setBinding(final Map<String, Object> args) {
-    }
+    default void setBinding(final Map<String, Object> args) {}
 
     @Override
-    default void close() {
-    }
+    default void close() {}
 }

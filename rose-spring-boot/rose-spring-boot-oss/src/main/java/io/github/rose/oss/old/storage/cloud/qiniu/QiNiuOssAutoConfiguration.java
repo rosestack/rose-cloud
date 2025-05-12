@@ -15,6 +15,9 @@
  */
 package io.github.rose.oss.old.storage.cloud.qiniu;
 
+import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_QINIU;
+import static io.github.rose.oss.old.storage.OssOperation.QI_NIU_OSS_OPERATION;
+
 import io.github.rose.oss.old.storage.QiNiuOssOperation;
 import io.github.rose.oss.old.storage.cloud.qiniu.connection.QiNiuConnectionFactory;
 import io.github.rose.oss.old.storage.cloud.qiniu.connection.QiNiuOssClientConnectionFactory;
@@ -22,9 +25,6 @@ import io.github.rose.oss.old.storage.properties.QiNiuOssProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-
-import static io.github.rose.oss.old.storage.OssOperation.OSS_CONFIG_PREFIX_QINIU;
-import static io.github.rose.oss.old.storage.OssOperation.QI_NIU_OSS_OPERATION;
 
 /**
  * @author Levin
@@ -40,7 +40,7 @@ public class QiNiuOssAutoConfiguration {
 
     @Bean(QI_NIU_OSS_OPERATION)
     public QiNiuOssOperation qiNiuStorageOperation(
-        QiNiuOssProperties properties, QiNiuConnectionFactory qiNiuConnectionFactory) {
+            QiNiuOssProperties properties, QiNiuConnectionFactory qiNiuConnectionFactory) {
         return new QiNiuOssOperation(properties, qiNiuConnectionFactory);
     }
 }

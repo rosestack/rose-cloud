@@ -15,9 +15,8 @@
  */
 package io.github.rose.core.util;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.Properties;
+import org.apache.commons.lang3.StringUtils;
 
 public class PropsUtil {
 

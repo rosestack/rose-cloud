@@ -15,7 +15,6 @@
  */
 package io.github.rose.logging;
 
-
 public class Logging {
 
     private final Logstash logstash = new Logstash();

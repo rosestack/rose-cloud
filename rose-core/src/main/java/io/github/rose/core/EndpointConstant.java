@@ -42,7 +42,7 @@ public interface EndpointConstant {
 
     String TOKEN_CONFIRM_ACCESS = "/token/confirm_access";
 
-    String[] NON_TOKEN_BASED_AUTH_ENTRY_POINTS = new String[]{
+    String[] NON_TOKEN_BASED_AUTH_ENTRY_POINTS = new String[] {
         "/v2/api-docs",
         "/swagger-resources/**",
         "/configuration/ui",

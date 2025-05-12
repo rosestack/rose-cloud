@@ -31,7 +31,7 @@ import org.springframework.validation.annotation.Validated;
  */
 @Validated
 public class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEntity> extends ServiceImpl<M, T>
-    implements BaseService<T> {
+        implements BaseService<T> {
 
     @Override
     public boolean isFieldDuplicate(SFunction<T, ?> field, Object value, Long excludedId) {

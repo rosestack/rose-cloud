@@ -16,16 +16,15 @@
 package io.github.rose.security.util;
 
 import io.github.rose.core.SecurityConstants;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.stream.Stream;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.Jwt;
-
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * TODO Comment
@@ -35,8 +34,7 @@ import java.util.stream.Stream;
  */
 public class SecurityUtils {
 
-    private SecurityUtils() {
-    }
+    private SecurityUtils() {}
 
     /**
      * Get the login of the current user.
@@ -69,8 +67,8 @@ public class SecurityUtils {
     public static Optional<String> getCurrentUserJWT() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return Optional.ofNullable(securityContext.getAuthentication())
-            .filter(authentication -> authentication.getCredentials() instanceof String)
-            .map(authentication -> (String) authentication.getCredentials());
+                .filter(authentication -> authentication.getCredentials() instanceof String)
+                .map(authentication -> (String) authentication.getCredentials());
     }
 
     /**
@@ -92,8 +90,8 @@ public class SecurityUtils {
     public static boolean hasCurrentUserAnyOfAuthorities(String... authorities) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (authentication != null
-            && getAuthorities(authentication)
-            .anyMatch(authority -> Arrays.asList(authorities).contains(authority)));
+                && getAuthorities(authentication)
+                        .anyMatch(authority -> Arrays.asList(authorities).contains(authority)));
     }
 
     /**

@@ -15,14 +15,14 @@
  */
 package io.github.rose.mybatis.mq.rabbitmq;
 
+import static io.github.rose.core.CommonConstants.HEADER_TENANT_ID;
+
 import io.github.rose.mybatis.tenant.util.TenantContextHolder;
 import org.apache.kafka.clients.producer.ProducerInterceptor;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.messaging.handler.invocation.InvocableHandlerMethod;
-
-import static io.github.rose.core.CommonConstants.HEADER_TENANT_ID;
 
 /**
  * RabbitMQ 消息队列的多租户 {@link ProducerInterceptor} 实现类

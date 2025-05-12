@@ -16,7 +16,6 @@
 package io.github.rose.annotation;
 
 import io.github.rose.ratelimiter.LimitType;
-
 import java.lang.annotation.*;
 
 /**

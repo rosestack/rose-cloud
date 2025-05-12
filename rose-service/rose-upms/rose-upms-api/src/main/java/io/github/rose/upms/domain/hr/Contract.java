@@ -15,5 +15,4 @@
  */
 package io.github.rose.upms.domain.hr;
 
-public class Contract {
-}
+public class Contract {}

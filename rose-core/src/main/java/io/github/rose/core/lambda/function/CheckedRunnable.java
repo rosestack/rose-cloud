@@ -17,7 +17,6 @@ package io.github.rose.core.lambda.function;
 
 import io.github.rose.core.lambda.Sneaky;
 import io.github.rose.core.lambda.Unchecked;
-
 import java.util.function.Consumer;
 
 /**

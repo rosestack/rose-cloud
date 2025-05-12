@@ -27,13 +27,12 @@ import io.github.rose.oss.old.storage.domain.StorageResponse;
 import io.github.rose.oss.old.storage.exception.StorageException;
 import io.github.rose.oss.old.storage.properties.BaseOssProperties;
 import io.github.rose.oss.old.storage.properties.TencentOssProperties;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.*;
 import java.nio.file.Path;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Levin
@@ -57,7 +56,7 @@ public class TencentOssOperation implements OssOperation {
     @Override
     public DownloadResponse download(String bucketName, String fileName) {
         final String path = StringUtils.defaultIfBlank(
-            this.properties.getTmpDir(), this.getClass().getResource("/").getPath());
+                this.properties.getTmpDir(), this.getClass().getResource("/").getPath());
         final File file = new File(path + File.separator + fileName);
         log.debug("[文件目录] - [{}]", file.getPath());
         download(bucketName, fileName, file);
@@ -91,12 +90,10 @@ public class TencentOssOperation implements OssOperation {
     }
 
     @Override
-    public void rename(String oldName, String newName) {
-    }
+    public void rename(String oldName, String newName) {}
 
     @Override
-    public void rename(String bucketName, String oldName, String newName) {
-    }
+    public void rename(String bucketName, String oldName, String newName) {}
 
     @Override
     public StorageResponse upload(String fileName, byte[] content) {
@@ -118,11 +115,11 @@ public class TencentOssOperation implements OssOperation {
                 throw new StorageException(BaseOssProperties.StorageType.TENCENT, "文件上传失败,ETag为空");
             }
             return StorageResponse.builder()
-                .originName(fileName)
-                .targetName(fileName)
-                .size(objectMetadata.getContentLength())
-                .fullUrl(properties.getMappingPath() + fileName)
-                .build();
+                    .originName(fileName)
+                    .targetName(fileName)
+                    .size(objectMetadata.getContentLength())
+                    .fullUrl(properties.getMappingPath() + fileName)
+                    .build();
         } catch (IOException e) {
             log.error("[文件上传异常]", e);
             throw new StorageException(BaseOssProperties.StorageType.TENCENT, "文件上传失败," + e.getLocalizedMessage());
@@ -139,17 +136,17 @@ public class TencentOssOperation implements OssOperation {
         // 设置输入流长度为 500
         objectMetadata.setContentLength(content.length);
         PutObjectRequest request = new PutObjectRequest(
-            properties.getBucket(), fileName, new ByteArrayInputStream(content), objectMetadata);
+                properties.getBucket(), fileName, new ByteArrayInputStream(content), objectMetadata);
         PutObjectResult result = client.putObject(request);
         if (StringUtils.isEmpty(result.getETag())) {
             throw new StorageException(BaseOssProperties.StorageType.TENCENT, "文件上传失败,ETag为空");
         }
         return StorageResponse.builder()
-            .originName(fileName)
-            .targetName(fileName)
-            .size(objectMetadata.getContentLength())
-            .fullUrl(properties.getMappingPath() + fileName)
-            .build();
+                .originName(fileName)
+                .targetName(fileName)
+                .size(objectMetadata.getContentLength())
+                .fullUrl(properties.getMappingPath() + fileName)
+                .build();
     }
 
     @Override
@@ -158,14 +155,11 @@ public class TencentOssOperation implements OssOperation {
     }
 
     @Override
-    public void remove(String fileName) {
-    }
+    public void remove(String fileName) {}
 
     @Override
-    public void remove(String bucketName, String fileName) {
-    }
+    public void remove(String bucketName, String fileName) {}
 
     @Override
-    public void remove(String bucketName, Path path) {
-    }
+    public void remove(String bucketName, Path path) {}
 }

@@ -15,6 +15,10 @@
  */
 package io.github.rose.core.spring;
 
+import java.beans.PropertyDescriptor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.cglib.beans.BeanCopier;
@@ -22,11 +26,6 @@ import org.springframework.cglib.beans.BeanMap;
 import org.springframework.cglib.core.Converter;
 import org.springframework.util.ConcurrentReferenceHashMap;
 import org.springframework.util.ObjectUtils;
-
-import java.beans.PropertyDescriptor;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -140,7 +139,7 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
          */
         private String genKey(Class<?> srcClass, Class<?> targetClass, Converter converter) {
             final StringBuilder key =
-                new StringBuilder().append(srcClass.getName()).append('#').append(targetClass.getName());
+                    new StringBuilder().append(srcClass.getName()).append('#').append(targetClass.getName());
             if (null != converter) {
                 key.append('#').append(converter.getClass().getName());
             }

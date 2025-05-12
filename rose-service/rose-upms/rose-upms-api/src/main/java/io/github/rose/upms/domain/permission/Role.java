@@ -17,7 +17,6 @@ package io.github.rose.upms.domain.permission;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.rose.mybatis.model.TenantEntity;
-
 import javax.validation.constraints.NotBlank;
 
 @TableName("sys_role")

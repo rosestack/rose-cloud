@@ -15,7 +15,6 @@
  */
 package io.github.rose.oss.enums;
 
-
 /**
  * minio策略配置
  *

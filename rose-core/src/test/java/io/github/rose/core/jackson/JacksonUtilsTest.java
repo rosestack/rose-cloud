@@ -15,18 +15,17 @@
  */
 package io.github.rose.core.jackson;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class JacksonUtilsTest {
 
@@ -54,27 +53,27 @@ public class JacksonUtilsTest {
 
     @ParameterizedTest
     @ValueSource(
-        strings = {
-            "",
-            "false",
-            "\"",
-            "\"\"",
-            "\"This is a string with double quotes\"",
-            "Path: /home/developer/test.txt",
-            "First line\nSecond line\n\nFourth line",
-            "Before\rAfter",
-            "Tab\tSeparated\tValues",
-            "Test\bbackspace",
-            "[]",
-            "[1, 2, 3]",
-            "{\"key\": \"value\"}",
-            "{\n\"temperature\": 25.5,\n\"humidity\": 50.2\n\"}",
-            "Expression: (a + b) * c",
-            "世界",
-            "Україна",
-            "\u1F1FA\u1F1E6",
-            "🇺🇦"
-        })
+            strings = {
+                "",
+                "false",
+                "\"",
+                "\"\"",
+                "\"This is a string with double quotes\"",
+                "Path: /home/developer/test.txt",
+                "First line\nSecond line\n\nFourth line",
+                "Before\rAfter",
+                "Tab\tSeparated\tValues",
+                "Test\bbackspace",
+                "[]",
+                "[1, 2, 3]",
+                "{\"key\": \"value\"}",
+                "{\n\"temperature\": 25.5,\n\"humidity\": 50.2\n\"}",
+                "Expression: (a + b) * c",
+                "世界",
+                "Україна",
+                "\u1F1FA\u1F1E6",
+                "🇺🇦"
+            })
     public void toPlainTextTest(String original) {
         String serialized = JacksonUtils.toString(original);
         Assertions.assertNotNull(serialized);
@@ -88,8 +87,8 @@ public class JacksonUtilsTest {
         // to enable handling
         assertThat(JacksonUtils.toString(Optional.of("hello"))).isEqualTo("\"hello\"");
         assertThat(JacksonUtils.toString(Collections.singletonList(Optional.of("abc"))))
-            .isEqualTo("[\"abc\"]");
+                .isEqualTo("[\"abc\"]");
         assertThat(JacksonUtils.toString(new HashSet<>(Collections.singletonList(Optional.empty()))))
-            .isEqualTo("[null]");
+                .isEqualTo("[null]");
     }
 }

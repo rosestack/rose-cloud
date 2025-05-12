@@ -17,7 +17,6 @@ package io.github.rose.mybatis.datapermission.aop;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 import io.github.rose.mybatis.datapermission.annotation.DataPermission;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class DataPermissionContextHolder {
      * 使用 List 的原因，可能存在方法的嵌套调用
      */
     private static final ThreadLocal<LinkedList<DataPermission>> DATA_PERMISSIONS =
-        TransmittableThreadLocal.withInitial(LinkedList::new);
+            TransmittableThreadLocal.withInitial(LinkedList::new);
 
     /**
      * 获得当前的 DataPermission 注解

@@ -17,7 +17,6 @@ package io.github.rose.security.rest.mfa;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.github.rose.security.util.TokenPair;
-
 import java.util.List;
 
 public interface MfaSettingService {

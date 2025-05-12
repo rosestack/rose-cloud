@@ -15,6 +15,10 @@
  */
 package io.github.rose.core.groovy;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.groovy.util.Maps;
 import org.junit.jupiter.api.Nested;
@@ -24,11 +28,6 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This is {@link GroovyShellScriptTests}.
@@ -46,7 +45,8 @@ class GroovyShellScriptTests {
 
         private final Object expectedAttribute;
 
-        private RunnableScript(Map<String, Object> attributes, GroovyShellScript shellScript, Object expectedAttribute) {
+        private RunnableScript(
+                Map<String, Object> attributes, GroovyShellScript shellScript, Object expectedAttribute) {
             this.attributes = attributes;
             this.shellScript = shellScript;
             this.expectedAttribute = expectedAttribute;
@@ -71,11 +71,11 @@ class GroovyShellScriptTests {
         @Test
         void verifyOperation() throws Exception {
             String script = "   def logger = (Logger) binding.getVariable('log') \n"
-                + "   def attributes = (Map) binding.getVariable('attributes') \n"
-                + "   logger.info('Attributes: {}', attributes) \n"
-                + "   if ((attributes.get('entitlement') as List).contains('admin')){ \n"
-                + "       return [(attributes['uid'] as List).get(0).toString().toUpperCase()]\n" + "   } else{ \n"
-                + "       return attributes['identifier'] as List \n" + "   } \n";
+                    + "   def attributes = (Map) binding.getVariable('attributes') \n"
+                    + "   logger.info('Attributes: {}', attributes) \n"
+                    + "   if ((attributes.get('entitlement') as List).contains('admin')){ \n"
+                    + "       return [(attributes['uid'] as List).get(0).toString().toUpperCase()]\n" + "   } else{ \n"
+                    + "       return attributes['identifier'] as List \n" + "   } \n";
             GroovyShellScript shellScript = new GroovyShellScript(script.trim());
 
             Map<String, Object> attributes1 = new HashMap();
@@ -92,9 +92,9 @@ class GroovyShellScriptTests {
         @Test
         void verifyOperation() {
             String script = "   def attributes = (Map) binding.getVariable('attributes') \n"
-                + "   if ((attributes.get('entitlement') as List).contains('admin')){ \n"
-                + "       return [(attributes['uid'] as List).get(0).toString().toUpperCase()]\n" + "   } else{ \n"
-                + "       return attributes['identifier'] as List \n" + "   } \n";
+                    + "   if ((attributes.get('entitlement') as List).contains('admin')){ \n"
+                    + "       return [(attributes['uid'] as List).get(0).toString().toUpperCase()]\n" + "   } else{ \n"
+                    + "       return attributes['identifier'] as List \n" + "   } \n";
 
             GroovyShellScript shellScript = new GroovyShellScript(script.trim());
 
@@ -112,8 +112,8 @@ class GroovyShellScriptTests {
             List<Thread> threads = new ArrayList();
             for (int i = 1; i <= 10; i++) {
                 RunnableScript runnable = i % 2 == 0
-                    ? new RunnableScript(attributes1, shellScript, "CASADMIN")
-                    : new RunnableScript(attributes2, shellScript, "dev-pwd");
+                        ? new RunnableScript(attributes1, shellScript, "CASADMIN")
+                        : new RunnableScript(attributes2, shellScript, "dev-pwd");
                 Thread thread = new Thread(runnable);
                 thread.setName("Thread-" + i);
                 thread.setUncaughtExceptionHandler((t, e) -> {

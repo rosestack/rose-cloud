@@ -1,9 +1,8 @@
 package io.github.rose.core.util;
 
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.test.util.AssertionErrors;
+import static io.github.rose.core.util.BitsetTest.Flag.CACHED_VALUES;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.util.AssertionErrors.assertNull;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -11,21 +10,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
-
-import static io.github.rose.core.util.BitsetTest.Flag.CACHED_VALUES;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.util.AssertionErrors.assertNull;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.test.util.AssertionErrors;
 
 public class BitsetTest {
     private static final Logger log = LoggerFactory.getLogger(BitsetTest.class);
 
-    private BitsetTest() {
-    }
+    private BitsetTest() {}
 
     private static void assertBitSet(long bitSet, int startIdx, int range) {
         IntStream.range(0, startIdx).forEach(idx -> assertNotFlag(bitSet, CACHED_VALUES[idx]));
         IntStream.range(startIdx, startIdx + range).forEach(idx -> assertFlag(bitSet, CACHED_VALUES[idx]));
-        IntStream.range(startIdx + range, CACHED_VALUES.length).forEach(idx -> assertNotFlag(bitSet, CACHED_VALUES[idx]));
+        IntStream.range(startIdx + range, CACHED_VALUES.length)
+                .forEach(idx -> assertNotFlag(bitSet, CACHED_VALUES[idx]));
     }
 
     private static void assertFlag(long bitset, Flag flag) {
@@ -261,7 +260,23 @@ public class BitsetTest {
     }
 
     public enum Flag {
-        A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q;
+        A,
+        B,
+        C,
+        D,
+        E,
+        F,
+        G,
+        H,
+        I,
+        J,
+        K,
+        L,
+        M,
+        N,
+        O,
+        P,
+        Q;
 
         public static final Flag[] CACHED_VALUES = Flag.values();
 
@@ -269,5 +284,4 @@ public class BitsetTest {
             return CACHED_VALUES[ordinal];
         }
     }
-
 }

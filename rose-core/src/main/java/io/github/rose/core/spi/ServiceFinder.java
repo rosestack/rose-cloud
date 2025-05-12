@@ -1,10 +1,8 @@
 package io.github.rose.core.spi;
 
-
+import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.*;
 
 /**
  * ServiceFinder is a {@link ServiceLoader} replacement which understands multiple classpaths.
@@ -28,8 +26,7 @@ public class ServiceFinder {
             }
         } else {
             for (ClassLoader loader : loaders) {
-                if (loader == null)
-                    throw new NullPointerException();
+                if (loader == null) throw new NullPointerException();
                 try {
                     ServiceLoader<T> loadedServices = ServiceLoader.load(contract, loader);
                     addServices(loadedServices, services);
@@ -53,7 +50,9 @@ public class ServiceFinder {
                 if (services.putIfAbsent(service.getClass().getName(), service) == null) {
                     log.info("Loading service impl: %s", service.getClass().getName());
                 } else {
-                    log.info("Ignoring already loaded service: %s", service.getClass().getName());
+                    log.info(
+                            "Ignoring already loaded service: %s",
+                            service.getClass().getName());
                 }
             } catch (ServiceConfigurationError e) {
                 log.warn("Skipping service impl", e);

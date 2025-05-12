@@ -15,6 +15,8 @@
  */
 package io.github.rose.redis.mq.config;
 
+import static java.lang.management.ManagementFactory.getRuntimeMXBean;
+
 import io.github.rose.core.util.FormatUtils;
 import io.github.rose.core.util.NetUtils;
 import io.github.rose.redis.config.RedisCacheConfig;
@@ -22,6 +24,8 @@ import io.github.rose.redis.mq.RedisMQTemplate;
 import io.github.rose.redis.mq.job.RedisPendingMessageResendJob;
 import io.github.rose.redis.mq.pubsub.AbstractRedisChannelMessageListener;
 import io.github.rose.redis.mq.stream.AbstractRedisStreamMessageListener;
+import java.util.List;
+import java.util.Properties;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
@@ -42,11 +46,6 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.stream.StreamMessageListenerContainer;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.util.List;
-import java.util.Properties;
-
-import static java.lang.management.ManagementFactory.getRuntimeMXBean;
-
 /**
  * Redis 消息队列 Consumer 配置类
  *
@@ -64,9 +63,9 @@ public class EnjoyRedisMQConsumerAutoConfiguration {
      */
     private static String buildConsumerName() {
         return String.format(
-            "%s@%d",
-            NetUtils.getLocalhostStr(),
-            Long.parseLong(getRuntimeMXBean().getName().split("@")[0]));
+                "%s@%d",
+                NetUtils.getLocalhostStr(),
+                Long.parseLong(getRuntimeMXBean().getName().split("@")[0]));
     }
 
     /**
@@ -91,7 +90,7 @@ public class EnjoyRedisMQConsumerAutoConfiguration {
     @ConditionalOnBean(AbstractRedisChannelMessageListener.class)
     // 只有 AbstractChannelMessageListener 存在的时候，才需要注册 Redis pubsub 监听
     public RedisMessageListenerContainer redisMessageListenerContainer(
-        RedisMQTemplate redisMQTemplate, List<AbstractRedisChannelMessageListener<?>> listeners) {
+            RedisMQTemplate redisMQTemplate, List<AbstractRedisChannelMessageListener<?>> listeners) {
         // 创建 RedisMessageListenerContainer 对象
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         // 设置 RedisConnection 工厂。
@@ -101,9 +100,9 @@ public class EnjoyRedisMQConsumerAutoConfiguration {
             listener.setRedisMQTemplate(redisMQTemplate);
             container.addMessageListener(listener, new ChannelTopic(listener.getChannel()));
             log.info(
-                "[redisMessageListenerContainer][注册 Channel({}) 对应的监听器({})]",
-                listener.getChannel(),
-                listener.getClass().getName());
+                    "[redisMessageListenerContainer][注册 Channel({}) 对应的监听器({})]",
+                    listener.getChannel(),
+                    listener.getClass().getName());
         });
         return container;
     }
@@ -115,10 +114,10 @@ public class EnjoyRedisMQConsumerAutoConfiguration {
     @ConditionalOnBean(AbstractRedisStreamMessageListener.class)
     // 只有 AbstractStreamMessageListener 存在的时候，才需要注册 Redis pubsub 监听
     public RedisPendingMessageResendJob redisPendingMessageResendJob(
-        List<AbstractRedisStreamMessageListener<?>> listeners,
-        RedisMQTemplate redisTemplate,
-        @Value("${spring.application.name}") String groupName,
-        RedissonClient redissonClient) {
+            List<AbstractRedisStreamMessageListener<?>> listeners,
+            RedisMQTemplate redisTemplate,
+            @Value("${spring.application.name}") String groupName,
+            RedissonClient redissonClient) {
         return new RedisPendingMessageResendJob(listeners, redisTemplate, groupName, redissonClient);
     }
 
@@ -133,29 +132,29 @@ public class EnjoyRedisMQConsumerAutoConfiguration {
     @ConditionalOnBean(AbstractRedisStreamMessageListener.class)
     // 只有 AbstractStreamMessageListener 存在的时候，才需要注册 Redis pubsub 监听
     public StreamMessageListenerContainer<String, ObjectRecord<String, String>> redisStreamMessageListenerContainer(
-        RedisMQTemplate redisMQTemplate, List<AbstractRedisStreamMessageListener<?>> listeners) {
+            RedisMQTemplate redisMQTemplate, List<AbstractRedisStreamMessageListener<?>> listeners) {
         RedisTemplate<String, ?> redisTemplate = redisMQTemplate.getRedisTemplate();
         checkRedisVersion(redisTemplate);
         // 第一步，创建 StreamMessageListenerContainer 容器
         // 创建 options 配置
         StreamMessageListenerContainer.StreamMessageListenerContainerOptions<String, ObjectRecord<String, String>>
-            containerOptions = StreamMessageListenerContainer.StreamMessageListenerContainerOptions.builder()
-            .batchSize(10) // 一次性最多拉取多少条消息
-            .targetType(String.class) // 目标类型。统一使用 String，通过自己封装的
-            // AbstractStreamMessageListener 去反序列化
-            .build();
+                containerOptions = StreamMessageListenerContainer.StreamMessageListenerContainerOptions.builder()
+                        .batchSize(10) // 一次性最多拉取多少条消息
+                        .targetType(String.class) // 目标类型。统一使用 String，通过自己封装的
+                        // AbstractStreamMessageListener 去反序列化
+                        .build();
         // 创建 container 对象
         StreamMessageListenerContainer<String, ObjectRecord<String, String>> container =
-            StreamMessageListenerContainer.create(
-                redisMQTemplate.getRedisTemplate().getRequiredConnectionFactory(), containerOptions);
+                StreamMessageListenerContainer.create(
+                        redisMQTemplate.getRedisTemplate().getRequiredConnectionFactory(), containerOptions);
 
         // 第二步，注册监听器，消费对应的 Stream 主题
         String consumerName = buildConsumerName();
         listeners.parallelStream().forEach(listener -> {
             log.info(
-                "[redisStreamMessageListenerContainer][开始注册 StreamKey({}) 对应的监听器({})]",
-                listener.getStreamKey(),
-                listener.getClass().getName());
+                    "[redisStreamMessageListenerContainer][开始注册 StreamKey({}) 对应的监听器({})]",
+                    listener.getStreamKey(),
+                    listener.getClass().getName());
             // 创建 listener 对应的消费者分组
             try {
                 redisTemplate.opsForStream().createGroup(listener.getStreamKey(), listener.getGroup());
@@ -169,16 +168,16 @@ public class EnjoyRedisMQConsumerAutoConfiguration {
             StreamOffset<String> streamOffset = StreamOffset.create(listener.getStreamKey(), ReadOffset.lastConsumed());
             // 设置 Consumer 监听
             StreamMessageListenerContainer.StreamReadRequestBuilder<String> builder =
-                StreamMessageListenerContainer.StreamReadRequest.builder(streamOffset)
-                    .consumer(consumer)
-                    .autoAcknowledge(false) // 不自动 ack
-                    .cancelOnError(throwable -> false); // 默认配置，发生异常就取消消费，显然不符合预期；因此，我们设置为
+                    StreamMessageListenerContainer.StreamReadRequest.builder(streamOffset)
+                            .consumer(consumer)
+                            .autoAcknowledge(false) // 不自动 ack
+                            .cancelOnError(throwable -> false); // 默认配置，发生异常就取消消费，显然不符合预期；因此，我们设置为
             // false
             container.register(builder.build(), listener);
             log.info(
-                "[redisStreamMessageListenerContainer][完成注册 StreamKey({}) 对应的监听器({})]",
-                listener.getStreamKey(),
-                listener.getClass().getName());
+                    "[redisStreamMessageListenerContainer][完成注册 StreamKey({}) 对应的监听器({})]",
+                    listener.getStreamKey(),
+                    listener.getClass().getName());
         });
         return container;
     }

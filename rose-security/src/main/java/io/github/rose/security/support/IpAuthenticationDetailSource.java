@@ -17,14 +17,13 @@ package io.github.rose.security.support;
 
 import io.github.rose.core.spring.WebUtils;
 import io.github.rose.core.util.NetUtils;
+import java.io.Serializable;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.Serializable;
-
 public class IpAuthenticationDetailSource
-    implements AuthenticationDetailsSource<
-    HttpServletRequest, IpAuthenticationDetailSource.RestAuthenticationDetail> {
+        implements AuthenticationDetailsSource<
+                HttpServletRequest, IpAuthenticationDetailSource.RestAuthenticationDetail> {
 
     @Override
     public RestAuthenticationDetail buildDetails(HttpServletRequest request) {

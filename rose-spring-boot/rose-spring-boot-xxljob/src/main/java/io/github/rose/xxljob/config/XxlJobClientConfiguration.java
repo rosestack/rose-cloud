@@ -37,7 +37,7 @@ import org.springframework.web.client.RestTemplate;
 @ConditionalOnProperty(prefix = "xxl.job.client", name = "enabled", havingValue = "true")
 public class XxlJobClientConfiguration {
     private static final Logger log = LoggerFactory.getLogger(XxlJobClientConfiguration.class);
-    
+
     private final RestTemplate restTemplate;
     private final XxlJobProperties xxlJobProperties;
 
@@ -54,7 +54,7 @@ public class XxlJobClientConfiguration {
     @Bean
     public JobGroupService jobGroupService() {
         return new JobGroupServiceImpl(
-            jobLoginService(), restTemplate, xxlJobProperties.getAdmin().getAddresses());
+                jobLoginService(), restTemplate, xxlJobProperties.getAdmin().getAddresses());
     }
 
     @Bean

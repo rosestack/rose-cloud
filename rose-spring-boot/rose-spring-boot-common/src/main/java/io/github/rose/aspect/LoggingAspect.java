@@ -15,6 +15,8 @@
  */
 package io.github.rose.aspect;
 
+import static io.github.rose.core.CommonConstants.PROFILE_NOT_PROD;
+
 import io.github.rose.core.jackson.JacksonUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -27,8 +29,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Profile;
-
-import static io.github.rose.core.CommonConstants.PROFILE_NOT_PROD;
 
 /**
  * Aspect for logging execution of util and repository Spring components.
@@ -45,8 +45,8 @@ public class LoggingAspect {
      * Pointcut that matches all repositories, services0 and Web REST endpoints.
      */
     @Pointcut("within(@org.springframework.stereotype.Repository *)"
-        + " || within(@org.springframework.stereotype.Service *)"
-        + " || within(@org.springframework.web.bind.annotation.RestController *)")
+            + " || within(@org.springframework.stereotype.Service *)"
+            + " || within(@org.springframework.web.bind.annotation.RestController *)")
     public void springBeanPointcut() {
         // Method is empty as this is just a Pointcut, the implementations are in the
         // advices.
@@ -56,7 +56,7 @@ public class LoggingAspect {
      * Pointcut that matches all Spring beans in the application's main packages.
      */
     @Pointcut("within(cc.chensoul..*.*Repository)" + " || within(cc.chensoul..*.*Service)"
-        + " || within(cc.chensoul..*.*Controller)")
+            + " || within(cc.chensoul..*.*Controller)")
     public void applicationPackagePointcut() {
         // Method is empty as this is just a Pointcut, the implementations are in the
         // advices.
@@ -81,12 +81,12 @@ public class LoggingAspect {
     @AfterThrowing(pointcut = "applicationPackagePointcut() && springBeanPointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
         logger(joinPoint)
-            .error(
-                "Exception in {}() with cause = '{}' and exception = '{}'",
-                joinPoint.getSignature().getName(),
-                e.getCause() != null ? String.valueOf(e.getCause()) : "NULL",
-                e.getMessage(),
-                e);
+                .error(
+                        "Exception in {}() with cause = '{}' and exception = '{}'",
+                        joinPoint.getSignature().getName(),
+                        e.getCause() != null ? String.valueOf(e.getCause()) : "NULL",
+                        e.getMessage(),
+                        e);
     }
 
     /**
@@ -101,24 +101,24 @@ public class LoggingAspect {
         Logger log = logger(joinPoint);
         if (log.isDebugEnabled()) {
             log.debug(
-                "Enter {}() with arguments = {}",
-                joinPoint.getSignature().getName(),
-                JacksonUtils.toString(joinPoint.getArgs()));
+                    "Enter {}() with arguments = {}",
+                    joinPoint.getSignature().getName(),
+                    JacksonUtils.toString(joinPoint.getArgs()));
         }
         try {
             Object result = joinPoint.proceed();
             if (log.isDebugEnabled()) {
                 log.debug(
-                    "Exit {}() with result = {}",
-                    joinPoint.getSignature().getName(),
-                    JacksonUtils.toString(result));
+                        "Exit {}() with result = {}",
+                        joinPoint.getSignature().getName(),
+                        JacksonUtils.toString(result));
             }
             return result;
         } catch (IllegalArgumentException e) {
             log.error(
-                "Illegal argument: {} in {}()",
-                JacksonUtils.toString(joinPoint.getArgs()),
-                joinPoint.getSignature().getName());
+                    "Illegal argument: {} in {}()",
+                    JacksonUtils.toString(joinPoint.getArgs()),
+                    joinPoint.getSignature().getName());
             throw e;
         }
     }

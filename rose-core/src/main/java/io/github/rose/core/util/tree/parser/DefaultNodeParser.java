@@ -17,9 +17,8 @@ package io.github.rose.core.util.tree.parser;
 
 import io.github.rose.core.util.tree.Tree;
 import io.github.rose.core.util.tree.TreeNode;
-import org.apache.commons.lang3.ObjectUtils;
-
 import java.util.Map;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * 默认的简单转换器

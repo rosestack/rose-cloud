@@ -17,12 +17,11 @@ package io.github.rose.mybatis.util;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import io.github.rose.core.spring.SpringContextHolder;
-
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Objects;
+import javax.sql.DataSource;
 
 /**
  * JDBC 工具类

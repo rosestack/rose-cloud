@@ -15,7 +15,6 @@
  */
 package io.github.rose.security.rest.mfa.provider;
 
-
 public class EmailMfaProviderConfig extends OtpBasedMfaProviderConfig {
 
     @Override

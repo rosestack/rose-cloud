@@ -15,14 +15,13 @@
  */
 package io.github.rose.core.util;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.net.*;
 import java.util.Enumeration;
 import java.util.LinkedHashSet;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 网络相关工具
@@ -62,8 +61,8 @@ public class NetUtils {
          */
         InetAddress localAddress = null;
         final LinkedHashSet<InetAddress> localAddressList = localAddressList(address -> address.isSiteLocalAddress()
-            && !address.isLoopbackAddress()
-            && !address.getHostAddress().contains(":"));
+                && !address.isLoopbackAddress()
+                && !address.getHostAddress().contains(":"));
 
         if (localAddressList != null && localAddressList.size() > 0) {
             localAddress = localAddressList.iterator().next();

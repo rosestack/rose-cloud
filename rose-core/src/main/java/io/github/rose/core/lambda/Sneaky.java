@@ -16,7 +16,6 @@
 package io.github.rose.core.lambda;
 
 import io.github.rose.core.lambda.function.*;
-
 import java.util.Comparator;
 import java.util.concurrent.Callable;
 import java.util.function.*;
@@ -31,8 +30,7 @@ import java.util.function.*;
  */
 public final class Sneaky {
 
-    private Sneaky() {
-    }
+    private Sneaky() {}
 
     /**
      * Wrap a {@link CheckedRunnable} in a {@link Runnable}.

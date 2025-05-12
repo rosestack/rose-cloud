@@ -20,16 +20,15 @@ import com.xxl.job.admin.core.model.XxlJobGroup;
 import com.xxl.job.admin.core.model.XxlJobUser;
 import com.xxl.job.admin.core.util.I18nUtil;
 import com.xxl.job.admin.service.impl.LoginService;
-import org.springframework.stereotype.Component;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.AsyncHandlerInterceptor;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.AsyncHandlerInterceptor;
 
 /**
  * 权限拦截
@@ -68,7 +67,7 @@ public class PermissionInterceptor implements AsyncHandlerInterceptor {
         XxlJobUser loginUser = getLoginUser(request);
         if (!loginUser.validPermission(jobGroup)) {
             throw new RuntimeException(
-                I18nUtil.getString("system_permission_limit") + "[username=" + loginUser.getUsername() + "]");
+                    I18nUtil.getString("system_permission_limit") + "[username=" + loginUser.getUsername() + "]");
         }
     }
 
@@ -80,7 +79,7 @@ public class PermissionInterceptor implements AsyncHandlerInterceptor {
      * @return
      */
     public static List<XxlJobGroup> filterJobGroupByRole(
-        HttpServletRequest request, List<XxlJobGroup> jobGroupList_all) {
+            HttpServletRequest request, List<XxlJobGroup> jobGroupList_all) {
         List<XxlJobGroup> jobGroupList = new ArrayList<>();
         if (jobGroupList_all != null && jobGroupList_all.size() > 0) {
             XxlJobUser loginUser = PermissionInterceptor.getLoginUser(request);
@@ -89,7 +88,7 @@ public class PermissionInterceptor implements AsyncHandlerInterceptor {
             } else {
                 List<String> groupIdStrs = new ArrayList<>();
                 if (loginUser.getPermission() != null
-                    && loginUser.getPermission().trim().length() > 0) {
+                        && loginUser.getPermission().trim().length() > 0) {
                     groupIdStrs = Arrays.asList(loginUser.getPermission().trim().split(","));
                 }
                 for (XxlJobGroup groupItem : jobGroupList_all) {
@@ -104,7 +103,7 @@ public class PermissionInterceptor implements AsyncHandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-        throws Exception {
+            throws Exception {
 
         if (!(handler instanceof HandlerMethod)) {
             return true; // proceed with the next interceptor

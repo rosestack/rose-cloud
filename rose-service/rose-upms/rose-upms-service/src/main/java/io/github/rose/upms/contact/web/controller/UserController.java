@@ -15,6 +15,9 @@
  */
 package io.github.rose.upms.contact.web.controller;
 
+import static io.github.rose.upms.Constants.TENANT_ID;
+import static io.github.rose.upms.Constants.USER_ID;
+
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.rose.core.util.RestResponse;
 import io.github.rose.security.util.TokenPair;
@@ -22,12 +25,8 @@ import io.github.rose.syslog.annotation.SysLog;
 import io.github.rose.upms.contact.domain.UserService;
 import io.github.rose.upms.domain.contact.User;
 import io.github.rose.upms.model.UserRegisterRequest;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
-import static io.github.rose.upms.Constants.TENANT_ID;
-import static io.github.rose.upms.Constants.USER_ID;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -60,9 +59,9 @@ public class UserController {
 
     @PostMapping("/{userId}/userCredential/enabled")
     public RestResponse<User> setUserCredentialEnabled(
-        @PathVariable(USER_ID) Long userId,
-        @RequestParam(required = false, defaultValue = "true") boolean userCredentialEnabled)
-        throws Exception {
+            @PathVariable(USER_ID) Long userId,
+            @RequestParam(required = false, defaultValue = "true") boolean userCredentialEnabled)
+            throws Exception {
         return RestResponse.ok(userService.setUserCredentialEnabled(userId, userCredentialEnabled));
     }
 

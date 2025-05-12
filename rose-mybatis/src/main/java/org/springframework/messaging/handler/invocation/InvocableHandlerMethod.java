@@ -15,8 +15,14 @@
  */
 package org.springframework.messaging.handler.invocation;
 
+import static io.github.rose.core.CommonConstants.HEADER_TENANT_ID;
+
 import io.github.rose.mybatis.tenant.util.TenantContextHolder;
 import io.github.rose.mybatis.tenant.util.TenantUtils;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.Arrays;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.ParameterNameDiscoverer;
@@ -25,13 +31,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.HandlerMethod;
 import org.springframework.util.ObjectUtils;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.Arrays;
-
-import static io.github.rose.core.CommonConstants.HEADER_TENANT_ID;
 
 /**
  * Extension of {@link org.springframework.messaging.handler.HandlerMethod} that invokes
@@ -78,7 +77,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
      * @throws NoSuchMethodException when the method cannot be found
      */
     public InvocableHandlerMethod(Object bean, String methodName, Class<?>... parameterTypes)
-        throws NoSuchMethodException {
+            throws NoSuchMethodException {
 
         super(bean, methodName, parameterTypes);
     }
@@ -177,7 +176,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
             }
             if (!this.resolvers.supportsParameter(parameter)) {
                 throw new MethodArgumentResolutionException(
-                    message, parameter, formatArgumentError(parameter, "No suitable resolver"));
+                        message, parameter, formatArgumentError(parameter, "No suitable resolver"));
             }
             try {
                 args[i] = this.resolvers.resolveArgument(parameter, message);
@@ -187,7 +186,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
                 if (logger.isDebugEnabled()) {
                     String exMsg = ex.getMessage();
                     if (exMsg != null
-                        && !exMsg.contains(parameter.getExecutable().toGenericString())) {
+                            && !exMsg.contains(parameter.getExecutable().toGenericString())) {
                         logger.debug(formatArgumentError(parameter, exMsg));
                     }
                 }
@@ -238,7 +237,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
             super(-1);
             this.returnValue = returnValue;
             this.returnType =
-                ResolvableType.forType(super.getGenericParameterType()).getGeneric();
+                    ResolvableType.forType(super.getGenericParameterType()).getGeneric();
         }
 
         protected AsyncResultMethodParameter(AsyncResultMethodParameter original) {

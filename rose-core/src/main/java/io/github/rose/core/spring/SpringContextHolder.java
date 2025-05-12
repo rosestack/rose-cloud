@@ -16,6 +16,10 @@
 package io.github.rose.core.spring;
 
 import io.github.rose.core.util.StringPool;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -23,11 +27,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.annotation.Lazy;
-
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -39,8 +38,7 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
     private static final Logger log = LoggerFactory.getLogger(SpringContextHolder.class);
     private static ApplicationContext applicationContext;
 
-    private SpringContextHolder() {
-    }
+    private SpringContextHolder() {}
 
     public static ApplicationContext getApplicationContext() {
         return applicationContext;
@@ -78,13 +76,13 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
 
     public static String getApplicationName() {
         return applicationContext
-            .getEnvironment()
-            .getProperty("spring.application.name", String.class, StringPool.DASHDASH);
+                .getEnvironment()
+                .getProperty("spring.application.name", String.class, StringPool.DASHDASH);
     }
 
     public static Set<String> getActiveProfiles() {
         return Arrays.stream(applicationContext.getEnvironment().getActiveProfiles())
-            .collect(Collectors.toSet());
+                .collect(Collectors.toSet());
     }
 
     public static void publishEvent(ApplicationEvent event) {
@@ -101,8 +99,8 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
 
     public static boolean isMicro() {
         return applicationContext
-            .getEnvironment()
-            .getProperty("spring.cloud.nacos.discovery.enabled", Boolean.class, true);
+                .getEnvironment()
+                .getProperty("spring.cloud.nacos.discovery.enabled", Boolean.class, true);
     }
 
     public static void clearHolder() {

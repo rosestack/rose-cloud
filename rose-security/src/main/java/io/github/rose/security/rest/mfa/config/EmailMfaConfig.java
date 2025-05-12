@@ -16,7 +16,6 @@
 package io.github.rose.security.rest.mfa.config;
 
 import io.github.rose.security.rest.mfa.provider.MfaProviderType;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -41,9 +40,6 @@ public class EmailMfaConfig extends OtpBasedMfaConfig {
 
     @Override
     public String toString() {
-        return "EmailMfaConfig{" +
-            "email='" + email + '\'' +
-            ", serializeHiddenFields=" + serializeHiddenFields +
-            '}';
+        return "EmailMfaConfig{" + "email='" + email + '\'' + ", serializeHiddenFields=" + serializeHiddenFields + '}';
     }
 }

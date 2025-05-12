@@ -15,9 +15,8 @@
  */
 package io.github.rose.core.exception;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.Serializable;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 业务异常，必须提供code码，便于统一维护

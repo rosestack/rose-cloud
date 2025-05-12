@@ -19,11 +19,10 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 import io.github.rose.core.model.ToData;
+import java.util.*;
 import net.sf.jsqlparser.expression.Alias;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
-
-import java.util.*;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>

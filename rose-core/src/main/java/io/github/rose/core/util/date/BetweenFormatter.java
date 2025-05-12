@@ -15,7 +15,6 @@
  */
 package io.github.rose.core.util.date;
 
-
 import java.io.Serializable;
 import java.time.temporal.ChronoUnit;
 

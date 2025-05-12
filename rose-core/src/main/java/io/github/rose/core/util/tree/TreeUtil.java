@@ -17,7 +17,6 @@ package io.github.rose.core.util.tree;
 
 import io.github.rose.core.util.tree.parser.DefaultNodeParser;
 import io.github.rose.core.util.tree.parser.NodeParser;
-
 import java.util.*;
 
 /**
@@ -101,7 +100,7 @@ public class TreeUtil {
      * @return List
      */
     public static <T, E> List<Tree<E>> build(
-        List<T> list, E rootId, TreeNodeConfig treeNodeConfig, NodeParser<T, E> nodeParser) {
+            List<T> list, E rootId, TreeNodeConfig treeNodeConfig, NodeParser<T, E> nodeParser) {
         return buildSingle(list, rootId, treeNodeConfig, nodeParser).getChildren();
     }
 
@@ -118,7 +117,7 @@ public class TreeUtil {
      * @since 5.7.2
      */
     public static <T, E> Tree<E> buildSingle(
-        List<T> list, E rootId, TreeNodeConfig treeNodeConfig, NodeParser<T, E> nodeParser) {
+            List<T> list, E rootId, TreeNodeConfig treeNodeConfig, NodeParser<T, E> nodeParser) {
         return TreeSupplier.of(rootId, treeNodeConfig).append(list, nodeParser).get();
     }
 

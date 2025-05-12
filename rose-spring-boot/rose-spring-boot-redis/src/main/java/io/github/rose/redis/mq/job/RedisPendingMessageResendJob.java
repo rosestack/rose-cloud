@@ -17,6 +17,9 @@ package io.github.rose.redis.mq.job;
 
 import io.github.rose.redis.mq.RedisMQTemplate;
 import io.github.rose.redis.mq.stream.AbstractRedisStreamMessageListener;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
@@ -27,16 +30,12 @@ import org.springframework.data.redis.core.StreamOperations;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.CollectionUtils;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 /**
  * 这个任务用于处理，crash 之后的消费者未消费完的消息
  */
 public class RedisPendingMessageResendJob {
     private static final Logger log = LoggerFactory.getLogger(RedisPendingMessageResendJob.class);
-    
+
     private static final String LOCK_KEY = "mq:pending:msg:lock";
 
     /**
@@ -54,13 +53,16 @@ public class RedisPendingMessageResendJob {
 
     private final RedissonClient redissonClient;
 
-    public RedisPendingMessageResendJob(List<AbstractRedisStreamMessageListener<?>> listeners, RedisMQTemplate redisTemplate, String groupName, RedissonClient redissonClient) {
+    public RedisPendingMessageResendJob(
+            List<AbstractRedisStreamMessageListener<?>> listeners,
+            RedisMQTemplate redisTemplate,
+            String groupName,
+            RedissonClient redissonClient) {
         this.listeners = listeners;
         this.redisTemplate = redisTemplate;
         this.groupName = groupName;
         this.redissonClient = redissonClient;
     }
-
 
     /**
      * 一分钟执行一次,这里选择每分钟的35秒执行，是为了避免整点任务过多的问题
@@ -87,51 +89,51 @@ public class RedisPendingMessageResendJob {
      */
     private void execute() {
         StreamOperations<String, Object, Object> ops =
-            redisTemplate.getRedisTemplate().opsForStream();
+                redisTemplate.getRedisTemplate().opsForStream();
         listeners.forEach(listener -> {
             PendingMessagesSummary pendingMessagesSummary =
-                Objects.requireNonNull(ops.pending(listener.getStreamKey(), groupName));
+                    Objects.requireNonNull(ops.pending(listener.getStreamKey(), groupName));
             // 每个消费者的 pending 队列消息数量
             Map<String, Long> pendingMessagesPerConsumer = pendingMessagesSummary.getPendingMessagesPerConsumer();
             pendingMessagesPerConsumer.forEach((consumerName, pendingMessageCount) -> {
                 log.info("[processPendingMessage][消费者({}) 消息数量({})]", consumerName, pendingMessageCount);
                 // 每个消费者的 pending消息的详情信息
                 PendingMessages pendingMessages = ops.pending(
-                    listener.getStreamKey(),
-                    Consumer.from(groupName, consumerName),
-                    Range.unbounded(),
-                    pendingMessageCount);
+                        listener.getStreamKey(),
+                        Consumer.from(groupName, consumerName),
+                        Range.unbounded(),
+                        pendingMessageCount);
                 if (pendingMessages.isEmpty()) {
                     return;
                 }
                 pendingMessages.forEach(pendingMessage -> {
                     // 获取消息上一次传递到 consumer 的时间,
                     long lastDelivery =
-                        pendingMessage.getElapsedTimeSinceLastDelivery().getSeconds();
+                            pendingMessage.getElapsedTimeSinceLastDelivery().getSeconds();
                     if (lastDelivery < EXPIRE_TIME) {
                         return;
                     }
                     // 获取指定 id 的消息体
                     List<MapRecord<String, Object, Object>> records = ops.range(
-                        listener.getStreamKey(),
-                        Range.of(
-                            Range.Bound.inclusive(pendingMessage.getIdAsString()),
-                            Range.Bound.inclusive(pendingMessage.getIdAsString())));
+                            listener.getStreamKey(),
+                            Range.of(
+                                    Range.Bound.inclusive(pendingMessage.getIdAsString()),
+                                    Range.Bound.inclusive(pendingMessage.getIdAsString())));
                     if (CollectionUtils.isEmpty(records)) {
                         return;
                     }
                     // 重新投递消息
                     redisTemplate
-                        .getRedisTemplate()
-                        .opsForStream()
-                        .add(StreamRecords.newRecord()
-                            .ofObject(records.get(0).getValue()) // 设置内容
-                            .withStreamKey(listener.getStreamKey()));
+                            .getRedisTemplate()
+                            .opsForStream()
+                            .add(StreamRecords.newRecord()
+                                    .ofObject(records.get(0).getValue()) // 设置内容
+                                    .withStreamKey(listener.getStreamKey()));
                     // ack 消息消费完成
                     redisTemplate.getRedisTemplate().opsForStream().acknowledge(groupName, records.get(0));
                     log.info(
-                        "[processPendingMessage][消息({})重新投递成功]",
-                        records.get(0).getId());
+                            "[processPendingMessage][消息({})重新投递成功]",
+                            records.get(0).getId());
                 });
             });
         });

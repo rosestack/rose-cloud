@@ -29,9 +29,9 @@ import org.springframework.util.StringUtils;
  */
 public class TenantKafkaEnvironmentPostProcessor implements EnvironmentPostProcessor {
     private static final Logger log = LoggerFactory.getLogger(TenantKafkaEnvironmentPostProcessor.class);
-    
+
     private static final String PROPERTY_KEY_INTERCEPTOR_CLASSES =
-        "spring.kafka.producer.properties.interceptor.classes";
+            "spring.kafka.producer.properties.interceptor.classes";
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {

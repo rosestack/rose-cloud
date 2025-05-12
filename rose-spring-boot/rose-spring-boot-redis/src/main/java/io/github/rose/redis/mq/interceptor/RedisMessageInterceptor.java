@@ -24,15 +24,11 @@ import io.github.rose.redis.mq.message.AbstractRedisMessage;
  */
 public interface RedisMessageInterceptor {
 
-    default void sendMessageBefore(AbstractRedisMessage message) {
-    }
+    default void sendMessageBefore(AbstractRedisMessage message) {}
 
-    default void sendMessageAfter(AbstractRedisMessage message) {
-    }
+    default void sendMessageAfter(AbstractRedisMessage message) {}
 
-    default void consumeMessageBefore(AbstractRedisMessage message) {
-    }
+    default void consumeMessageBefore(AbstractRedisMessage message) {}
 
-    default void consumeMessageAfter(AbstractRedisMessage message) {
-    }
+    default void consumeMessageAfter(AbstractRedisMessage message) {}
 }

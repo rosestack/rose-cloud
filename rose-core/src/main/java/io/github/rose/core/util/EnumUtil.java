@@ -16,8 +16,7 @@ public class EnumUtil {
     public static final long EMPTY_BIT_SET = 0L;
 
     // Private constructor to prevent instantiation of the utility class.
-    private EnumUtil() {
-    }
+    private EnumUtil() {}
 
     /**
      * Converts a collection of enums into a bit set.

@@ -15,7 +15,6 @@
  */
 package io.github.rose.security.rest.mfa.provider;
 
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -40,8 +39,6 @@ public class SmsMfaProviderConfig extends OtpBasedMfaProviderConfig {
 
     @Override
     public String toString() {
-        return "SmsMfaProviderConfig{" +
-            "template='" + template + '\'' +
-            '}';
+        return "SmsMfaProviderConfig{" + "template='" + template + '\'' + '}';
     }
 }

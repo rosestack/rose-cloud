@@ -15,7 +15,6 @@
  */
 package io.github.rose.security.rest.param;
 
-
 public class LoginResponse {
 
     private String token;

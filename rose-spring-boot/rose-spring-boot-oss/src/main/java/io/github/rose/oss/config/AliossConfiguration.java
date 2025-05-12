@@ -68,7 +68,7 @@ public class AliossConfiguration {
         // 设置失败请求重试次数，默认为3次。
         conf.setMaxErrorRetry(5);
         CredentialsProvider credentialsProvider =
-            new DefaultCredentialProvider(ossProperties.getAccessKey(), ossProperties.getSecretKey());
+                new DefaultCredentialProvider(ossProperties.getAccessKey(), ossProperties.getSecretKey());
         return new OSSClient(ossProperties.getEndpoint(), credentialsProvider, conf);
     }
 

@@ -15,7 +15,6 @@
  */
 package io.github.rose.security.rest.mfa.provider;
 
-
 import javax.validation.constraints.NotBlank;
 
 public class TotpMfaProviderConfig implements MfaProviderConfig {

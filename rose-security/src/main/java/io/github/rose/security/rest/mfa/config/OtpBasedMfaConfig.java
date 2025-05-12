@@ -15,12 +15,9 @@
  */
 package io.github.rose.security.rest.mfa.config;
 
-
 public abstract class OtpBasedMfaConfig extends MfaConfig {
     @Override
     public String toString() {
-        return "OtpBasedMfaConfig{" +
-            "serializeHiddenFields=" + serializeHiddenFields +
-            '}';
+        return "OtpBasedMfaConfig{" + "serializeHiddenFields=" + serializeHiddenFields + '}';
     }
 }

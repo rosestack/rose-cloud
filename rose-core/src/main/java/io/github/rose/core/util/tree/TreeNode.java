@@ -59,8 +59,7 @@ public class TreeNode<T> implements Node<T> {
     /**
      * 空构造
      */
-    public TreeNode() {
-    }
+    public TreeNode() {}
 
     /**
      * 构造

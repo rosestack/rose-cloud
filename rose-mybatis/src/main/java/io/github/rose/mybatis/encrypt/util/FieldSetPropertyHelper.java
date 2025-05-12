@@ -19,15 +19,14 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import io.github.rose.mybatis.encrypt.FieldSetProperty;
 import io.github.rose.mybatis.encrypt.annotation.FieldBind;
 import io.github.rose.mybatis.encrypt.annotation.FieldEncrypt;
-import org.apache.commons.lang3.reflect.FieldUtils;
-import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.session.Configuration;
-
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.function.BiConsumer;
+import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.session.Configuration;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -43,8 +42,7 @@ public class FieldSetPropertyHelper {
 
     private static Set<Class<?>> excludeClazzSet;
 
-    private FieldSetPropertyHelper() {
-    }
+    private FieldSetPropertyHelper() {}
 
     public static void init(boolean var1, boolean var2) {
         hasFieldEncrypt = var1;
@@ -99,7 +97,7 @@ public class FieldSetPropertyHelper {
     }
 
     public static boolean foreachValue(
-        Configuration configuration, Object value, BiConsumer<MetaObject, FieldSetProperty> consumer) {
+            Configuration configuration, Object value, BiConsumer<MetaObject, FieldSetProperty> consumer) {
         if (value == null) {
             return Boolean.FALSE;
         }
@@ -107,7 +105,7 @@ public class FieldSetPropertyHelper {
         if (!CollectionUtils.isEmpty(fieldSetPropertyList)) {
             MetaObject metaObject = configuration.newMetaObject(value);
             fieldSetPropertyList.parallelStream()
-                .forEach(fieldSetProperty -> consumer.accept(metaObject, fieldSetProperty));
+                    .forEach(fieldSetProperty -> consumer.accept(metaObject, fieldSetProperty));
             return Boolean.TRUE;
         } else {
             return Boolean.FALSE;

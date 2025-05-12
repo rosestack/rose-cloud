@@ -17,7 +17,6 @@ package io.github.rose.mybatis.datapermission.util;
 
 import io.github.rose.mybatis.datapermission.annotation.DataPermission;
 import io.github.rose.mybatis.datapermission.aop.DataPermissionContextHolder;
-
 import java.util.concurrent.Callable;
 
 /**
@@ -32,8 +31,8 @@ public class DataPermissionUtils {
         if (DATA_PERMISSION_DISABLE == null) {
             try {
                 DATA_PERMISSION_DISABLE = DataPermissionUtils.class
-                    .getDeclaredMethod("getDisableDataPermissionDisable")
-                    .getAnnotation(DataPermission.class);
+                        .getDeclaredMethod("getDisableDataPermissionDisable")
+                        .getAnnotation(DataPermission.class);
             } catch (NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }

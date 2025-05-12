@@ -15,6 +15,9 @@
  */
 package io.github.rose.mybatis;
 
+import static io.github.rose.core.CommonConstants.TENANT_CONTEXT_FILTER;
+import static io.github.rose.core.CommonConstants.TENANT_SECURITY_FILTER;
+
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -30,6 +33,7 @@ import io.github.rose.mybatis.tenant.handler.DefaultTenantLineHandler;
 import io.github.rose.mybatis.tenant.handler.TenantMetaObjectHandler;
 import io.github.rose.mybatis.tenant.service.TenantService;
 import io.github.rose.mybatis.util.MyBatisUtils;
+import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -47,11 +51,6 @@ import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.util.Objects;
-
-import static io.github.rose.core.CommonConstants.TENANT_CONTEXT_FILTER;
-import static io.github.rose.core.CommonConstants.TENANT_SECURITY_FILTER;
-
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
@@ -62,7 +61,7 @@ import static io.github.rose.core.CommonConstants.TENANT_SECURITY_FILTER;
 @ConditionalOnProperty(name = "mybatis-plus.tenant.enabled", havingValue = "true", matchIfMissing = true)
 public class MybatisTenantConfiguration {
     private static final Logger log = LoggerFactory.getLogger(MybatisTenantConfiguration.class);
-    
+
     public MybatisTenantConfiguration() {
         log.info("Initializing MybatisTenantConfiguration");
     }
@@ -86,9 +85,9 @@ public class MybatisTenantConfiguration {
 
     @Bean
     public TenantLineInnerInterceptor tenantLineInnerInterceptor(
-        MybatisPlusInterceptor interceptor, TenantProperties tenantProperties) {
+            MybatisPlusInterceptor interceptor, TenantProperties tenantProperties) {
         DefaultTenantLineHandler defaultTenantLineHandler =
-            new DefaultTenantLineHandler(tenantProperties.getIgnoredTables());
+                new DefaultTenantLineHandler(tenantProperties.getIgnoredTables());
         TenantLineInnerInterceptor tenantInterceptor = new TenantLineInnerInterceptor(defaultTenantLineHandler);
         MyBatisUtils.addInterceptor(interceptor, tenantInterceptor, 0);
         return tenantInterceptor;
@@ -102,7 +101,7 @@ public class MybatisTenantConfiguration {
     @Bean
     public FilterRegistrationBean<TenantSecurityFilter> tenantSecurityFilter(TenantProperties tenantProperties) {
         return WebUtils.createFilterBean(
-            new TenantSecurityFilter(tenantProperties.getIgnoreUrls()), TENANT_SECURITY_FILTER);
+                new TenantSecurityFilter(tenantProperties.getIgnoreUrls()), TENANT_SECURITY_FILTER);
     }
 
     @Bean
@@ -114,9 +113,9 @@ public class MybatisTenantConfiguration {
     @Primary
     @ConditionalOnClass(RedisCacheManager.class)
     public RedisCacheManager redisCacheManager(
-        RedisTemplate<String, Object> redisTemplate,
-        RedisCacheConfiguration redisCacheConfiguration,
-        TenantProperties tenantProperties) {
+            RedisTemplate<String, Object> redisTemplate,
+            RedisCacheConfiguration redisCacheConfiguration,
+            TenantProperties tenantProperties) {
         RedisConnectionFactory connectionFactory = Objects.requireNonNull(redisTemplate.getConnectionFactory());
         RedisCacheWriter cacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory);
         return new TenantRedisCacheManager(tenantProperties.getIgnoredCaches(), cacheWriter, redisCacheConfiguration);

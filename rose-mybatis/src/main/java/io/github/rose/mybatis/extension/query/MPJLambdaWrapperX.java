@@ -18,11 +18,10 @@ package io.github.rose.mybatis.extension.query;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.github.yulichang.toolkit.MPJWrappers;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import java.util.Collection;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.util.StringUtils;
-
-import java.util.Collection;
 
 /**
  * 拓展 MyBatis Plus Join QueryWrapper 类，主要增加如下功能：

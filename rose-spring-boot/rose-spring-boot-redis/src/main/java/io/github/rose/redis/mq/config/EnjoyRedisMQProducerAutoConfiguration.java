@@ -18,13 +18,12 @@ package io.github.rose.redis.mq.config;
 import io.github.rose.redis.config.RedisCacheConfig;
 import io.github.rose.redis.mq.RedisMQTemplate;
 import io.github.rose.redis.mq.interceptor.RedisMessageInterceptor;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.StringRedisTemplate;
-
-import java.util.List;
 
 /**
  * Redis 消息队列 Producer 配置类
@@ -37,7 +36,7 @@ public class EnjoyRedisMQProducerAutoConfiguration {
 
     @Bean
     public RedisMQTemplate redisMQTemplate(
-        StringRedisTemplate redisTemplate, List<RedisMessageInterceptor> interceptors) {
+            StringRedisTemplate redisTemplate, List<RedisMessageInterceptor> interceptors) {
         RedisMQTemplate redisMQTemplate = new RedisMQTemplate(redisTemplate);
         // 添加拦截器
         interceptors.forEach(redisMQTemplate::addInterceptor);

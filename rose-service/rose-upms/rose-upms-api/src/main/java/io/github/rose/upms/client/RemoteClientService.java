@@ -18,12 +18,11 @@ package io.github.rose.upms.client;
 import io.github.rose.core.util.RestResponse;
 import io.github.rose.upms.ServiceNameConstants;
 import io.github.rose.upms.domain.app.OAuth2Client;
+import java.util.List;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.List;
 
 @FeignClient(value = ServiceNameConstants.SYSTEM_SERVICE)
 public interface RemoteClientService {

@@ -28,15 +28,14 @@ import java.util.function.*;
  */
 public final class Blocking {
 
-    private Blocking() {
-    }
+    private Blocking() {}
 
     public static Runnable runnable(Runnable runnable) {
         return () -> supplier(() -> {
-            runnable.run();
-            return null;
-        })
-            .get();
+                    runnable.run();
+                    return null;
+                })
+                .get();
     }
 
     public static <T, U> BiConsumer<T, U> biConsumer(BiConsumer<? super T, ? super U> biConsumer) {

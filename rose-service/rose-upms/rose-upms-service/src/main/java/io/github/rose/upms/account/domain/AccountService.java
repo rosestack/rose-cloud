@@ -15,5 +15,4 @@
  */
 package io.github.rose.upms.account.domain;
 
-public class AccountService {
-}
+public class AccountService {}

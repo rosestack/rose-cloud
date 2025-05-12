@@ -20,15 +20,14 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import io.github.rose.core.lambda.function.CheckedConsumer;
 import io.github.rose.core.spring.expression.SpringExpressionResolver;
 import io.github.rose.core.util.concurrent.TryLock;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
-
 import java.time.Duration;
 import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 
 /**
  * TODO
@@ -47,19 +46,19 @@ public class GroovyScriptResourceCacheManager implements ScriptResourceCacheMana
 
     private Caffeine newCacheBuilder(final int initialCapacity, int cacheSize, final Duration duration) {
         Caffeine builder =
-            Caffeine.newBuilder().initialCapacity(initialCapacity).maximumSize(cacheSize);
+                Caffeine.newBuilder().initialCapacity(initialCapacity).maximumSize(cacheSize);
         if (duration != null) {
             builder.expireAfterWrite(duration);
         }
         builder.removalListener((key, value, cause) -> {
             log.trace("Removing cached value [{}] linked to cache key [{}]; removal cause is [{}]", value, key, cause);
             CheckedConsumer.unchecked(__ -> {
-                    if (value instanceof AutoCloseable) {
-                        AutoCloseable closeable = (AutoCloseable) value;
-                        Objects.requireNonNull(closeable).close();
-                    }
-                })
-                .accept(value);
+                        if (value instanceof AutoCloseable) {
+                            AutoCloseable closeable = (AutoCloseable) value;
+                            Objects.requireNonNull(closeable).close();
+                        }
+                    })
+                    .accept(value);
         });
         return builder;
     }
@@ -118,7 +117,7 @@ public class GroovyScriptResourceCacheManager implements ScriptResourceCacheMana
             try {
                 if (ScriptingUtils.isExternalGroovyScript(scriptResource)) {
                     String scriptPath =
-                        (String) SpringExpressionResolver.getInstance().resolve(scriptResource);
+                            (String) SpringExpressionResolver.getInstance().resolve(scriptResource);
                     Resource resource = new DefaultResourceLoader().getResource(scriptPath);
                     script = new WatchableGroovyScript(resource);
                 } else {

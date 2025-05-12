@@ -32,7 +32,7 @@ import org.springframework.core.annotation.Order;
 @PropertySource(value = "classpath:common-config.yml", factory = YamlPropertySourceFactory.class)
 public class EnvironmentConfiguration {
     private static final Logger log = LoggerFactory.getLogger(EnvironmentConfiguration.class);
-    
+
     @Order
     @EventListener(WebServerInitializedEvent.class)
     public void afterStart(WebServerInitializedEvent event) {

@@ -15,7 +15,6 @@
  */
 package io.github.rose.oss.old.storage.domain;
 
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;

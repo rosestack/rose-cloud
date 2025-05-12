@@ -47,7 +47,7 @@ public class MybatisEncryptorConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public FieldDecryptInterceptor fieldDecryptInterceptor(
-        @Autowired(required = false) IEncryptor encryptor, @Autowired(required = false) IFieldBinder fieldBinder) {
+            @Autowired(required = false) IEncryptor encryptor, @Autowired(required = false) IFieldBinder fieldBinder) {
         return new FieldDecryptInterceptor(encryptor, fieldBinder, password);
     }
 
