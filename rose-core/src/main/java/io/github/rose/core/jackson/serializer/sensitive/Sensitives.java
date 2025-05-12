@@ -24,7 +24,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Sensitives {
 
-    public static final String PASSWORD_MASK = "******";
+    public static final String MASK = "******";
 
     public static final String IPV4_MASK = ".*.*.*";
 
@@ -142,7 +142,7 @@ public class Sensitives {
         if (StringUtils.isBlank(secret)) {
             return StringUtils.EMPTY;
         }
-        return PASSWORD_MASK;
+        return MASK;
     }
 
     public static String ipv4(String ipv4) {

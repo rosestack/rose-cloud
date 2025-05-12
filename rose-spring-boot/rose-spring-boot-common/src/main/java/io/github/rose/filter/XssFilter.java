@@ -16,9 +16,13 @@
 package io.github.rose.filter;
 
 import io.github.rose.core.util.EscapeUtils;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.List;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpMethod;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.web.filter.OncePerRequestFilter;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ReadListener;
 import javax.servlet.ServletException;
@@ -26,12 +30,10 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpMethod;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.web.filter.OncePerRequestFilter;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
  * 防止XSS攻击的过滤器
@@ -63,8 +65,8 @@ public class XssFilter extends OncePerRequestFilter {
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
-        XssHttpServletRequestWrapper xssRequest = new XssHttpServletRequestWrapper((HttpServletRequest) request);
+        throws IOException, ServletException {
+        XssHttpServletRequestWrapper xssRequest = new XssHttpServletRequestWrapper(request);
         chain.doFilter(xssRequest, response);
     }
 
@@ -102,14 +104,14 @@ public class XssFilter extends OncePerRequestFilter {
         @Override
         public ServletInputStream getInputStream() throws IOException {
             // 为空，直接返回
-            String json = IOUtils.toString(super.getInputStream(), "utf-8");
+            String json = IOUtils.toString(super.getInputStream(), StandardCharsets.UTF_8);
             if (StringUtils.isEmpty(json)) {
                 return super.getInputStream();
             }
 
             // xss过滤
             json = EscapeUtils.clean(json).trim();
-            byte[] jsonBytes = json.getBytes("utf-8");
+            byte[] jsonBytes = json.getBytes(StandardCharsets.UTF_8);
             final ByteArrayInputStream bis = new ByteArrayInputStream(jsonBytes);
             return new ServletInputStream() {
                 @Override
@@ -128,7 +130,9 @@ public class XssFilter extends OncePerRequestFilter {
                 }
 
                 @Override
-                public void setReadListener(ReadListener readListener) {}
+                public void setReadListener(ReadListener readListener) {
+                    throw new UnsupportedOperationException();
+                }
 
                 @Override
                 public int read() throws IOException {
