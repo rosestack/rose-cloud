@@ -10,8 +10,7 @@ name: Maven Build
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
     paths-ignore:
       - '.gitignore'
       - 'LICENSE'
@@ -22,12 +21,21 @@ on:
       - 'LICENSE'
       - 'README*'
 
+env:
+  MAVEN_ARGS: -B -e -ntp
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: build
     strategy:
       matrix:
         java: [ '8', '11', '17', '21' ]
+
     steps:
       - name: Checkout Source
         uses: actions/checkout@v4
@@ -35,20 +43,26 @@ jobs:
       - name: Setup Java ${{ matrix.Java }}
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
+          distribution: 'temurin'
           java-version: ${{ matrix.java }}
           cache: maven
-          cache-dependency-path: '**/pom.xml'
+
+      - name: Detect Maven Wrapper
+        run: |
+          if [ -f mvnw ]; then
+            echo "MAVEN_EXEC=./mvnw" >> $GITHUB_ENV
+          else
+            echo "MAVEN_EXEC=mvn" >> $GITHUB_ENV
+          fi
 
       - name: Build with Maven
-        run: mvn -B -ntp install
+        run: ${MAVEN_EXEC} verify
 
   quality:
     needs: [ build ]
-    if: github.event_name == 'push' && github.repository_owner == 'rose-group'
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     name: quality
-
     steps:
       - uses: actions/checkout@v4
         with:
@@ -56,12 +70,13 @@ jobs:
 
       - uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
-          java-version: 8
+          distribution: 'temurin'
+          java-version: 17
           cache: 'maven'
           cache-dependency-path: '**/pom.xml'
 
       - name: build with docs and coverage
-        run: |
-          mvn verify javadoc:javadoc
-          mvn sonar:sonar -Psonar -Dsonar.token=${{secrets.SONAR_TOKEN}}
+        run: mvn verify -Pcoverage javadoc:javadoc
+
+      - name: sonar
+        run: mvn sonar:sonar -Psonar -Dsonar.token=${{secrets.SONAR_TOKEN}}
