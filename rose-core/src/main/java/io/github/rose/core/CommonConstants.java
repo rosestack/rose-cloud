@@ -30,8 +30,6 @@ public interface CommonConstants {
 
     String PROFILE_NOT_TEST = "!" + PROFILE_TEST;
 
-    String BASE_PACKAGE = "cc.chensoul";
-
     String PROJECT_NAME = "rose";
 
     int CORS_FILTER = Ordered.HIGHEST_PRECEDENCE;

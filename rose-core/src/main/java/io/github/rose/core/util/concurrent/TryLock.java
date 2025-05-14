@@ -15,9 +15,10 @@
  */
 package io.github.rose.core.util.concurrent;
 
-import io.github.rose.core.lambda.Try;
-import io.github.rose.core.lambda.function.CheckedConsumer;
-import io.github.rose.core.lambda.function.CheckedSupplier;
+import io.github.rose.core.function.CheckedConsumer;
+import io.github.rose.core.function.CheckedSupplier;
+import io.github.rose.core.function.Try;
+
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -33,7 +34,7 @@ public class TryLock {
 
     public boolean tryLock() {
         return Try.tryGet(() -> lock.tryLock(LOCK_TIMEOUT_SECONDS, TimeUnit.SECONDS), e -> false)
-                .get();
+            .get();
     }
 
     /**

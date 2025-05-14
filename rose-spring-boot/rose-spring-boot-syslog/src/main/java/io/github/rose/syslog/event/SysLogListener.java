@@ -15,7 +15,7 @@
  */
 package io.github.rose.syslog.event;
 
-import io.github.rose.core.lambda.function.CheckedConsumer;
+import io.github.rose.core.function.CheckedConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;

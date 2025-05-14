@@ -15,11 +15,16 @@
  */
 package io.github.rose.core.spring;
 
-import static org.springframework.http.HttpHeaders.USER_AGENT;
-
 import io.github.rose.core.exception.BusinessException;
 import io.github.rose.core.jackson.JacksonUtils;
 import io.github.rose.core.util.NetUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.MediaType;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
@@ -27,33 +32,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import javax.servlet.DispatcherType;
-import javax.servlet.Filter;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.http.MediaType;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+
+import static org.springframework.http.HttpHeaders.USER_AGENT;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
 public class WebUtils extends org.springframework.web.util.WebUtils {
-    public static final String X_REQUESTED_WITH = "X-Requested-With";
-    public static final String XMLHTTP_REQUEST = "XMLHttpRequest";
-    private static final Logger log = LoggerFactory.getLogger(WebUtils.class);
     private static final List<String> CLIENT_IP_HEADER_NAMES = Arrays.asList(
-            "X-Forwarded-For",
-            "X-Real-IP",
-            "Proxy-Client-IP",
-            "WL-Proxy-Client-IP",
-            "HTTP_CLIENT_IP",
-            "HTTP_X_FORWARDED_FOR");
+        "X-Forwarded-For",
+        "X-Real-IP",
+        "Proxy-Client-IP",
+        "WL-Proxy-Client-IP",
+        "HTTP_CLIENT_IP",
+        "HTTP_X_FORWARDED_FOR");
 
     public static String getUsername() {
         HttpServletRequest request = WebUtils.ofRequest().get();
@@ -104,7 +97,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
     public static String constructUrl(HttpServletRequest request) {
         return String.format(
-                "%s://%s:%d%s", getScheme(request), getDomainName(request), getPort(request), request.getRequestURI());
+            "%s://%s%s", getScheme(request), getDomainNameAndPort(request), request.getRequestURI());
     }
 
     public static String getScheme(HttpServletRequest request) {
@@ -181,14 +174,5 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
     public static HttpServletResponse getResponse() {
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-    }
-
-    public static <T extends Filter> FilterRegistrationBean<T> createFilterBean(T filter, Integer order) {
-        FilterRegistrationBean<T> registrationBean = new FilterRegistrationBean<>(filter);
-        registrationBean.setDispatcherTypes(DispatcherType.REQUEST);
-        registrationBean.addUrlPatterns("/*");
-        registrationBean.setName(filter.getClass().getSimpleName());
-        registrationBean.setOrder(order);
-        return registrationBean;
     }
 }

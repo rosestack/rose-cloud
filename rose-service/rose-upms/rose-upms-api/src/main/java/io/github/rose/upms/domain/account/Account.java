@@ -16,8 +16,8 @@
 package io.github.rose.upms.domain.account;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.github.rose.core.jackson.serializer.sensitive.FieldSensitive;
-import io.github.rose.core.jackson.serializer.sensitive.SensitiveType;
+import io.github.rose.core.jackson.sensitive.FieldSensitive;
+import io.github.rose.core.jackson.sensitive.SensitiveType;
 import io.github.rose.mybatis.model.BaseEntity;
 
 @TableName

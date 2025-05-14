@@ -16,6 +16,8 @@
 package io.github.rose.core.exception;
 
 /**
+ * 频繁请求异常，http 状态返回码为 404
+ *
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */

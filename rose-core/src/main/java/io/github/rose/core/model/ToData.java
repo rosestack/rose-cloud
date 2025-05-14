@@ -22,11 +22,5 @@ package io.github.rose.core.model;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  */
 public interface ToData<D> {
-
-    /**
-     * This method convert domain domain object to data transfer object.
-     *
-     * @return the dto object
-     */
     D toData();
 }

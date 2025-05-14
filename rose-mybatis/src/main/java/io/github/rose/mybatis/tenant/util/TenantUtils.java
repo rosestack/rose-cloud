@@ -15,8 +15,8 @@
  */
 package io.github.rose.mybatis.tenant.util;
 
-import io.github.rose.core.lambda.function.CheckedRunnable;
-import io.github.rose.core.lambda.function.CheckedSupplier;
+import io.github.rose.core.function.CheckedRunnable;
+import io.github.rose.core.function.CheckedSupplier;
 
 public class TenantUtils {
 

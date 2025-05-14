@@ -15,7 +15,8 @@
   <description>rose-spring-boot</description>
 
   <modules>
-    <module>rose-spring-boot-common</module>
+    <module>rose-spring-boot-core</module>
+    <module>rose-spring-boot-web</module>
     <module>rose-spring-boot-feign</module>
     <module>rose-spring-boot-mybatis</module>
     <module>rose-spring-boot-oss</module>

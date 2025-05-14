@@ -15,11 +15,12 @@
  */
 package io.github.rose.core.exception;
 
-import java.io.Serializable;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.Serializable;
+
 /**
- * 业务异常，必须提供code码，便于统一维护
+ * 业务异常，http 状态返回码为 200
  *
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1

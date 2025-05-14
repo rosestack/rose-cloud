@@ -18,7 +18,10 @@ package io.github.rose.core.util.date;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 /**
  * 时间工具类
@@ -27,11 +30,6 @@ import java.util.*;
  * @since 0.0.1
  */
 public class TimeUtils {
-
-    public static final int SECONDS_IN_DAY = 60 * 60 * 24;
-
-    public static final long MILLIS_IN_DAY = 1000L * SECONDS_IN_DAY;
-
     public static String format(final LocalDate localDate, String datePattern) {
         return localDate.format(DateTimeFormatter.ofPattern(datePattern));
     }
@@ -108,39 +106,59 @@ public class TimeUtils {
         return LocalDateTime.ofInstant(Instant.ofEpochSecond(milliseconds), ZoneId.systemDefault());
     }
 
-    public static LocalDateTime getStartOfDay(LocalDateTime time) {
-        return time.with(LocalTime.MIN);
+    public static LocalDateTime getLocalDateTime() {
+        return LocalDateTime.now(ZoneId.systemDefault());
     }
 
-    public static LocalDateTime getEndOfDay(LocalDateTime time) {
+    public static LocalDateTime getLocalDateTimeUTC() {
+        return LocalDateTime.now(Clock.systemUTC());
+    }
+
+    public static LocalDateTime getStartDay() {
+        return getStartDay(getLocalDateTime());
+    }
+
+    public static LocalDateTime getStartDay(LocalDateTime time) {
+        return time.toLocalDate().atStartOfDay();
+    }
+
+    public static LocalDateTime getEndDay() {
+        return getEndDay(LocalDateTime.now());
+    }
+
+    public static LocalDateTime getEndDay(LocalDateTime time) {
         return time.with(LocalTime.MAX);
     }
 
-    public static LocalDateTime getFirstDayOfMonth(LocalDateTime localDateTime) {
-        return localDateTime.with(TemporalAdjusters.firstDayOfMonth()).with(LocalTime.MIN);
+    public static LocalDateTime getStartWorkDay() {
+        return getStartWorkDay(LocalDateTime.now());
     }
 
-    public static LocalDateTime getLastDayOfMonth(LocalDateTime localDateTime) {
-        return localDateTime.with(TemporalAdjusters.lastDayOfMonth()).with(LocalTime.MAX);
+    public static LocalDateTime getStartWorkDay(LocalDateTime time) {
+        return getStartDay(time).plusHours(8);
     }
 
-    public static LocalDateTime getFirstDayOfYear(LocalDateTime localDateTime) {
-        return localDateTime.with(TemporalAdjusters.firstDayOfYear()).with(LocalTime.MIN);
+    public static LocalDateTime getEndWorkDay() {
+        return getEndWorkDay(LocalDateTime.now());
     }
 
-    public static LocalDateTime getLastDayOfYear(LocalDateTime localDateTime) {
-        return localDateTime.with(TemporalAdjusters.lastDayOfYear()).with(LocalTime.MAX);
+    public static LocalDateTime getEndWorkDay(LocalDateTime time) {
+        return getStartWorkDay(time).plusHours(9);
     }
 
-    public static List<String> getDays(LocalDate from, LocalDate to) {
-        if (from == null || to == null) {
-            return Collections.emptyList();
-        }
-        List<String> result = new ArrayList<>();
-        while (from.isBefore(to) || from.isEqual(to)) {
-            result.add(from.format(DateTimeFormatter.ofPattern(DatePattern.NORM_DATE_PATTERN)));
-            from = from.plusDays(1);
-        }
-        return result;
+    public static LocalDate getFirstDayOfMonth(LocalDate localDate) {
+        return localDate.with(TemporalAdjusters.firstDayOfMonth());
+    }
+
+    public static LocalDate getLastDayOfMonth(LocalDate localDate) {
+        return localDate.with(TemporalAdjusters.lastDayOfMonth());
+    }
+
+    public static LocalDate getFirstDayOfYear(LocalDate localDate) {
+        return localDate.with(TemporalAdjusters.firstDayOfYear());
+    }
+
+    public static LocalDate getLastDayOfYear(LocalDate localDate) {
+        return localDate.with(TemporalAdjusters.lastDayOfYear());
     }
 }

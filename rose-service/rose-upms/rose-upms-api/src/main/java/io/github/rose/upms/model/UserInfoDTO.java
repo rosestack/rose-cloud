@@ -15,8 +15,8 @@
  */
 package io.github.rose.upms.model;
 
-import io.github.rose.core.jackson.serializer.sensitive.FieldSensitive;
-import io.github.rose.core.jackson.serializer.sensitive.SensitiveType;
+import io.github.rose.core.jackson.sensitive.FieldSensitive;
+import io.github.rose.core.jackson.sensitive.SensitiveType;
 import io.github.rose.upms.domain.contact.User;
 
 public class UserInfoDTO extends User {

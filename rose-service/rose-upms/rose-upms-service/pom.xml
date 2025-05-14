@@ -15,7 +15,7 @@
   <dependencies>
     <dependency>
       <groupId>io.github.rose-group</groupId>
-      <artifactId>rose-spring-boot-common</artifactId>
+      <artifactId>rose-spring-boot-web</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

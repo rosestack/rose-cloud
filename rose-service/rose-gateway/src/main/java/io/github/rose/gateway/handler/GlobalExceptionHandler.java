@@ -20,6 +20,7 @@ import io.github.rose.gateway.util.WebfluxUtils;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
@@ -49,6 +50,6 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
         } else {
             message = "系统异常";
         }
-        return WebfluxUtils.writeResponse(exchange.getResponse(), RestResponse.error(message));
+        return WebfluxUtils.writeResponse(HttpStatus.OK, exchange.getResponse(), RestResponse.error(message));
     }
 }

@@ -20,6 +20,7 @@ import com.alibaba.csp.sentinel.slots.block.BlockException;
 import io.github.rose.core.exception.ResultCode;
 import io.github.rose.core.util.RestResponse;
 import io.github.rose.gateway.util.WebfluxUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebExceptionHandler;
@@ -32,7 +33,7 @@ public class SentinelFallbackHandler implements WebExceptionHandler {
 
     private Mono<Void> writeResponse(ServerResponse response, ServerWebExchange exchange) {
         RestResponse<Object> error = RestResponse.error(ResultCode.TOO_MANY_REQUESTS.getCode(), "请求超过最大数，请稍候再试");
-        return WebfluxUtils.writeResponse(exchange.getResponse(), error);
+        return WebfluxUtils.writeResponse(HttpStatus.TOO_MANY_REQUESTS, exchange.getResponse(), error);
     }
 
     @Override
