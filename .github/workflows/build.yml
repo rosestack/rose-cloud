@@ -22,7 +22,7 @@ on:
       - 'README*'
 
 env:
-  MAVEN_ARGS: -B -e -ntp
+  MAVEN_ARGS: -B -ntp -X
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
