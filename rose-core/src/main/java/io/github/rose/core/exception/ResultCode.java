@@ -43,7 +43,7 @@ public enum ResultCode {
     INTERFACE_REQUEST_TIMEOUT(503, "INTERFACE_REQUEST_TIMEOUT"),
     INTERFACE_EXCEED_LOAD(504, "INTERFACE_EXCEED_LOAD");
 
-    private static Map<Integer, ResultCode> reverseLookup = Arrays.asList(ResultCode.class.getEnumConstants()).stream()
+    private static final Map<Integer, ResultCode> reverseLookup = Arrays.asList(ResultCode.class.getEnumConstants()).stream()
         .collect(Collectors.toMap(ResultCode::getCode, t -> t));
 
     Integer code;

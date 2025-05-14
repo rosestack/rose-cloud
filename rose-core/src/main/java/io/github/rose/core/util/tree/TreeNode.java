@@ -28,29 +28,23 @@ import java.util.Objects;
 public class TreeNode<T> implements Node<T> {
 
     private static final long serialVersionUID = 1L;
-
+    private final Boolean reversed = false;
     /**
      * ID
      */
     private T id;
-
     /**
      * 父节点ID
      */
     private T parentId;
-
     /**
      * 名称
      */
     private CharSequence name;
-
     /**
      * 顺序 越小优先级越高 默认0
      */
     private Comparable<?> weight = 0;
-
-    private Boolean reversed = false;
-
     /**
      * 扩展字段
      */
@@ -59,7 +53,8 @@ public class TreeNode<T> implements Node<T> {
     /**
      * 空构造
      */
-    public TreeNode() {}
+    public TreeNode() {
+    }
 
     /**
      * 构造

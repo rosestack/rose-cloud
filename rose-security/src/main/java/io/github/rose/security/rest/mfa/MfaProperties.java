@@ -15,19 +15,20 @@
  */
 package io.github.rose.security.rest.mfa;
 
-import io.github.rose.core.jackson.JacksonUtils;
+import io.github.rose.core.json.JsonUtils;
 import io.github.rose.security.rest.mfa.config.MfaConfig;
 import io.github.rose.security.rest.mfa.provider.MfaProviderConfig;
 import io.github.rose.security.rest.mfa.provider.MfaProviderType;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @ConfigurationProperties(prefix = "security.mfa", ignoreUnknownFields = false)
 public class MfaProperties {
@@ -53,27 +54,28 @@ public class MfaProperties {
     @NotNull
     private List<Map<String, Object>> configs;
 
-    public MfaProperties() {}
+    public MfaProperties() {
+    }
 
     public List<MfaConfig> getAllConfigs() {
         return configs.stream()
-                .map(twoFaConfig -> JacksonUtils.fromString(JacksonUtils.toString(twoFaConfig), MfaConfig.class))
-                .collect(Collectors.toList());
+            .map(twoFaConfig -> JsonUtils.readValue(JsonUtils.toString(twoFaConfig), MfaConfig.class))
+            .collect(Collectors.toList());
     }
 
     public MfaConfig getDefaultConfig() {
         return getAllConfigs().stream()
-                .filter(MfaConfig::isUseByDefault)
-                .findAny()
-                .orElse(null);
+            .filter(MfaConfig::isUseByDefault)
+            .findAny()
+            .orElse(null);
     }
 
     public Optional<MfaProviderConfig> getProviderConfig(MfaProviderType providerType) {
         return Optional.ofNullable(providers).flatMap(providersConfigs -> providersConfigs.stream()
-                .map(providerConfig ->
-                        JacksonUtils.fromString(JacksonUtils.toString(providerConfig), MfaProviderConfig.class))
-                .filter(providerConfig -> providerConfig.getProviderType().equals(providerType))
-                .findFirst());
+            .map(providerConfig ->
+                JsonUtils.readValue(JsonUtils.toString(providerConfig), MfaProviderConfig.class))
+            .filter(providerConfig -> providerConfig.getProviderType().equals(providerType))
+            .findFirst());
     }
 
     public boolean isEnabled() {

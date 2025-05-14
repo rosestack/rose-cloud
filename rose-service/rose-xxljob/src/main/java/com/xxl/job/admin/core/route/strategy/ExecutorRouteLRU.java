@@ -18,6 +18,7 @@ package com.xxl.job.admin.core.route.strategy;
 import com.xxl.job.admin.core.route.ExecutorRouter;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.biz.model.TriggerParam;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,8 +33,8 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class ExecutorRouteLRU extends ExecutorRouter {
 
-    private static ConcurrentMap<Integer, LinkedHashMap<String, String>> jobLRUMap =
-            new ConcurrentHashMap<Integer, LinkedHashMap<String, String>>();
+    private static final ConcurrentMap<Integer, LinkedHashMap<String, String>> jobLRUMap =
+        new ConcurrentHashMap<Integer, LinkedHashMap<String, String>>();
 
     private static long CACHE_VALID_TIME = 0;
 

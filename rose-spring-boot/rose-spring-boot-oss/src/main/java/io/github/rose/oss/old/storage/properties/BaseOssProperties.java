@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
  */
 public class BaseOssProperties implements java.io.Serializable {
 
-    private Boolean enabled = false;
+    private final Boolean enabled = false;
 
     @Value("${spring.application.name:'oss'}")
     private String bucket;

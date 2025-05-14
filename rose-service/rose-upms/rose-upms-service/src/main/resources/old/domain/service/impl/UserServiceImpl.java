@@ -27,7 +27,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.github.rose.core.exception.BusinessException;
-import io.github.rose.core.jackson.JacksonUtils;
+import io.github.rose.core.json.JsonUtils;
 import io.github.rose.core.spring.SpringContextHolder;
 import io.github.rose.security.support.TokenFactory;
 import io.github.rose.security.util.Authority;
@@ -138,7 +138,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = getById(userId);
         JsonNode extra = user.getExtra();
         if (!(extra instanceof ObjectNode)) {
-            extra = JacksonUtils.newObjectNode();
+            extra = JsonUtils.newObjectNode();
         }
         ((ObjectNode) extra).put(USER_CREDENTIAL_ENABLED, userCredentialEnabled);
         user.setExtra(extra);
@@ -161,7 +161,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             new UserCacheEvictEvent(user.getPhone(), oldUser != null ? oldUser.getPhone() : null);
 
         if (user.getId() == null) {
-            user.setExtra(JacksonUtils.newObjectNode().put(USER_CREDENTIAL_ENABLED, false));
+            user.setExtra(JsonUtils.newObjectNode().put(USER_CREDENTIAL_ENABLED, false));
             baseMapper.insert(user);
 
             // userCachedEntityService.publishEvictEvent(evictEvent);
@@ -212,7 +212,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private void resetFailedLoginAttempts(User user) {
         JsonNode extra = user.getExtra();
         if (!(extra instanceof ObjectNode)) {
-            extra = JacksonUtils.newObjectNode();
+            extra = JsonUtils.newObjectNode();
         }
         ((ObjectNode) extra).put(FAILED_LOGIN_ATTEMPTS, 0);
         user.setExtra(extra);

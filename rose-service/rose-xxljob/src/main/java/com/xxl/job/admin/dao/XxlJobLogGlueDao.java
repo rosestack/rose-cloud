@@ -16,9 +16,10 @@
 package com.xxl.job.admin.dao;
 
 import com.xxl.job.admin.core.model.XxlJobLogGlue;
-import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * job log for glue
@@ -28,11 +29,11 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface XxlJobLogGlueDao {
 
-    public int save(XxlJobLogGlue xxlJobLogGlue);
+    int save(XxlJobLogGlue xxlJobLogGlue);
 
-    public List<XxlJobLogGlue> findByJobId(@Param("jobId") int jobId);
+    List<XxlJobLogGlue> findByJobId(@Param("jobId") int jobId);
 
-    public int removeOld(@Param("jobId") int jobId, @Param("limit") int limit);
+    int removeOld(@Param("jobId") int jobId, @Param("limit") int limit);
 
-    public int deleteByJobId(@Param("jobId") int jobId);
+    int deleteByJobId(@Param("jobId") int jobId);
 }

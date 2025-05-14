@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.rose.core.jackson;
+package io.github.rose.core.json;
 
+import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.PackageVersion;
 import com.fasterxml.jackson.datatype.jsr310.deser.*;
 import com.fasterxml.jackson.datatype.jsr310.ser.*;
 import io.github.rose.core.util.date.DatePattern;
+import io.github.rose.processor.AutoService;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -27,6 +29,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  */
+@AutoService(Module.class)
 public class Java8TimeModule extends SimpleModule {
 
     public Java8TimeModule() {

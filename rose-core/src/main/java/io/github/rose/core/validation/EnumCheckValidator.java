@@ -15,11 +15,10 @@
  */
 package io.github.rose.core.validation;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 枚举校验器
@@ -37,7 +36,7 @@ public class EnumCheckValidator implements ConstraintValidator<InEnum, Integer> 
         if (values.length == 0) {
             this.values = Collections.emptyList();
         } else {
-            this.values = Arrays.asList(values[0]);
+            this.values = Collections.singletonList(values[0]);
         }
     }
 
@@ -53,8 +52,8 @@ public class EnumCheckValidator implements ConstraintValidator<InEnum, Integer> 
         // 校验不通过，自定义提示语句
         context.disableDefaultConstraintViolation(); // 禁用默认的 message 的值
         context.buildConstraintViolationWithTemplate(
-                        context.getDefaultConstraintMessageTemplate().replaceAll("\\{value}", values.toString()))
-                .addConstraintViolation(); // 重新添加错误提示语句
+                context.getDefaultConstraintMessageTemplate().replaceAll("\\{value}", values.toString()))
+            .addConstraintViolation(); // 重新添加错误提示语句
         return false;
     }
 }

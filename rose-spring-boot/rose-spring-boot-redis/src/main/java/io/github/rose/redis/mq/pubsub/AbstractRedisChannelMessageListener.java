@@ -15,16 +15,17 @@
  */
 package io.github.rose.redis.mq.pubsub;
 
-import io.github.rose.core.jackson.JacksonUtils;
+import io.github.rose.core.json.JsonUtils;
 import io.github.rose.core.spring.ReflectionUtils;
 import io.github.rose.redis.mq.RedisMQTemplate;
 import io.github.rose.redis.mq.interceptor.RedisMessageInterceptor;
 import io.github.rose.redis.mq.message.AbstractRedisMessage;
+import org.springframework.data.redis.connection.Message;
+import org.springframework.data.redis.connection.MessageListener;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.List;
-import org.springframework.data.redis.connection.Message;
-import org.springframework.data.redis.connection.MessageListener;
 
 /**
  * Redis Pub/Sub 监听器抽象类，用于实现广播消费
@@ -33,7 +34,7 @@ import org.springframework.data.redis.connection.MessageListener;
  * @author EnjoyIot
  */
 public abstract class AbstractRedisChannelMessageListener<T extends AbstractRedisChannelMessage>
-        implements MessageListener {
+    implements MessageListener {
 
     /**
      * 消息类型
@@ -88,7 +89,7 @@ public abstract class AbstractRedisChannelMessageListener<T extends AbstractRedi
 
     @Override
     public final void onMessage(Message message, byte[] bytes) {
-        T messageObj = JacksonUtils.fromBytes(message.getBody(), messageType);
+        T messageObj = JsonUtils.readValue(message.getBody(), messageType);
         try {
             consumeMessageBefore(messageObj);
             // 消费消息
@@ -115,7 +116,7 @@ public abstract class AbstractRedisChannelMessageListener<T extends AbstractRedi
         Type type = ReflectionUtils.getTypeArgument(getClass(), 0);
         if (type == null) {
             throw new IllegalStateException(
-                    String.format("类型(%s) 需要设置消息类型", getClass().getName()));
+                String.format("类型(%s) 需要设置消息类型", getClass().getName()));
         }
         return (Class<T>) type;
     }

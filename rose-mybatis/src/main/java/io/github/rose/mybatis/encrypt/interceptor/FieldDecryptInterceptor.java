@@ -22,13 +22,14 @@ import io.github.rose.mybatis.encrypt.annotation.FieldBind;
 import io.github.rose.mybatis.encrypt.annotation.FieldEncrypt;
 import io.github.rose.mybatis.encrypt.util.FieldSetPropertyHelper;
 import io.github.rose.mybatis.encrypt.util.InterceptorHelper;
-import java.sql.Statement;
-import java.util.Properties;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.sql.Statement;
+import java.util.Properties;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -36,18 +37,18 @@ import org.slf4j.LoggerFactory;
  */
 @Intercepts({
     @Signature(
-            type = ResultSetHandler.class,
-            method = "handleResultSets",
-            args = {Statement.class})
+        type = ResultSetHandler.class,
+        method = "handleResultSets",
+        args = {Statement.class})
 })
 public class FieldDecryptInterceptor implements Interceptor {
     private static final Logger log = LoggerFactory.getLogger(FieldDecryptInterceptor.class);
 
-    private IEncryptor encryptor;
+    private final IEncryptor encryptor;
 
-    private IFieldBinder fieldBinder;
+    private final IFieldBinder fieldBinder;
 
-    private String password;
+    private final String password;
 
     public FieldDecryptInterceptor(IEncryptor encryptor, IFieldBinder fieldBinder, String password) {
         this.encryptor = encryptor;
@@ -64,11 +65,11 @@ public class FieldDecryptInterceptor implements Interceptor {
     }
 
     public void decrypt(
-            IEncryptor encryptor,
-            IFieldBinder fieldBinder,
-            String password,
-            MetaObject metaObject,
-            FieldSetProperty fieldSetProperty) {
+        IEncryptor encryptor,
+        IFieldBinder fieldBinder,
+        String password,
+        MetaObject metaObject,
+        FieldSetProperty fieldSetProperty) {
         String fieldName = fieldSetProperty.getFieldName();
         Object value = metaObject.getValue(fieldName);
         if (null != value) {
@@ -77,7 +78,7 @@ public class FieldDecryptInterceptor implements Interceptor {
                     FieldEncrypt fieldEncrypt = fieldSetProperty.getFieldEncrypt();
                     if (null != fieldEncrypt) {
                         value = InterceptorHelper.getEncryptor(encryptor, fieldEncrypt.encryptor())
-                                .decrypt(fieldEncrypt.algorithm(), password, (String) value, null);
+                            .decrypt(fieldEncrypt.algorithm(), password, (String) value, null);
                     }
                 } catch (Exception e) {
                     log.error("field decrypt", e);
@@ -98,5 +99,6 @@ public class FieldDecryptInterceptor implements Interceptor {
         return var1 instanceof ResultSetHandler ? Plugin.wrap(var1, this) : var1;
     }
 
-    public void setProperties(Properties properties) {}
+    public void setProperties(Properties properties) {
+    }
 }

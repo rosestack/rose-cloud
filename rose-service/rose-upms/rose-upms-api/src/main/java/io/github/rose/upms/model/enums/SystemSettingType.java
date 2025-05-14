@@ -22,5 +22,5 @@ public enum SystemSettingType {
     SMS,
     MFA,
     SECURITY,
-    NOTIFICATION;
+    NOTIFICATION
 }

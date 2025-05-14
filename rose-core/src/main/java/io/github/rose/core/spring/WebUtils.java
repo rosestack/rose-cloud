@@ -16,7 +16,7 @@
 package io.github.rose.core.spring;
 
 import io.github.rose.core.exception.BusinessException;
-import io.github.rose.core.jackson.JacksonUtils;
+import io.github.rose.core.json.JsonUtils;
 import io.github.rose.core.util.NetUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
@@ -157,7 +157,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(httpStatus);
 
-        JacksonUtils.writeValue(response.getWriter(), result);
+        JsonUtils.writeValue(response.getWriter(), result);
     }
 
     public static void renderJson(Object result) throws IOException {

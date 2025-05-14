@@ -196,13 +196,13 @@ public final class HtmlFilter {
         vAllowed.put("i", no_atts);
         vAllowed.put("em", no_atts);
 
-        vSelfClosingTags = new String[] {"img"};
-        vNeedClosingTags = new String[] {"a", "b", "strong", "i", "em"};
-        vDisallowed = new String[] {};
-        vAllowedProtocols = new String[] {"http", "mailto", "https"}; // no ftp.
-        vProtocolAtts = new String[] {"src", "href"};
-        vRemoveBlanks = new String[] {"a", "b", "strong", "i", "em"};
-        vAllowedEntities = new String[] {"amp", "gt", "lt", "quot"};
+        vSelfClosingTags = new String[]{"img"};
+        vNeedClosingTags = new String[]{"a", "b", "strong", "i", "em"};
+        vDisallowed = new String[]{};
+        vAllowedProtocols = new String[]{"http", "mailto", "https"}; // no ftp.
+        vProtocolAtts = new String[]{"src", "href"};
+        vRemoveBlanks = new String[]{"a", "b", "strong", "i", "em"};
+        vAllowedEntities = new String[]{"amp", "gt", "lt", "quot"};
         stripComment = true;
         encodeQuotes = true;
         alwaysMakeTags = true;
@@ -505,9 +505,9 @@ public final class HtmlFilter {
             final String protocol = m.group(1);
             if (!inArray(protocol, vAllowedProtocols)) {
                 // bad protocol, turn into local anchor link instead
-                s = "#" + s.substring(protocol.length() + 1, s.length());
+                s = "#" + s.substring(protocol.length() + 1);
                 if (s.startsWith("#//")) {
-                    s = "#" + s.substring(3, s.length());
+                    s = "#" + s.substring(3);
                 }
             }
         }

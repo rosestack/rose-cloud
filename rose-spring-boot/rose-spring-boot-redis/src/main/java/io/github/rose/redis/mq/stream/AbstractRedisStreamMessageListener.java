@@ -15,17 +15,18 @@
  */
 package io.github.rose.redis.mq.stream;
 
-import io.github.rose.core.jackson.JacksonUtils;
+import io.github.rose.core.json.JsonUtils;
 import io.github.rose.core.spring.ReflectionUtils;
 import io.github.rose.redis.mq.RedisMQTemplate;
 import io.github.rose.redis.mq.interceptor.RedisMessageInterceptor;
 import io.github.rose.redis.mq.message.AbstractRedisMessage;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.connection.stream.ObjectRecord;
 import org.springframework.data.redis.stream.StreamListener;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * Redis Stream 监听器抽象类，用于实现集群消费
@@ -34,7 +35,7 @@ import org.springframework.data.redis.stream.StreamListener;
  * @author EnjoyIot
  */
 public abstract class AbstractRedisStreamMessageListener<T extends AbstractRedisStreamMessage>
-        implements StreamListener<String, ObjectRecord<String, String>> {
+    implements StreamListener<String, ObjectRecord<String, String>> {
 
     /**
      * 消息类型
@@ -95,7 +96,7 @@ public abstract class AbstractRedisStreamMessageListener<T extends AbstractRedis
     @Override
     public void onMessage(ObjectRecord<String, String> message) {
         // 消费消息
-        T messageObj = JacksonUtils.fromString(message.getValue(), messageType);
+        T messageObj = JsonUtils.readValue(message.getValue(), messageType);
         try {
             consumeMessageBefore(messageObj);
             // 消费消息
@@ -129,7 +130,7 @@ public abstract class AbstractRedisStreamMessageListener<T extends AbstractRedis
         Type type = ReflectionUtils.getTypeArgument(getClass(), 0);
         if (type == null) {
             throw new IllegalStateException(
-                    String.format("类型(%s) 需要设置消息类型", getClass().getName()));
+                String.format("类型(%s) 需要设置消息类型", getClass().getName()));
         }
         return (Class<T>) type;
     }

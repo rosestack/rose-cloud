@@ -18,6 +18,7 @@ package com.xxl.job.admin.core.route.strategy;
 import com.xxl.job.admin.core.route.ExecutorRouter;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.biz.model.TriggerParam;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -30,8 +31,8 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class ExecutorRouteLFU extends ExecutorRouter {
 
-    private static ConcurrentMap<Integer, HashMap<String, Integer>> jobLfuMap =
-            new ConcurrentHashMap<Integer, HashMap<String, Integer>>();
+    private static final ConcurrentMap<Integer, HashMap<String, Integer>> jobLfuMap =
+        new ConcurrentHashMap<Integer, HashMap<String, Integer>>();
 
     private static long CACHE_VALID_TIME = 0;
 
@@ -45,7 +46,7 @@ public class ExecutorRouteLFU extends ExecutorRouter {
 
         // lfu item init
         HashMap<String, Integer> lfuItemMap =
-                jobLfuMap.get(jobId); // Key排序可以用TreeMap+构造入参Compare；Value排序暂时只能通过ArrayList；
+            jobLfuMap.get(jobId); // Key排序可以用TreeMap+构造入参Compare；Value排序暂时只能通过ArrayList；
         if (lfuItemMap == null) {
             lfuItemMap = new HashMap<String, Integer>();
             jobLfuMap.putIfAbsent(jobId, lfuItemMap); // 避免重复覆盖

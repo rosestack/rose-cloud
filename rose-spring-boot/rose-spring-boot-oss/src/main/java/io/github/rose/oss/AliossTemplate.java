@@ -21,12 +21,15 @@ import com.aliyun.oss.model.MatchMode;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PolicyConditions;
 import com.aliyun.oss.model.PutObjectResult;
-import io.github.rose.core.jackson.JacksonUtils;
+import io.github.rose.core.json.JsonUtils;
 import io.github.rose.core.util.StringPool;
 import io.github.rose.oss.model.BladeFile;
 import io.github.rose.oss.model.OssFile;
 import io.github.rose.oss.props.OssProperties;
 import io.github.rose.oss.rule.OssRule;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -34,8 +37,6 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * AliossTemplate
@@ -246,7 +247,7 @@ public class AliossTemplate implements OssTemplate {
         PolicyConditions policyConds = new PolicyConditions();
         // 默认大小限制10M
         policyConds.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, (Long)
-                ossProperties.getArgs().getOrDefault("contentLengthRange", 10485760L));
+            ossProperties.getArgs().getOrDefault("contentLengthRange", 10485760L));
         policyConds.addConditionItem(MatchMode.StartWith, PolicyConditions.COND_KEY, baseDir);
 
         String postPolicy = ossClient.generatePostPolicy(expiration, policyConds);
@@ -261,7 +262,7 @@ public class AliossTemplate implements OssTemplate {
         respMap.put("dir", baseDir);
         respMap.put("host", getOssHost(bucketName));
         respMap.put("expire", String.valueOf(expireEndTime / 1000));
-        return JacksonUtils.toString(respMap);
+        return JsonUtils.toString(respMap);
     }
 
     /**
@@ -273,9 +274,9 @@ public class AliossTemplate implements OssTemplate {
     public String getOssHost(String bucketName) {
         String prefix = getEndpoint().contains("https://") ? "https://" : "http://";
         return prefix
-                + getBucketName(bucketName)
-                + StringPool.DOT
-                + getEndpoint().replaceFirst(prefix, StringPool.EMPTY);
+            + getBucketName(bucketName)
+            + StringPool.DOT
+            + getEndpoint().replaceFirst(prefix, StringPool.EMPTY);
     }
 
     /**

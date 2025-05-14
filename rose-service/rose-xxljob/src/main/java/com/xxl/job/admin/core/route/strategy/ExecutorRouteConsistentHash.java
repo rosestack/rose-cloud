@@ -18,7 +18,8 @@ package com.xxl.job.admin.core.route.strategy;
 import com.xxl.job.admin.core.route.ExecutorRouter;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.biz.model.TriggerParam;
-import java.io.UnsupportedEncodingException;
+
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -32,7 +33,7 @@ import java.util.TreeMap;
  */
 public class ExecutorRouteConsistentHash extends ExecutorRouter {
 
-    private static int VIRTUAL_NODE_NUM = 100;
+    private static final int VIRTUAL_NODE_NUM = 100;
 
     /**
      * get hash code on 2^32 ring (md5散列的方式计算hash值)
@@ -51,20 +52,16 @@ public class ExecutorRouteConsistentHash extends ExecutorRouter {
         }
         md5.reset();
         byte[] keyBytes = null;
-        try {
-            keyBytes = key.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("Unknown string :" + key, e);
-        }
+        keyBytes = key.getBytes(StandardCharsets.UTF_8);
 
         md5.update(keyBytes);
         byte[] digest = md5.digest();
 
         // hash code, Truncate to 32-bits
         long hashCode = ((long) (digest[3] & 0xFF) << 24)
-                | ((long) (digest[2] & 0xFF) << 16)
-                | ((long) (digest[1] & 0xFF) << 8)
-                | (digest[0] & 0xFF);
+            | ((long) (digest[2] & 0xFF) << 16)
+            | ((long) (digest[1] & 0xFF) << 8)
+            | (digest[0] & 0xFF);
 
         long truncateHashCode = hashCode & 0xffffffffL;
         return truncateHashCode;

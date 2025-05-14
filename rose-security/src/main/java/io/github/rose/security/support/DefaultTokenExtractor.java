@@ -15,9 +15,10 @@
  */
 package io.github.rose.security.support;
 
-import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationServiceException;
+
+import javax.servlet.http.HttpServletRequest;
 
 public class DefaultTokenExtractor implements TokenExtractor {
 
@@ -28,7 +29,7 @@ public class DefaultTokenExtractor implements TokenExtractor {
             if (header.length() < HEADER_PREFIX.length()) {
                 throw new AuthenticationServiceException("Invalid authorization header size.");
             }
-            header = header.substring(HEADER_PREFIX.length(), header.length());
+            header = header.substring(HEADER_PREFIX.length());
         } else {
             header = request.getParameter(REQUEST_PREFIX);
         }

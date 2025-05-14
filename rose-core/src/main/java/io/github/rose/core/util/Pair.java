@@ -17,9 +17,9 @@ package io.github.rose.core.util;
 
 public class Pair<S, T> {
 
-    private S first;
+    private final S first;
 
-    private T second;
+    private final T second;
 
     public Pair(S first, T second) {
         this.first = first;

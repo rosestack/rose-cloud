@@ -15,18 +15,12 @@
  */
 package io.github.rose.syslog.util;
 
-import io.github.rose.core.jackson.JacksonUtils;
+import io.github.rose.core.json.JsonUtils;
 import io.github.rose.core.spring.WebUtils;
 import io.github.rose.core.util.NetUtils;
 import io.github.rose.syslog.annotation.SysLog;
 import io.github.rose.syslog.annotation.SysLogIgnore;
 import io.github.rose.syslog.event.SysLogInfo;
-import java.lang.reflect.Method;
-import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -41,6 +35,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class SysLogUtils {
     private static final Logger log = LoggerFactory.getLogger(SysLogUtils.class);
@@ -62,10 +63,10 @@ public class SysLogUtils {
             sysLogInfo.setClientIp(WebUtils.getClientIp(request));
 
             if (HttpMethod.PUT.name().equals(sysLogInfo.getRequestMethod())
-                    || HttpMethod.POST.name().equals(sysLogInfo.getRequestMethod())) {
-                sysLogInfo.setRequestParams(JacksonUtils.toString(dealArgs(joinPoint.getArgs())));
+                || HttpMethod.POST.name().equals(sysLogInfo.getRequestMethod())) {
+                sysLogInfo.setRequestParams(JsonUtils.toString(dealArgs(joinPoint.getArgs())));
             } else {
-                sysLogInfo.setRequestParams(JacksonUtils.toString(request.getParameterMap()));
+                sysLogInfo.setRequestParams(JsonUtils.toString(request.getParameterMap()));
             }
         }
         return sysLogInfo;
@@ -97,8 +98,8 @@ public class SysLogUtils {
     @SuppressWarnings("rawtypes")
     private static boolean isFilterObject(Object o) {
         if (Objects.isNull(o)
-                || o.getClass().isAnnotationPresent(SysLogIgnore.class)
-                || o.getClass().isAnnotationPresent(PathVariable.class)) {
+            || o.getClass().isAnnotationPresent(SysLogIgnore.class)
+            || o.getClass().isAnnotationPresent(PathVariable.class)) {
             return true;
         }
 
@@ -118,9 +119,9 @@ public class SysLogUtils {
             }
         }
         return o instanceof MultipartFile
-                || o instanceof HttpServletRequest
-                || o instanceof HttpServletResponse
-                || o instanceof BindingResult;
+            || o instanceof HttpServletRequest
+            || o instanceof HttpServletResponse
+            || o instanceof BindingResult;
     }
 
     /**

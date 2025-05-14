@@ -23,5 +23,5 @@ public enum Algorithm {
     MD5_32,
     MD5_16,
     AES,
-    BASE64;
+    BASE64
 }

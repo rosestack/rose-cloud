@@ -15,11 +15,12 @@
  */
 package io.github.rose.core.spring;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * TODO Comment
@@ -85,6 +86,6 @@ public class ReflectionUtils extends org.springframework.util.ReflectionUtils {
             }
         }
 
-        return (ParameterizedType[]) result.toArray(new ParameterizedType[0]);
+        return result.toArray(new ParameterizedType[0]);
     }
 }

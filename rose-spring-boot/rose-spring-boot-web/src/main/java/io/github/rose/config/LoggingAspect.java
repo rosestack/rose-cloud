@@ -15,7 +15,7 @@
  */
 package io.github.rose.config;
 
-import io.github.rose.core.jackson.JacksonUtils;
+import io.github.rose.core.json.JsonUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -103,7 +103,7 @@ public class LoggingAspect {
             log.debug(
                 "Enter {}() with arguments = {}",
                 joinPoint.getSignature().getName(),
-                JacksonUtils.toString(joinPoint.getArgs()));
+                JsonUtils.toString(joinPoint.getArgs()));
         }
         try {
             Object result = joinPoint.proceed();
@@ -111,13 +111,13 @@ public class LoggingAspect {
                 log.debug(
                     "Exit {}() with result = {}",
                     joinPoint.getSignature().getName(),
-                    JacksonUtils.toString(result));
+                    JsonUtils.toString(result));
             }
             return result;
         } catch (IllegalArgumentException e) {
             log.error(
                 "Illegal argument: {} in {}()",
-                JacksonUtils.toString(joinPoint.getArgs()),
+                JsonUtils.toString(joinPoint.getArgs()),
                 joinPoint.getSignature().getName());
             throw e;
         }

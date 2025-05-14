@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class BlockingTest {
 
-    private static ForkJoinPool pool = new ForkJoinPool(1);
+    private static final ForkJoinPool pool = new ForkJoinPool(1);
 
     /**
      * Test that {@link Blocking#runnable(java.lang.Runnable) } executes the given

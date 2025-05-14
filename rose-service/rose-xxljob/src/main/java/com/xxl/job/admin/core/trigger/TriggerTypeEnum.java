@@ -30,9 +30,9 @@ public enum TriggerTypeEnum {
     API(I18nUtil.getString("jobconf_trigger_type_api")),
     MISFIRE(I18nUtil.getString("jobconf_trigger_type_misfire"));
 
-    private String title;
+    private final String title;
 
-    private TriggerTypeEnum(String title) {
+    TriggerTypeEnum(String title) {
         this.title = title;
     }
 

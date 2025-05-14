@@ -28,6 +28,7 @@ import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.sql.SqlUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,7 @@ import java.util.function.Predicate;
  * @since 0.0.1
  */
 public class LambdaJsonQueryWrapper<T> extends AbstractLambdaWrapper<T, LambdaJsonQueryWrapper<T>>
-        implements Query<LambdaJsonQueryWrapper<T>, T, SFunction<T, ?>> {
+    implements Query<LambdaJsonQueryWrapper<T>, T, SFunction<T, ?>> {
 
     private SharedString sqlSelect;
 
@@ -77,15 +78,15 @@ public class LambdaJsonQueryWrapper<T> extends AbstractLambdaWrapper<T, LambdaJs
      * @param sqlFirst
      */
     LambdaJsonQueryWrapper(
-            T entity,
-            Class<T> entityClass,
-            SharedString sqlSelect,
-            AtomicInteger paramNameSeq,
-            Map<String, Object> paramNameValuePairs,
-            MergeSegments mergeSegments,
-            SharedString lastSql,
-            SharedString sqlComment,
-            SharedString sqlFirst) {
+        T entity,
+        Class<T> entityClass,
+        SharedString sqlSelect,
+        AtomicInteger paramNameSeq,
+        Map<String, Object> paramNameValuePairs,
+        MergeSegments mergeSegments,
+        SharedString lastSql,
+        SharedString sqlComment,
+        SharedString sqlFirst) {
         this.sqlSelect = new SharedString();
         super.setEntity(entity);
         super.setEntityClass(entityClass);
@@ -107,7 +108,7 @@ public class LambdaJsonQueryWrapper<T> extends AbstractLambdaWrapper<T, LambdaJs
             this.sqlSelect.setStringValue(this.columnsToString(false, columns));
         }
 
-        return (LambdaJsonQueryWrapper) this.typedThis;
+        return this.typedThis;
     }
 
     @Override
@@ -128,9 +129,9 @@ public class LambdaJsonQueryWrapper<T> extends AbstractLambdaWrapper<T, LambdaJs
             this.setEntityClass(entityClass);
         }
 
-        Assert.notNull(entityClass, "entityClass can not be null", new Object[0]);
+        Assert.notNull(entityClass, "entityClass can not be null");
         this.sqlSelect.setStringValue(TableInfoHelper.getTableInfo(entityClass).chooseSelect(predicate));
-        return (LambdaJsonQueryWrapper) this.typedThis;
+        return this.typedThis;
     }
 
     /**
@@ -147,15 +148,15 @@ public class LambdaJsonQueryWrapper<T> extends AbstractLambdaWrapper<T, LambdaJs
     @Override
     protected LambdaJsonQueryWrapper<T> instance() {
         return new LambdaJsonQueryWrapper(
-                this.getEntity(),
-                this.getEntityClass(),
-                (SharedString) null,
-                this.paramNameSeq,
-                this.paramNameValuePairs,
-                new MergeSegments(),
-                SharedString.emptyString(),
-                SharedString.emptyString(),
-                SharedString.emptyString());
+            this.getEntity(),
+            this.getEntityClass(),
+            null,
+            this.paramNameSeq,
+            this.paramNameValuePairs,
+            new MergeSegments(),
+            SharedString.emptyString(),
+            SharedString.emptyString(),
+            SharedString.emptyString());
     }
 
     /**
@@ -310,9 +311,9 @@ public class LambdaJsonQueryWrapper<T> extends AbstractLambdaWrapper<T, LambdaJs
      */
     public LambdaJsonQueryWrapper<T> isNull(boolean condition, SFunction<T, ?> column, String key) {
         return maybeDo(
-                condition,
-                () -> appendSqlSegments(
-                        columnToSqlSegment(column), getSqlKeyword(), getJsonKeySqlSegment(key), SqlKeyword.IS_NULL));
+            condition,
+            () -> appendSqlSegments(
+                columnToSqlSegment(column), getSqlKeyword(), getJsonKeySqlSegment(key), SqlKeyword.IS_NULL));
     }
 
     /**
@@ -332,12 +333,12 @@ public class LambdaJsonQueryWrapper<T> extends AbstractLambdaWrapper<T, LambdaJs
      */
     public LambdaJsonQueryWrapper<T> isNotNull(boolean condition, SFunction<T, ?> column, String key) {
         return maybeDo(
-                condition,
-                () -> appendSqlSegments(
-                        columnToSqlSegment(column),
-                        getSqlKeyword(),
-                        getJsonKeySqlSegment(key),
-                        SqlKeyword.IS_NOT_NULL));
+            condition,
+            () -> appendSqlSegments(
+                columnToSqlSegment(column),
+                getSqlKeyword(),
+                getJsonKeySqlSegment(key),
+                SqlKeyword.IS_NOT_NULL));
     }
 
     /**
@@ -349,15 +350,15 @@ public class LambdaJsonQueryWrapper<T> extends AbstractLambdaWrapper<T, LambdaJs
      * @return
      */
     protected LambdaJsonQueryWrapper<T> addCondition(
-            boolean condition, SFunction<T, ?> column, SqlKeyword sqlKeyword, String key, Object value) {
+        boolean condition, SFunction<T, ?> column, SqlKeyword sqlKeyword, String key, Object value) {
         return maybeDo(
-                condition,
-                () -> appendSqlSegments(
-                        columnToSqlSegment(column),
-                        getSqlKeyword(),
-                        getJsonKeySqlSegment(key),
-                        sqlKeyword,
-                        () -> formatParam(null, value)));
+            condition,
+            () -> appendSqlSegments(
+                columnToSqlSegment(column),
+                getSqlKeyword(),
+                getJsonKeySqlSegment(key),
+                sqlKeyword,
+                () -> formatParam(null, value)));
     }
 
     /**
@@ -370,20 +371,20 @@ public class LambdaJsonQueryWrapper<T> extends AbstractLambdaWrapper<T, LambdaJs
      * @return
      */
     protected LambdaJsonQueryWrapper<T> likeValue(
-            boolean condition,
-            SqlKeyword sqlKeyword,
-            SFunction<T, ?> column,
-            String key,
-            Object value,
-            SqlLike sqlLike) {
+        boolean condition,
+        SqlKeyword sqlKeyword,
+        SFunction<T, ?> column,
+        String key,
+        Object value,
+        SqlLike sqlLike) {
         return maybeDo(
-                condition,
-                () -> appendSqlSegments(
-                        columnToSqlSegment(column),
-                        getSqlKeyword(),
-                        getJsonKeySqlSegment(key),
-                        sqlKeyword,
-                        () -> formatParam(null, SqlUtils.concatLike(value, sqlLike))));
+            condition,
+            () -> appendSqlSegments(
+                columnToSqlSegment(column),
+                getSqlKeyword(),
+                getJsonKeySqlSegment(key),
+                sqlKeyword,
+                () -> formatParam(null, SqlUtils.concatLike(value, sqlLike))));
     }
 
     /**

@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.rose.core.jackson;
+package io.github.rose.core.json;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.core.json.JsonWriteFeature;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
@@ -24,8 +26,8 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
-import com.fasterxml.jackson.databind.type.CollectionType;
 import io.github.rose.core.util.StringPool;
+import io.github.rose.core.util.date.DatePattern;
 import io.github.rose.core.validation.Views;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -34,8 +36,12 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.function.BiFunction;
+
+import static java.util.TimeZone.getTimeZone;
 
 /**
  * TODO
@@ -43,34 +49,39 @@ import java.util.function.BiFunction;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-public class JacksonUtils {
-    public static final ObjectMapper OBJECT_MAPPER = getObjectMapperWithJavaTimeModule();
-    public static final ObjectMapper PRETTY_SORTED_JSON_MAPPER = JsonMapper.builder()
-        .addModule(new Java8TimeModule())
+public class JsonUtils {
+    public static final ObjectMapper OBJECT_MAPPER = getObjectMapper();
+    public static final ObjectMapper PRETTY_SORTED_JSON_MAPPER = getObjectMapper()
         .enable(SerializationFeature.INDENT_OUTPUT)
-        .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true)
-        .configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true)
-        .build().findAndRegisterModules();
-    public static final ObjectMapper IGNORE_UNKNOWN_PROPERTIES_JSON_MAPPER = JsonMapper.builder()
-        .addModule(new Java8TimeModule())
-        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        .build().findAndRegisterModules();
-    private static final Logger log = LoggerFactory.getLogger(JacksonUtils.class);
-    public static ObjectMapper ALLOW_UNQUOTED_FIELD_NAMES_MAPPER = JsonMapper.builder()
-        .addModule(new Java8TimeModule())
+        .configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
+    private static final Logger log = LoggerFactory.getLogger(JsonUtils.class);
+    public static ObjectMapper ALLOW_UNQUOTED_FIELD_NAMES_MAPPER = getObjectMapper()
         .configure(JsonWriteFeature.QUOTE_FIELD_NAMES.mappedFeature(), false)
-        .configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true)
-        .build().findAndRegisterModules();
+        .configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 
-    public static ObjectMapper getObjectMapperWithJavaTimeModule() {
-        return JsonMapper.builder()
-            .addModule(new Java8TimeModule())
-            .build().findAndRegisterModules();
+    public static ObjectMapper getObjectMapper() {
+        return JsonMapper.builder().findAndAddModules().build()
+            .setTimeZone(getTimeZone(ZoneId.systemDefault()))
+            // 所有日期格式都统一为固定格式
+            .setDateFormat(new SimpleDateFormat(DatePattern.NORM_DATETIME_PATTERN))
+            // 排序key
+            .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true)
+            // 忽略在json字符串中存在，在java类中不存在字段，防止错误。
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            // 忽略空bean转json错误
+            .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
+            // 允许字符串存在转义字符：\r \n \t
+            .configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true)
+            // 排除空值字段
+            .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+            // 使用驼峰式
+            .setPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CAMEL_CASE)
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
     }
 
     public static <T> T convertValue(Object fromValue, Class<T> toValueType) {
         try {
-            return fromValue != null ? OBJECT_MAPPER.convertValue(fromValue, toValueType) : null;
+            return OBJECT_MAPPER.convertValue(fromValue, toValueType);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(
                 "The given object value cannot be converted to " + toValueType + ": " + fromValue, e);
@@ -79,73 +90,19 @@ public class JacksonUtils {
 
     public static <T> T convertValue(Object fromValue, TypeReference<T> toValueTypeRef) {
         try {
-            return fromValue != null ? OBJECT_MAPPER.convertValue(fromValue, toValueTypeRef) : null;
+            return OBJECT_MAPPER.convertValue(fromValue, toValueTypeRef);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(
                 "The given object value cannot be converted to " + toValueTypeRef + ": " + fromValue, e);
         }
     }
 
-    public static <T> T fromString(String string, Class<T> clazz) {
+    public static <T> T convertValue(Object fromValue, JavaType javaType) {
         try {
-            return string != null ? OBJECT_MAPPER.readValue(string, clazz) : null;
-        } catch (IOException e) {
+            return OBJECT_MAPPER.convertValue(fromValue, javaType);
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(
-                "The given string value cannot be transformed to Json object: " + string, e);
-        }
-    }
-
-    public static <T> T fromString(String string, TypeReference<T> valueTypeRef) {
-        try {
-            return string != null ? OBJECT_MAPPER.readValue(string, valueTypeRef) : null;
-        } catch (IOException e) {
-            throw new IllegalArgumentException(
-                "The given string value cannot be transformed to Json object: " + string, e);
-        }
-    }
-
-    public static <T> T fromString(String string, JavaType javaType) {
-        try {
-            return string != null ? OBJECT_MAPPER.readValue(string, javaType) : null;
-        } catch (IOException e) {
-            throw new IllegalArgumentException(
-                "The given String value cannot be transformed to Json object: " + string, e);
-        }
-    }
-
-    public static <T> T fromString(String string, Class<T> clazz, boolean ignoreUnknownFields) {
-        try {
-            return string != null ? IGNORE_UNKNOWN_PROPERTIES_JSON_MAPPER.readValue(string, clazz) : null;
-        } catch (IOException e) {
-            throw new IllegalArgumentException(
-                "The given string value cannot be transformed to Json object: " + string, e);
-        }
-    }
-
-    public static <T> T fromBytes(byte[] bytes, Class<T> clazz) {
-        try {
-            return bytes != null ? OBJECT_MAPPER.readValue(bytes, clazz) : null;
-        } catch (IOException e) {
-            throw new IllegalArgumentException(
-                "The given byte[] value cannot be transformed to Json object:" + Arrays.toString(bytes), e);
-        }
-    }
-
-    public static <T> T fromBytes(byte[] bytes, TypeReference<T> valueTypeRef) {
-        try {
-            return bytes != null ? OBJECT_MAPPER.readValue(bytes, valueTypeRef) : null;
-        } catch (IOException e) {
-            throw new IllegalArgumentException(
-                "The given string value cannot be transformed to Json object: " + Arrays.toString(bytes), e);
-        }
-    }
-
-    public static JsonNode fromBytes(byte[] bytes) {
-        try {
-            return OBJECT_MAPPER.readTree(bytes);
-        } catch (IOException e) {
-            throw new IllegalArgumentException(
-                "The given byte[] value cannot be transformed to Json object: " + Arrays.toString(bytes), e);
+                "The given object value cannot be converted to " + javaType + ": " + fromValue, e);
         }
     }
 
@@ -169,55 +126,74 @@ public class JacksonUtils {
 
     public static String toStringWithView(Object value, Class<Views.Public> serializationView)
         throws JsonProcessingException {
-        return value == null
-            ? ""
-            : OBJECT_MAPPER.writerWithView(serializationView).writeValueAsString(value);
+        return value == null ? "" : OBJECT_MAPPER.writerWithView(serializationView).writeValueAsString(value);
     }
 
-    public static String toPrettyString(Object o) {
+    public static String toPrettyString(Object value) {
         try {
-            return PRETTY_SORTED_JSON_MAPPER.writeValueAsString(o);
+            return PRETTY_SORTED_JSON_MAPPER.writeValueAsString(value);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static String toPlainText(String data) {
-        if (data == null) {
+    public static String toPlainString(String value) {
+        if (value == null) {
             return null;
         }
-        if (data.startsWith("\"") && data.endsWith("\"") && data.length() >= 2) {
-            final String dataBefore = data;
+        if (value.startsWith("\"") && value.endsWith("\"") && value.length() >= 2) {
+            final String dataBefore = value;
             try {
-                data = fromString(data, String.class);
+                value = readValue(value, String.class);
             } catch (Exception ignored) {
             }
-            log.trace("Trimming double quotes. Before trim: [{}], after trim: [{}]", dataBefore, data);
+            log.trace("Trimming double quotes. Before trim: [{}], after trim: [{}]", dataBefore, value);
         }
-        return data;
+        return value;
     }
 
-    public static <T> T treeToValue(JsonNode node, Class<T> clazz) {
+    public static <T> T readValue(String string, Class<T> clazz) {
         try {
-            return OBJECT_MAPPER.treeToValue(node, clazz);
+            return string != null ? OBJECT_MAPPER.readValue(string, clazz) : null;
         } catch (IOException e) {
-            throw new IllegalArgumentException("Can't convert value: " + node.toString(), e);
-        }
-    }
-
-    public static <T> T readValue(String file, CollectionType clazz) {
-        try {
-            return OBJECT_MAPPER.readValue(file, clazz);
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Can't read file: " + file, e);
+            throw new IllegalArgumentException(
+                "The given string value cannot be transformed to Json object: " + string, e);
         }
     }
 
-    public static <T> T readValue(String object, TypeReference<T> clazz) {
+    public static <T> T readValue(String string, TypeReference<T> valueTypeRef) {
         try {
-            return OBJECT_MAPPER.readValue(object, clazz);
+            return string != null ? OBJECT_MAPPER.readValue(string, valueTypeRef) : null;
         } catch (IOException e) {
-            throw new IllegalArgumentException("Can't read object: " + object, e);
+            throw new IllegalArgumentException(
+                "The given string value cannot be transformed to Json object: " + string, e);
+        }
+    }
+
+    public static <T> T readValue(String string, JavaType javaType) {
+        try {
+            return string != null ? OBJECT_MAPPER.readValue(string, javaType) : null;
+        } catch (IOException e) {
+            throw new IllegalArgumentException(
+                "The given String value cannot be transformed to Json object: " + string, e);
+        }
+    }
+
+    public static <T> T readValue(byte[] bytes, Class<T> clazz) {
+        try {
+            return bytes != null ? OBJECT_MAPPER.readValue(bytes, clazz) : null;
+        } catch (IOException e) {
+            throw new IllegalArgumentException(
+                "The given byte[] value cannot be transformed to Json object:" + Arrays.toString(bytes), e);
+        }
+    }
+
+    public static <T> T readValue(byte[] bytes, TypeReference<T> valueTypeRef) {
+        try {
+            return bytes != null ? OBJECT_MAPPER.readValue(bytes, valueTypeRef) : null;
+        } catch (IOException e) {
+            throw new IllegalArgumentException(
+                "The given string value cannot be transformed to Json object: " + Arrays.toString(bytes), e);
         }
     }
 
@@ -245,22 +221,39 @@ public class JacksonUtils {
         }
     }
 
-    public static JsonNode toJsonNode(String value) {
-        return toJsonNode(value, OBJECT_MAPPER);
+    public static JsonNode readTree(byte[] bytes) {
+        try {
+            return OBJECT_MAPPER.readTree(bytes);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(
+                "The given byte[] value cannot be transformed to Json object: " + Arrays.toString(bytes), e);
+        }
     }
 
-    public static JsonNode toJsonNode(String value, ObjectMapper mapper) {
+    public static JsonNode readTree(String value) {
         if (value == null || value.isEmpty()) {
             return null;
         }
         try {
-            return mapper.readTree(value);
+            return OBJECT_MAPPER.readTree(value);
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
     }
 
-    public static JsonNode toJsonNode(Path file) {
+    public static JsonNode readTree(String value, boolean allowUnquotedFieldNames) {
+        if (value == null || value.isEmpty()) {
+            return null;
+        }
+        try {
+            return allowUnquotedFieldNames ? ALLOW_UNQUOTED_FIELD_NAMES_MAPPER.readTree(value) : readTree(value);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+
+    public static JsonNode readTree(Path file) {
         try {
             return OBJECT_MAPPER.readTree(Files.readAllBytes(file));
         } catch (IOException e) {
@@ -268,7 +261,7 @@ public class JacksonUtils {
         }
     }
 
-    public static JsonNode toJsonNode(File value) {
+    public static JsonNode readTree(File value) {
         try {
             return value != null ? OBJECT_MAPPER.readTree(value) : null;
         } catch (IOException e) {
@@ -277,7 +270,7 @@ public class JacksonUtils {
         }
     }
 
-    public static JsonNode toJsonNode(InputStream value) {
+    public static JsonNode readTree(InputStream value) {
         try {
             return value != null ? OBJECT_MAPPER.readTree(value) : null;
         } catch (IOException e) {
@@ -305,20 +298,19 @@ public class JacksonUtils {
     public static <T> T clone(T value) {
         @SuppressWarnings("unchecked")
         Class<T> valueClass = (Class<T>) value.getClass();
-        return fromString(toString(value), valueClass);
+        return readValue(toString(value), valueClass);
+    }
+
+    public static <T> T treeToValue(JsonNode node, Class<T> clazz) {
+        try {
+            return OBJECT_MAPPER.treeToValue(node, clazz);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Can't convert value: " + node.toString(), e);
+        }
     }
 
     public static <T> JsonNode valueToTree(T value) {
         return OBJECT_MAPPER.valueToTree(value);
-    }
-
-    public static <T> byte[] writeValueAsBytes(T value) {
-        try {
-            return OBJECT_MAPPER.writeValueAsBytes(value);
-        } catch (JsonProcessingException e) {
-            throw new IllegalArgumentException(
-                "The given Json object value cannot be transformed to a String: " + value, e);
-        }
     }
 
     public static JsonNode getSafely(JsonNode node, String... path) {
@@ -345,24 +337,12 @@ public class JacksonUtils {
         return map;
     }
 
-    public static <T> T fromReader(Reader reader, Class<T> clazz) {
-        try {
-            return reader != null ? OBJECT_MAPPER.readValue(reader, clazz) : null;
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Invalid request payload", e);
-        }
-    }
-
     public static <T> void writeValue(Writer writer, T value) {
         try {
             OBJECT_MAPPER.writeValue(writer, value);
         } catch (IOException e) {
             throw new IllegalArgumentException("The given writer value: " + writer + "cannot be wrote", e);
         }
-    }
-
-    public static JavaType constructCollectionType(Class collectionClass, Class<?> elementClass) {
-        return OBJECT_MAPPER.getTypeFactory().constructCollectionType(collectionClass, elementClass);
     }
 
     private static void toFlatMap(JsonNode node, String currentPath, Map<String, String> map) {

@@ -15,7 +15,7 @@
  */
 package io.github.rose.gateway.util;
 
-import io.github.rose.core.jackson.JacksonUtils;
+import io.github.rose.core.json.JsonUtils;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,7 +31,7 @@ public final class WebfluxUtils {
         response.setStatusCode(status);
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
-        DataBuffer dataBuffer = response.bufferFactory().wrap(Objects.requireNonNull(JacksonUtils.toBytes(object)));
+        DataBuffer dataBuffer = response.bufferFactory().wrap(Objects.requireNonNull(JsonUtils.toBytes(object)));
         return response.writeWith(Mono.just(dataBuffer));
     }
 }

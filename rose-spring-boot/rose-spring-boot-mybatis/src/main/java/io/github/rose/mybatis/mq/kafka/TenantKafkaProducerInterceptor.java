@@ -15,15 +15,16 @@
  */
 package io.github.rose.mybatis.mq.kafka;
 
-import static io.github.rose.core.CommonConstants.HEADER_TENANT_ID;
-
 import io.github.rose.mybatis.tenant.util.TenantContextHolder;
-import java.util.Map;
 import org.apache.kafka.clients.producer.ProducerInterceptor;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.header.Headers;
 import org.springframework.messaging.handler.invocation.InvocableHandlerMethod;
+
+import java.util.Map;
+
+import static io.github.rose.core.CommonConstants.HEADER_TENANT_ID;
 
 /**
  * Kafka 消息队列的多租户 {@link ProducerInterceptor} 实现类
@@ -39,17 +40,20 @@ public class TenantKafkaProducerInterceptor implements ProducerInterceptor<Objec
         String tenantId = TenantContextHolder.getTenantId();
         if (tenantId != null) {
             Headers headers = record.headers(); // private 属性，没有 get 方法，智能反射
-            headers.add(HEADER_TENANT_ID, tenantId.toString().getBytes());
+            headers.add(HEADER_TENANT_ID, tenantId.getBytes());
         }
         return record;
     }
 
     @Override
-    public void onAcknowledgement(RecordMetadata metadata, Exception exception) {}
+    public void onAcknowledgement(RecordMetadata metadata, Exception exception) {
+    }
 
     @Override
-    public void close() {}
+    public void close() {
+    }
 
     @Override
-    public void configure(Map<String, ?> configs) {}
+    public void configure(Map<String, ?> configs) {
+    }
 }

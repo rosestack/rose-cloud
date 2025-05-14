@@ -15,7 +15,7 @@
  */
 package io.github.rose.filter;
 
-import io.github.rose.core.jackson.JacksonUtils;
+import io.github.rose.core.json.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -92,6 +92,6 @@ public class PayloadSizeFilter extends OncePerRequestFilter {
     private void handleMaxPayloadSizeExceededException(
         HttpServletResponse response, RuntimeException exception) throws IOException {
         response.setStatus(HttpStatus.PAYLOAD_TOO_LARGE.value());
-        JacksonUtils.writeValue(response.getWriter(), exception.getMessage());
+        JsonUtils.writeValue(response.getWriter(), exception.getMessage());
     }
 }

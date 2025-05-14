@@ -33,8 +33,8 @@ public enum ExecutorRouteStrategyEnum {
     BUSYOVER(I18nUtil.getString("jobconf_route_busyover"), new ExecutorRouteBusyover()),
     SHARDING_BROADCAST(I18nUtil.getString("jobconf_route_shard"), null);
 
-    private String title;
-    private ExecutorRouter router;
+    private final String title;
+    private final ExecutorRouter router;
 
     ExecutorRouteStrategyEnum(String title, ExecutorRouter router) {
         this.title = title;

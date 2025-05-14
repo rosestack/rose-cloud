@@ -28,7 +28,7 @@ public class EscapeUtils {
 
     static {
         for (int i = 0; i < 64; i++) {
-            TEXT[i] = new char[] {(char) i};
+            TEXT[i] = new char[]{(char) i};
         }
 
         // special HTML characters
@@ -133,7 +133,7 @@ public class EscapeUtils {
                     tmp.append(content.substring(lastPos));
                     lastPos = content.length();
                 } else {
-                    tmp.append(content.substring(lastPos, pos));
+                    tmp.append(content, lastPos, pos);
                     lastPos = pos;
                 }
             }

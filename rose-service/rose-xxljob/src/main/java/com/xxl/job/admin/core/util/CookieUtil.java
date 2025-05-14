@@ -54,13 +54,13 @@ public class CookieUtil {
      * @param maxAge
      */
     private static void set(
-            HttpServletResponse response,
-            String key,
-            String value,
-            String domain,
-            String path,
-            int maxAge,
-            boolean isHttpOnly) {
+        HttpServletResponse response,
+        String key,
+        String value,
+        String domain,
+        String path,
+        int maxAge,
+        boolean isHttpOnly) {
         Cookie cookie = new Cookie(key, value);
         if (domain != null) {
             cookie.setDomain(domain);
@@ -94,7 +94,7 @@ public class CookieUtil {
      */
     private static Cookie get(HttpServletRequest request, String key) {
         Cookie[] arr_cookie = request.getCookies();
-        if (arr_cookie != null && arr_cookie.length > 0) {
+        if (arr_cookie != null) {
             for (Cookie cookie : arr_cookie) {
                 if (cookie.getName().equals(key)) {
                     return cookie;

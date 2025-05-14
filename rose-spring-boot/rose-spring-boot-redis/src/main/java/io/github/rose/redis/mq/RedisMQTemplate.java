@@ -15,17 +15,18 @@
  */
 package io.github.rose.redis.mq;
 
-import io.github.rose.core.jackson.JacksonUtils;
+import io.github.rose.core.json.JsonUtils;
 import io.github.rose.redis.mq.interceptor.RedisMessageInterceptor;
 import io.github.rose.redis.mq.message.AbstractRedisMessage;
 import io.github.rose.redis.mq.pubsub.AbstractRedisChannelMessage;
 import io.github.rose.redis.mq.stream.AbstractRedisStreamMessage;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import org.springframework.data.redis.connection.stream.RecordId;
 import org.springframework.data.redis.connection.stream.StreamRecords;
 import org.springframework.data.redis.core.RedisTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Redis MQ 操作模板类
@@ -61,7 +62,7 @@ public class RedisMQTemplate {
         try {
             sendMessageBefore(message);
             // 发送消息
-            redisTemplate.convertAndSend(message.getChannel(), JacksonUtils.toString(message));
+            redisTemplate.convertAndSend(message.getChannel(), JsonUtils.toString(message));
         } finally {
             sendMessageAfter(message);
         }
@@ -78,10 +79,10 @@ public class RedisMQTemplate {
             sendMessageBefore(message);
             // 发送消息
             return redisTemplate
-                    .opsForStream()
-                    .add(StreamRecords.newRecord()
-                            .ofObject(Objects.requireNonNull(JacksonUtils.toString(message))) // 设置内容
-                            .withStreamKey(message.getStreamKey())); // 设置 stream key
+                .opsForStream()
+                .add(StreamRecords.newRecord()
+                    .ofObject(Objects.requireNonNull(JsonUtils.toString(message))) // 设置内容
+                    .withStreamKey(message.getStreamKey())); // 设置 stream key
         } finally {
             sendMessageAfter(message);
         }

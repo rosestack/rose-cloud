@@ -15,13 +15,14 @@
  */
 package io.github.rose.core.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.net.*;
 import java.util.Enumeration;
 import java.util.LinkedHashSet;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * 网络相关工具
@@ -61,8 +62,8 @@ public class NetUtils {
          */
         InetAddress localAddress = null;
         final LinkedHashSet<InetAddress> localAddressList = localAddressList(address -> address.isSiteLocalAddress()
-                && !address.isLoopbackAddress()
-                && !address.getHostAddress().contains(":"));
+            && !address.isLoopbackAddress()
+            && !address.getHostAddress().contains(":"));
 
         if (localAddressList != null && localAddressList.size() > 0) {
             localAddress = localAddressList.iterator().next();
@@ -239,11 +240,8 @@ public class NetUtils {
     }
 
     public static boolean isSocketAccessAllowed(final int localIp, final int socketIp, final int mask) {
-        boolean _retVal = false;
+        boolean _retVal = socketIp == INT_VALUE_127_0_0_1 || (localIp & mask) == (socketIp & mask);
 
-        if (socketIp == INT_VALUE_127_0_0_1 || (localIp & mask) == (socketIp & mask)) {
-            _retVal = true;
-        }
         return _retVal;
     }
 

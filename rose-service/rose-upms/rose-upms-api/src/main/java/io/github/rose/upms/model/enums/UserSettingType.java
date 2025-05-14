@@ -19,5 +19,5 @@ public enum UserSettingType {
     GENERAL,
     NOTIFICATION,
     MFA,
-    MOBILE;
+    MOBILE
 }

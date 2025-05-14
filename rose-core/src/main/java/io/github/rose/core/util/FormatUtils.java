@@ -15,9 +15,10 @@
  */
 package io.github.rose.core.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Map;
 import java.util.Objects;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * The utility class of text format
@@ -53,7 +54,7 @@ public abstract class FormatUtils {
      * @return a {@link String} object
      */
     public static String formatVariables(
-            final String template, String prefix, String suffix, final Map<String, ?> map) {
+        final String template, String prefix, String suffix, final Map<String, ?> map) {
         if (null == template) {
             return null;
         }
@@ -61,7 +62,7 @@ public abstract class FormatUtils {
             return template;
         }
 
-        String template2 = template.toString();
+        String template2 = template;
         String value;
         for (final Map.Entry<String, ?> entry : map.entrySet()) {
             value = Objects.toString(entry.getValue(), StringPool.EMPTY);

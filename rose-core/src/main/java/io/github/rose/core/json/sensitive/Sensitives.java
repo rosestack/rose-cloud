@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.rose.core.jackson.sensitive;
+package io.github.rose.core.json.sensitive;
 
 import io.github.rose.core.util.StringPool;
 import org.apache.commons.lang3.StringUtils;
