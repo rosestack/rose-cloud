@@ -56,7 +56,7 @@ jobs:
           fi
 
       - name: Build with Maven
-        run: ${MAVEN_EXEC} install
+        run: mvn install
 
 #  quality:
 #    needs: [ build ]
