@@ -16,34 +16,42 @@
     <dependency>
       <groupId>io.github.rose-group</groupId>
       <artifactId>rose-spring-boot-common</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>io.github.rose-group</groupId>
       <artifactId>rose-spring-boot-feign</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>io.github.rose-group</groupId>
       <artifactId>rose-spring-boot-mybatis</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>io.github.rose-group</groupId>
       <artifactId>rose-spring-boot-redis</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>io.github.rose-group</groupId>
       <artifactId>rose-spring-boot-springdoc</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>io.github.rose-group</groupId>
       <artifactId>rose-spring-boot-syslog</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>io.github.rose-group</groupId>
       <artifactId>rose-spring-boot-xxljob</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>io.github.rose-group</groupId>
       <artifactId>rose-upms-api</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>

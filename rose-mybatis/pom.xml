@@ -17,6 +17,7 @@
     <dependency>
       <groupId>io.github.rose-group</groupId>
       <artifactId>rose-security</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.alibaba</groupId>
@@ -60,17 +61,14 @@
       <version>0.10.6</version>
       <optional>true</optional>
     </dependency>
-
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-messaging</artifactId>
     </dependency>
-    <!-- Servlet API -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
-
   </dependencies>
 </project>
