@@ -1,5 +1,5 @@
 [![Maven Build](https://github.com/rose-group/rose-microservice/actions/workflows/maven-build.yml/badge.svg)](https://github.com/rose-group/rose-microservice/actions/workflows/maven-build.yml)
-![Maven](https://img.shields.io/maven-central/v/io.github.rose-group/rose-microservice.svg)
+[![Maven](https://img.shields.io/maven-central/v/io.github.rose-group/rose-microservice.svg)](https://repo1.maven.org/maven2/io/github/rose-group/rose-microservice/)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=io.github.rose-group%3Arose-microservice&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=io.github.rose-group%3Arose-microservice)
 ![License](https://img.shields.io/github/license/rose-group/rose-microservice.svg)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/rose-group/rose-microservice.svg)](http://isitmaintained.com/project/rose-group/rose-microservice "Average time to resolve an issue")
