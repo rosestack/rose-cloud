@@ -6,6 +6,7 @@
     <groupId>io.github.rose-group</groupId>
     <artifactId>rose-build</artifactId>
     <version>0.0.9</version>
+    <relativePath/>
   </parent>
   <groupId>io.github.rose-group</groupId>
   <artifactId>rose-microservice</artifactId>
@@ -32,7 +33,6 @@
 
   <developers>
     <developer>
-      <id>chensoul</id>
       <name>chensoul</name>
       <email>ichensoul@gmail.com</email>
     </developer>
