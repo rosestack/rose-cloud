@@ -51,9 +51,6 @@ import static java.util.TimeZone.getTimeZone;
  */
 public class JsonUtils {
     public static final ObjectMapper OBJECT_MAPPER = getObjectMapper();
-    public static final ObjectMapper PRETTY_SORTED_JSON_MAPPER = getObjectMapper()
-        .enable(SerializationFeature.INDENT_OUTPUT)
-        .configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
     private static final Logger log = LoggerFactory.getLogger(JsonUtils.class);
     public static ObjectMapper ALLOW_UNQUOTED_FIELD_NAMES_MAPPER = getObjectMapper()
         .configure(JsonWriteFeature.QUOTE_FIELD_NAMES.mappedFeature(), false)
@@ -131,7 +128,7 @@ public class JsonUtils {
 
     public static String toPrettyString(Object value) {
         try {
-            return PRETTY_SORTED_JSON_MAPPER.writeValueAsString(value);
+            return OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(value);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

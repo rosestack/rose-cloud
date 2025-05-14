@@ -35,7 +35,7 @@ public class JsonUtilsTest {
     private static final Logger log = LoggerFactory.getLogger(JsonUtilsTest.class);
 
     @Test
-    public void convertValue() {
+    public void convertValueTest() {
         Person person = new Person("a", 18, LocalDateTime.now(), new Date());
         Person person1 = JsonUtils.convertValue(person, Person.class);
         log.info("person1: {}", JsonUtils.toString(person1));
@@ -65,15 +65,15 @@ public class JsonUtilsTest {
     }
 
     @Test
-    public void toPrettyString() {
-        String data = "{\"data\":\"123\"}";
+    public void toPrettyStringTest() {
+        String data = "{\n  \"data\" : \"123\"\n}";
         JsonNode actualResult = JsonUtils.readTree(data, true);
         String toPrettyString = JsonUtils.toPrettyString(actualResult);
-        log.info("toPrettyString:\n{}", toPrettyString);
+        Assertions.assertEquals(data, toPrettyString);
     }
 
     @Test
-    public void toFlatMap() {
+    public void toFlatMapTest() {
         String data = "{\"data\":\"123\"}";
         JsonNode actualResult = JsonUtils.readTree(data);
 

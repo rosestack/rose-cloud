@@ -22,17 +22,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- *
- */
 public class BlockingTest {
-
     private static final ForkJoinPool pool = new ForkJoinPool(1);
 
-    /**
-     * Test that {@link Blocking#runnable(java.lang.Runnable) } executes the given
-     * runnable.
-     */
     @Test
     public void testRunnable_run() {
         AtomicBoolean executed = new AtomicBoolean(false);
