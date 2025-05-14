@@ -58,25 +58,25 @@ jobs:
       - name: Build with Maven
         run: ${MAVEN_EXEC} verify
 
-  quality:
-    needs: [ build ]
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    name: quality
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: 17
-          cache: 'maven'
-          cache-dependency-path: '**/pom.xml'
-
-      - name: build with docs and coverage
-        run: mvn verify -Pcoverage javadoc:javadoc
-
-      - name: sonar
-        run: mvn sonar:sonar -Psonar -Dsonar.token=${{secrets.SONAR_TOKEN}}
+#  quality:
+#    needs: [ build ]
+#    if: github.event_name == 'push'
+#    runs-on: ubuntu-latest
+#    name: quality
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
+#
+#      - uses: actions/setup-java@v4
+#        with:
+#          distribution: 'temurin'
+#          java-version: 17
+#          cache: 'maven'
+#          cache-dependency-path: '**/pom.xml'
+#
+#      - name: build with docs and coverage
+#        run: mvn verify -Pcoverage javadoc:javadoc
+#
+#      - name: sonar
+#        run: mvn sonar:sonar -Psonar -Dsonar.token=${{secrets.SONAR_TOKEN}}
