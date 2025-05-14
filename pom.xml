@@ -127,13 +127,11 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-web</artifactId>
         <version>${spring-boot.version}</version>
       </dependency>
-
       <dependency>
         <groupId>com.alibaba</groupId>
         <artifactId>transmittable-thread-local</artifactId>
@@ -311,7 +309,6 @@
       </modules>
       <properties>
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-        <skipPublishing>true</skipPublishing>
         <maven.deploy.skip>true</maven.deploy.skip>
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <maven.source.skip>true</maven.source.skip>
