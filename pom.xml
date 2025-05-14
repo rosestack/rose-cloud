@@ -6,7 +6,6 @@
     <groupId>io.github.rose-group</groupId>
     <artifactId>rose-build</artifactId>
     <version>0.0.0.5</version>
-    <relativePath/>
   </parent>
   <groupId>io.github.rose-group</groupId>
   <artifactId>rose-microservice</artifactId>
