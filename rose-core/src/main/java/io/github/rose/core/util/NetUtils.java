@@ -31,59 +31,18 @@ import java.util.regex.Pattern;
  * @since 0.0.1
  */
 public class NetUtils {
-
     public static final String LOCAL_HOST = "localhost";
-
-    public static final String LOCAL_IP = "127.0.0.1";
-
+    public static final String LOCAL_IP4 = "127.0.0.1";
+    public static final String LOCAL_IP6 = "0:0:0:0:0:0:0:1";
     public static final String DEFAULT_MASK = "255.255.255.0";
-
     public static final int INT_VALUE_127_0_0_1 = 0x7f000001;
-
     private static final Pattern ip4RegExp = Pattern.compile("^((?:1?[1-9]?\\d|2(?:[0-4]\\d|5[0-5]))\\.){4}$");
-
     private static final InetAddress LOCAL_ADDRESS;
-
-    private static String LOCAL_HOSTNAME;
+    private static final String LOCAL_HOSTNAME;
 
     static {
-        /**
-         * 获取本机网卡IP地址，规则如下：
-         *
-         * <pre>
-         * 1. 查找所有网卡地址，必须非回路（loopback）地址、非局域网地址（siteLocal）、IPv4地址
-         * 2. 如果无满足要求的地址，调用 {@link InetAddress#getLocalHost()} 获取地址
-         * </pre>
-         * <p>
-         * 此方法不会抛出异常，获取失败将返回<code>null</code><br>
-         * <p>
-         * 见：https://github.com/looly/hutool/issues/428
-         *
-         */
-        InetAddress localAddress = null;
-        final LinkedHashSet<InetAddress> localAddressList = localAddressList(address -> address.isSiteLocalAddress()
-            && !address.isLoopbackAddress()
-            && !address.getHostAddress().contains(":"));
-
-        if (localAddressList != null && localAddressList.size() > 0) {
-            localAddress = localAddressList.iterator().next();
-        }
-        if (localAddress == null) {
-            try {
-                localAddress = InetAddress.getLocalHost();
-            } catch (UnknownHostException e) {
-                // ignore
-            }
-        }
-        LOCAL_ADDRESS = localAddress;
-
-        if (null != LOCAL_ADDRESS) {
-            String name = LOCAL_ADDRESS.getHostName();
-            if (StringUtils.isEmpty(name)) {
-                name = LOCAL_ADDRESS.getHostAddress();
-            }
-            LOCAL_HOSTNAME = name;
-        }
+        LOCAL_ADDRESS = getLocalAddress();
+        LOCAL_HOSTNAME = getLocalHostName(LOCAL_ADDRESS);
     }
 
     public static boolean isUnknown(String ipAddress) {
@@ -91,8 +50,8 @@ public class NetUtils {
     }
 
     public static String getMultistageReverseProxyIp(String ip) {
-        if (ip != null && ip.indexOf(",") > 0) {
-            String[] ips = ip.trim().split(",");
+        if (ip != null && ip.indexOf(StringPool.COMMA) > 0) {
+            String[] ips = ip.trim().split(StringPool.COMMA);
             for (String subIp : ips) {
                 if (!isUnknown(subIp)) {
                     ip = subIp;
@@ -100,12 +59,12 @@ public class NetUtils {
                 }
             }
         }
-        return "0:0:0:0:0:0:0:1".equals(ip) ? LOCAL_IP : ip;
+        return LOCAL_IP6.equals(ip) ? LOCAL_IP4 : ip;
     }
 
     public static boolean isInternalIp(String ip) {
         byte[] addr = textToNumericFormatV4(ip);
-        return isInternalIp(addr) || LOCAL_IP.equals(ip);
+        return isInternalIp(addr) || LOCAL_IP4.equals(ip);
     }
 
     private static boolean isInternalIp(byte[] addr) {
@@ -137,12 +96,6 @@ public class NetUtils {
         }
     }
 
-    /**
-     * 将IPv4地址转换成字节
-     *
-     * @param text IPv4地址
-     * @return byte 字节
-     */
     public static byte[] textToNumericFormatV4(String text) {
         if (text.length() == 0) {
             return null;
@@ -240,68 +193,40 @@ public class NetUtils {
     }
 
     public static boolean isSocketAccessAllowed(final int localIp, final int socketIp, final int mask) {
-        boolean _retVal = socketIp == INT_VALUE_127_0_0_1 || (localIp & mask) == (socketIp & mask);
-
-        return _retVal;
+        return socketIp == INT_VALUE_127_0_0_1 || (localIp & mask) == (socketIp & mask);
     }
 
-    /**
-     * Checks given string against IP address v4 format.
-     *
-     * @param input an ip address - may be null
-     * @return <tt>true</tt> if param has a valid ip v4 format <tt>false</tt> otherwise
-     * @see <a href="https://en.wikipedia.org/wiki/IP_address#IPv4_addresses">ip address
-     * v4</a>
-     */
     public static boolean validateIPv4(final String input) {
         final Matcher m = ip4RegExp.matcher(input + '.');
         return m.matches();
     }
 
-    /**
-     * 获取所有满足过滤条件的本地IP地址对象
-     *
-     * @param addressFilter 过滤器，null表示不过滤，获取所有地址
-     * @return 过滤后的地址对象列表
-     * @since 4.5.17
-     */
     public static LinkedHashSet<InetAddress> localAddressList(Predicate<InetAddress> addressFilter) {
+        final LinkedHashSet<InetAddress> result = new LinkedHashSet<>();
+
         Enumeration<NetworkInterface> networkInterfaces;
         try {
             networkInterfaces = NetworkInterface.getNetworkInterfaces();
         } catch (SocketException e) {
-            throw new RuntimeException(e);
+            return result;
         }
 
         if (networkInterfaces == null) {
-            throw new RuntimeException("Get network interface error!");
+            return result;
         }
 
-        final LinkedHashSet<InetAddress> ipSet = new LinkedHashSet<>();
-
         while (networkInterfaces.hasMoreElements()) {
-            final NetworkInterface networkInterface = networkInterfaces.nextElement();
-            final Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
+            final Enumeration<InetAddress> inetAddresses = networkInterfaces.nextElement().getInetAddresses();
             while (inetAddresses.hasMoreElements()) {
-                final InetAddress inetAddress = inetAddresses.nextElement();
+                InetAddress inetAddress = inetAddresses.nextElement();
                 if (inetAddress != null && (null == addressFilter || addressFilter.test(inetAddress))) {
-                    ipSet.add(inetAddress);
+                    result.add(inetAddress);
                 }
             }
         }
-        return ipSet;
+        return result;
     }
 
-    /**
-     * 获取本机网卡IP地址，这个地址为所有网卡中非回路地址的第一个<br>
-     * 如果获取失败调用 {@link InetAddress#getLocalHost()}方法获取。<br>
-     * 此方法不会抛出异常，获取失败将返回<code>null</code><br>
-     * <p>
-     * 参考：http://stackoverflow.com/questions/9481865/getting-the-ip-address-of-the-current-machine-using-java
-     *
-     * @return 本机网卡IP地址，获取失败返回<code>null</code>
-     * @since 3.0.7
-     */
     public static String getLocalhostStr() {
         InetAddress localhost = getLocalhost();
         if (null != localhost) {
@@ -314,32 +239,14 @@ public class NetUtils {
         return LOCAL_ADDRESS;
     }
 
-    /**
-     * 获得本机MAC地址
-     *
-     * @return 本机MAC地址
-     */
     public static String getLocalMacAddress() {
         return getMacAddress(getLocalhost());
     }
 
-    /**
-     * 获得指定地址信息中的MAC地址，使用分隔符“-”
-     *
-     * @param inetAddress {@link InetAddress}
-     * @return MAC地址，用-分隔
-     */
     public static String getMacAddress(InetAddress inetAddress) {
         return getMacAddress(inetAddress, "-");
     }
 
-    /**
-     * 获得指定地址信息中的MAC地址
-     *
-     * @param inetAddress {@link InetAddress}
-     * @param separator   分隔符，推荐使用“-”或者“:”
-     * @return MAC地址，用-分隔
-     */
     public static String getMacAddress(InetAddress inetAddress, String separator) {
         if (null == inetAddress) {
             return null;
@@ -373,5 +280,32 @@ public class NetUtils {
 
     public static String getLocalHostName() {
         return LOCAL_HOSTNAME;
+    }
+
+    private static String getLocalHostName(InetAddress inetAddress) {
+        if (null == inetAddress) {
+            return null;
+        }
+        return StringUtils.defaultIfBlank(inetAddress.getHostName(), inetAddress.getHostAddress());
+    }
+
+    private static InetAddress getLocalAddress() {
+        InetAddress localAddress = null;
+        final LinkedHashSet<InetAddress> localAddressList = localAddressList(address -> address.isSiteLocalAddress()
+            && !address.isLoopbackAddress()
+            && !address.getHostAddress().contains(":"));
+
+        if (localAddressList != null && localAddressList.size() > 0) {
+            localAddress = localAddressList.iterator().next();
+        }
+        if (localAddress == null) {
+            try {
+                localAddress = InetAddress.getLocalHost();
+            } catch (UnknownHostException e) {
+                // ignore
+            }
+        }
+
+        return localAddress;
     }
 }
