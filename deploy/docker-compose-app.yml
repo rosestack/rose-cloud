@@ -8,15 +8,6 @@ services:
     ports:
       - "7010:7010"
 
-  rose-xxljob:
-    build:
-      context: ./rose-microservice/rose-xxljob
-    image: chensoul/rose-xxljob
-    container_name: rose-xxljob
-    restart: always
-    ports:
-      - "7020:7020"
-
   rose-gateway:
     build:
       context: ./rose-microservice/rose-gateway
