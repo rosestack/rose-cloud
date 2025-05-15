@@ -16,22 +16,14 @@
 package io.github.rose.env;
 
 import io.github.rose.core.spi.LauncherService;
-import io.github.rose.core.util.PropsUtil;
 import io.github.rose.processor.AutoService;
-import java.util.Properties;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 
-/**
- * 启动参数拓展
- *
- * @author smallchil
- */
 @AutoService(LauncherService.class)
 public class CommonLauncherService implements LauncherService {
 
     @Override
-    public void initialize(ConfigurableApplicationContext applicationContext) {
-        Properties props = System.getProperties();
-        PropsUtil.setProperty(props, "spring.main.allow-bean-definition-overriding", "true");
+    public void initialize(ConfigurableEnvironment configurableEnvironment) {
+        configurableEnvironment.getSystemProperties().putIfAbsent("spring.main.allow-bean-definition-overriding", "true");
     }
 }

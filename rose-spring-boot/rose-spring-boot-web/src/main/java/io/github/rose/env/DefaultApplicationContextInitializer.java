@@ -17,19 +17,20 @@ package io.github.rose.env;
 
 import io.github.rose.core.spi.LauncherService;
 import io.github.rose.core.spi.ServiceFinder;
-import java.util.Comparator;
-import java.util.stream.Collectors;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.util.Comparator;
+import java.util.stream.Collectors;
+
 public class DefaultApplicationContextInitializer
-        implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+    implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
         ServiceFinder.load(LauncherService.class).stream()
-                .sorted(Comparator.comparing(LauncherService::getOrder))
-                .collect(Collectors.toList())
-                .forEach(launcherService -> launcherService.initialize(applicationContext));
+            .sorted(Comparator.comparing(LauncherService::getOrder))
+            .collect(Collectors.toList())
+            .forEach(launcherService -> launcherService.initialize(applicationContext.getEnvironment()));
     }
 }

@@ -17,17 +17,15 @@ package io.github.rose.springdoc;
 
 import io.github.rose.core.spi.LauncherService;
 import io.github.rose.processor.AutoService;
-import java.util.Properties;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 @AutoService(LauncherService.class)
 public class SpringdocLauncherService implements LauncherService {
 
     @Override
-    public void initialize(ConfigurableApplicationContext applicationContext) {
-        Properties props = System.getProperties();
-        props.setProperty("spring.mvc.pathmatch.matching-handler", "ANT_PATH_MATCHER");
+    public void initialize(ConfigurableEnvironment configurableEnvironment) {
+        configurableEnvironment.getSystemProperties().putIfAbsent("spring.mvc.pathmatch.matching-handler", "ANT_PATH_MATCHER");
     }
 
     @Override

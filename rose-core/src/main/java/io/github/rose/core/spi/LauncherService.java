@@ -15,8 +15,8 @@
  */
 package io.github.rose.core.spi;
 
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -24,7 +24,7 @@ import org.springframework.core.Ordered;
  */
 public interface LauncherService extends Ordered, Comparable<LauncherService> {
 
-    void initialize(ConfigurableApplicationContext applicationContext);
+    void initialize(ConfigurableEnvironment configurableEnvironment);
 
     /**
      * 获取排列顺序
