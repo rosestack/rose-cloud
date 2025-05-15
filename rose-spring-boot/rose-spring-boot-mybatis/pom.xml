@@ -17,17 +17,14 @@
     <dependency>
       <groupId>io.github.rose-group</groupId>
       <artifactId>rose-mybatis</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>io.github.rose-group</groupId>
       <artifactId>rose-spring-boot-core</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>io.github.rose-group</groupId>
       <artifactId>rose-spring-boot-redis</artifactId>
-      <version>${project.version}</version>
       <optional>true</optional>
     </dependency>
 

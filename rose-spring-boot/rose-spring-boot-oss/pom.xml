@@ -17,7 +17,6 @@
     <dependency>
       <groupId>io.github.rose-group</groupId>
       <artifactId>rose-core</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <dependency>
@@ -26,45 +25,24 @@
       <version>3.18.2</version>
       <optional>true</optional>
     </dependency>
-
     <dependency>
       <groupId>com.qcloud</groupId>
       <artifactId>cos_api</artifactId>
       <version>5.6.245</version>
       <optional>true</optional>
     </dependency>
-
     <dependency>
       <groupId>com.qiniu</groupId>
       <artifactId>qiniu-java-sdk</artifactId>
       <version>7.18.0</version>
       <optional>true</optional>
     </dependency>
-
-    <!--        <dependency>-->
-    <!--            <groupId>com.huawei</groupId>-->
-    <!--            <artifactId>esdk-obs-java</artifactId>-->
-    <!--            <version>3.24.9</version>-->
-    <!--            <optional>true</optional>-->
-    <!--            <exclusions>-->
-    <!--                <exclusion>-->
-    <!--                    <groupId>org.apache.logging.log4j</groupId>-->
-    <!--                    <artifactId>log4j-support</artifactId>-->
-    <!--                </exclusion>-->
-    <!--                <exclusion>-->
-    <!--                    <groupId>org.apache.logging.log4j</groupId>-->
-    <!--                    <artifactId>log4j-api</artifactId>-->
-    <!--                </exclusion>-->
-    <!--            </exclusions>-->
-    <!--        </dependency>-->
-
     <dependency>
       <groupId>io.minio</groupId>
       <artifactId>minio</artifactId>
       <version>8.5.17</version>
       <optional>true</optional>
     </dependency>
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-autoconfigure</artifactId>

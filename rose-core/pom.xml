@@ -16,7 +16,6 @@
     <dependency>
       <groupId>io.github.rose-group</groupId>
       <artifactId>rose-processor</artifactId>
-      <version>${project.version}</version>
       <optional>true</optional>
     </dependency>
 
