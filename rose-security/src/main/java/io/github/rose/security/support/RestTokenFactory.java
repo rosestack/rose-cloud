@@ -81,7 +81,7 @@ public class RestTokenFactory implements TokenFactory {
         if (securityUserObject == null) {
             throw new BadCredentialsException("Access token is invalid or has expired");
         }
-        return JsonUtils.readValue((String) securityUserObject, SecurityUser.class);
+        return JsonUtils.fromJson((String) securityUserObject, SecurityUser.class);
     }
 
     @Override

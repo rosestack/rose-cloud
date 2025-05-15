@@ -59,7 +59,7 @@ public class MfaProperties {
 
     public List<MfaConfig> getAllConfigs() {
         return configs.stream()
-            .map(twoFaConfig -> JsonUtils.readValue(JsonUtils.toString(twoFaConfig), MfaConfig.class))
+            .map(twoFaConfig -> JsonUtils.fromJson(JsonUtils.toJson(twoFaConfig), MfaConfig.class))
             .collect(Collectors.toList());
     }
 
@@ -73,7 +73,7 @@ public class MfaProperties {
     public Optional<MfaProviderConfig> getProviderConfig(MfaProviderType providerType) {
         return Optional.ofNullable(providers).flatMap(providersConfigs -> providersConfigs.stream()
             .map(providerConfig ->
-                JsonUtils.readValue(JsonUtils.toString(providerConfig), MfaProviderConfig.class))
+                JsonUtils.fromJson(JsonUtils.toJson(providerConfig), MfaProviderConfig.class))
             .filter(providerConfig -> providerConfig.getProviderType().equals(providerType))
             .findFirst());
     }

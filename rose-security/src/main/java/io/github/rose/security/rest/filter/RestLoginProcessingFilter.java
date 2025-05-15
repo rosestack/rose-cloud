@@ -65,7 +65,7 @@ public class RestLoginProcessingFilter extends AbstractAuthenticationProcessingF
 
         LoginRequest loginRequest;
         try {
-            loginRequest = JsonUtils.readValue(request.getReader(), LoginRequest.class);
+            loginRequest = JsonUtils.fromJson(request.getReader(), LoginRequest.class);
         } catch (Exception e) {
             throw new AuthenticationServiceException("Invalid login request payload");
         }

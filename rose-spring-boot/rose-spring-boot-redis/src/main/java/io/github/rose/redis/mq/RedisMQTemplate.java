@@ -62,7 +62,7 @@ public class RedisMQTemplate {
         try {
             sendMessageBefore(message);
             // 发送消息
-            redisTemplate.convertAndSend(message.getChannel(), JsonUtils.toString(message));
+            redisTemplate.convertAndSend(message.getChannel(), JsonUtils.toJson(message));
         } finally {
             sendMessageAfter(message);
         }
@@ -81,7 +81,7 @@ public class RedisMQTemplate {
             return redisTemplate
                 .opsForStream()
                 .add(StreamRecords.newRecord()
-                    .ofObject(Objects.requireNonNull(JsonUtils.toString(message))) // 设置内容
+                    .ofObject(Objects.requireNonNull(JsonUtils.toJson(message))) // 设置内容
                     .withStreamKey(message.getStreamKey())); // 设置 stream key
         } finally {
             sendMessageAfter(message);

@@ -59,7 +59,7 @@ public abstract class OtpBasedMfaProvider<C extends OtpBasedMfaProviderConfig, A
             .getCache(TWO_FA_VERIFICATION_CODE_CACHE)
             .get(TWO_FA_VERIFICATION_CODE_CACHE + ":" + user.getUsername())
             .toString();
-        Otp otp = JsonUtils.readValue(correctVerificationCode, Otp.class);
+        Otp otp = JsonUtils.fromJson(correctVerificationCode, Otp.class);
         if (correctVerificationCode != null) {
             if (System.currentTimeMillis() - otp.getTimestamp()
                 > TimeUnit.SECONDS.toMillis(providerConfig.getVerificationCodeExpireTime())) {

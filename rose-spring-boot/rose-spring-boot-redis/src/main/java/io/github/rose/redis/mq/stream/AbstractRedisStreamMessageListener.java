@@ -97,7 +97,7 @@ public abstract class AbstractRedisStreamMessageListener<T extends AbstractRedis
     @Override
     public void onMessage(ObjectRecord<String, String> message) {
         // 消费消息
-        T messageObj = JsonUtils.readValue(message.getValue(), messageType);
+        T messageObj = JsonUtils.fromJson(message.getValue(), messageType);
         try {
             consumeMessageBefore(messageObj);
             // 消费消息

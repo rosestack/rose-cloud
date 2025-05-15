@@ -262,7 +262,7 @@ public class AliossTemplate implements OssTemplate {
         respMap.put("dir", baseDir);
         respMap.put("host", getOssHost(bucketName));
         respMap.put("expire", String.valueOf(expireEndTime / 1000));
-        return JsonUtils.toString(respMap);
+        return JsonUtils.toJson(respMap);
     }
 
     /**

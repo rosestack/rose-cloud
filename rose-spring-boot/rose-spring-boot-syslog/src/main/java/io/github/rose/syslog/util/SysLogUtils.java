@@ -65,9 +65,9 @@ public class SysLogUtils {
 
             if (HttpMethod.PUT.name().equals(sysLogInfo.getRequestMethod())
                 || HttpMethod.POST.name().equals(sysLogInfo.getRequestMethod())) {
-                sysLogInfo.setRequestParams(JsonUtils.toString(dealArgs(joinPoint.getArgs())));
+                sysLogInfo.setRequestParams(JsonUtils.toJson(dealArgs(joinPoint.getArgs())));
             } else {
-                sysLogInfo.setRequestParams(JsonUtils.toString(request.getParameterMap()));
+                sysLogInfo.setRequestParams(JsonUtils.toJson(request.getParameterMap()));
             }
         }
         return sysLogInfo;

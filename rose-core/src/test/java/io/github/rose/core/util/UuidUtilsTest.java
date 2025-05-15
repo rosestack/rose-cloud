@@ -1,6 +1,5 @@
 package io.github.rose.core.util;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import io.github.rose.core.json.JsonUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -36,10 +35,9 @@ public class UuidUtilsTest {
         UUID uuid = UuidUtils.getUUID();
         map.put("key", uuid);
         log.info("Map: " + map);
-        String json = JsonUtils.toString(map);
+        String json = JsonUtils.toJson(map);
         log.info("Json: " + json);
-        Map<String, Object> map2 = JsonUtils.readValue(json, new TypeReference<Map<String, Object>>() {
-        });
+        Map<String, Object> map2 = JsonUtils.toMap(json);
         log.info("Map2: " + map2);
     }
 }

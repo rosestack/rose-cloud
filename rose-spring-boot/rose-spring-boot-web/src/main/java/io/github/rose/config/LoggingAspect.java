@@ -103,7 +103,7 @@ public class LoggingAspect {
             log.debug(
                 "Enter {}() with arguments = {}",
                 joinPoint.getSignature().getName(),
-                JsonUtils.toString(joinPoint.getArgs()));
+                JsonUtils.toJson(joinPoint.getArgs()));
         }
         try {
             Object result = joinPoint.proceed();
@@ -111,13 +111,13 @@ public class LoggingAspect {
                 log.debug(
                     "Exit {}() with result = {}",
                     joinPoint.getSignature().getName(),
-                    JsonUtils.toString(result));
+                    JsonUtils.toJson(result));
             }
             return result;
         } catch (IllegalArgumentException e) {
             log.error(
                 "Illegal argument: {} in {}()",
-                JsonUtils.toString(joinPoint.getArgs()),
+                JsonUtils.toJson(joinPoint.getArgs()),
                 joinPoint.getSignature().getName());
             throw e;
         }

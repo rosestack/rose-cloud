@@ -72,8 +72,8 @@ public class TenantJobAspect {
         });
         // 如果 results 非空，说明发生了异常，标记 XXL-Job 执行失败
         if (CollectionUtils.isNotEmpty(results)) {
-            XxlJobHelper.handleFail(JsonUtils.toString(results));
+            XxlJobHelper.handleFail(JsonUtils.toJson(results));
         }
-        return JsonUtils.toString(results);
+        return JsonUtils.toJson(results);
     }
 }

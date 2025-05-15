@@ -65,7 +65,7 @@ public class RestRefreshProcessingFilter extends AbstractAuthenticationProcessin
 
         RefreshTokenRequest refreshTokenRequest;
         try {
-            refreshTokenRequest = JsonUtils.readValue(request.getReader(), RefreshTokenRequest.class);
+            refreshTokenRequest = JsonUtils.fromJson(request.getReader(), RefreshTokenRequest.class);
         } catch (Exception e) {
             throw new AuthenticationServiceException("Invalid refresh token request payload");
         }

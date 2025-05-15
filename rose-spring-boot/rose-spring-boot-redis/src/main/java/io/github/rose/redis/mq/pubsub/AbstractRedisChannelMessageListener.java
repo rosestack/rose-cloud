@@ -90,7 +90,7 @@ public abstract class AbstractRedisChannelMessageListener<T extends AbstractRedi
 
     @Override
     public final void onMessage(Message message, byte[] bytes) {
-        T messageObj = JsonUtils.readValue(message.getBody(), messageType);
+        T messageObj = JsonUtils.fromJson(message.getBody(), messageType);
         try {
             consumeMessageBefore(messageObj);
             // 消费消息
