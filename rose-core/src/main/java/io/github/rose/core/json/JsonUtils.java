@@ -44,8 +44,6 @@ import java.util.function.BiFunction;
 import static java.util.TimeZone.getTimeZone;
 
 /**
- * TODO
- *
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
@@ -60,7 +58,7 @@ public class JsonUtils {
         return JsonMapper.builder().findAndAddModules().build()
             .setTimeZone(getTimeZone(ZoneId.systemDefault()))
             // 所有日期格式都统一为固定格式
-            .setDateFormat(new SimpleDateFormat(DatePattern.NORM_DATETIME_PATTERN))
+            .setDateFormat(new SimpleDateFormat(DatePattern.NORM_DATETIME_PATTERN, Locale.getDefault()))
             // 排序key
             .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true)
             // 忽略在json字符串中存在，在java类中不存在字段，防止错误。

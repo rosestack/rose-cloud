@@ -21,13 +21,16 @@ import io.github.rose.oss.old.storage.domain.StorageRequest;
 import io.github.rose.oss.old.storage.domain.StorageResponse;
 import io.github.rose.oss.old.storage.exception.StorageException;
 import io.github.rose.oss.old.storage.properties.BaseOssProperties;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
+import java.util.Locale;
 
 /**
  * 文件存储
@@ -219,9 +222,9 @@ public interface OssOperation {
         String prefix;
         switch (rule) {
             case now_date_mouth:
-                prefix = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMM"));
+                prefix = LocalDateTime.now(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyyMM", Locale.getDefault()));
             case now_date_mouth_day:
-                prefix = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+                prefix = LocalDateTime.now(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyyMMdd", Locale.getDefault()));
             case none:
                 prefix = request.getPrefix();
             default:

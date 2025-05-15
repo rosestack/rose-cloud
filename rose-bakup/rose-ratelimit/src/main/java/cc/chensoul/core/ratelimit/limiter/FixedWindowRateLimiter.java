@@ -22,6 +22,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class FixedWindowRateLimiter implements RateLimiter {
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FixedWindowRateLimiter.class);
     private final ConcurrentHashMap<String, AtomicReference<ValueHolder>> counterMap = new ConcurrentHashMap<>();
     private final int limit; // 限流阈值
     private final long windowSizeInMillis; // 时间窗口大小
@@ -45,9 +46,9 @@ public class FixedWindowRateLimiter implements RateLimiter {
             for (int i = 0; i < 200; i++) {
                 String key = "user" + ThreadLocalRandom.current().nextInt(10); // 随机生成用户ID
                 if (rateLimiter.tryAcquire(key)) {
-                    System.out.println("Request granted for user: " + key);
+                    log.info("Request granted for user: " + key);
                 } else {
-                    System.out.println("Request denied for user: " + key);
+                    log.info("Request denied for user: " + key);
                 }
                 try {
                     Thread.sleep(5);

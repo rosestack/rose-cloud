@@ -16,11 +16,11 @@
 package io.github.rose.filter;
 
 import io.github.rose.core.util.EscapeUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpMethod;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -104,15 +104,15 @@ public class XssFilter extends OncePerRequestFilter {
         @Override
         public ServletInputStream getInputStream() throws IOException {
             // 为空，直接返回
-            String json = IOUtils.toString(super.getInputStream(), StandardCharsets.UTF_8);
-            if (StringUtils.isEmpty(json)) {
+            String input = StreamUtils.copyToString(super.getInputStream(), StandardCharsets.UTF_8);
+            if (StringUtils.isEmpty(input)) {
                 return super.getInputStream();
             }
 
             // xss过滤
-            json = EscapeUtils.clean(json).trim();
-            byte[] jsonBytes = json.getBytes(StandardCharsets.UTF_8);
-            final ByteArrayInputStream bis = new ByteArrayInputStream(jsonBytes);
+            input = EscapeUtils.clean(input).trim();
+            byte[] inputBytes = input.getBytes(StandardCharsets.UTF_8);
+            final ByteArrayInputStream bis = new ByteArrayInputStream(inputBytes);
             return new ServletInputStream() {
                 @Override
                 public boolean isFinished() {
@@ -126,7 +126,7 @@ public class XssFilter extends OncePerRequestFilter {
 
                 @Override
                 public int available() throws IOException {
-                    return jsonBytes.length;
+                    return inputBytes.length;
                 }
 
                 @Override

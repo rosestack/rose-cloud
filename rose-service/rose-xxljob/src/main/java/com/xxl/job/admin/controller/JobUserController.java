@@ -23,11 +23,6 @@ import com.xxl.job.admin.core.util.I18nUtil;
 import com.xxl.job.admin.dao.XxlJobGroupDao;
 import com.xxl.job.admin.dao.XxlJobUserDao;
 import com.xxl.job.core.biz.model.ReturnT;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
@@ -35,6 +30,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author xuxueli 2019-05-04 16:39:50
@@ -64,10 +66,10 @@ public class JobUserController {
     @ResponseBody
     @PermissionLimit(adminuser = true)
     public Map<String, Object> pageList(
-            @RequestParam(required = false, defaultValue = "0") int start,
-            @RequestParam(required = false, defaultValue = "10") int length,
-            String username,
-            int role) {
+        @RequestParam(required = false, defaultValue = "0") int start,
+        @RequestParam(required = false, defaultValue = "10") int length,
+        String username,
+        int role) {
 
         // page list
         List<XxlJobUser> list = xxlJobUserDao.pageList(start, length, username, role);
@@ -96,7 +98,7 @@ public class JobUserController {
         // valid username
         if (!StringUtils.hasText(xxlJobUser.getUsername())) {
             return new ReturnT<String>(
-                    ReturnT.FAIL_CODE, I18nUtil.getString("system_please_input") + I18nUtil.getString("user_username"));
+                ReturnT.FAIL_CODE, I18nUtil.getString("system_please_input") + I18nUtil.getString("user_username"));
         }
         xxlJobUser.setUsername(xxlJobUser.getUsername().trim());
         if (!(xxlJobUser.getUsername().length() >= 4 && xxlJobUser.getUsername().length() <= 20)) {
@@ -105,7 +107,7 @@ public class JobUserController {
         // valid password
         if (!StringUtils.hasText(xxlJobUser.getPassword())) {
             return new ReturnT<String>(
-                    ReturnT.FAIL_CODE, I18nUtil.getString("system_please_input") + I18nUtil.getString("user_password"));
+                ReturnT.FAIL_CODE, I18nUtil.getString("system_please_input") + I18nUtil.getString("user_password"));
         }
         xxlJobUser.setPassword(xxlJobUser.getPassword().trim());
         if (!(xxlJobUser.getPassword().length() >= 4 && xxlJobUser.getPassword().length() <= 20)) {
@@ -113,7 +115,7 @@ public class JobUserController {
         }
         // md5 password
         xxlJobUser.setPassword(
-                DigestUtils.md5DigestAsHex(xxlJobUser.getPassword().getBytes()));
+            DigestUtils.md5DigestAsHex(xxlJobUser.getPassword().getBytes(Charset.forName("UTF-8"))));
 
         // check repeat
         XxlJobUser existUser = xxlJobUserDao.loadByUserName(xxlJobUser.getUsername());
@@ -141,12 +143,12 @@ public class JobUserController {
         if (StringUtils.hasText(xxlJobUser.getPassword())) {
             xxlJobUser.setPassword(xxlJobUser.getPassword().trim());
             if (!(xxlJobUser.getPassword().length() >= 4
-                    && xxlJobUser.getPassword().length() <= 20)) {
+                && xxlJobUser.getPassword().length() <= 20)) {
                 return new ReturnT<String>(ReturnT.FAIL_CODE, I18nUtil.getString("system_lengh_limit") + "[4-20]");
             }
             // md5 password
             xxlJobUser.setPassword(
-                    DigestUtils.md5DigestAsHex(xxlJobUser.getPassword().getBytes()));
+                DigestUtils.md5DigestAsHex(xxlJobUser.getPassword().getBytes(Charset.forName("UTF-8"))));
         } else {
             xxlJobUser.setPassword(null);
         }
@@ -178,13 +180,13 @@ public class JobUserController {
         // valid
         if (oldPassword == null || oldPassword.trim().length() == 0) {
             return new ReturnT<String>(
-                    ReturnT.FAIL.getCode(),
-                    I18nUtil.getString("system_please_input") + I18nUtil.getString("change_pwd_field_oldpwd"));
+                ReturnT.FAIL.getCode(),
+                I18nUtil.getString("system_please_input") + I18nUtil.getString("change_pwd_field_oldpwd"));
         }
         if (password == null || password.trim().length() == 0) {
             return new ReturnT<String>(
-                    ReturnT.FAIL.getCode(),
-                    I18nUtil.getString("system_please_input") + I18nUtil.getString("change_pwd_field_oldpwd"));
+                ReturnT.FAIL.getCode(),
+                I18nUtil.getString("system_please_input") + I18nUtil.getString("change_pwd_field_oldpwd"));
         }
         password = password.trim();
         if (!(password.length() >= 4 && password.length() <= 20)) {
@@ -192,16 +194,16 @@ public class JobUserController {
         }
 
         // md5 password
-        String md5OldPassword = DigestUtils.md5DigestAsHex(oldPassword.getBytes());
-        String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
+        String md5OldPassword = DigestUtils.md5DigestAsHex(oldPassword.getBytes(Charset.forName("UTF-8")));
+        String md5Password = DigestUtils.md5DigestAsHex(password.getBytes(Charset.forName("UTF-8")));
 
         // valid old pwd
         XxlJobUser loginUser = PermissionInterceptor.getLoginUser(request);
         XxlJobUser existUser = xxlJobUserDao.loadByUserName(loginUser.getUsername());
         if (!md5OldPassword.equals(existUser.getPassword())) {
             return new ReturnT<String>(
-                    ReturnT.FAIL.getCode(),
-                    I18nUtil.getString("change_pwd_field_oldpwd") + I18nUtil.getString("system_unvalid"));
+                ReturnT.FAIL.getCode(),
+                I18nUtil.getString("change_pwd_field_oldpwd") + I18nUtil.getString("system_unvalid"));
         }
 
         // write new

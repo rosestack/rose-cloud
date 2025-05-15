@@ -22,15 +22,17 @@ import io.github.rose.xxljob.model.XxlJobInfoPage;
 import io.github.rose.xxljob.model.XxlRestResponse;
 import io.github.rose.xxljob.service.JobInfoService;
 import io.github.rose.xxljob.service.JobLoginService;
-import java.lang.reflect.Field;
-import java.util.List;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.client.RestTemplate;
+
+import java.lang.reflect.Field;
+import java.util.List;
 
 public class JobInfoServiceImpl implements JobInfoService {
 
@@ -41,7 +43,7 @@ public class JobInfoServiceImpl implements JobInfoService {
     private final XxlJobProperties xxlJobProperties;
 
     public JobInfoServiceImpl(
-            JobLoginService jobLoginService, RestTemplate restTemplate, XxlJobProperties xxlJobProperties) {
+        JobLoginService jobLoginService, RestTemplate restTemplate, XxlJobProperties xxlJobProperties) {
         this.jobLoginService = jobLoginService;
         this.restTemplate = restTemplate;
         this.xxlJobProperties = xxlJobProperties;
@@ -51,7 +53,7 @@ public class JobInfoServiceImpl implements JobInfoService {
         MultiValueMap<String, Object> multiValueMap = new LinkedMultiValueMap<>();
         Class<?> clazz = obj.getClass();
         for (Field field : clazz.getDeclaredFields()) {
-            field.setAccessible(true);
+            ReflectionUtils.makeAccessible(field);
             String fieldName = field.getName();
             Object fieldValue = null;
             try {
@@ -86,7 +88,7 @@ public class JobInfoServiceImpl implements JobInfoService {
     @Override
     public Integer addJob(XxlJobInfo xxlJobInfo) {
         return Integer.valueOf(
-                executeAction("add", convertObjectToMultiValueMap(xxlJobInfo)).getContent());
+            executeAction("add", convertObjectToMultiValueMap(xxlJobInfo)).getContent());
     }
 
     @Override
@@ -124,7 +126,7 @@ public class JobInfoServiceImpl implements JobInfoService {
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(params, headers);
         ResponseEntity<XxlRestResponse> response =
-                restTemplate.postForEntity(url, requestEntity, XxlRestResponse.class);
+            restTemplate.postForEntity(url, requestEntity, XxlRestResponse.class);
 
         XxlRestResponse xxlRestResponse = response.getBody();
         if (xxlRestResponse.getCode() != 200) {

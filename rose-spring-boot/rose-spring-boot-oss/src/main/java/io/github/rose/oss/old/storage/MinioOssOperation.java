@@ -15,7 +15,6 @@
  */
 package io.github.rose.oss.old.storage;
 
-import com.google.common.collect.Maps;
 import io.github.rose.oss.old.storage.domain.DownloadResponse;
 import io.github.rose.oss.old.storage.domain.StorageItem;
 import io.github.rose.oss.old.storage.domain.StorageRequest;
@@ -25,17 +24,19 @@ import io.github.rose.oss.old.storage.properties.BaseOssProperties;
 import io.github.rose.oss.old.storage.properties.MinioOssProperties;
 import io.minio.*;
 import io.minio.messages.Item;
-import java.io.*;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * @author Levin
@@ -61,7 +62,7 @@ public class MinioOssOperation implements OssOperation {
     public DownloadResponse download(String bucketName, String fileName) {
         try {
             InputStream inputStream = minioClient.getObject(
-                    GetObjectArgs.builder().bucket(bucketName).object(fileName).build());
+                GetObjectArgs.builder().bucket(bucketName).object(fileName).build());
             DownloadResponse downloadResponse = new DownloadResponse();
             downloadResponse.setInputStream(inputStream);
             return downloadResponse;
@@ -75,7 +76,7 @@ public class MinioOssOperation implements OssOperation {
     public void download(String bucketName, String fileName, File file) {
         try {
             InputStream inputStream = minioClient.getObject(
-                    GetObjectArgs.builder().bucket(bucketName).object(fileName).build());
+                GetObjectArgs.builder().bucket(bucketName).object(fileName).build());
             OutputStream outputStream = new FileOutputStream(file);
             IOUtils.copy(inputStream, outputStream);
         } catch (Exception e) {
@@ -96,32 +97,32 @@ public class MinioOssOperation implements OssOperation {
      */
     private List<StorageItem> getStorageItems(Iterable<Result<Item>> iterable) {
         return StreamSupport.stream(iterable.spliterator(), true)
-                .map(itemResult -> {
-                    try {
-                        StorageItem storageItem = new StorageItem();
-                        Item item = itemResult.get();
-                        storageItem.setName(item.objectName());
-                        storageItem.setSize(item.size());
-                        Map<String, Object> extended = Maps.newHashMap();
-                        extended.put("tag", item.etag());
-                        extended.put("storageClass", item.storageClass());
-                        extended.put("lastModified", item.lastModified());
-                        storageItem.setExtended(extended);
-                        return storageItem;
-                    } catch (Exception e) {
-                        throw new StorageException(
-                                BaseOssProperties.StorageType.MINIO, "Error while parsing list of objects", e);
-                    }
-                })
-                .collect(Collectors.toList());
+            .map(itemResult -> {
+                try {
+                    StorageItem storageItem = new StorageItem();
+                    Item item = itemResult.get();
+                    storageItem.setName(item.objectName());
+                    storageItem.setSize(item.size());
+                    Map<String, Object> extended = new HashMap<>();
+                    extended.put("tag", item.etag());
+                    extended.put("storageClass", item.storageClass());
+                    extended.put("lastModified", item.lastModified());
+                    storageItem.setExtended(extended);
+                    return storageItem;
+                } catch (Exception e) {
+                    throw new StorageException(
+                        BaseOssProperties.StorageType.MINIO, "Error while parsing list of objects", e);
+                }
+            })
+            .collect(Collectors.toList());
     }
 
     @Override
     public List<StorageItem> list() {
         Iterable<Result<Item>> iterable = minioClient.listObjects(ListObjectsArgs.builder()
-                .bucket(properties.getBucket())
-                .region(properties.getRegion())
-                .build());
+            .bucket(properties.getBucket())
+            .region(properties.getRegion())
+            .build());
         return getStorageItems(iterable);
     }
 
@@ -144,10 +145,10 @@ public class MinioOssOperation implements OssOperation {
     @Override
     public StorageResponse upload(String bucketName, String fileName, InputStream content) {
         return upload(StorageRequest.builder()
-                .bucket(bucketName)
-                .originName(fileName)
-                .inputStream(content)
-                .build());
+            .bucket(bucketName)
+            .originName(fileName)
+            .inputStream(content)
+            .build());
     }
 
     @Override
@@ -162,16 +163,16 @@ public class MinioOssOperation implements OssOperation {
             String fileName = request.isRandomName() ? request.buildTargetName() : request.getOriginName();
             final InputStream inputStream = request.getInputStream();
             final ObjectWriteResponse object =
-                    minioClient.putObject(PutObjectArgs.builder().bucket(bucket).object(fileName).stream(
-                                    inputStream, inputStream.available(), -1)
-                            .contentType(ContentType.APPLICATION_OCTET_STREAM.getMimeType())
-                            .build());
+                minioClient.putObject(PutObjectArgs.builder().bucket(bucket).object(fileName).stream(
+                        inputStream, inputStream.available(), -1)
+                    .contentType(ContentType.APPLICATION_OCTET_STREAM.getMimeType())
+                    .build());
             return StorageResponse.builder()
-                    .etag(object.etag())
-                    .originName(request.getOriginName())
-                    .targetName(fileName)
-                    .fullUrl(properties.getMappingPath() + fileName)
-                    .build();
+                .etag(object.etag())
+                .originName(request.getOriginName())
+                .targetName(fileName)
+                .fullUrl(properties.getMappingPath() + fileName)
+                .build();
         } catch (Exception e) {
             log.error("[文件上传失败]", e);
             throw new StorageException(BaseOssProperties.StorageType.MINIO, "文件上传失败," + e.getLocalizedMessage());
@@ -187,9 +188,9 @@ public class MinioOssOperation implements OssOperation {
     public void remove(String bucketName, String fileName) {
         try {
             minioClient.removeObject(RemoveObjectArgs.builder()
-                    .bucket(bucketName)
-                    .object(fileName)
-                    .build());
+                .bucket(bucketName)
+                .object(fileName)
+                .build());
         } catch (Exception e) {
             log.error("[文件删除失败]", e);
         }

@@ -26,6 +26,7 @@ import org.springframework.data.redis.connection.MessageListener;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Redis Pub/Sub 监听器抽象类，用于实现广播消费
@@ -116,7 +117,7 @@ public abstract class AbstractRedisChannelMessageListener<T extends AbstractRedi
         Type type = ReflectionUtils.getTypeArgument(getClass(), 0);
         if (type == null) {
             throw new IllegalStateException(
-                String.format("类型(%s) 需要设置消息类型", getClass().getName()));
+                String.format(Locale.getDefault(), "类型(%s) 需要设置消息类型", getClass().getName()));
         }
         return (Class<T>) type;
     }

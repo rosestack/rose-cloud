@@ -1,8 +1,9 @@
 package io.github.rose.core.util;
 
-import static io.github.rose.core.util.BitsetTest.Flag.CACHED_VALUES;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.util.AssertionErrors.assertNull;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.test.util.AssertionErrors;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -10,21 +11,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.test.util.AssertionErrors;
+
+import static io.github.rose.core.util.BitsetTest.Flag.CACHED_VALUES;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.util.AssertionErrors.assertNull;
 
 public class BitsetTest {
     private static final Logger log = LoggerFactory.getLogger(BitsetTest.class);
 
-    private BitsetTest() {}
+    private BitsetTest() {
+    }
 
     private static void assertBitSet(long bitSet, int startIdx, int range) {
         IntStream.range(0, startIdx).forEach(idx -> assertNotFlag(bitSet, CACHED_VALUES[idx]));
         IntStream.range(startIdx, startIdx + range).forEach(idx -> assertFlag(bitSet, CACHED_VALUES[idx]));
         IntStream.range(startIdx + range, CACHED_VALUES.length)
-                .forEach(idx -> assertNotFlag(bitSet, CACHED_VALUES[idx]));
+            .forEach(idx -> assertNotFlag(bitSet, CACHED_VALUES[idx]));
     }
 
     private static void assertFlag(long bitset, Flag flag) {
@@ -132,11 +134,9 @@ public class BitsetTest {
 
     @Test
     public void testUniqueness() {
-
         Map<Long, Flag> bits = new HashMap<>(CACHED_VALUES.length);
 
         for (Flag flag : CACHED_VALUES) {
-            System.out.println(EnumUtil.bitSetOf(flag));
             Flag existing = bits.putIfAbsent(EnumUtil.bitSetOf(flag), flag);
             assertNull("Conflict flags: " + existing + " and " + flag, existing);
         }

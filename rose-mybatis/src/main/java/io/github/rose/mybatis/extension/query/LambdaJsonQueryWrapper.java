@@ -31,6 +31,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
@@ -399,6 +400,6 @@ public class LambdaJsonQueryWrapper<T> extends AbstractLambdaWrapper<T, LambdaJs
      * @return
      */
     private ISqlSegment getJsonKeySqlSegment(String key) {
-        return () -> String.format("'$.%s'", key);
+        return () -> String.format(Locale.getDefault(), "'$.%s'", key);
     }
 }

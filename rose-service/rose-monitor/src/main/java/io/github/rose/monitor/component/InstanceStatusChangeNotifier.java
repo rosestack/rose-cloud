@@ -19,11 +19,14 @@ import de.codecentric.boot.admin.server.domain.entities.InstanceRepository;
 import de.codecentric.boot.admin.server.domain.events.InstanceEvent;
 import de.codecentric.boot.admin.server.domain.events.InstanceStatusChangedEvent;
 import de.codecentric.boot.admin.server.notify.AbstractStatusChangeNotifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 @Component
 public class InstanceStatusChangeNotifier extends AbstractStatusChangeNotifier {
+    private static final Logger log = LoggerFactory.getLogger(InstanceStatusChangeNotifier.class);
 
     public InstanceStatusChangeNotifier(InstanceRepository repository) {
         super(repository);
@@ -31,27 +34,27 @@ public class InstanceStatusChangeNotifier extends AbstractStatusChangeNotifier {
 
     @Override
     protected Mono<Void> doNotify(
-            InstanceEvent event, de.codecentric.boot.admin.server.domain.entities.Instance instance) {
+        InstanceEvent event, de.codecentric.boot.admin.server.domain.entities.Instance instance) {
         return Mono.fromRunnable(() -> {
             if (event instanceof InstanceStatusChangedEvent) {
                 String status =
-                        ((InstanceStatusChangedEvent) event).getStatusInfo().getStatus();
+                    ((InstanceStatusChangedEvent) event).getStatusInfo().getStatus();
                 switch (status) {
-                        // 健康检查没通过
+                    // 健康检查没通过
                     case "DOWN":
-                        System.out.println("发送 健康检查没通过 的通知！");
+                        log.info("发送 健康检查没通过 的通知！");
                         break;
-                        // 服务离线
+                    // 服务离线
                     case "OFFLINE":
-                        System.out.println("发送 服务离线 的通知！");
+                        log.info("发送 服务离线 的通知！");
                         break;
-                        // 服务上线
+                    // 服务上线
                     case "UP":
-                        System.out.println("发送 服务上线 的通知！");
+                        log.info("发送 服务上线 的通知！");
                         break;
-                        // 服务未知异常
+                    // 服务未知异常
                     case "UNKNOWN":
-                        System.out.println("发送 服务未知异常 的通知！");
+                        log.info("发送 服务未知异常 的通知！");
                         break;
                     default:
                         break;

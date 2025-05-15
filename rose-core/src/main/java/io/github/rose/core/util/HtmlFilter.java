@@ -413,7 +413,7 @@ public final class HtmlFilter {
         // ending tags
         Matcher m = P_END_TAG.matcher(s);
         if (m.find()) {
-            final String name = m.group(1).toLowerCase();
+            final String name = m.group(1).toLowerCase(Locale.getDefault());
             if (allowed(name)) {
                 if (!inArray(name, vSelfClosingTags)) {
                     if (vTagCounts.containsKey(name)) {
@@ -427,7 +427,7 @@ public final class HtmlFilter {
         // starting tags
         m = P_START_TAG.matcher(s);
         if (m.find()) {
-            final String name = m.group(1).toLowerCase();
+            final String name = m.group(1).toLowerCase(Locale.getDefault());
             final String body = m.group(2);
             String ending = m.group(3);
 
@@ -451,7 +451,7 @@ public final class HtmlFilter {
 
                 String paramName, paramValue;
                 for (int ii = 0; ii < paramNames.size(); ii++) {
-                    paramName = paramNames.get(ii).toLowerCase();
+                    paramName = paramNames.get(ii).toLowerCase(Locale.getDefault());
                     paramValue = paramValues.get(ii);
 
                     // debug( "paramName='" + paramName + "'" );

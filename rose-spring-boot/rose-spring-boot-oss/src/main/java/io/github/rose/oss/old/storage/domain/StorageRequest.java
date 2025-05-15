@@ -16,10 +16,13 @@
 package io.github.rose.oss.old.storage.domain;
 
 import io.github.rose.oss.old.storage.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import org.apache.commons.lang3.StringUtils;
+import java.util.Locale;
 
 /**
  * 请求参数
@@ -84,14 +87,16 @@ public class StorageRequest implements java.io.Serializable {
         String prefix;
         switch (rule) {
             case now_date_mouth:
-                prefix = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMM"));
+                prefix = LocalDateTime.now(ZoneId.systemDefault())
+                    .format(DateTimeFormatter.ofPattern("yyyyMM", Locale.getDefault()));
             case now_date_mouth_day:
-                prefix = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+                prefix = LocalDateTime.now(ZoneId.systemDefault())
+                    .format(DateTimeFormatter.ofPattern("yyyyMMdd", Locale.getDefault()));
             case tenant_now_date_mouth_day: {
                 if (tenantId == null || userId == null) {
                     throw new RuntimeException("tenantId or userId not null");
                 }
-                prefix = tenantId + "/" + userId + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+                prefix = tenantId + "/" + userId + LocalDateTime.now(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyyMMdd", Locale.getDefault()));
             }
             case none:
                 prefix = this.getPrefix();

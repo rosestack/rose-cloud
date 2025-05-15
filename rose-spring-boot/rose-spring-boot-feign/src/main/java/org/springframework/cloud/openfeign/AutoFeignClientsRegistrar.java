@@ -16,9 +16,8 @@
 package org.springframework.cloud.openfeign;
 
 import io.github.rose.feign.FeignAutoConfiguration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
@@ -36,12 +35,17 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * feign 自动配置功能 from mica
  */
 public class AutoFeignClientsRegistrar
-        implements ImportBeanDefinitionRegistrar, BeanClassLoaderAware, EnvironmentAware {
+    implements ImportBeanDefinitionRegistrar, BeanClassLoaderAware, EnvironmentAware {
+    private static final Logger log = LoggerFactory.getLogger(AutoFeignClientsRegistrar.class);
 
     private static final String BASE_URL = "http://127.0.0.1:${server.port}${server.servlet.context-path}";
 
@@ -75,7 +79,7 @@ public class AutoFeignClientsRegistrar
     private void registerFeignClients(BeanDefinitionRegistry registry) {
 
         List<String> feignClients = new ArrayList<>(
-                SpringFactoriesLoader.loadFactoryNames(getSpringFactoriesLoaderFactoryClass(), getBeanClassLoader()));
+            SpringFactoriesLoader.loadFactoryNames(getSpringFactoriesLoaderFactoryClass(), getBeanClassLoader()));
 
         // 支持 springboot 2.7 + 最新版本的配置方式
         ImportCandidates.load(FeignClient.class, getBeanClassLoader()).forEach(feignClients::add);
@@ -87,7 +91,7 @@ public class AutoFeignClientsRegistrar
             try {
                 Class<?> clazz = beanClassLoader.loadClass(className);
                 AnnotationAttributes attributes =
-                        AnnotatedElementUtils.getMergedAnnotationAttributes(clazz, FeignClient.class);
+                    AnnotatedElementUtils.getMergedAnnotationAttributes(clazz, FeignClient.class);
                 if (attributes == null) {
                     continue;
                 }
@@ -103,7 +107,7 @@ public class AutoFeignClientsRegistrar
 
                 validate(attributes);
                 BeanDefinitionBuilder definition =
-                        BeanDefinitionBuilder.genericBeanDefinition(FeignClientFactoryBean.class);
+                    BeanDefinitionBuilder.genericBeanDefinition(FeignClientFactoryBean.class);
                 definition.addPropertyValue("url", getUrl(registry, attributes));
                 definition.addPropertyValue("path", getPath(attributes));
                 String name = getName(attributes);
@@ -140,11 +144,10 @@ public class AutoFeignClientsRegistrar
                     alias = qualifier;
                 }
 
-                BeanDefinitionHolder holder = new BeanDefinitionHolder(beanDefinition, className, new String[] {alias});
+                BeanDefinitionHolder holder = new BeanDefinitionHolder(beanDefinition, className, new String[]{alias});
                 BeanDefinitionReaderUtils.registerBeanDefinition(holder, registry);
-
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                log.error("ClassNotFound", e);
             }
         }
     }
@@ -246,7 +249,7 @@ public class AutoFeignClientsRegistrar
         }
 
         throw new IllegalStateException(
-                "Either 'name' or 'value' must be provided in @" + FeignClient.class.getSimpleName());
+            "Either 'name' or 'value' must be provided in @" + FeignClient.class.getSimpleName());
     }
 
     private void registerClientConfiguration(BeanDefinitionRegistry registry, Object name, Object configuration) {
@@ -254,6 +257,6 @@ public class AutoFeignClientsRegistrar
         builder.addConstructorArgValue(name);
         builder.addConstructorArgValue(configuration);
         registry.registerBeanDefinition(
-                name + "." + FeignClientSpecification.class.getSimpleName(), builder.getBeanDefinition());
+            name + "." + FeignClientSpecification.class.getSimpleName(), builder.getBeanDefinition());
     }
 }

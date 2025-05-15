@@ -15,12 +15,14 @@
  */
 package io.github.rose.core.util;
 
-import java.lang.reflect.Field;
-import java.util.Map;
-import java.util.concurrent.*;
+import io.github.rose.core.spring.ReflectionUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.concurrent.*;
 
 // @NotThreadSafe
 public class CurrentInstanceTest {
@@ -60,9 +62,9 @@ public class CurrentInstanceTest {
 
     @SuppressWarnings("unchecked")
     private ThreadLocal<Map<Class<?>, CurrentInstance>> getInternalCurrentInstanceVariable()
-            throws SecurityException, NoSuchFieldException, IllegalAccessException {
+        throws SecurityException, NoSuchFieldException, IllegalAccessException {
         Field f = CurrentInstance.class.getDeclaredField("instances");
-        f.setAccessible(true);
+        ReflectionUtils.makeAccessible(f);
         return (ThreadLocal<Map<Class<?>, CurrentInstance>>) f.get(null);
     }
 

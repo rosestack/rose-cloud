@@ -15,7 +15,6 @@
  */
 package io.github.rose.gateway.filter;
 
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -24,6 +23,9 @@ import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
+import java.util.Locale;
 
 /**
  * 全局拦截器，作用所有的微服务
@@ -40,12 +42,12 @@ public class ApiLoggingFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         if (log.isDebugEnabled()) {
-            String info = String.format(
-                    "Method:{%s} Host:{%s} Path:{%s} Query:{%s}",
-                    exchange.getRequest().getMethod().name(),
-                    exchange.getRequest().getURI().getHost(),
-                    exchange.getRequest().getURI().getPath(),
-                    exchange.getRequest().getQueryParams());
+            String info = String.format(Locale.getDefault(),
+                "Method:{%s} Host:{%s} Path:{%s} Query:{%s}",
+                exchange.getRequest().getMethod().name(),
+                exchange.getRequest().getURI().getHost(),
+                exchange.getRequest().getURI().getPath(),
+                exchange.getRequest().getQueryParams());
             log.debug(info);
         }
         exchange.getAttributes().put(START_TIME, System.currentTimeMillis());

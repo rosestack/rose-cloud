@@ -15,8 +15,6 @@
  */
 package io.github.rose.redis.service;
 
-import java.util.*;
-import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -26,6 +24,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
+
+import java.nio.charset.Charset;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author zhijun.chen
@@ -86,7 +88,7 @@ public class RedisService {
         Cursor<byte[]> cursor = rc.scan(options);
         List<String> result = new ArrayList<>();
         while (cursor.hasNext()) {
-            result.add(new String(cursor.next()));
+            result.add(new String(cursor.next(), Charset.forName("UTF-8")));
         }
         RedisConnectionUtils.releaseConnection(rc, factory);
         return result;
@@ -103,7 +105,7 @@ public class RedisService {
         int toIndex = page * size + size;
         while (cursor.hasNext()) {
             if (tmpIndex >= fromIndex && tmpIndex < toIndex) {
-                result.add(new String(cursor.next()));
+                result.add(new String(cursor.next(), Charset.forName("UTF-8")));
                 tmpIndex++;
                 continue;
             }
@@ -130,7 +132,7 @@ public class RedisService {
         String script = "if mq.call('get', KEYS[1]) == ARGV[1] then return mq.call('del', KEYS[1]) else return 0 end";
         RedisScript<Long> redisScript = new DefaultRedisScript<>(script, Long.class);
         return redisTemplate
-                .execute(redisScript, Collections.singletonList(lockKey), value)
-                .equals(1);
+            .execute(redisScript, Collections.singletonList(lockKey), value)
+            .equals(1);
     }
 }

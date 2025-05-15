@@ -20,10 +20,7 @@ import com.xxl.job.admin.core.model.XxlJobLogReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -60,7 +57,7 @@ public class JobLogReportHelper {
                         for (int i = 0; i < 3; i++) {
 
                             // today
-                            Calendar itemDay = Calendar.getInstance();
+                            Calendar itemDay = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                             itemDay.add(Calendar.DAY_OF_MONTH, -i);
                             itemDay.set(Calendar.HOUR_OF_DAY, 0);
                             itemDay.set(Calendar.MINUTE, 0);
@@ -125,7 +122,7 @@ public class JobLogReportHelper {
                         && System.currentTimeMillis() - lastCleanLogTime > 24 * 60 * 60 * 1000) {
 
                         // expire-time
-                        Calendar expiredDay = Calendar.getInstance();
+                        Calendar expiredDay = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                         expiredDay.add(
                             Calendar.DAY_OF_MONTH,
                             -1 * XxlJobAdminConfig.getAdminConfig().getLogretentiondays());

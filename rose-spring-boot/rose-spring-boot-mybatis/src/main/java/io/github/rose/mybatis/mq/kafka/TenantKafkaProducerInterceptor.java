@@ -22,6 +22,7 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.header.Headers;
 import org.springframework.messaging.handler.invocation.InvocableHandlerMethod;
 
+import java.nio.charset.Charset;
 import java.util.Map;
 
 import static io.github.rose.core.CommonConstants.HEADER_TENANT_ID;
@@ -40,7 +41,7 @@ public class TenantKafkaProducerInterceptor implements ProducerInterceptor<Objec
         String tenantId = TenantContextHolder.getTenantId();
         if (tenantId != null) {
             Headers headers = record.headers(); // private 属性，没有 get 方法，智能反射
-            headers.add(HEADER_TENANT_ID, tenantId.getBytes());
+            headers.add(HEADER_TENANT_ID, tenantId.getBytes(Charset.forName("UTF-8")));
         }
         return record;
     }

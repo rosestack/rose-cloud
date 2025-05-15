@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,7 +37,7 @@ public class JsonUtilsTest {
 
     @Test
     public void convertValueTest() {
-        Person person = new Person("a", 18, LocalDateTime.now(), new Date());
+        Person person = new Person("a", 18, LocalDateTime.now(ZoneId.systemDefault()), new Date());
         Person person1 = JsonUtils.convertValue(person, Person.class);
         log.info("person1: {}", JsonUtils.toString(person1));
 
@@ -124,7 +125,7 @@ public class JsonUtilsTest {
 
     @Test
     public void testNoEmptyConstruction() {
-        Person person = new Person("a", 18, LocalDateTime.now(), new Date());
+        Person person = new Person("a", 18, LocalDateTime.now(ZoneId.systemDefault()), new Date());
         String json = JsonUtils.toString(person);
         Person person1 = JsonUtils.readValue(json, Person.class);
         Assertions.assertEquals(person.getName(), person1.getName());

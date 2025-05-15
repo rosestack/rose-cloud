@@ -28,10 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.springframework.http.HttpHeaders.USER_AGENT;
 
@@ -96,8 +93,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
     }
 
     public static String constructUrl(HttpServletRequest request) {
-        return String.format(
-            "%s://%s%s", getScheme(request), getDomainNameAndPort(request), request.getRequestURI());
+        return String.format(Locale.getDefault(), "%s://%s%s", getScheme(request), getDomainNameAndPort(request), request.getRequestURI());
     }
 
     public static String getScheme(HttpServletRequest request) {

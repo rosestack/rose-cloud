@@ -15,15 +15,17 @@
  */
 package io.github.rose.filter;
 
-import java.io.*;
-import java.util.Map;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StreamUtils;
+import org.springframework.web.filter.OncePerRequestFilter;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StreamUtils;
-import org.springframework.web.filter.OncePerRequestFilter;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.util.Map;
 
 /**
  * @author zhijun.chen
@@ -32,7 +34,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class CachingRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+        throws IOException, ServletException {
         ServletRequest requestWrapper = new CachingHttpServletRequestWrapper(request);
         chain.doFilter(requestWrapper, response);
     }
@@ -57,8 +59,8 @@ public class CachingRequestFilter extends OncePerRequestFilter {
         @Override
         public BufferedReader getReader() {
             return ObjectUtils.isEmpty(this.bodyBytes)
-                    ? null
-                    : new BufferedReader(new InputStreamReader(getInputStream()));
+                ? null
+                : new BufferedReader(new InputStreamReader(getInputStream(), Charset.forName("UTF-8")));
         }
 
         /**

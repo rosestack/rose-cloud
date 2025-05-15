@@ -21,12 +21,14 @@ import com.xxl.job.admin.core.util.I18nUtil;
 import com.xxl.job.admin.core.util.JacksonUtil;
 import com.xxl.job.admin.dao.XxlJobUserDao;
 import com.xxl.job.core.biz.model.ReturnT;
-import java.math.BigInteger;
+import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
+import java.math.BigInteger;
+import java.nio.charset.Charset;
 
 /**
  * @author xuxueli 2019-05-04 22:13:264
@@ -43,14 +45,14 @@ public class LoginService {
 
     private String makeToken(XxlJobUser xxlJobUser) {
         String tokenJson = JacksonUtil.writeValueAsString(xxlJobUser);
-        String tokenHex = new BigInteger(tokenJson.getBytes()).toString(16);
+        String tokenHex = new BigInteger(tokenJson.getBytes(Charset.forName("UTF-8"))).toString(16);
         return tokenHex;
     }
 
     private XxlJobUser parseToken(String tokenHex) {
         XxlJobUser xxlJobUser = null;
         if (tokenHex != null) {
-            String tokenJson = new String(new BigInteger(tokenHex, 16).toByteArray()); // username_password(md5)
+            String tokenJson = new String(new BigInteger(tokenHex, 16).toByteArray(), Charset.forName("UTF-8")); // username_password(md5)
             xxlJobUser = JacksonUtil.readValue(tokenJson, XxlJobUser.class);
         }
         return xxlJobUser;
@@ -59,17 +61,17 @@ public class LoginService {
     // ---------------------- login tool, with cookie and db ----------------------
 
     public ReturnT<String> login(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            String username,
-            String password,
-            boolean ifRemember) {
+        HttpServletRequest request,
+        HttpServletResponse response,
+        String username,
+        String password,
+        boolean ifRemember) {
 
         // param
         if (username == null
-                || username.trim().length() == 0
-                || password == null
-                || password.trim().length() == 0) {
+            || username.trim().length() == 0
+            || password == null
+            || password.trim().length() == 0) {
             return new ReturnT<String>(500, I18nUtil.getString("login_param_empty"));
         }
 
@@ -78,7 +80,7 @@ public class LoginService {
         if (xxlJobUser == null) {
             return new ReturnT<String>(500, I18nUtil.getString("login_param_unvalid"));
         }
-        String passwordMd5 = DigestUtils.md5DigestAsHex(password.getBytes());
+        String passwordMd5 = DigestUtils.md5DigestAsHex(password.getBytes(Charset.forName("UTF-8")));
         if (!passwordMd5.equals(xxlJobUser.getPassword())) {
             return new ReturnT<String>(500, I18nUtil.getString("login_param_unvalid"));
         }

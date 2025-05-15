@@ -20,10 +20,6 @@ import feign.Contract;
 import feign.Feign;
 import feign.InvocationHandlerFactory;
 import feign.Target;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.util.Map;
 import org.springframework.beans.BeansException;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -34,12 +30,19 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.util.Locale;
+import java.util.Map;
+
 /**
  * 支持自动降级注入 重写 {@link com.alibaba.cloud.sentinel.feign.SentinelFeign}
  */
 public final class SentinelFeign {
 
-    private SentinelFeign() {}
+    private SentinelFeign() {
+    }
 
     public static SentinelFeign.Builder builder() {
         return new SentinelFeign.Builder();
@@ -85,12 +88,12 @@ public final class SentinelFeign {
                     if (void.class != fallback) {
                         fallbackInstance = getFromContext(beanName, "fallback", fallback, target.type());
                         return new SentinelInvocationHandler(
-                                target, dispatch, new FallbackFactory.Default(fallbackInstance));
+                            target, dispatch, new FallbackFactory.Default(fallbackInstance));
                     }
 
                     if (void.class != fallbackFactory) {
                         fallbackFactoryInstance = (FallbackFactory<?>)
-                                getFromContext(beanName, "fallbackFactory", fallbackFactory, FallbackFactory.class);
+                            getFromContext(beanName, "fallbackFactory", fallbackFactory, FallbackFactory.class);
                         return new SentinelInvocationHandler(target, dispatch, fallbackFactoryInstance);
                     }
                     return new SentinelInvocationHandler(target, dispatch);
@@ -99,14 +102,14 @@ public final class SentinelFeign {
                 private Object getFromContext(String name, String type, Class<?> fallbackType, Class<?> targetType) {
                     Object fallbackInstance = feignContext.getInstance(name, fallbackType);
                     if (fallbackInstance == null) {
-                        throw new IllegalStateException(String.format(
-                                "No %s instance of type %s found for feign client %s", type, fallbackType, name));
+                        throw new IllegalStateException(String.format(Locale.getDefault(),
+                            "No %s instance of type %s found for feign client %s", type, fallbackType, name));
                     }
 
                     if (!targetType.isAssignableFrom(fallbackType)) {
-                        throw new IllegalStateException(String.format(
-                                "Incompatible %s instance. Fallback/fallbackFactory of type %s is not assignable to %s for feign client %s",
-                                type, fallbackType, targetType, name));
+                        throw new IllegalStateException(String.format(Locale.getDefault(),
+                            "Incompatible %s instance. Fallback/fallbackFactory of type %s is not assignable to %s for feign client %s",
+                            type, fallbackType, targetType, name));
                     }
                     return fallbackInstance;
                 }
@@ -118,7 +121,7 @@ public final class SentinelFeign {
 
         private Object getFieldValue(Object instance, String fieldName) {
             Field field = ReflectionUtils.findField(instance.getClass(), fieldName);
-            field.setAccessible(true);
+            ReflectionUtils.makeAccessible(field);
             try {
                 return field.get(instance);
             } catch (IllegalAccessException e) {

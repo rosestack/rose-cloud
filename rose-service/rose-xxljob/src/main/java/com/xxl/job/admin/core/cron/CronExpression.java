@@ -178,7 +178,7 @@ import java.util.*;
  */
 public final class CronExpression implements Serializable, Cloneable {
 
-    public static final int MAX_YEAR = Calendar.getInstance().get(Calendar.YEAR) + 100;
+    public static final int MAX_YEAR = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault()).get(Calendar.YEAR) + 100;
 
     private static final int SECOND = 0;
 
@@ -334,7 +334,7 @@ public final class CronExpression implements Serializable, Cloneable {
      * @return a boolean indicating whether the given date satisfies the cron expression
      */
     public boolean isSatisfiedBy(Date date) {
-        Calendar testDateCal = Calendar.getInstance(getTimeZone());
+        Calendar testDateCal = Calendar.getInstance(getTimeZone(), Locale.getDefault());
         testDateCal.setTime(date);
         testDateCal.set(Calendar.MILLISECOND, 0);
         Date originalDate = testDateCal.getTime();
@@ -369,7 +369,7 @@ public final class CronExpression implements Serializable, Cloneable {
         long difference = 1000;
 
         // move back to the nearest second so differences will be accurate
-        Calendar adjustCal = Calendar.getInstance(getTimeZone());
+        Calendar adjustCal = Calendar.getInstance(getTimeZone(), Locale.getDefault());
         adjustCal.setTime(date);
         adjustCal.set(Calendar.MILLISECOND, 0);
         Date lastDate = adjustCal.getTime();
@@ -1160,7 +1160,7 @@ public final class CronExpression implements Serializable, Cloneable {
     public Date getTimeAfter(Date afterTime) {
 
         // Computation is based on Gregorian year only.
-        Calendar cl = new java.util.GregorianCalendar(getTimeZone());
+        Calendar cl = new java.util.GregorianCalendar(getTimeZone(), Locale.getDefault());
 
         // move ahead one second, since we're computing the time *after* the
         // given time
@@ -1270,7 +1270,7 @@ public final class CronExpression implements Serializable, Cloneable {
                         day = getLastDayOfMonth(mon, cl.get(Calendar.YEAR));
                         day -= lastdayOffset;
 
-                        Calendar tcal = Calendar.getInstance(getTimeZone());
+                        Calendar tcal = Calendar.getInstance(getTimeZone(), Locale.getDefault());
                         tcal.set(Calendar.SECOND, 0);
                         tcal.set(Calendar.MINUTE, 0);
                         tcal.set(Calendar.HOUR_OF_DAY, 0);
@@ -1306,7 +1306,7 @@ public final class CronExpression implements Serializable, Cloneable {
                     t = day;
                     day = daysOfMonth.first();
 
-                    Calendar tcal = Calendar.getInstance(getTimeZone());
+                    Calendar tcal = Calendar.getInstance(getTimeZone(), Locale.getDefault());
                     tcal.set(Calendar.SECOND, 0);
                     tcal.set(Calendar.MINUTE, 0);
                     tcal.set(Calendar.HOUR_OF_DAY, 0);

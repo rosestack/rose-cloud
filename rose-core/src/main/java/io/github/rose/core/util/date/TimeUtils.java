@@ -18,10 +18,7 @@ package io.github.rose.core.util.date;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * 时间工具类
@@ -30,51 +27,53 @@ import java.util.TimeZone;
  * @since 0.0.1
  */
 public class TimeUtils {
+    private static final ZoneId zoneId = ZoneId.systemDefault();
+
     public static String format(final LocalDate localDate, String datePattern) {
-        return localDate.format(DateTimeFormatter.ofPattern(datePattern));
+        return localDate.format(DateTimeFormatter.ofPattern(datePattern, Locale.CHINA));
     }
 
     public static String format(final LocalDateTime localDateTime, String datePattern) {
-        return localDateTime.format(DateTimeFormatter.ofPattern(datePattern));
+        return localDateTime.format(DateTimeFormatter.ofPattern(datePattern, Locale.CHINA));
     }
 
     /**
      * Converts local date to Date.
      */
     public static Date toDate(final LocalDate localDate) {
-        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return Date.from(localDate.atStartOfDay(zoneId).toInstant());
     }
 
     /**
      * Converts local date to Date.
      */
     public static Date toDate(final LocalDateTime localDateTime) {
-        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+        return Date.from(localDateTime.atZone(zoneId).toInstant());
     }
 
     /**
      * Converts local date to Calendar.
      */
     public static Calendar toCalendar(final LocalDateTime localDateTime) {
-        return GregorianCalendar.from(ZonedDateTime.of(localDateTime, ZoneId.systemDefault()));
+        return GregorianCalendar.from(ZonedDateTime.of(localDateTime, zoneId));
     }
 
     /**
      * Converts local date to Calendar and setting date to midnight.
      */
     public static Calendar toCalendar(final LocalDate localDate) {
-        return GregorianCalendar.from(ZonedDateTime.of(localDate, LocalTime.MIDNIGHT, ZoneId.systemDefault()));
+        return GregorianCalendar.from(ZonedDateTime.of(localDate, LocalTime.MIDNIGHT, zoneId));
     }
 
     /**
      * Converts local date to epoh milliseconds.
      */
     public static long toMilliseconds(final LocalDateTime localDateTime) {
-        return localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        return localDateTime.atZone(zoneId).toInstant().toEpochMilli();
     }
 
     public static long toSeconds(final LocalDateTime localDateTime) {
-        return localDateTime.atZone(ZoneId.systemDefault()).toInstant().getEpochSecond();
+        return localDateTime.atZone(zoneId).toInstant().getEpochSecond();
     }
 
     /**
@@ -86,12 +85,12 @@ public class TimeUtils {
 
     public static LocalDateTime fromCalendar(final Calendar calendar) {
         final TimeZone tz = calendar.getTimeZone();
-        final ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
+        final ZoneId zid = tz == null ? zoneId : tz.toZoneId();
         return LocalDateTime.ofInstant(calendar.toInstant(), zid);
     }
 
     public static LocalDateTime fromDate(final Date date) {
-        return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+        return LocalDateTime.ofInstant(date.toInstant(), zoneId);
     }
 
     public static LocalDateTime fromLocalDate(LocalDate localDate) {
@@ -99,15 +98,15 @@ public class TimeUtils {
     }
 
     public static LocalDateTime fromMilliseconds(final long milliseconds) {
-        return LocalDateTime.ofInstant(Instant.ofEpochMilli(milliseconds), ZoneId.systemDefault());
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(milliseconds), zoneId);
     }
 
     public static LocalDateTime fromSeconds(final long milliseconds) {
-        return LocalDateTime.ofInstant(Instant.ofEpochSecond(milliseconds), ZoneId.systemDefault());
+        return LocalDateTime.ofInstant(Instant.ofEpochSecond(milliseconds), zoneId);
     }
 
     public static LocalDateTime getLocalDateTime() {
-        return LocalDateTime.now(ZoneId.systemDefault());
+        return LocalDateTime.now(zoneId);
     }
 
     public static LocalDateTime getLocalDateTimeUTC() {
@@ -123,7 +122,7 @@ public class TimeUtils {
     }
 
     public static LocalDateTime getEndDay() {
-        return getEndDay(LocalDateTime.now());
+        return getEndDay(LocalDateTime.now(zoneId));
     }
 
     public static LocalDateTime getEndDay(LocalDateTime time) {
@@ -131,7 +130,7 @@ public class TimeUtils {
     }
 
     public static LocalDateTime getStartWorkDay() {
-        return getStartWorkDay(LocalDateTime.now());
+        return getStartWorkDay(LocalDateTime.now(zoneId));
     }
 
     public static LocalDateTime getStartWorkDay(LocalDateTime time) {
@@ -139,7 +138,7 @@ public class TimeUtils {
     }
 
     public static LocalDateTime getEndWorkDay() {
-        return getEndWorkDay(LocalDateTime.now());
+        return getEndWorkDay(LocalDateTime.now(zoneId));
     }
 
     public static LocalDateTime getEndWorkDay(LocalDateTime time) {
@@ -161,4 +160,6 @@ public class TimeUtils {
     public static LocalDate getLastDayOfYear(LocalDate localDate) {
         return localDate.with(TemporalAdjusters.lastDayOfYear());
     }
+
+
 }

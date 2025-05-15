@@ -18,10 +18,12 @@ package io.github.rose.mybatis.tenant.handler;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.baomidou.mybatisplus.extension.toolkit.SqlParserUtils;
 import io.github.rose.mybatis.tenant.util.TenantContextHolder;
-import java.util.HashSet;
-import java.util.Set;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.StringValue;
+
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -34,8 +36,8 @@ public class DefaultTenantLineHandler implements TenantLineHandler {
     public DefaultTenantLineHandler(Set<String> ignoredTables) {
         // 不同 DB 下，大小写的习惯不同，所以需要都添加进去
         ignoredTables.forEach(table -> {
-            this.ignoredTables.add(table.toLowerCase());
-            this.ignoredTables.add(table.toUpperCase());
+            this.ignoredTables.add(table.toLowerCase(Locale.getDefault()));
+            this.ignoredTables.add(table.toUpperCase(Locale.getDefault()));
         });
     }
 
@@ -47,6 +49,6 @@ public class DefaultTenantLineHandler implements TenantLineHandler {
     @Override
     public boolean ignoreTable(String tableName) {
         return TenantContextHolder.isIgnored() // 情况一，全局忽略多租户
-                || ignoredTables.contains(SqlParserUtils.removeWrapperSymbol(tableName)); // 情况二，忽略多租户的表
+            || ignoredTables.contains(SqlParserUtils.removeWrapperSymbol(tableName)); // 情况二，忽略多租户的表
     }
 }

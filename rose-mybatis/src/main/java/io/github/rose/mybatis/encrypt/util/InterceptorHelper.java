@@ -16,12 +16,10 @@
 package io.github.rose.mybatis.encrypt.util;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.github.rose.core.spring.ReflectionUtils;
 import io.github.rose.mybatis.encrypt.FieldSetProperty;
 import io.github.rose.mybatis.encrypt.IEncryptor;
 import io.github.rose.mybatis.encrypt.annotation.FieldEncrypt;
-import java.lang.reflect.Field;
-import java.util.*;
-import java.util.function.BiConsumer;
 import org.apache.ibatis.executor.resultset.DefaultResultSetHandler;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
@@ -30,6 +28,10 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Field;
+import java.util.*;
+import java.util.function.BiConsumer;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -46,8 +48,8 @@ public class InterceptorHelper {
 
         SqlCommandType sqlCommandType = mappedStatement.getSqlCommandType();
         if (SqlCommandType.UPDATE == sqlCommandType
-                || SqlCommandType.INSERT == sqlCommandType
-                || SqlCommandType.SELECT == sqlCommandType) {
+            || SqlCommandType.INSERT == sqlCommandType
+            || SqlCommandType.SELECT == sqlCommandType) {
             Object paramMap = args[1];
             Configuration configuration = mappedStatement.getConfiguration();
             if (paramMap instanceof Map) {
@@ -61,7 +63,8 @@ public class InterceptorHelper {
 
                     if (entry.getValue() instanceof ArrayList) {
                         for (Object var : (ArrayList) entry.getValue()) {
-                            if (encryptValue(configuration, encryptor, password, var)) {}
+                            if (encryptValue(configuration, encryptor, password, var)) {
+                            }
                         }
                     } else if (entry.getValue() instanceof QueryWrapper) {
                         Object entity = ((QueryWrapper<?>) entry.getValue()).getEntity();
@@ -84,7 +87,7 @@ public class InterceptorHelper {
     }
 
     public static boolean encryptValue(
-            Configuration configuration, IEncryptor encryptor, String password, Object object) {
+        Configuration configuration, IEncryptor encryptor, String password, Object object) {
         return FieldSetPropertyHelper.foreachValue(configuration, object, (metaObject, fieldSetProperty) -> {
             FieldEncrypt fieldEncrypt = fieldSetProperty.getFieldEncrypt();
             if (null != fieldEncrypt) {
@@ -92,7 +95,7 @@ public class InterceptorHelper {
                 if (null != objectValue) {
                     try {
                         String value = getEncryptor(encryptor, fieldEncrypt.encryptor())
-                                .encrypt(fieldEncrypt.algorithm(), password, (String) objectValue, null);
+                            .encrypt(fieldEncrypt.algorithm(), password, (String) objectValue, null);
                         metaObject.setValue(fieldSetProperty.getFieldName(), value);
                     } catch (Exception e) {
                         log.error("field encrypt", e.getMessage());
@@ -123,14 +126,14 @@ public class InterceptorHelper {
     }
 
     public static Object decrypt(Invocation invocation, BiConsumer<MetaObject, FieldSetProperty> consumer)
-            throws Throwable {
+        throws Throwable {
         List result = (List) invocation.proceed();
         if (result.isEmpty()) {
             return result;
         } else {
             DefaultResultSetHandler defaultResultSetHandler = (DefaultResultSetHandler) invocation.getTarget();
             Field field = defaultResultSetHandler.getClass().getDeclaredField("mappedStatement");
-            field.setAccessible(true);
+            ReflectionUtils.makeAccessible(field);
             MappedStatement mappedStatement = (MappedStatement) field.get(defaultResultSetHandler);
             Configuration configuration = mappedStatement.getConfiguration();
             Iterator iterator = result.iterator();

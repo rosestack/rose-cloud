@@ -37,7 +37,6 @@ public class RateLimitDemo {
         for (int i = 1; i <= 10; i++) {
             int finalI = i;
             String result = rateLimitExecutor.execute(context, () -> "Processed request " + finalI);
-            System.out.println(result);
             try {
                 Thread.sleep(300); // 模拟请求间隔
             } catch (InterruptedException e) {

@@ -30,15 +30,16 @@ import io.github.rose.oss.old.storage.domain.StorageRequest;
 import io.github.rose.oss.old.storage.domain.StorageResponse;
 import io.github.rose.oss.old.storage.properties.BaseOssProperties;
 import io.github.rose.oss.old.storage.properties.QiNiuOssProperties;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Levin
@@ -74,7 +75,7 @@ public class QiNiuOssOperation implements OssOperation {
         String targetName = null;
         if (random && StringUtils.isNoneBlank(originName)) {
             targetName = getTargetName(
-                    StorageRequest.builder().originName(originName).build());
+                StorageRequest.builder().originName(originName).build());
         }
         return getUploadToken(StringUtils.defaultIfBlank(bucket, properties.getBucket()), targetName);
     }
@@ -83,15 +84,13 @@ public class QiNiuOssOperation implements OssOperation {
     public DownloadResponse download(String fileName) {
         String domainOfBucket = this.connectionFactory.getDomain(properties.getBucket());
         final String path = StringUtils.defaultIfBlank(
-                this.properties.getTmpDir(), this.getClass().getResource("/").getPath());
+            this.properties.getTmpDir(), this.getClass().getResource("/").getPath());
         final File file = new File(path + File.separator + fileName);
-        log.debug("[文件目录] - [{}]", file.getPath());
         try {
             DownloadUrl url = new DownloadUrl(domainOfBucket, true, fileName);
             String urlString = url.buildURL();
-            log.debug(urlString);
         } catch (QiniuException e) {
-            e.printStackTrace();
+            log.error("buildURL error", e);
         }
         return null;
     }
@@ -125,10 +124,12 @@ public class QiNiuOssOperation implements OssOperation {
     }
 
     @Override
-    public void rename(String oldName, String newName) {}
+    public void rename(String oldName, String newName) {
+    }
 
     @Override
-    public void rename(String bucketName, String oldName, String newName) {}
+    public void rename(String bucketName, String oldName, String newName) {
+    }
 
     @Override
     public StorageResponse upload(String fileName, byte[] content) {
@@ -181,13 +182,13 @@ public class QiNiuOssOperation implements OssOperation {
             Map<String, Object> extend = Maps.newLinkedHashMap();
             extend.put("reqId", response.reqId);
             return StorageResponse.builder()
-                    .originName(request.getOriginName())
-                    .targetName(targetName)
-                    .size(response.body().length)
-                    .mappingPath(properties.getMappingPath())
-                    .bucket(bucket)
-                    .extend(extend)
-                    .build();
+                .originName(request.getOriginName())
+                .targetName(targetName)
+                .size(response.body().length)
+                .mappingPath(properties.getMappingPath())
+                .bucket(bucket)
+                .extend(extend)
+                .build();
         } catch (QiniuException e) {
             log.error("[文件上传异常]", e);
             throw uploadError(BaseOssProperties.StorageType.QINIU, e);
@@ -202,12 +203,12 @@ public class QiNiuOssOperation implements OssOperation {
         Map<String, Object> extend = Maps.newLinkedHashMap();
         extend.put("reqId", response.reqId);
         return StorageResponse.builder()
-                .originName(fileName)
-                .targetName(fileName)
-                .size(response.body().length)
-                .extend(extend)
-                .fullUrl(properties.getMappingPath() + fileName)
-                .build();
+            .originName(fileName)
+            .targetName(fileName)
+            .size(response.body().length)
+            .extend(extend)
+            .fullUrl(properties.getMappingPath() + fileName)
+            .build();
     }
 
     @Override

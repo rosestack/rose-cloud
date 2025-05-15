@@ -21,7 +21,6 @@ import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
 import io.github.rose.core.exception.BusinessException;
 import io.github.rose.core.spring.SpringContextHolder;
 import io.github.rose.core.util.StringPool;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +38,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import java.util.Locale;
+import java.util.stream.Collectors;
+
 @Configuration
 @EnableAsync
 @ConditionalOnClass(XxlJobSpringExecutor.class)
@@ -54,8 +56,8 @@ public class XxlJobExecutorConfiguration {
     }
 
     private static String getServiceUrl(ServiceInstance instance) {
-        return String.format(
-                "%s://%s:%s", instance.isSecure() ? "https" : "http", instance.getHost(), instance.getPort());
+        return String.format(Locale.getDefault(),
+            "%s://%s:%s", instance.isSecure() ? "https" : "http", instance.getHost(), instance.getPort());
     }
 
     @Bean
@@ -93,10 +95,10 @@ public class XxlJobExecutorConfiguration {
         if (discoveryClientObjectProvider.getIfAvailable() != null) {
             DiscoveryClient discoveryClient = discoveryClientObjectProvider.getObject();
             String serverList = discoveryClient.getServices().stream()
-                    .filter(s -> s.contains(XXL_JOB_ADMIN))
-                    .flatMap(s -> discoveryClient.getInstances(s).stream())
-                    .map(XxlJobExecutorConfiguration::getServiceUrl)
-                    .collect(Collectors.joining(StringPool.COMMA));
+                .filter(s -> s.contains(XXL_JOB_ADMIN))
+                .flatMap(s -> discoveryClient.getInstances(s).stream())
+                .map(XxlJobExecutorConfiguration::getServiceUrl)
+                .collect(Collectors.joining(StringPool.COMMA));
             xxlJobExecutor.setAdminAddresses(serverList);
         } else {
             if (StringUtils.isBlank(properties.getAdmin().getAddresses())) {
