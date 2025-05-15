@@ -27,7 +27,7 @@ import java.util.Random;
  * @author David Klebanoff
  * @see <a href="https://github.com/aventrix/jnanoid/">jnanoid</a>
  */
-public final class NanoIdUtils {
+public abstract class NanoIdUtils {
 
     /**
      * The default random number generator used by this class. Creates cryptographically

@@ -1,10 +1,11 @@
 package io.github.rose.core.util;
 
-import static org.apache.commons.lang3.ArrayUtils.EMPTY_CLASS_ARRAY;
-
-import java.lang.reflect.Method;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Method;
+
+import static org.apache.commons.lang3.ArrayUtils.EMPTY_CLASS_ARRAY;
 
 /**
  * Proxies is a collection of useful dynamic proxies. Internal use only.
@@ -12,12 +13,12 @@ import org.slf4j.LoggerFactory;
  * @author vladimir
  * @since 4.0 infinispan
  */
-public class Proxies {
+public abstract class Proxies {
     private static final Logger log = LoggerFactory.getLogger(Proxies.class);
 
     public static Object newCatchThrowableProxy(Object obj) {
         return java.lang.reflect.Proxy.newProxyInstance(
-                obj.getClass().getClassLoader(), getInterfaces(obj.getClass()), new CatchThrowableProxy(obj));
+            obj.getClass().getClassLoader(), getInterfaces(obj.getClass()), new CatchThrowableProxy(obj));
     }
 
     private static Class<?>[] getInterfaces(Class<?> clazz) {
@@ -54,7 +55,7 @@ public class Proxies {
 
         public static Object newInstance(Object obj) {
             return java.lang.reflect.Proxy.newProxyInstance(
-                    obj.getClass().getClassLoader(), obj.getClass().getInterfaces(), new CatchThrowableProxy(obj));
+                obj.getClass().getClassLoader(), obj.getClass().getInterfaces(), new CatchThrowableProxy(obj));
         }
 
         @Override

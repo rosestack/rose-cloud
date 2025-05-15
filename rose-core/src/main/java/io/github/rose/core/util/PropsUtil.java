@@ -15,10 +15,11 @@
  */
 package io.github.rose.core.util;
 
-import java.util.Properties;
 import org.apache.commons.lang3.StringUtils;
 
-public class PropsUtil {
+import java.util.Properties;
+
+public abstract class PropsUtil {
 
     /**
      * 设置配置值，已存在则跳过

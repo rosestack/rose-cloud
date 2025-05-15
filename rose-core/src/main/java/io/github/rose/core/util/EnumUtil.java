@@ -10,13 +10,10 @@ import java.util.EnumSet;
  * @author Pedro Ruivo
  * @since infinispan 8.2
  */
-public class EnumUtil {
+public abstract class EnumUtil {
 
     // Represents an empty bit set.
     public static final long EMPTY_BIT_SET = 0L;
-
-    // Private constructor to prevent instantiation of the utility class.
-    private EnumUtil() {}
 
     /**
      * Converts a collection of enums into a bit set.

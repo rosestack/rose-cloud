@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-public class NetUtils {
+public abstract class NetUtils {
     public static final String ANY_HOST = "0.0.0.0";
     public static final String LOCALHOST = "localhost";
     public static final String LOCAL_IP4 = "127.0.0.1";
