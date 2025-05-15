@@ -17,6 +17,7 @@ package io.github.rose.core.spring;
 
 import io.github.rose.core.exception.BusinessException;
 import io.github.rose.core.json.JsonUtils;
+import io.github.rose.core.util.NetUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -71,7 +72,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         String ip;
         for (String header : headers) {
             ip = request.getHeader(header);
-            if (StringUtils.isNotBlank(ip)) {
+            if (NetUtils.isIp4Address(ip)) {
                 return ip;
             }
         }

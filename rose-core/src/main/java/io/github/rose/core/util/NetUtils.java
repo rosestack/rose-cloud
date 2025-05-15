@@ -15,6 +15,7 @@
  */
 package io.github.rose.core.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,14 +37,12 @@ public abstract class NetUtils {
     public static final String LOCAL_IP4 = "127.0.0.1";
     private static final Logger log = LoggerFactory.getLogger(NetUtils.class);
     private static final Pattern LOCAL_IP_PATTERN = Pattern.compile("127(\\.\\d{1,3}){3}$");
-    private static final Pattern IP_PATTERN = Pattern.compile("\\d{1,3}(\\.\\d{1,3}){3,5}$");
+    private static final Pattern IP4_PATTERN = Pattern.compile(
+        "^(\\d{1,2}|1\\d{2}|2[0-4]\\d|25[0-5])" + // 第一个数字部分
+            "(\\.(\\d{1,2}|1\\d{2}|2[0-4]\\d|25[0-5])){3}$" // 接下来的三个数字部分
+    );
     private static InetAddress LOCAL_ADDRESS;
     private static String LOCALHOST_NAME;
-
-    public static boolean isInvalidLocalhost(String host) {
-        return host == null || host.length() == 0 || host.equalsIgnoreCase(LOCALHOST) || host.equals(ANY_HOST)
-            || (LOCAL_IP_PATTERN.matcher(host).matches());
-    }
 
     public static String getLocalIp() {
         return LOCAL_ADDRESS.getHostAddress();
@@ -70,7 +69,7 @@ public abstract class NetUtils {
 
         InetAddress localAddress = findFirstNonLoopbackAddress();
 
-        if (!isValidAddress(localAddress)) {
+        if (localAddress == null) {
             localAddress = getLocalAddressBySocket(destHostPorts);
         }
 
@@ -127,7 +126,7 @@ public abstract class NetUtils {
                     Enumeration<InetAddress> addresses = network.getInetAddresses();
                     while (addresses.hasMoreElements()) {
                         InetAddress address = addresses.nextElement();
-                        if (isValidAddress(address)) {
+                        if (!address.isLoopbackAddress() && address instanceof Inet4Address) {
                             result = address;
                         }
                     }
@@ -139,20 +138,24 @@ public abstract class NetUtils {
         return result;
     }
 
-    public static boolean isValidLocalhost(String host) {
-        return !isInvalidLocalhost(host);
-    }
 
     public static InetAddress getLocalAddress() {
         return getLocalAddress(null);
     }
 
+    public static boolean isIp4Address(String ip) {
+        if (StringUtils.isBlank(ip)) {
+            return false;
+        }
+        return !ANY_HOST.equals(ip) && IP4_PATTERN.matcher(ip).matches();
+    }
+
     public static boolean isValidAddress(InetAddress address) {
-        if (address == null || address.isLoopbackAddress() || address instanceof Inet6Address) {
+        if (address == null) {
             return false;
         }
         String name = address.getHostAddress();
-        return (name != null && !ANY_HOST.equals(name) && !LOCAL_IP4.equals(name) && IP_PATTERN.matcher(name).matches());
+        return (name != null && !ANY_HOST.equals(name) && !LOCAL_IP4.equals(name) && IP4_PATTERN.matcher(name).matches());
     }
 
     //return ip to avoid lookup dns

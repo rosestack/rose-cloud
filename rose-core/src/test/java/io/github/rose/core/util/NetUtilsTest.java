@@ -11,6 +11,25 @@ public class NetUtilsTest {
     private static final Logger log = LoggerFactory.getLogger(NetUtilsTest.class);
 
     @Test
+    public void isIp4Address() {
+        String[] testIPs = {
+            "192.168.1.1",    // 有效
+            "255.255.255.255", // 有效
+            "127.0.0.1",         // 无效
+            "0.0.0.0",         // 无效
+            "256.255.255.255", // 无效
+            "192.168.1",       // 无效
+            "192.168.1.1.1",   // 无效
+            "123.45.67.890",   // 无效（最后一位超过255）
+            "123.045.67.89"    // 无效（前导零）
+        };
+
+        for (String ip : testIPs) {
+            log.info("{}: {}", ip, NetUtils.isIp4Address(ip));
+        }
+    }
+
+    @Test
     public void testGetLocalAddress() throws UnknownHostException {
         InetAddress address = NetUtils.getLocalAddress();
         log.info("address: {}", NetUtils.getLocalAddress());
