@@ -17,7 +17,6 @@ package io.github.rose.core.spring;
 
 import io.github.rose.core.exception.BusinessException;
 import io.github.rose.core.json.JsonUtils;
-import io.github.rose.core.util.NetUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -67,18 +66,16 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         }
 
         List<String> headers = new ArrayList<>(CLIENT_IP_HEADER_NAMES);
-        headers.addAll(Arrays.asList(otherHeaderNames));
+        Arrays.stream(otherHeaderNames).forEach(header -> headers.add(header));
 
         String ip;
         for (String header : headers) {
             ip = request.getHeader(header);
-            if (NetUtils.isValidLocalhost(ip)) {
+            if (StringUtils.isNotBlank(ip)) {
                 return ip;
             }
         }
-
-        ip = request.getRemoteHost();
-        return ip;
+        return request.getRemoteHost();
     }
 
     public static String getValue(String headerName) {
