@@ -15,12 +15,13 @@
  */
 package io.github.rose.core.util.date;
 
+import org.apache.commons.lang3.time.FastDateFormat;
+
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
-import org.apache.commons.lang3.time.FastDateFormat;
 
 /**
  * 日期格式
@@ -42,7 +43,7 @@ public class DatePattern {
      * @since 5.3.6
      */
     public static final Pattern REGEX_NORM =
-            Pattern.compile("\\d{4}-\\d{1,2}-\\d{1,2}(\\s\\d{1,2}:\\d{1,2}(:\\d{1,2})?(.\\d{1,6})?)?");
+        Pattern.compile("\\d{4}-\\d{1,2}-\\d{1,2}(\\s\\d{1,2}:\\d{1,2}(:\\d{1,2})?(.\\d{1,6})?)?");
 
     // --------------------------------------------------------------------------------------------------------------------------------
     // Normal
@@ -59,7 +60,7 @@ public class DatePattern {
     /**
      * 年月格式 {@link FastDateFormat}：yyyy-MM
      */
-    public static final FastDateFormat NORM_MONTH_FORMAT = FastDateFormat.getInstance(NORM_MONTH_PATTERN);
+    public static final FastDateFormat NORM_MONTH_FAST_FORMAT = FastDateFormat.getInstance(NORM_MONTH_PATTERN);
 
     /**
      * 年月格式 {@link FastDateFormat}：yyyy-MM
@@ -74,7 +75,7 @@ public class DatePattern {
     /**
      * 简单年月格式 {@link FastDateFormat}：yyyyMM
      */
-    public static final FastDateFormat SIMPLE_MONTH_FORMAT = FastDateFormat.getInstance(SIMPLE_MONTH_PATTERN);
+    public static final FastDateFormat SIMPLE_MONTH_FAST_FORMAT = FastDateFormat.getInstance(SIMPLE_MONTH_PATTERN);
 
     /**
      * 简单年月格式 {@link FastDateFormat}：yyyyMM
@@ -89,7 +90,7 @@ public class DatePattern {
     /**
      * 标准日期格式 {@link FastDateFormat}：yyyy-MM-dd
      */
-    public static final FastDateFormat NORM_DATE_FORMAT = FastDateFormat.getInstance(NORM_DATE_PATTERN);
+    public static final FastDateFormat NORM_DATE_FAST_FORMAT = FastDateFormat.getInstance(NORM_DATE_PATTERN);
 
     /**
      * 标准日期格式 {@link FastDateFormat}：yyyy-MM-dd
@@ -104,7 +105,7 @@ public class DatePattern {
     /**
      * 标准时间格式 {@link FastDateFormat}：HH:mm:ss
      */
-    public static final FastDateFormat NORM_TIME_FORMAT = FastDateFormat.getInstance(NORM_TIME_PATTERN);
+    public static final FastDateFormat NORM_TIME_FAST_FORMAT = FastDateFormat.getInstance(NORM_TIME_PATTERN);
 
     /**
      * 标准日期格式 {@link FastDateFormat}：HH:mm:ss
@@ -119,14 +120,14 @@ public class DatePattern {
     /**
      * 标准日期时间格式，精确到分 {@link FastDateFormat}：yyyy-MM-dd HH:mm
      */
-    public static final FastDateFormat NORM_DATETIME_MINUTE_FORMAT =
-            FastDateFormat.getInstance(NORM_DATETIME_MINUTE_PATTERN);
+    public static final FastDateFormat NORM_DATETIME_MINUTE_FAST_FORMAT =
+        FastDateFormat.getInstance(NORM_DATETIME_MINUTE_PATTERN);
 
     /**
      * 标准日期格式 {@link FastDateFormat}：yyyy-MM-dd HH:mm
      */
     public static final DateTimeFormatter NORM_DATETIME_MINUTE_FORMATTER =
-            createFormatter(NORM_DATETIME_MINUTE_PATTERN);
+        createFormatter(NORM_DATETIME_MINUTE_PATTERN);
 
     /**
      * 标准日期时间格式，精确到秒：yyyy-MM-dd HH:mm:ss
@@ -136,7 +137,7 @@ public class DatePattern {
     /**
      * 标准日期时间格式，精确到秒 {@link FastDateFormat}：yyyy-MM-dd HH:mm:ss
      */
-    public static final FastDateFormat NORM_DATETIME_FORMAT = FastDateFormat.getInstance(NORM_DATETIME_PATTERN);
+    public static final FastDateFormat NORM_DATETIME_FAST_FORMAT = FastDateFormat.getInstance(NORM_DATETIME_PATTERN);
 
     /**
      * 标准日期时间格式，精确到秒 {@link FastDateFormat}：yyyy-MM-dd HH:mm:ss
@@ -151,7 +152,7 @@ public class DatePattern {
     /**
      * 标准日期时间格式，精确到毫秒 {@link FastDateFormat}：yyyy-MM-dd HH:mm:ss.SSS
      */
-    public static final FastDateFormat NORM_DATETIME_MS_FORMAT = FastDateFormat.getInstance(NORM_DATETIME_MS_PATTERN);
+    public static final FastDateFormat NORM_DATETIME_MS_FAST_FORMAT = FastDateFormat.getInstance(NORM_DATETIME_MS_PATTERN);
 
     /**
      * 标准日期时间格式，精确到毫秒 {@link FastDateFormat}：yyyy-MM-dd HH:mm:ss.SSS
@@ -166,7 +167,7 @@ public class DatePattern {
     /**
      * ISO8601日期时间格式，精确到毫秒 {@link FastDateFormat}：yyyy-MM-dd HH:mm:ss,SSS
      */
-    public static final FastDateFormat ISO8601_FORMAT = FastDateFormat.getInstance(ISO8601_PATTERN);
+    public static final FastDateFormat ISO8601_FAST_FORMAT = FastDateFormat.getInstance(ISO8601_PATTERN);
 
     /**
      * 标准日期格式 {@link FastDateFormat}：yyyy-MM-dd HH:mm:ss,SSS
@@ -181,7 +182,7 @@ public class DatePattern {
     /**
      * 标准日期格式 {@link FastDateFormat}：yyyy年MM月dd日
      */
-    public static final FastDateFormat CHINESE_DATE_FORMAT = FastDateFormat.getInstance(CHINESE_DATE_PATTERN);
+    public static final FastDateFormat CHINESE_DATE_FAST_FORMAT = FastDateFormat.getInstance(CHINESE_DATE_PATTERN);
 
     /**
      * 标准日期格式 {@link FastDateFormat}：yyyy年MM月dd日
@@ -196,7 +197,7 @@ public class DatePattern {
     /**
      * 标准日期格式 {@link FastDateFormat}：yyyy年MM月dd日HH时mm分ss秒
      */
-    public static final FastDateFormat CHINESE_DATE_TIME_FORMAT = FastDateFormat.getInstance(CHINESE_DATE_TIME_PATTERN);
+    public static final FastDateFormat CHINESE_DATE_TIME_FAST_FORMAT = FastDateFormat.getInstance(CHINESE_DATE_TIME_PATTERN);
 
     /**
      * 标准日期格式 {@link FastDateFormat}：yyyy年MM月dd日HH时mm分ss秒
@@ -213,7 +214,7 @@ public class DatePattern {
     /**
      * 标准日期格式 {@link FastDateFormat}：yyyyMMdd
      */
-    public static final FastDateFormat PURE_DATE_FORMAT = FastDateFormat.getInstance(PURE_DATE_PATTERN);
+    public static final FastDateFormat PURE_DATE_FAST_FORMAT = FastDateFormat.getInstance(PURE_DATE_PATTERN);
 
     /**
      * 标准日期格式 {@link FastDateFormat}：yyyyMMdd
@@ -228,7 +229,7 @@ public class DatePattern {
     /**
      * 标准日期格式 {@link FastDateFormat}：HHmmss
      */
-    public static final FastDateFormat PURE_TIME_FORMAT = FastDateFormat.getInstance(PURE_TIME_PATTERN);
+    public static final FastDateFormat PURE_TIME_FAST_FORMAT = FastDateFormat.getInstance(PURE_TIME_PATTERN);
 
     /**
      * 标准日期格式 {@link FastDateFormat}：HHmmss
@@ -243,7 +244,7 @@ public class DatePattern {
     /**
      * 标准日期格式 {@link FastDateFormat}：yyyyMMddHHmmss
      */
-    public static final FastDateFormat PURE_DATETIME_FORMAT = FastDateFormat.getInstance(PURE_DATETIME_PATTERN);
+    public static final FastDateFormat PURE_DATETIME_FAST_FORMAT = FastDateFormat.getInstance(PURE_DATETIME_PATTERN);
 
     /**
      * 标准日期格式 {@link FastDateFormat}：yyyyMMddHHmmss
@@ -258,7 +259,7 @@ public class DatePattern {
     /**
      * 标准日期格式 {@link FastDateFormat}：yyyyMMddHHmmssSSS
      */
-    public static final FastDateFormat PURE_DATETIME_MS_FORMAT = FastDateFormat.getInstance(PURE_DATETIME_MS_PATTERN);
+    public static final FastDateFormat PURE_DATETIME_MS_FAST_FORMAT = FastDateFormat.getInstance(PURE_DATETIME_MS_PATTERN);
 
     /**
      * 标准日期格式 {@link FastDateFormat}：yyyyMMddHHmmssSSS
@@ -275,14 +276,14 @@ public class DatePattern {
     /**
      * HTTP头中日期时间格式 {@link FastDateFormat}：EEE, dd MMM yyyy HH:mm:ss z
      */
-    public static final FastDateFormat HTTP_DATETIME_FORMAT =
-            FastDateFormat.getInstance(HTTP_DATETIME_PATTERN, TimeZone.getTimeZone("GMT"), Locale.US);
+    public static final FastDateFormat HTTP_DATETIME_FAST_FORMAT =
+        FastDateFormat.getInstance(HTTP_DATETIME_PATTERN, TimeZone.getTimeZone("GMT"), Locale.US);
 
     /**
      * HTTP头中日期时间格式 {@link FastDateFormat}：EEE, dd MMM yyyy HH:mm:ss z
      */
     public static final FastDateFormat HTTP_DATETIME_FORMAT_Z =
-            FastDateFormat.getInstance(HTTP_DATETIME_PATTERN, Locale.US);
+        FastDateFormat.getInstance(HTTP_DATETIME_PATTERN, Locale.US);
 
     /**
      * JDK中日期时间格式：EEE MMM dd HH:mm:ss zzz yyyy
@@ -292,8 +293,8 @@ public class DatePattern {
     /**
      * JDK中日期时间格式 {@link FastDateFormat}：EEE MMM dd HH:mm:ss zzz yyyy
      */
-    public static final FastDateFormat JDK_DATETIME_FORMAT =
-            FastDateFormat.getInstance(JDK_DATETIME_PATTERN, Locale.US);
+    public static final FastDateFormat JDK_DATETIME_FAST_FORMAT =
+        FastDateFormat.getInstance(JDK_DATETIME_PATTERN, Locale.US);
 
     /**
      * ISO8601时间：yyyy-MM-dd'T'HH:mm:ss
@@ -303,7 +304,7 @@ public class DatePattern {
     /**
      * ISO8601时间{@link FastDateFormat}：yyyy-MM-dd'T'HH:mm:ss
      */
-    public static final FastDateFormat UTC_SIMPLE_FORMAT = FastDateFormat.getInstance(UTC_SIMPLE_PATTERN);
+    public static final FastDateFormat UTC_SIMPLE_FAST_FORMAT = FastDateFormat.getInstance(UTC_SIMPLE_PATTERN);
 
     /**
      * ISO8601时间：yyyy-MM-dd'T'HH:mm:ss.SSS
@@ -313,7 +314,7 @@ public class DatePattern {
     /**
      * ISO8601时间{@link FastDateFormat}：yyyy-MM-dd'T'HH:mm:ss.SSS
      */
-    public static final FastDateFormat UTC_SIMPLE_MS_FORMAT = FastDateFormat.getInstance(UTC_SIMPLE_MS_PATTERN);
+    public static final FastDateFormat UTC_SIMPLE_MS_FAST_FORMAT = FastDateFormat.getInstance(UTC_SIMPLE_MS_PATTERN);
 
     /**
      * UTC时间：yyyy-MM-dd'T'HH:mm:ss'Z'
@@ -323,8 +324,8 @@ public class DatePattern {
     /**
      * UTC时间{@link FastDateFormat}：yyyy-MM-dd'T'HH:mm:ss'Z'
      */
-    public static final FastDateFormat UTC_FORMAT =
-            FastDateFormat.getInstance(UTC_PATTERN, TimeZone.getTimeZone("UTC"));
+    public static final FastDateFormat UTC_FAST_FORMAT =
+        FastDateFormat.getInstance(UTC_PATTERN, TimeZone.getTimeZone("UTC"));
 
     /**
      * UTC时间：yyyy-MM-dd'T'HH:mm:ssZ
@@ -334,8 +335,8 @@ public class DatePattern {
     /**
      * UTC时间{@link FastDateFormat}：yyyy-MM-dd'T'HH:mm:ssZ
      */
-    public static final FastDateFormat UTC_WITH_ZONE_OFFSET_FORMAT =
-            FastDateFormat.getInstance(UTC_WITH_ZONE_OFFSET_PATTERN, TimeZone.getTimeZone("UTC"));
+    public static final FastDateFormat UTC_WITH_ZONE_OFFSET_FAST_FORMAT =
+        FastDateFormat.getInstance(UTC_WITH_ZONE_OFFSET_PATTERN, TimeZone.getTimeZone("UTC"));
 
     /**
      * UTC时间：yyyy-MM-dd'T'HH:mm:ssXXX
@@ -345,8 +346,8 @@ public class DatePattern {
     /**
      * UTC时间{@link FastDateFormat}：yyyy-MM-dd'T'HH:mm:ssXXX
      */
-    public static final FastDateFormat UTC_WITH_XXX_OFFSET_FORMAT =
-            FastDateFormat.getInstance(UTC_WITH_XXX_OFFSET_PATTERN);
+    public static final FastDateFormat UTC_WITH_XXX_OFFSET_FAST_FORMAT =
+        FastDateFormat.getInstance(UTC_WITH_XXX_OFFSET_PATTERN);
 
     /**
      * UTC时间：yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
@@ -356,8 +357,8 @@ public class DatePattern {
     /**
      * UTC时间{@link FastDateFormat}：yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
      */
-    public static final FastDateFormat UTC_MS_FORMAT =
-            FastDateFormat.getInstance(UTC_MS_PATTERN, TimeZone.getTimeZone("UTC"));
+    public static final FastDateFormat UTC_MS_FAST_FORMAT =
+        FastDateFormat.getInstance(UTC_MS_PATTERN, TimeZone.getTimeZone("UTC"));
 
     /**
      * UTC时间：yyyy-MM-dd'T'HH:mm:ssZ
@@ -367,8 +368,8 @@ public class DatePattern {
     /**
      * UTC时间{@link FastDateFormat}：yyyy-MM-dd'T'HH:mm:ssZ
      */
-    public static final FastDateFormat UTC_MS_WITH_ZONE_OFFSET_FORMAT =
-            FastDateFormat.getInstance(UTC_MS_WITH_ZONE_OFFSET_PATTERN, TimeZone.getTimeZone("UTC"));
+    public static final FastDateFormat UTC_MS_WITH_ZONE_OFFSET_FAST_FORMAT =
+        FastDateFormat.getInstance(UTC_MS_WITH_ZONE_OFFSET_PATTERN, TimeZone.getTimeZone("UTC"));
 
     /**
      * UTC时间：yyyy-MM-dd'T'HH:mm:ss.SSSXXX
@@ -378,8 +379,8 @@ public class DatePattern {
     /**
      * UTC时间{@link FastDateFormat}：yyyy-MM-dd'T'HH:mm:ss.SSSXXX
      */
-    public static final FastDateFormat UTC_MS_WITH_XXX_OFFSET_FORMAT =
-            FastDateFormat.getInstance(UTC_MS_WITH_XXX_OFFSET_PATTERN);
+    public static final FastDateFormat UTC_MS_WITH_XXX_OFFSET_FAST_FORMAT =
+        FastDateFormat.getInstance(UTC_MS_WITH_XXX_OFFSET_PATTERN);
 
     /**
      * 创建并为 {@link DateTimeFormatter} 赋予默认时区和位置信息，默认值为系统默认值。

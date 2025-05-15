@@ -24,7 +24,6 @@ import io.github.rose.core.util.date.DatePattern;
 import io.github.rose.processor.AutoService;
 
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -36,14 +35,14 @@ public class Java8TimeModule extends SimpleModule {
         super(PackageVersion.VERSION);
 
         this.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DatePattern.NORM_DATETIME_FORMATTER));
-        this.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATE_PATTERN)));
-        this.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_TIME_PATTERN)));
+        this.addSerializer(LocalDate.class, new LocalDateSerializer(DatePattern.NORM_DATE_FORMATTER));
+        this.addSerializer(LocalTime.class, new LocalTimeSerializer(DatePattern.NORM_TIME_FORMATTER));
         this.addSerializer(Instant.class, InstantSerializer.INSTANCE);
         this.addSerializer(Duration.class, DurationSerializer.INSTANCE);
 
         this.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DatePattern.NORM_DATETIME_FORMATTER));
-        this.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATE_PATTERN)));
-        this.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_TIME_PATTERN)));
+        this.addDeserializer(LocalDate.class, new LocalDateDeserializer(DatePattern.NORM_DATE_FORMATTER));
+        this.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DatePattern.NORM_TIME_FORMATTER));
         this.addDeserializer(Instant.class, InstantDeserializer.INSTANT);
         this.addDeserializer(Duration.class, DurationDeserializer.INSTANCE);
     }
