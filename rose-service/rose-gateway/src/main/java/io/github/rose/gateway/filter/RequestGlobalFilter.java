@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
+import static io.github.rose.core.util.Constants.REQUEST_FROM_INNER;
 import static io.github.rose.core.util.Constants.REQUEST_START_TIME;
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR;
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.addOriginalRequestUrl;
@@ -55,8 +56,7 @@ public class RequestGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest()
             .mutate()
             .headers(httpHeaders -> {
-                httpHeaders.remove(SecurityConstants.FROM);
-                // 设置请求时间
+                httpHeaders.remove(REQUEST_FROM_INNER);
                 httpHeaders.put(
                     REQUEST_START_TIME, Collections.singletonList(String.valueOf(System.currentTimeMillis())));
             })

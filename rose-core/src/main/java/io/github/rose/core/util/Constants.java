@@ -30,19 +30,22 @@ public interface Constants {
     String PROFILE_NOT_TEST = "!" + PROFILE_TEST;
 
     //filter order
-    int CORS_FILTER = Ordered.HIGHEST_PRECEDENCE;
-    int CACHING_REQUEST_FILTER = CORS_FILTER + 1;
-    int TRACE_FILTER = CORS_FILTER + 2;
-    int XSS_FILTER = CORS_FILTER + 3;
-    int TENANT_CONTEXT_FILTER = CORS_FILTER + 5;
+    int CORS_FILTER_ORDER = Ordered.HIGHEST_PRECEDENCE;
+    int CACHING_REQUEST_FILTER_ORDER = CORS_FILTER_ORDER + 1;
+    int TRACE_FILTER_ORDER = CORS_FILTER_ORDER + 2;
+    int XSS_FILTER_ORDER = CORS_FILTER_ORDER + 3;
+    int TENANT_CONTEXT_FILTER_ORDER = CORS_FILTER_ORDER + 5;
     // Spring Security Filter 默认为 -100，可见 org.springframework.boot.autoconfigure.security.SecurityProperties
-    int TENANT_SECURITY_FILTER = -99;
+    int TENANT_SECURITY_FILTER_ORDER = -99;
 
     //header
     String HEADER_TENANT_ID = "tenant-id";
     String REQUEST_START_TIME = "Request-Start-Time";
+    String REQUEST_FROM_INNER = "Request-From-Inner";
+
     String RATELIMIT_LIMIT = "RateLimit-Limit";
     String RATELIMIT_REMAINING = "RateLimit-Remaining";
     String RATELIMIT_RESET = "RateLimit-Reset";
     String RETRY_AFTER = "Retry-After";
+
 }

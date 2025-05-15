@@ -27,7 +27,7 @@ import java.util.Random;
  * @author David Klebanoff
  * @see <a href="https://github.com/aventrix/jnanoid/">jnanoid</a>
  */
-public abstract class NanoIdUtils {
+public abstract class NanoId {
 
     /**
      * The default random number generator used by this class. Creates cryptographically
@@ -49,11 +49,11 @@ public abstract class NanoIdUtils {
     public static final int DEFAULT_SIZE = 21;
 
     /**
-     * <code>NanoIdUtils</code> instances should NOT be constructed in standard
+     * <code>NanoId</code> instances should NOT be constructed in standard
      * programming. Instead, the class should be used as
-     * <code>NanoIdUtils.randomNanoId();</code>.
+     * <code>NanoId.randomNanoId();</code>.
      */
-    private NanoIdUtils() {
+    private NanoId() {
         // Do Nothing
     }
 

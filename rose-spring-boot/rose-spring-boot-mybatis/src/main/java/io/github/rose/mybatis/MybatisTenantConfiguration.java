@@ -49,8 +49,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Objects;
 
-import static io.github.rose.core.util.Constants.TENANT_CONTEXT_FILTER;
-import static io.github.rose.core.util.Constants.TENANT_SECURITY_FILTER;
+import static io.github.rose.core.util.Constants.TENANT_CONTEXT_FILTER_ORDER;
+import static io.github.rose.core.util.Constants.TENANT_SECURITY_FILTER_ORDER;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -96,13 +96,13 @@ public class MybatisTenantConfiguration {
 
     @Bean
     public FilterRegistrationBean<TenantContextFilter> tenantContextFilter() {
-        return FilterUtils.createFilterBean(new TenantContextFilter(), TENANT_CONTEXT_FILTER);
+        return FilterUtils.createFilterBean(new TenantContextFilter(), TENANT_CONTEXT_FILTER_ORDER);
     }
 
     @Bean
     public FilterRegistrationBean<TenantSecurityFilter> tenantSecurityFilter(TenantProperties tenantProperties) {
         return FilterUtils.createFilterBean(
-            new TenantSecurityFilter(tenantProperties.getIgnoreUrls()), TENANT_SECURITY_FILTER);
+            new TenantSecurityFilter(tenantProperties.getIgnoreUrls()), TENANT_SECURITY_FILTER_ORDER);
     }
 
     @Bean

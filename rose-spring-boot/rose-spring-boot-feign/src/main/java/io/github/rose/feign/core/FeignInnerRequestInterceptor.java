@@ -17,10 +17,13 @@ package io.github.rose.feign.core;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import io.github.rose.core.util.StringPool;
 import io.github.rose.feign.annotation.NoToken;
 import org.springframework.core.Ordered;
 
 import java.lang.reflect.Method;
+
+import static io.github.rose.core.util.Constants.REQUEST_FROM_INNER;
 
 public class FeignInnerRequestInterceptor implements RequestInterceptor, Ordered {
 
@@ -35,7 +38,7 @@ public class FeignInnerRequestInterceptor implements RequestInterceptor, Ordered
         Method method = template.methodMetadata().method();
         NoToken noToken = method.getAnnotation(NoToken.class);
         if (noToken != null) {
-            template.header(SecurityConstants.FROM, SecurityConstants.FROM_IN);
+            template.header(REQUEST_FROM_INNER, StringPool.Y);
         }
     }
 

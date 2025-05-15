@@ -10,19 +10,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class UuidUtilsTest {
-    private static final Logger log = LoggerFactory.getLogger(UuidUtilsTest.class);
+public class UuidsTest {
+    private static final Logger log = LoggerFactory.getLogger(UuidsTest.class);
 
     @Test
     public void testGetUUID() {
-        UUID uuid = UuidUtils.getUUID();
+        UUID uuid = Uuids.getUUID();
         log.info("uuid: {}", uuid);
         // Encode for URL
-        String urlSafeId = UuidUtils.uuidToBase64(uuid);
+        String urlSafeId = Uuids.uuidToBase64(uuid);
         log.info("URL Safe ID:   {}", urlSafeId); // e.g., AZZK6H62dLudJ60SgK7tTQ
 
         // Decode from URL
-        UUID decodedUuid = UuidUtils.base64ToUuid(urlSafeId);
+        UUID decodedUuid = Uuids.base64ToUuid(urlSafeId);
         log.info("Decoded UUID:  {}", decodedUuid);
 
         log.info("Match: {}", uuid.equals(decodedUuid));
@@ -32,7 +32,7 @@ public class UuidUtilsTest {
     @Test
     public void testUuidInMap() {
         Map<String, Object> map = new HashMap<>();
-        UUID uuid = UuidUtils.getUUID();
+        UUID uuid = Uuids.getUUID();
         map.put("key", uuid);
         log.info("Map: " + map);
         String json = JsonUtils.toJson(map);

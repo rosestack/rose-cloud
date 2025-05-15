@@ -12,7 +12,7 @@ import java.util.UUID;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since TODO
  */
-public abstract class UuidUtils {
+public abstract class Uuids {
     // Use Java 8's built-in Base64 encoder/decoder
     private static final Base64.Encoder URL_SAFE_ENCODER = Base64.getUrlEncoder().withoutPadding();
     private static final Base64.Decoder URL_SAFE_DECODER = Base64.getUrlDecoder();

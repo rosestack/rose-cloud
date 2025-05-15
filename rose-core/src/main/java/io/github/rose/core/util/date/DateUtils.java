@@ -29,8 +29,8 @@ import java.util.*;
 public class DateUtils {
     private static final ZoneId zoneId = ZoneId.systemDefault();
 
-    public static String format(final LocalDate localDate, String datePattern) {
-        return localDate.format(DateTimeFormatter.ofPattern(datePattern, Locale.CHINA));
+    public static String format(final LocalDateTime localDateTime, String datePattern) {
+        return localDateTime.format(DateTimeFormatter.ofPattern(datePattern, Locale.CHINA));
     }
 
     /**

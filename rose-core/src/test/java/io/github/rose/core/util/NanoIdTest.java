@@ -20,8 +20,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import static io.github.rose.core.util.NanoIdUtils.DEFAULT_ALPHABET;
-import static io.github.rose.core.util.NanoIdUtils.DEFAULT_SIZE;
+import static io.github.rose.core.util.NanoId.DEFAULT_ALPHABET;
+import static io.github.rose.core.util.NanoId.DEFAULT_SIZE;
 
 /**
  * TODO Comment
@@ -29,31 +29,31 @@ import static io.github.rose.core.util.NanoIdUtils.DEFAULT_SIZE;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since TODO
  */
-class NanoIdUtilsTest {
+class NanoIdTest {
     @Test
     public void testNanoId() {
-        Assertions.assertEquals(DEFAULT_SIZE, NanoIdUtils.randomNanoId().length());
-        Assertions.assertEquals(10, NanoIdUtils.randomNanoId(10).length());
-        Assertions.assertEquals(10, NanoIdUtils.randomNanoId(new Random(), DEFAULT_ALPHABET, 10).length());
+        Assertions.assertEquals(DEFAULT_SIZE, NanoId.randomNanoId().length());
+        Assertions.assertEquals(10, NanoId.randomNanoId(10).length());
+        Assertions.assertEquals(10, NanoId.randomNanoId(new Random(), DEFAULT_ALPHABET, 10).length());
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            NanoIdUtils.randomNanoId(null, DEFAULT_ALPHABET, 10);
+            NanoId.randomNanoId(null, DEFAULT_ALPHABET, 10);
         });
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            NanoIdUtils.randomNanoId(new Random(), null, 10);
+            NanoId.randomNanoId(new Random(), null, 10);
         });
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            NanoIdUtils.randomNanoId(new Random(), new char[]{}, -1);
+            NanoId.randomNanoId(new Random(), new char[]{}, -1);
         });
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            NanoIdUtils.randomNanoId(new Random(), new char[256], -1);
+            NanoId.randomNanoId(new Random(), new char[256], -1);
         });
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            NanoIdUtils.randomNanoId(new Random(), DEFAULT_ALPHABET, -1);
+            NanoId.randomNanoId(new Random(), DEFAULT_ALPHABET, -1);
         });
     }
 }

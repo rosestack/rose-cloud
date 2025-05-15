@@ -15,9 +15,9 @@
  */
 package io.github.rose.filter;
 
-import io.github.rose.core.util.EscapeUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.owasp.encoder.Encode;
 import org.springframework.http.HttpMethod;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StreamUtils;
@@ -59,8 +59,12 @@ public class XssFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return handleExcludeURL(request);
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String method = request.getMethod();
+        if (!HttpMethod.POST.matches(method) && !HttpMethod.PUT.matches(method) && !HttpMethod.PATCH.matches(method)) {
+            return true;
+        }
+        return matches(request.getServletPath(), excludes);
     }
 
     @Override
@@ -70,18 +74,8 @@ public class XssFilter extends OncePerRequestFilter {
         chain.doFilter(xssRequest, response);
     }
 
-    private boolean handleExcludeURL(HttpServletRequest request) {
-        String url = request.getServletPath();
-        String method = request.getMethod();
-        // GET DELETE 不过滤
-        if (method == null || HttpMethod.GET.matches(method) || HttpMethod.DELETE.matches(method)) {
-            return true;
-        }
-        return matches(url, excludes);
-    }
 
     public static class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
-
         public XssHttpServletRequestWrapper(HttpServletRequest request) {
             super(request);
         }
@@ -93,8 +87,7 @@ public class XssFilter extends OncePerRequestFilter {
                 int length = values.length;
                 String[] escapeValues = new String[length];
                 for (int i = 0; i < length; i++) {
-                    // 防xss攻击和过滤前后空格
-                    escapeValues[i] = EscapeUtils.clean(values[i]).trim();
+                    escapeValues[i] = Encode.forUriComponent(values[i]);
                 }
                 return escapeValues;
             }
@@ -103,15 +96,11 @@ public class XssFilter extends OncePerRequestFilter {
 
         @Override
         public ServletInputStream getInputStream() throws IOException {
-            // 为空，直接返回
             String input = StreamUtils.copyToString(super.getInputStream(), StandardCharsets.UTF_8);
             if (StringUtils.isEmpty(input)) {
                 return super.getInputStream();
             }
-
-            // xss过滤
-            input = EscapeUtils.clean(input).trim();
-            byte[] inputBytes = input.getBytes(StandardCharsets.UTF_8);
+            byte[] inputBytes = Encode.forHtml(input).getBytes(StandardCharsets.UTF_8);
             final ByteArrayInputStream bis = new ByteArrayInputStream(inputBytes);
             return new ServletInputStream() {
                 @Override

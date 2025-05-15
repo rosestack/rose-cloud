@@ -23,6 +23,7 @@ import io.github.rose.filter.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -121,18 +122,19 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Bean
     public FilterRegistrationBean<TraceFilter> traceFilter() {
-        return FilterUtils.createFilterBean(new TraceFilter(), TRACE_FILTER);
+        return FilterUtils.createFilterBean(new TraceFilter(), TRACE_FILTER_ORDER);
     }
 
     @Bean
     public FilterRegistrationBean<CachingRequestFilter> cachingRequestFilter() {
-        return FilterUtils.createFilterBean(new CachingRequestFilter(), CACHING_REQUEST_FILTER);
+        return FilterUtils.createFilterBean(new CachingRequestFilter(), CACHING_REQUEST_FILTER_ORDER);
     }
 
     @Bean
+    @ConditionalOnClass(name = "org.owasp.encoder.Encode")
     @ConditionalOnProperty(value = Constants.PROJECT_NAME + ".xss.enabled", havingValue = "true")
     public FilterRegistrationBean<XssFilter> xxsFilter() {
-        return FilterUtils.createFilterBean(new XssFilter(xssProperties.getExcludeUrls()), XSS_FILTER);
+        return FilterUtils.createFilterBean(new XssFilter(xssProperties.getExcludeUrls()), XSS_FILTER_ORDER);
     }
 
     @Bean
