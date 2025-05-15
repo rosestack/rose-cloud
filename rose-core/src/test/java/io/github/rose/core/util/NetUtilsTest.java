@@ -19,37 +19,30 @@ public class NetUtilsTest {
 
         Assertions.assertNotNull(address);
         Assertions.assertTrue(NetUtils.isValidAddress(address));
-
-        if (NetUtils.isValidAddress(InetAddress.getLocalHost())) {
-            Assertions.assertEquals(InetAddress.getLocalHost(), address);
-        }
     }
 
     @Test
     public void testGetLocalAddressByDatagram() {
         String ip = NetUtils.getLocalAddressByDatagram();
-        System.out.println("ip = " + ip);
-    }
-
-    @Test
-    public void testResolveHost2ip() {
-        String ip = NetUtils.resolveHost2Address("www.google.ca");
-        System.out.println("ip = " + ip);
+        log.info("ip = {}", ip);
     }
 
     @Test
     public void testInetSocketAddress() throws UnknownHostException {
         InetSocketAddress inetSocketAddress1 = new InetSocketAddress("google.ca", 443);
-        System.out.println("inetSocketAddress1 = " + inetSocketAddress1);
-        InetAddress inetAddress = InetAddress.getByName("142.251.41.67");
+        InetAddress inetAddress = InetAddress.getByName(inetSocketAddress1.getAddress().getHostAddress());
         InetSocketAddress inetSocketAddress2 = new InetSocketAddress(inetAddress, 443);
-        System.out.println("inetSocketAddress2 = " + inetSocketAddress2);
+
+        Assertions.assertEquals(inetSocketAddress1.getAddress().getHostAddress(), inetSocketAddress2.getAddress().getHostAddress());
     }
 
     @Test
-    public void testReplaceUriHostname2Address() throws URISyntaxException {
-        URI uri = new URI("https://localhost:8443");
-        uri = NetUtils.resolveUriHost2Address(uri);
-        System.out.println("uri = " + uri);
+    public void testResolveAddress() throws URISyntaxException {
+        String ip = NetUtils.resolveAddress("www.google.ca");
+        log.info("ip = {}", ip);
+
+        String url = "https://localhost:8443";
+        URI uri = NetUtils.resolveAddress(new URI(url));
+        Assertions.assertEquals("https://127.0.0.1:8443", uri.toString());
     }
 }

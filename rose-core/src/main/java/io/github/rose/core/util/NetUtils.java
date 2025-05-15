@@ -69,6 +69,7 @@ public abstract class NetUtils {
         }
 
         InetAddress localAddress = findFirstNonLoopbackAddress();
+
         if (!isValidAddress(localAddress)) {
             localAddress = getLocalAddressBySocket(destHostPorts);
         }
@@ -194,7 +195,7 @@ public abstract class NetUtils {
         throw new RuntimeException("Could not find a free permitted port on the machine.");
     }
 
-    public static String resolveHost2Address(String fqdn) {
+    public static String resolveAddress(String fqdn) {
         String ip = null;
         try {
             InetAddress address = InetAddress.getByName(fqdn);
@@ -205,12 +206,12 @@ public abstract class NetUtils {
         return ip;
     }
 
-    public static URI resolveUriHost2Address(URI uri) {
+    public static URI resolveAddress(URI uri) {
         // convert the uri to URL.
         try {
             URL url = uri.toURL();
             String host = url.getHost();
-            String ip = resolveHost2Address(host);
+            String ip = resolveAddress(host);
             if (ip != null) {
                 url = new URL(url.getProtocol(), ip, url.getPort(), url.getFile());
                 uri = url.toURI();
