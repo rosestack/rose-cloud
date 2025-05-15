@@ -76,7 +76,7 @@ public class RateLimiterAspect {
     public String getCombineKey(RateLimiter rateLimiter, JoinPoint point) {
         StringBuilder stringBuffer = new StringBuilder(rateLimiter.key());
         if (rateLimiter.limitType() == LimitType.IP) {
-            stringBuffer.append(NetUtils.getLocalIp()).append("-");
+            stringBuffer.append(NetUtils.getLocalAddress()).append("-");
         }
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = signature.getMethod();

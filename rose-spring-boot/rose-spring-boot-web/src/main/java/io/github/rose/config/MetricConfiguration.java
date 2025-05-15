@@ -62,6 +62,6 @@ public class MetricConfiguration {
     MeterRegistryCustomizer<MeterRegistry> meterRegistryCustomizer() {
         return registry -> registry.config()
             .commonTags(
-                Collections.singletonList(Tag.of("host", Objects.requireNonNull(NetUtils.getLocalIp()))));
+                Collections.singletonList(Tag.of("host", Objects.requireNonNull(NetUtils.getLocalAddress()))));
     }
 }

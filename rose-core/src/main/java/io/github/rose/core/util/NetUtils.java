@@ -41,53 +41,55 @@ public abstract class NetUtils {
         "^(\\d{1,2}|1\\d{2}|2[0-4]\\d|25[0-5])" + // 第一个数字部分
             "(\\.(\\d{1,2}|1\\d{2}|2[0-4]\\d|25[0-5])){3}$" // 接下来的三个数字部分
     );
-    private static InetAddress LOCAL_ADDRESS;
-    private static String LOCALHOST_NAME;
+    private static final String LEGAL_LOCAL_IP_PROPERTY = "java.net.preferIPv6Addresses";
 
-    public static String getLocalIp() {
-        return LOCAL_ADDRESS.getHostAddress();
+    private static InetAddress localInetAddress;
+    private static String localhostName;
+
+    public static String getLocalAddress() {
+        return localInetAddress.getHostAddress();
     }
 
     public static String getLocalhostName() {
-        if (LOCALHOST_NAME != null) {
-            return LOCALHOST_NAME;
+        if (localhostName != null) {
+            return localhostName;
         }
 
         try {
-            InetAddress localHost = InetAddress.getLocalHost();
-            LOCALHOST_NAME = localHost.getHostName();
+            InetAddress inetAddress = InetAddress.getLocalHost();
+            localhostName = inetAddress.getHostName();
         } catch (UnknownHostException e) {
-            LOCALHOST_NAME = LOCALHOST;
+            localhostName = LOCALHOST;
         }
-        return LOCALHOST_NAME;
+        return localhostName;
     }
 
-    public static InetAddress getLocalAddress(Map<String, Integer> destHostPorts) {
-        if (LOCAL_ADDRESS != null) {
-            return LOCAL_ADDRESS;
+    public static InetAddress getLocalInetAddress(Map<String, Integer> destHostPorts) {
+        if (localInetAddress != null) {
+            return localInetAddress;
         }
 
-        InetAddress localAddress = findFirstNonLoopbackAddress();
+        InetAddress inetAddress = getFirstInet4AddressByNetwork();
 
-        if (localAddress == null) {
-            localAddress = getLocalAddressBySocket(destHostPorts);
+        if (inetAddress == null) {
+            inetAddress = getLocalAddressBySocket(destHostPorts);
         }
 
-        if (localAddress == null) {
+        if (inetAddress == null) {
             try {
-                localAddress = InetAddress.getLocalHost();
+                inetAddress = InetAddress.getLocalHost();
             } catch (UnknownHostException e) {
                 // ignore
             }
         }
 
-        LOCAL_ADDRESS = localAddress;
-        return localAddress;
+        localInetAddress = inetAddress;
+        return inetAddress;
     }
 
 
-    public static InetAddress getLocalAddress() {
-        return getLocalAddress(null);
+    public static InetAddress getLocalInetAddress() {
+        return getLocalInetAddress(null);
     }
 
     public static boolean isIp4Address(String ip) {
@@ -97,7 +99,7 @@ public abstract class NetUtils {
         return !ANY_IP4.equals(ip) && IP4_PATTERN.matcher(ip).matches();
     }
 
-    public static boolean isValidAddress(InetAddress address) {
+    public static boolean isIp4Address(InetAddress address) {
         if (address == null) {
             return false;
         }
@@ -199,7 +201,12 @@ public abstract class NetUtils {
         return null;
     }
 
-    private static InetAddress findFirstNonLoopbackAddress() {
+    /**
+     * 参考 nacos-client NetUtils
+     *
+     * @return
+     */
+    private static InetAddress getFirstInet4AddressByNetwork() {
         InetAddress result = null;
 
         try {
@@ -213,7 +220,9 @@ public abstract class NetUtils {
                     Enumeration<InetAddress> addresses = network.getInetAddresses();
                     while (addresses.hasMoreElements()) {
                         InetAddress address = addresses.nextElement();
-                        if (!address.isLoopbackAddress() && address instanceof Inet4Address) {
+                        boolean isLegalIpVersion = Boolean.parseBoolean(System.getProperty(LEGAL_LOCAL_IP_PROPERTY))
+                            ? address instanceof Inet6Address : address instanceof Inet4Address;
+                        if (isLegalIpVersion && !address.isLoopbackAddress()) {
                             result = address;
                         }
                     }

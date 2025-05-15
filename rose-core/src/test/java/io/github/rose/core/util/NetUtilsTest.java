@@ -30,14 +30,14 @@ public class NetUtilsTest {
     }
 
     @Test
-    public void testGetLocalAddress() throws UnknownHostException {
-        InetAddress address = NetUtils.getLocalAddress();
+    public void testGetLocalAddress() {
+        InetAddress address = NetUtils.getLocalInetAddress();
         log.info("address: {}", NetUtils.getLocalAddress());
-        log.info("ip: {}", NetUtils.getLocalIp());
+        log.info("ip: {}", NetUtils.getLocalAddress());
         log.info("localhostName: {}", NetUtils.getLocalhostName());
 
         Assertions.assertNotNull(address);
-        Assertions.assertTrue(NetUtils.isValidAddress(address));
+        Assertions.assertTrue(NetUtils.isIp4Address(address));
     }
 
     @Test
@@ -60,8 +60,7 @@ public class NetUtilsTest {
         String ip = NetUtils.resolveAddress("www.google.ca");
         log.info("ip = {}", ip);
 
-        String url = "https://localhost:8443";
-        URI uri = NetUtils.resolveAddress(new URI(url));
-        Assertions.assertEquals("https://127.0.0.1:8443", uri.toString());
+        URI uri = NetUtils.resolveAddress(new URI("https://localhost:8443/index"));
+        Assertions.assertEquals("https://127.0.0.1:8443/index", uri.toString());
     }
 }

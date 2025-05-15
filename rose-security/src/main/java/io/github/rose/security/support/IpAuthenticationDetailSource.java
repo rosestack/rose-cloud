@@ -28,7 +28,7 @@ public class IpAuthenticationDetailSource
 
     @Override
     public RestAuthenticationDetail buildDetails(HttpServletRequest request) {
-        return new RestAuthenticationDetail(WebUtils.getClientIp(request), NetUtils.getLocalIp());
+        return new RestAuthenticationDetail(WebUtils.getClientIp(request), NetUtils.getLocalAddress());
     }
 
     public static class RestAuthenticationDetail implements Serializable {

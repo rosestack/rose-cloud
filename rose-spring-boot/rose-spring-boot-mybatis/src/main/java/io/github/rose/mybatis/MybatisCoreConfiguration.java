@@ -54,7 +54,7 @@ public class MybatisCoreConfiguration {
     @Bean
     public IdentifierGenerator idGenerator() {
         // 通过本地 生成 workerId 和 dataCenterId
-        return new DefaultIdentifierGenerator(NetUtils.getLocalAddress());
+        return new DefaultIdentifierGenerator(NetUtils.getLocalInetAddress());
     }
 
     @Bean
