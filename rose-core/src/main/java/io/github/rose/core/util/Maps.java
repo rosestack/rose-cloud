@@ -5,8 +5,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class Maps {
-    public static final float MIN_LOAD_FACTOR = 0.75f;
-
     public static Map of() {
         return Collections.unmodifiableMap(new ConcurrentHashMap());
     }
@@ -24,7 +22,7 @@ public abstract class Maps {
         if (length % 2 != 0) {
             throw new IllegalArgumentException("Keys and values must be provided in pairs");
         }
-        Map map = new ConcurrentHashMap<>((length / 2) + 1, MIN_LOAD_FACTOR);
+        Map map = new ConcurrentHashMap<>((length / 2) + 1);
         for (int i = 0; i < length; i += 2) {
             Object key = values[i];
             Object value = values[i + 1];
