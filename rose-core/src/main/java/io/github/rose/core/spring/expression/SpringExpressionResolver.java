@@ -16,7 +16,7 @@
 package io.github.rose.core.spring.expression;
 
 import io.github.rose.core.spring.SpringContextHolder;
-import io.github.rose.core.util.date.TimeUtils;
+import io.github.rose.core.util.date.DateUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -117,12 +117,12 @@ public class SpringExpressionResolver implements Function<Object, Object> {
         evaluationContext.setVariable("randomString8", RandomStringUtils.randomAlphabetic(8));
         evaluationContext.setVariable("uuid", UUID.randomUUID().toString());
 
-        evaluationContext.setVariable("localStartWorkDay", TimeUtils.getStartWorkDay().toString());
-        evaluationContext.setVariable("localEndWorkDay", TimeUtils.getEndWorkDay().toString());
-        evaluationContext.setVariable("localStartDay", TimeUtils.getStartDay().toString());
-        evaluationContext.setVariable("localEndDay", TimeUtils.getEndDay().toString());
-        evaluationContext.setVariable("localDateTime", TimeUtils.getLocalDateTime().toString());
-        evaluationContext.setVariable("localDateTimeUtc", TimeUtils.getLocalDateTimeUTC().toString());
+        evaluationContext.setVariable("localStartWorkDay", DateUtils.getStartWorkDay().toString());
+        evaluationContext.setVariable("localEndWorkDay", DateUtils.getEndWorkDay().toString());
+        evaluationContext.setVariable("localStartDay", DateUtils.getStartDay().toString());
+        evaluationContext.setVariable("localEndDay", DateUtils.getEndDay().toString());
+        evaluationContext.setVariable("localDateTime", DateUtils.getLocalDateTime().toString());
+        evaluationContext.setVariable("localDateTimeUtc", DateUtils.getLocalDateTimeUTC().toString());
         evaluationContext.setVariable("localDate", LocalDate.now(ZoneId.systemDefault()).toString());
         evaluationContext.setVariable("localDateUtc", LocalDate.now(Clock.systemUTC()).toString());
         evaluationContext.setVariable("zonedDateTime", ZonedDateTime.now(ZoneId.systemDefault()).toString());

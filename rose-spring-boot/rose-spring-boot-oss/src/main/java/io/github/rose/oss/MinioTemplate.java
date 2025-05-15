@@ -16,7 +16,7 @@
 package io.github.rose.oss;
 
 import io.github.rose.core.util.StringPool;
-import io.github.rose.core.util.date.TimeUtils;
+import io.github.rose.core.util.date.DateUtils;
 import io.github.rose.oss.enums.PolicyType;
 import io.github.rose.oss.model.BladeFile;
 import io.github.rose.oss.model.OssFile;
@@ -27,6 +27,9 @@ import io.minio.errors.*;
 import io.minio.http.Method;
 import io.minio.messages.Bucket;
 import io.minio.messages.DeleteObject;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.InvalidKeyException;
@@ -34,8 +37,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * MinIOTemplate
@@ -167,14 +168,14 @@ public class MinioTemplate implements OssTemplate {
     public void makeBucket(String bucketName) {
         try {
             if (!client.bucketExists(
-                    BucketExistsArgs.builder().bucket(getBucketName(bucketName)).build())) {
+                BucketExistsArgs.builder().bucket(getBucketName(bucketName)).build())) {
                 client.makeBucket(MakeBucketArgs.builder()
-                        .bucket(getBucketName(bucketName))
-                        .build());
+                    .bucket(getBucketName(bucketName))
+                    .build());
                 client.setBucketPolicy(SetBucketPolicyArgs.builder()
-                        .bucket(getBucketName(bucketName))
-                        .config(getPolicyType(getBucketName(bucketName), PolicyType.READ))
-                        .build());
+                    .bucket(getBucketName(bucketName))
+                    .config(getPolicyType(getBucketName(bucketName), PolicyType.READ))
+                    .build());
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -189,8 +190,8 @@ public class MinioTemplate implements OssTemplate {
         Optional<Bucket> bucketOptional = null;
         try {
             bucketOptional = client.listBuckets().stream()
-                    .filter(bucket -> bucket.name().equals(getBucketName(bucketName)))
-                    .findFirst();
+                .filter(bucket -> bucket.name().equals(getBucketName(bucketName)))
+                .findFirst();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -209,7 +210,7 @@ public class MinioTemplate implements OssTemplate {
     public void removeBucket(String bucketName) {
         try {
             client.removeBucket(
-                    RemoveBucketArgs.builder().bucket(getBucketName(bucketName)).build());
+                RemoveBucketArgs.builder().bucket(getBucketName(bucketName)).build());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -219,7 +220,7 @@ public class MinioTemplate implements OssTemplate {
     public boolean bucketExists(String bucketName) {
         try {
             return client.bucketExists(
-                    BucketExistsArgs.builder().bucket(getBucketName(bucketName)).build());
+                BucketExistsArgs.builder().bucket(getBucketName(bucketName)).build());
         } catch (ErrorResponseException e) {
             throw new RuntimeException(e);
         } catch (InsufficientDataException e) {
@@ -250,13 +251,13 @@ public class MinioTemplate implements OssTemplate {
     public void copyFile(String bucketName, String fileName, String destBucketName, String destFileName) {
         try {
             client.copyObject(CopyObjectArgs.builder()
-                    .source(CopySource.builder()
-                            .bucket(getBucketName(bucketName))
-                            .object(fileName)
-                            .build())
-                    .bucket(getBucketName(destBucketName))
-                    .object(destFileName)
-                    .build());
+                .source(CopySource.builder()
+                    .bucket(getBucketName(bucketName))
+                    .object(fileName)
+                    .build())
+                .bucket(getBucketName(destBucketName))
+                .object(destFileName)
+                .build());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -272,9 +273,9 @@ public class MinioTemplate implements OssTemplate {
         StatObjectResponse stat = null;
         try {
             stat = client.statObject(StatObjectArgs.builder()
-                    .bucket(getBucketName(bucketName))
-                    .object(fileName)
-                    .build());
+                .bucket(getBucketName(bucketName))
+                .object(fileName)
+                .build());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -283,7 +284,7 @@ public class MinioTemplate implements OssTemplate {
         ossFile.setLink(fileLink(ossFile.getName()));
         ossFile.setHash(String.valueOf(stat.hashCode()));
         ossFile.setLength(stat.size());
-        ossFile.setPutTime(TimeUtils.toDate(stat.lastModified().toLocalDateTime()));
+        ossFile.setPutTime(DateUtils.toDate(stat.lastModified().toLocalDateTime()));
         ossFile.setContentType(stat.contentType());
         return ossFile;
     }
@@ -301,19 +302,19 @@ public class MinioTemplate implements OssTemplate {
     @Override
     public String fileLink(String fileName) {
         return getEndpoint()
-                .concat(StringPool.SLASH)
-                .concat(getBucketName())
-                .concat(StringPool.SLASH)
-                .concat(fileName);
+            .concat(StringPool.SLASH)
+            .concat(getBucketName())
+            .concat(StringPool.SLASH)
+            .concat(fileName);
     }
 
     @Override
     public String fileLink(String bucketName, String fileName) {
         return getEndpoint()
-                .concat(StringPool.SLASH)
-                .concat(getBucketName(bucketName))
-                .concat(StringPool.SLASH)
-                .concat(fileName);
+            .concat(StringPool.SLASH)
+            .concat(getBucketName(bucketName))
+            .concat(StringPool.SLASH)
+            .concat(fileName);
     }
 
     @Override
@@ -351,9 +352,9 @@ public class MinioTemplate implements OssTemplate {
         fileName = getFileName(fileName);
         try {
             client.putObject(PutObjectArgs.builder().bucket(getBucketName(bucketName)).object(fileName).stream(
-                            stream, stream.available(), -1)
-                    .contentType(contentType)
-                    .build());
+                    stream, stream.available(), -1)
+                .contentType(contentType)
+                .build());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -374,9 +375,9 @@ public class MinioTemplate implements OssTemplate {
     public void removeFile(String bucketName, String fileName) {
         try {
             client.removeObject(RemoveObjectArgs.builder()
-                    .bucket(getBucketName(bucketName))
-                    .object(fileName)
-                    .build());
+                .bucket(getBucketName(bucketName))
+                .object(fileName)
+                .build());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -391,9 +392,9 @@ public class MinioTemplate implements OssTemplate {
     public void removeFiles(String bucketName, List<String> fileNames) {
         Stream<DeleteObject> stream = fileNames.stream().map(DeleteObject::new);
         client.removeObjects(RemoveObjectsArgs.builder()
-                .bucket(getBucketName(bucketName))
-                .objects(stream::iterator)
-                .build());
+            .bucket(getBucketName(bucketName))
+            .objects(stream::iterator)
+            .build());
     }
 
     /**
@@ -436,11 +437,11 @@ public class MinioTemplate implements OssTemplate {
     public String getPresignedObjectUrl(String bucketName, String fileName, Integer expires) {
         try {
             return client.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
-                    .method(Method.GET)
-                    .bucket(getBucketName(bucketName))
-                    .object(fileName)
-                    .expiry(expires)
-                    .build());
+                .method(Method.GET)
+                .bucket(getBucketName(bucketName))
+                .object(fileName)
+                .expiry(expires)
+                .build());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

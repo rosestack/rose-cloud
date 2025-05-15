@@ -26,15 +26,11 @@ import java.util.*;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-public class TimeUtils {
+public class DateUtils {
     private static final ZoneId zoneId = ZoneId.systemDefault();
 
     public static String format(final LocalDate localDate, String datePattern) {
         return localDate.format(DateTimeFormatter.ofPattern(datePattern, Locale.CHINA));
-    }
-
-    public static String format(final LocalDateTime localDateTime, String datePattern) {
-        return localDateTime.format(DateTimeFormatter.ofPattern(datePattern, Locale.CHINA));
     }
 
     /**
@@ -76,9 +72,6 @@ public class TimeUtils {
         return localDateTime.atZone(zoneId).toInstant().getEpochSecond();
     }
 
-    /**
-     * Converts local date to epoh milliseconds assuming start of the day as date point.
-     */
     public static long toMilliseconds(final LocalDate localDate) {
         return toMilliseconds(localDate.atStartOfDay());
     }
@@ -160,6 +153,4 @@ public class TimeUtils {
     public static LocalDate getLastDayOfYear(LocalDate localDate) {
         return localDate.with(TemporalAdjusters.lastDayOfYear());
     }
-
-
 }

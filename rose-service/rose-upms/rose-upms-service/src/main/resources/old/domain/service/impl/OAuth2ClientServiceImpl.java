@@ -20,7 +20,6 @@ import cc.chensoul.rose.upms.old.domain.service.OAuth2ClientService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import io.github.rose.core.CacheConstants;
 import io.github.rose.core.exception.BusinessException;
 import io.github.rose.upms.domain.app.OAuth2Client;
 import lombok.RequiredArgsConstructor;

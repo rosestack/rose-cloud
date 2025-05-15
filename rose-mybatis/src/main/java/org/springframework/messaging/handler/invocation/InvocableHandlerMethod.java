@@ -32,7 +32,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
-import static io.github.rose.core.CommonConstants.HEADER_TENANT_ID;
+import static io.github.rose.core.util.Constants.HEADER_TENANT_ID;
 
 /**
  * Extension of {@link org.springframework.messaging.handler.HandlerMethod} that invokes

@@ -30,11 +30,12 @@ import io.github.rose.mybatis.extension.interceptor.DefaultMetaObjectHandler;
 import io.github.rose.mybatis.mq.rabbitmq.TenantRabbitMQInitializer;
 import io.github.rose.mybatis.mq.redis.TenantRedisMessageInterceptor;
 import io.github.rose.mybatis.mq.rocketmq.TenantRocketMQInitializer;
-import java.util.concurrent.TimeUnit;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -47,13 +48,13 @@ public class MybatisCoreConfiguration {
     static {
         // 动态 SQL 智能优化支持本地缓存加速解析，更完善的租户复杂 XML 动态 SQL 支持，静态注入缓存
         JsqlParserGlobal.setJsqlParseCache(new JdkSerialCaffeineJsqlParseCache(
-                (cache) -> cache.maximumSize(1024).expireAfterWrite(5, TimeUnit.SECONDS)));
+            (cache) -> cache.maximumSize(1024).expireAfterWrite(5, TimeUnit.SECONDS)));
     }
 
     @Bean
     public IdentifierGenerator idGenerator() {
         // 通过本地 生成 workerId 和 dataCenterId
-        return new DefaultIdentifierGenerator(NetUtils.getLocalhost());
+        return new DefaultIdentifierGenerator(NetUtils.getLocalAddress());
     }
 
     @Bean

@@ -17,10 +17,10 @@ package io.github.rose.feign.core;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import io.github.rose.core.SecurityConstants;
 import io.github.rose.feign.annotation.NoToken;
-import java.lang.reflect.Method;
 import org.springframework.core.Ordered;
+
+import java.lang.reflect.Method;
 
 public class FeignInnerRequestInterceptor implements RequestInterceptor, Ordered {
 

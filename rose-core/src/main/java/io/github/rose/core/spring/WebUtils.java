@@ -72,13 +72,13 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         String ip;
         for (String header : headers) {
             ip = request.getHeader(header);
-            if (!NetUtils.isUnknown(ip)) {
-                return NetUtils.getMultistageReverseProxyIp(ip);
+            if (NetUtils.isValidLocalhost(ip)) {
+                return ip;
             }
         }
 
         ip = request.getRemoteHost();
-        return NetUtils.getMultistageReverseProxyIp(ip);
+        return ip;
     }
 
     public static String getValue(String headerName) {

@@ -16,7 +16,7 @@
 package io.github.rose.filter;
 
 import io.github.rose.core.util.date.DatePattern;
-import io.github.rose.core.util.date.TimeUtils;
+import io.github.rose.core.util.date.DateUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,7 +76,7 @@ public class CustomRequestLoggingFilter extends CommonsRequestLoggingFilter {
 
             if (cost >= this.maxResponseTimeToLogInMs) {
                 String execTime =
-                    TimeUtils.format(TimeUtils.fromMilliseconds(startTime), DatePattern.NORM_DATETIME_MS_PATTERN);
+                    DateUtils.format(DateUtils.fromMilliseconds(startTime), DatePattern.NORM_DATETIME_MS_PATTERN);
                 log.warn("[SLOW_REQUEST] {} {} {} {}", execTime, request.getMethod(), request.getRequestURI(), cost);
             }
         }

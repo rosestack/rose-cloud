@@ -51,7 +51,7 @@ public class SysLogUtils {
         SysLogInfo sysLogInfo = new SysLogInfo();
         sysLogInfo.setName(getSysLogValue(joinPoint, sysLog));
         sysLogInfo.setSuccess(true);
-        sysLogInfo.setServerIp(NetUtils.getLocalhostStr());
+        sysLogInfo.setServerIp(NetUtils.getLocalIp());
         sysLogInfo.setCreatedBy(WebUtils.getUsername());
         sysLogInfo.setCreateTime(LocalDateTime.now(ZoneId.systemDefault()));
 

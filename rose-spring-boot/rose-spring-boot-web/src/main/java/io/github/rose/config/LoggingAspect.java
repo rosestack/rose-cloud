@@ -28,7 +28,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Profile;
 
-import static io.github.rose.core.CommonConstants.PROFILE_NOT_PROD;
+import static io.github.rose.core.util.Constants.PROFILE_NOT_PROD;
 
 /**
  * Aspect for logging execution of util and repository Spring components.

@@ -18,54 +18,53 @@ package io.github.rose.core.util;
 /**
  * char 常量池
  */
-public interface CharPool {
-
+public abstract class CharPool {
     // @formatter:off
-    char UPPER_A = 'A';
-    char LOWER_A = 'a';
-    char UPPER_Z = 'Z';
-    char LOWER_Z = 'z';
-    char DOT = '.';
-    char AT = '@';
-    char LEFT_BRACE = '{';
-    char RIGHT_BRACE = '}';
-    char LEFT_BRACKET = '(';
-    char RIGHT_BRACKET = ')';
-    char DASH = '-';
-    char PERCENT = '%';
-    char PIPE = '|';
-    char PLUS = '+';
-    char QUESTION_MARK = '?';
-    char EXCLAMATION_MARK = '!';
-    char EQUALS = '=';
-    char AMPERSAND = '&';
-    char ASTERISK = '*';
-    char STAR = ASTERISK;
-    char BACK_SLASH = '\\';
-    char COLON = ':';
-    char COMMA = ',';
-    char DOLLAR = '$';
-    char SLASH = '/';
-    char HASH = '#';
-    char HAT = '^';
-    char LEFT_CHEV = '<';
-    char NEWLINE = '\n';
-    char N = 'n';
-    char Y = 'y';
-    char QUOTE = '\"';
-    char RETURN = '\r';
-    char TAB = '\t';
-    char RIGHT_CHEV = '>';
-    char SEMICOLON = ';';
-    char SINGLE_QUOTE = '\'';
-    char BACKTICK = '`';
-    char SPACE = ' ';
-    char TILDA = '~';
-    char LEFT_SQ_BRACKET = '[';
-    char RIGHT_SQ_BRACKET = ']';
-    char UNDERSCORE = '_';
-    char ONE = '1';
-    char ZERO = '0';
+    public static final char UPPER_A = 'A';
+    public static final char LOWER_A = 'a';
+    public static final char UPPER_Z = 'Z';
+    public static final char LOWER_Z = 'z';
+    public static final char DOT = '.';
+    public static final char AT = '@';
+    public static final char LEFT_BRACE = '{';
+    public static final char RIGHT_BRACE = '}';
+    public static final char LEFT_BRACKET = '(';
+    public static final char RIGHT_BRACKET = ')';
+    public static final char DASH = '-';
+    public static final char PERCENT = '%';
+    public static final char PIPE = '|';
+    public static final char PLUS = '+';
+    public static final char QUESTION_MARK = '?';
+    public static final char EXCLAMATION_MARK = '!';
+    public static final char EQUALS = '=';
+    public static final char AMPERSAND = '&';
+    public static final char ASTERISK = '*';
+    public static final char STAR = ASTERISK;
+    public static final char BACK_SLASH = '\\';
+    public static final char COLON = ':';
+    public static final char COMMA = ',';
+    public static final char DOLLAR = '$';
+    public static final char SLASH = '/';
+    public static final char HASH = '#';
+    public static final char HAT = '^';
+    public static final char LEFT_CHEV = '<';
+    public static final char NEWLINE = '\n';
+    public static final char NUL = '\0';
+    public static final char N = 'n';
+    public static final char Y = 'y';
+    public static final char QUOTE = '\"';
+    public static final char RETURN = '\r';
+    public static final char TAB = '\t';
+    public static final char RIGHT_CHEV = '>';
+    public static final char SEMICOLON = ';';
+    public static final char SINGLE_QUOTE = '\'';
+    public static final char BACKTICK = '`';
+    public static final char SPACE = ' ';
+    public static final char TILDA = '~';
+    public static final char LEFT_SQ_BRACKET = '[';
+    public static final char RIGHT_SQ_BRACKET = ']';
+    public static final char UNDERSCORE = '_';
+    public static final char ONE = '1';
+    public static final char ZERO = '0';
     // @formatter:on
-
 }

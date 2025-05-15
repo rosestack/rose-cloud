@@ -15,13 +15,13 @@
  */
 package io.github.rose.core.util;
 
-import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.net.*;
 import java.util.Enumeration;
-import java.util.LinkedHashSet;
-import java.util.function.Predicate;
-import java.util.regex.Matcher;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -31,273 +31,48 @@ import java.util.regex.Pattern;
  * @since 0.0.1
  */
 public class NetUtils {
-    public static final String LOCAL_HOST = "localhost";
+    public static final String ANY_HOST = "0.0.0.0";
+    public static final String LOCALHOST = "localhost";
     public static final String LOCAL_IP4 = "127.0.0.1";
-    public static final String LOCAL_IP6 = "0:0:0:0:0:0:0:1";
-    public static final String DEFAULT_MASK = "255.255.255.0";
-    public static final int INT_VALUE_127_0_0_1 = 0x7f000001;
-    private static final Pattern ip4RegExp = Pattern.compile("^((?:1?[1-9]?\\d|2(?:[0-4]\\d|5[0-5]))\\.){4}$");
-    private static final InetAddress LOCAL_ADDRESS;
-    private static final String LOCAL_HOSTNAME;
+    private static final Logger log = LoggerFactory.getLogger(NetUtils.class);
+    private static final Pattern LOCAL_IP_PATTERN = Pattern.compile("127(\\.\\d{1,3}){3}$");
+    private static final Pattern IP_PATTERN = Pattern.compile("\\d{1,3}(\\.\\d{1,3}){3,5}$");
+    private static InetAddress LOCAL_ADDRESS;
+    private static String LOCALHOST_NAME;
 
-    static {
-        LOCAL_ADDRESS = getLocalAddress();
-        LOCAL_HOSTNAME = getLocalHostName(LOCAL_ADDRESS);
+    public static boolean isInvalidLocalhost(String host) {
+        return host == null || host.length() == 0 || host.equalsIgnoreCase(LOCALHOST) || host.equals(ANY_HOST)
+            || (LOCAL_IP_PATTERN.matcher(host).matches());
     }
 
-    public static boolean isUnknown(String ipAddress) {
-        return StringUtils.isBlank(ipAddress) || StringPool.UNKNOWN.equalsIgnoreCase(ipAddress);
+    public static String getLocalIp() {
+        return LOCAL_ADDRESS.getHostAddress();
     }
 
-    public static String getMultistageReverseProxyIp(String ip) {
-        if (ip != null && ip.indexOf(StringPool.COMMA) > 0) {
-            String[] ips = ip.trim().split(StringPool.COMMA);
-            for (String subIp : ips) {
-                if (!isUnknown(subIp)) {
-                    ip = subIp;
-                    break;
-                }
-            }
-        }
-        return LOCAL_IP6.equals(ip) ? LOCAL_IP4 : ip;
-    }
-
-    public static boolean isInternalIp(String ip) {
-        byte[] addr = textToNumericFormatV4(ip);
-        return isInternalIp(addr) || LOCAL_IP4.equals(ip);
-    }
-
-    private static boolean isInternalIp(byte[] addr) {
-        final byte b0 = addr[0];
-        final byte b1 = addr[1];
-        // 10.x.x.x/8
-        final byte SECTION_1 = 0x0A;
-        // 172.16.x.x/12
-        final byte SECTION_2 = (byte) 0xAC;
-        final byte SECTION_3 = (byte) 0x10;
-        final byte SECTION_4 = (byte) 0x1F;
-        // 192.168.x.x/16
-        final byte SECTION_5 = (byte) 0xC0;
-        final byte SECTION_6 = (byte) 0xA8;
-        switch (b0) {
-            case SECTION_1:
-                return Boolean.TRUE;
-            case SECTION_2:
-                if (b1 >= SECTION_3 && b1 <= SECTION_4) {
-                    return Boolean.TRUE;
-                }
-            case SECTION_5:
-                switch (b1) {
-                    case SECTION_6:
-                        return Boolean.TRUE;
-                }
-            default:
-                return Boolean.FALSE;
-        }
-    }
-
-    public static byte[] textToNumericFormatV4(String text) {
-        if (text.length() == 0) {
-            return null;
+    public static String getLocalhostName() {
+        if (LOCALHOST_NAME != null) {
+            return LOCALHOST_NAME;
         }
 
-        byte[] bytes = new byte[4];
-        String[] elements = text.split("\\.", -1);
         try {
-            long l;
-            int i;
-            switch (elements.length) {
-                case 1:
-                    l = Long.parseLong(elements[0]);
-                    if ((l < 0L) || (l > 4294967295L)) return null;
-                    bytes[0] = (byte) (int) (l >> 24 & 0xFF);
-                    bytes[1] = (byte) (int) ((l & 0xFFFFFF) >> 16 & 0xFF);
-                    bytes[2] = (byte) (int) ((l & 0xFFFF) >> 8 & 0xFF);
-                    bytes[3] = (byte) (int) (l & 0xFF);
-                    break;
-                case 2:
-                    l = Integer.parseInt(elements[0]);
-                    if ((l < 0L) || (l > 255L)) return null;
-                    bytes[0] = (byte) (int) (l & 0xFF);
-                    l = Integer.parseInt(elements[1]);
-                    if ((l < 0L) || (l > 16777215L)) return null;
-                    bytes[1] = (byte) (int) (l >> 16 & 0xFF);
-                    bytes[2] = (byte) (int) ((l & 0xFFFF) >> 8 & 0xFF);
-                    bytes[3] = (byte) (int) (l & 0xFF);
-                    break;
-                case 3:
-                    for (i = 0; i < 2; ++i) {
-                        l = Integer.parseInt(elements[i]);
-                        if ((l < 0L) || (l > 255L)) return null;
-                        bytes[i] = (byte) (int) (l & 0xFF);
-                    }
-                    l = Integer.parseInt(elements[2]);
-                    if ((l < 0L) || (l > 65535L)) return null;
-                    bytes[2] = (byte) (int) (l >> 8 & 0xFF);
-                    bytes[3] = (byte) (int) (l & 0xFF);
-                    break;
-                case 4:
-                    for (i = 0; i < 4; ++i) {
-                        l = Integer.parseInt(elements[i]);
-                        if ((l < 0L) || (l > 255L)) return null;
-                        bytes[i] = (byte) (int) (l & 0xFF);
-                    }
-                    break;
-                default:
-                    return null;
-            }
-        } catch (NumberFormatException e) {
-            return null;
+            InetAddress localHost = InetAddress.getLocalHost();
+            LOCALHOST_NAME = localHost.getHostName();
+        } catch (UnknownHostException e) {
+            LOCALHOST_NAME = LOCALHOST;
         }
-        return bytes;
+        return LOCALHOST_NAME;
     }
 
-    /**
-     * Resolves IP address from a hostname.
-     */
-    public static String resolveIpAddress(final String hostname) {
-        try {
-            final InetAddress netAddress;
-
-            if (hostname == null || hostname.equalsIgnoreCase(LOCAL_HOST)) {
-                netAddress = InetAddress.getLocalHost();
-            } else {
-                netAddress = Inet4Address.getByName(hostname);
-            }
-            return netAddress.getHostAddress();
-        } catch (final UnknownHostException ignore) {
-            return null;
-        }
-    }
-
-    /**
-     * Returns IP address as integer.
-     */
-    public static int getIpAsInt(final String ipAddress) {
-        int ipIntValue = 0;
-        final String[] tokens = StringUtils.split(ipAddress, StringPool.DOT);
-        for (final String token : tokens) {
-            if (ipIntValue > 0) {
-                ipIntValue <<= 8;
-            }
-            ipIntValue += Integer.parseInt(token);
-        }
-        return ipIntValue;
-    }
-
-    public static int getMaskAsInt(String mask) {
-        if (!validateIPv4(mask)) {
-            mask = DEFAULT_MASK;
-        }
-        return getIpAsInt(mask);
-    }
-
-    public static boolean isSocketAccessAllowed(final int localIp, final int socketIp, final int mask) {
-        return socketIp == INT_VALUE_127_0_0_1 || (localIp & mask) == (socketIp & mask);
-    }
-
-    public static boolean validateIPv4(final String input) {
-        final Matcher m = ip4RegExp.matcher(input + '.');
-        return m.matches();
-    }
-
-    public static LinkedHashSet<InetAddress> localAddressList(Predicate<InetAddress> addressFilter) {
-        final LinkedHashSet<InetAddress> result = new LinkedHashSet<>();
-
-        Enumeration<NetworkInterface> networkInterfaces;
-        try {
-            networkInterfaces = NetworkInterface.getNetworkInterfaces();
-        } catch (SocketException e) {
-            return result;
+    public static InetAddress getLocalAddress(Map<String, Integer> destHostPorts) {
+        if (LOCAL_ADDRESS != null) {
+            return LOCAL_ADDRESS;
         }
 
-        if (networkInterfaces == null) {
-            return result;
+        InetAddress localAddress = findFirstNonLoopbackAddress();
+        if (!isValidAddress(localAddress)) {
+            localAddress = getLocalAddressBySocket(destHostPorts);
         }
 
-        while (networkInterfaces.hasMoreElements()) {
-            final Enumeration<InetAddress> inetAddresses = networkInterfaces.nextElement().getInetAddresses();
-            while (inetAddresses.hasMoreElements()) {
-                InetAddress inetAddress = inetAddresses.nextElement();
-                if (inetAddress != null && (null == addressFilter || addressFilter.test(inetAddress))) {
-                    result.add(inetAddress);
-                }
-            }
-        }
-        return result;
-    }
-
-    public static String getLocalhostStr() {
-        InetAddress localhost = getLocalhost();
-        if (null != localhost) {
-            return localhost.getHostAddress();
-        }
-        return null;
-    }
-
-    public static InetAddress getLocalhost() {
-        return LOCAL_ADDRESS;
-    }
-
-    public static String getLocalMacAddress() {
-        return getMacAddress(getLocalhost());
-    }
-
-    public static String getMacAddress(InetAddress inetAddress) {
-        return getMacAddress(inetAddress, "-");
-    }
-
-    public static String getMacAddress(InetAddress inetAddress, String separator) {
-        if (null == inetAddress) {
-            return null;
-        }
-
-        byte[] mac = null;
-        try {
-            final NetworkInterface networkInterface = NetworkInterface.getByInetAddress(inetAddress);
-            if (null != networkInterface) {
-                mac = networkInterface.getHardwareAddress();
-            }
-        } catch (SocketException e) {
-            throw new RuntimeException("获取MAC地址失败", e);
-        }
-        if (null != mac) {
-            final StringBuilder sb = new StringBuilder();
-            String s;
-            for (int i = 0; i < mac.length; i++) {
-                if (i != 0) {
-                    sb.append(separator);
-                }
-                // 字节转换为整数
-                s = Integer.toHexString(mac[i] & 0xFF);
-                sb.append(s.length() == 1 ? 0 + s : s);
-            }
-            return sb.toString();
-        }
-
-        return null;
-    }
-
-    public static String getLocalHostName() {
-        return LOCAL_HOSTNAME;
-    }
-
-    private static String getLocalHostName(InetAddress inetAddress) {
-        if (null == inetAddress) {
-            return null;
-        }
-        return StringUtils.defaultIfBlank(inetAddress.getHostName(), inetAddress.getHostAddress());
-    }
-
-    private static InetAddress getLocalAddress() {
-        InetAddress localAddress = null;
-        final LinkedHashSet<InetAddress> localAddressList = localAddressList(address -> address.isSiteLocalAddress()
-            && !address.isLoopbackAddress()
-            && !address.getHostAddress().contains(":"));
-
-        if (localAddressList != null && localAddressList.size() > 0) {
-            localAddress = localAddressList.iterator().next();
-        }
         if (localAddress == null) {
             try {
                 localAddress = InetAddress.getLocalHost();
@@ -306,6 +81,143 @@ public class NetUtils {
             }
         }
 
+        LOCAL_ADDRESS = localAddress;
         return localAddress;
+    }
+
+    private static InetAddress getLocalAddressBySocket(Map<String, Integer> destHostPorts) {
+        if (destHostPorts == null || destHostPorts.size() == 0) {
+            return null;
+        }
+
+        for (Map.Entry<String, Integer> entry : destHostPorts.entrySet()) {
+            String host = entry.getKey();
+            int port = entry.getValue();
+            try {
+                Socket socket = new Socket();
+                try {
+                    SocketAddress socketAddress = new InetSocketAddress(host, port);
+                    socket.connect(socketAddress, 1000);
+                    return socket.getLocalAddress();
+                } finally {
+                    try {
+                        socket.close();
+                    } catch (Throwable e) {
+                    }
+                }
+            } catch (Exception e) {
+                log.error("Failed to retrieve local address by connecting to dest host:port({}:{}) false, e={}", host, port, e);
+            }
+        }
+        return null;
+    }
+
+    private static InetAddress findFirstNonLoopbackAddress() {
+        InetAddress result = null;
+
+        try {
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            int lowest = Integer.MAX_VALUE;
+
+            while (interfaces.hasMoreElements()) {
+                NetworkInterface network = interfaces.nextElement();
+                if (network.isUp() && (network.getIndex() < lowest || result == null)) {
+                    lowest = network.getIndex();
+                    Enumeration<InetAddress> addresses = network.getInetAddresses();
+                    while (addresses.hasMoreElements()) {
+                        InetAddress address = addresses.nextElement();
+                        if (isValidAddress(address)) {
+                            result = address;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            //ignore
+        }
+        return result;
+    }
+
+    public static boolean isValidLocalhost(String host) {
+        return !isInvalidLocalhost(host);
+    }
+
+    public static InetAddress getLocalAddress() {
+        return getLocalAddress(null);
+    }
+
+    public static boolean isValidAddress(InetAddress address) {
+        if (address == null || address.isLoopbackAddress() || address instanceof Inet6Address) {
+            return false;
+        }
+        String name = address.getHostAddress();
+        return (name != null && !ANY_HOST.equals(name) && !LOCAL_IP4.equals(name) && IP_PATTERN.matcher(name).matches());
+    }
+
+    //return ip to avoid lookup dns
+    public static String getHostName(SocketAddress socketAddress) {
+        if (socketAddress == null) {
+            return null;
+        }
+
+        if (socketAddress instanceof InetSocketAddress) {
+            InetAddress inetAddress = ((InetSocketAddress) socketAddress).getAddress();
+            if (inetAddress != null) {
+                return inetAddress.getHostAddress();
+            }
+        }
+
+        return null;
+    }
+
+    public static String getLocalAddressByDatagram() {
+        try (final DatagramSocket socket = new DatagramSocket()) {
+            socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
+            return socket.getLocalAddress().getHostAddress();
+        } catch (Exception e) {
+            log.error("Failed to retrieving ip address.", e);
+        }
+        return null;
+    }
+
+    public static int getAvailablePort() {
+        for (int i = 0; i < 50; i++) {
+            try (ServerSocket serverSocket = new ServerSocket(0)) {
+                int port = serverSocket.getLocalPort();
+                if (port != 0) {
+                    return port;
+                }
+            } catch (IOException ignored) {
+            }
+        }
+
+        throw new RuntimeException("Could not find a free permitted port on the machine.");
+    }
+
+    public static String resolveHost2Address(String fqdn) {
+        String ip = null;
+        try {
+            InetAddress address = InetAddress.getByName(fqdn);
+            ip = address.getHostAddress();
+        } catch (UnknownHostException e) {
+            log.error("UnknownHostException " + fqdn, e);
+        }
+        return ip;
+    }
+
+    public static URI resolveUriHost2Address(URI uri) {
+        // convert the uri to URL.
+        try {
+            URL url = uri.toURL();
+            String host = url.getHost();
+            String ip = resolveHost2Address(host);
+            if (ip != null) {
+                url = new URL(url.getProtocol(), ip, url.getPort(), url.getFile());
+                uri = url.toURI();
+            }
+        } catch (MalformedURLException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+        return uri;
     }
 }

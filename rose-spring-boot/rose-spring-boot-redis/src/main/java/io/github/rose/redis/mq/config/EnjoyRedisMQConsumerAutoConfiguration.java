@@ -66,7 +66,7 @@ public class EnjoyRedisMQConsumerAutoConfiguration {
     private static String buildConsumerName() {
         return String.format(Locale.getDefault(),
             "%s@%d",
-            NetUtils.getLocalhostStr(),
+            NetUtils.getLocalIp(),
             Long.parseLong(getRuntimeMXBean().getName().split("@")[0]));
     }
 

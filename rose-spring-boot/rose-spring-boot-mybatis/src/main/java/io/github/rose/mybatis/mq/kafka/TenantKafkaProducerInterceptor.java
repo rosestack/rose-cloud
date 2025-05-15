@@ -25,7 +25,7 @@ import org.springframework.messaging.handler.invocation.InvocableHandlerMethod;
 import java.nio.charset.Charset;
 import java.util.Map;
 
-import static io.github.rose.core.CommonConstants.HEADER_TENANT_ID;
+import static io.github.rose.core.util.Constants.HEADER_TENANT_ID;
 
 /**
  * Kafka 消息队列的多租户 {@link ProducerInterceptor} 实现类

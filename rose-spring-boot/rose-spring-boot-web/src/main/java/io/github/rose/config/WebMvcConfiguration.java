@@ -16,8 +16,8 @@
 package io.github.rose.config;
 
 import io.github.rose.boot.util.FilterUtils;
-import io.github.rose.core.CommonConstants;
 import io.github.rose.core.json.Java8TimeModule;
+import io.github.rose.core.util.Constants;
 import io.github.rose.core.util.date.DatePattern;
 import io.github.rose.filter.*;
 import org.slf4j.Logger;
@@ -40,7 +40,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import static io.github.rose.core.CommonConstants.*;
+import static io.github.rose.core.util.Constants.*;
 import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
 
 @Configuration
@@ -130,7 +130,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    @ConditionalOnProperty(value = CommonConstants.PROJECT_NAME + ".xss.enabled", havingValue = "true")
+    @ConditionalOnProperty(value = Constants.PROJECT_NAME + ".xss.enabled", havingValue = "true")
     public FilterRegistrationBean<XssFilter> xxsFilter() {
         return FilterUtils.createFilterBean(new XssFilter(xssProperties.getExcludeUrls()), XSS_FILTER);
     }

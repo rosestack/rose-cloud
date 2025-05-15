@@ -49,8 +49,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Objects;
 
-import static io.github.rose.core.CommonConstants.TENANT_CONTEXT_FILTER;
-import static io.github.rose.core.CommonConstants.TENANT_SECURITY_FILTER;
+import static io.github.rose.core.util.Constants.TENANT_CONTEXT_FILTER;
+import static io.github.rose.core.util.Constants.TENANT_SECURITY_FILTER;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
