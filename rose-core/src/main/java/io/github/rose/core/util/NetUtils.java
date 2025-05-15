@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
  * @since 0.0.1
  */
 public abstract class NetUtils {
-    public static final String ANY_HOST = "0.0.0.0";
+    public static final String ANY_IP4 = "0.0.0.0";
     public static final String LOCALHOST = "localhost";
     public static final String LOCAL_IP4 = "127.0.0.1";
     private static final Logger log = LoggerFactory.getLogger(NetUtils.class);
@@ -85,59 +85,6 @@ public abstract class NetUtils {
         return localAddress;
     }
 
-    private static InetAddress getLocalAddressBySocket(Map<String, Integer> destHostPorts) {
-        if (destHostPorts == null || destHostPorts.size() == 0) {
-            return null;
-        }
-
-        for (Map.Entry<String, Integer> entry : destHostPorts.entrySet()) {
-            String host = entry.getKey();
-            int port = entry.getValue();
-            try {
-                Socket socket = new Socket();
-                try {
-                    SocketAddress socketAddress = new InetSocketAddress(host, port);
-                    socket.connect(socketAddress, 1000);
-                    return socket.getLocalAddress();
-                } finally {
-                    try {
-                        socket.close();
-                    } catch (Throwable e) {
-                    }
-                }
-            } catch (Exception e) {
-                log.error("Failed to retrieve local address by connecting to dest host:port({}:{}) false, e={}", host, port, e);
-            }
-        }
-        return null;
-    }
-
-    private static InetAddress findFirstNonLoopbackAddress() {
-        InetAddress result = null;
-
-        try {
-            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-            int lowest = Integer.MAX_VALUE;
-
-            while (interfaces.hasMoreElements()) {
-                NetworkInterface network = interfaces.nextElement();
-                if (network.isUp() && (network.getIndex() < lowest || result == null)) {
-                    lowest = network.getIndex();
-                    Enumeration<InetAddress> addresses = network.getInetAddresses();
-                    while (addresses.hasMoreElements()) {
-                        InetAddress address = addresses.nextElement();
-                        if (!address.isLoopbackAddress() && address instanceof Inet4Address) {
-                            result = address;
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            //ignore
-        }
-        return result;
-    }
-
 
     public static InetAddress getLocalAddress() {
         return getLocalAddress(null);
@@ -147,7 +94,7 @@ public abstract class NetUtils {
         if (StringUtils.isBlank(ip)) {
             return false;
         }
-        return !ANY_HOST.equals(ip) && IP4_PATTERN.matcher(ip).matches();
+        return !ANY_IP4.equals(ip) && IP4_PATTERN.matcher(ip).matches();
     }
 
     public static boolean isValidAddress(InetAddress address) {
@@ -155,7 +102,7 @@ public abstract class NetUtils {
             return false;
         }
         String name = address.getHostAddress();
-        return (name != null && !ANY_HOST.equals(name) && !LOCAL_IP4.equals(name) && IP4_PATTERN.matcher(name).matches());
+        return (name != null && !ANY_IP4.equals(name) && !LOCAL_IP4.equals(name) && IP4_PATTERN.matcher(name).matches());
     }
 
     //return ip to avoid lookup dns
@@ -223,5 +170,58 @@ public abstract class NetUtils {
             throw new RuntimeException(e);
         }
         return uri;
+    }
+
+    private static InetAddress getLocalAddressBySocket(Map<String, Integer> destHostPorts) {
+        if (destHostPorts == null || destHostPorts.size() == 0) {
+            return null;
+        }
+
+        for (Map.Entry<String, Integer> entry : destHostPorts.entrySet()) {
+            String host = entry.getKey();
+            int port = entry.getValue();
+            try {
+                Socket socket = new Socket();
+                try {
+                    SocketAddress socketAddress = new InetSocketAddress(host, port);
+                    socket.connect(socketAddress, 1000);
+                    return socket.getLocalAddress();
+                } finally {
+                    try {
+                        socket.close();
+                    } catch (Throwable e) {
+                    }
+                }
+            } catch (Exception e) {
+                log.error("Failed to retrieve local address by connecting to dest host:port({}:{}) false, e={}", host, port, e);
+            }
+        }
+        return null;
+    }
+
+    private static InetAddress findFirstNonLoopbackAddress() {
+        InetAddress result = null;
+
+        try {
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            int lowest = Integer.MAX_VALUE;
+
+            while (interfaces.hasMoreElements()) {
+                NetworkInterface network = interfaces.nextElement();
+                if (network.isUp() && (network.getIndex() < lowest || result == null)) {
+                    lowest = network.getIndex();
+                    Enumeration<InetAddress> addresses = network.getInetAddresses();
+                    while (addresses.hasMoreElements()) {
+                        InetAddress address = addresses.nextElement();
+                        if (!address.isLoopbackAddress() && address instanceof Inet4Address) {
+                            result = address;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            //ignore
+        }
+        return result;
     }
 }
