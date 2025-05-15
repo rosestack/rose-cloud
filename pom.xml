@@ -79,7 +79,6 @@
     <module>rose-spring-boot</module>
     <module>rose-service/rose-gateway</module>
     <module>rose-service/rose-monitor</module>
-    <module>rose-service/rose-xxljob</module>
     <module>rose-service/rose-upms</module>
   </modules>
 
@@ -304,7 +303,6 @@
       <modules>
         <module>rose-service/rose-gateway</module>
         <module>rose-service/rose-monitor</module>
-        <module>rose-service/rose-xxljob</module>
         <module>rose-service/rose-upms/rose-upms-service</module>
       </modules>
       <properties>

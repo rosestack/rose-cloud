@@ -81,3 +81,7 @@ jobs:
 
       - name: sonar
         run: mvn sonar:sonar -Psonar -Dsonar.token=${{secrets.SONAR_TOKEN}}
+
+      - uses: codecov/codecov-action@v5
+        with:
+          files: "'*/jacoco.xml'"
