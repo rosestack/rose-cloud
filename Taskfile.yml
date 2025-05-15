@@ -26,9 +26,9 @@ tasks:
 
   build:
     cmds:
-      - "{{.MVN}} -pl rose-microservice/rose-upms spring-boot:build-image -DskipTests"
-      - "{{.MVN}} -pl rose-microservice/rose-monitor spring-boot:build-image -DskipTests"
-      - "{{.MVN}} -pl rose-microservice/rose-gateway spring-boot:build-image -DskipTests"
+      - "{{.MVN}} -pl rose/rose-upms spring-boot:build-image -DskipTests"
+      - "{{.MVN}} -pl rose/rose-monitor spring-boot:build-image -DskipTests"
+      - "{{.MVN}} -pl rose/rose-gateway spring-boot:build-image -DskipTests"
 
   start_infra:
     cmds:

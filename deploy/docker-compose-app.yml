@@ -1,7 +1,7 @@
 services:
   rose-monitor:
     build:
-      context: ./rose-microservice/rose-monitor
+      context: ./rose/rose-monitor
     restart: always
     image: chensoul/rose-monitor
     container_name: rose-monitor
@@ -10,7 +10,7 @@ services:
 
   rose-gateway:
     build:
-      context: ./rose-microservice/rose-gateway
+      context: ./rose/rose-gateway
     restart: always
     container_name: rose-gateway
     image: chensoul/rose-gateway
@@ -19,7 +19,7 @@ services:
 
   rose-auth:
     build:
-      context: ./rose-microservice/rose-auth
+      context: ./rose/rose-auth
     restart: always
     container_name: rose-auth
     image: chensoul/rose-auth
@@ -28,7 +28,7 @@ services:
 
   rose-upms:
     build:
-      context: ./rose-microservice/rose-upms/rose-upms-service
+      context: ./rose/rose-upms/rose-upms-service
     restart: always
     container_name: rose-upms
     image: chensoul/rose-upms-service

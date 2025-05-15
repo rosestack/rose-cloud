@@ -1,12 +1,12 @@
-[![Maven Build](https://github.com/rose-group/rose-microservice/actions/workflows/build.yml/badge.svg)](https://github.com/rose-group/rose-microservice/actions/workflows/build.yml)
-[![Maven](https://img.shields.io/maven-central/v/io.github.rose-group/rose-microservice.svg)](https://repo1.maven.org/maven2/io/github/rose-group/rose-microservice/)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=io.github.rose-group%3Arose-microservice&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=io.github.rose-group%3Arose-microservice)
-[![codecov.io](https://codecov.io/github/rose-group/rose-microservice/coverage.svg?branch=main)](https://codecov.io/github/rose-group/rose-microservice?branch=main)
-![License](https://img.shields.io/github/license/rose-group/rose-microservice.svg)
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/rose-group/rose-microservice.svg)](http://isitmaintained.com/project/rose-group/rose-microservice "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/rose-group/rose-microservice.svg)](http://isitmaintained.com/project/rose-group/rose-microservice "Percentage of issues still open")
+[![Maven Build](https://github.com/rose-group/rose/actions/workflows/build.yml/badge.svg)](https://github.com/rose-group/rose/actions/workflows/build.yml)
+[![Maven](https://img.shields.io/maven-central/v/io.github.rose-group/rose.svg)](https://repo1.maven.org/maven2/io/github/rose-group/rose/)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=io.github.rose-group%3Arose&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=io.github.rose-group%3Arose)
+[![codecov.io](https://codecov.io/github/rose-group/rose/coverage.svg?branch=main)](https://codecov.io/github/rose-group/rose?branch=main)
+![License](https://img.shields.io/github/license/rose-group/rose.svg)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/rose-group/rose.svg)](http://isitmaintained.com/project/rose-group/rose "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/rose-group/rose.svg)](http://isitmaintained.com/project/rose-group/rose "Percentage of issues still open")
 
-# rose-microservice
+# rose
 
 ## Requirements
 
