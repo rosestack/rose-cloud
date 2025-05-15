@@ -90,7 +90,7 @@ xxl:
   job:
     accessToken: 123456
     admin:
-      addresses: http://rose-xxljob:7020
+      addresses: http://rose-xxl-job:7020
 
 security:
   oauth2:

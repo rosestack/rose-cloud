@@ -27,7 +27,6 @@ tasks:
   build:
     cmds:
       - "{{.MVN}} -pl rose-microservice/rose-upms spring-boot:build-image -DskipTests"
-      - "{{.MVN}} -pl rose-microservice/rose-xxljob spring-boot:build-image -DskipTests"
       - "{{.MVN}} -pl rose-microservice/rose-monitor spring-boot:build-image -DskipTests"
       - "{{.MVN}} -pl rose-microservice/rose-gateway spring-boot:build-image -DskipTests"
 

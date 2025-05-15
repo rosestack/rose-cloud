@@ -48,7 +48,7 @@ import java.util.stream.Collectors;
 public class XxlJobExecutorConfiguration {
     private static final Logger log = LoggerFactory.getLogger(XxlJobExecutorConfiguration.class);
 
-    private static final String XXL_JOB_ADMIN = "rose-xxljob";
+    private static final String XXL_JOB_ADMIN = "rose-xxl-job";
     private final ObjectProvider<DiscoveryClient> discoveryClientObjectProvider;
 
     public XxlJobExecutorConfiguration(ObjectProvider<DiscoveryClient> discoveryClientObjectProvider) {
