@@ -15,20 +15,19 @@
  */
 package io.github.rose.core.util;
 
-import java.util.UUID;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 class UuidsTest {
     private static final Logger log = LoggerFactory.getLogger(UuidsTest.class);
 
-    public static void main(String[] args) {
+    @Test
+    public void test() {
         log.info(UUIDs.timeBased().toString());
         log.info(UUIDs.timeBased().toString());
         log.info(UUIDs.random().toString());
         log.info(UUIDs.random().toString());
-        log.info(UUID.randomUUID().toString());
-        log.info(UUID.randomUUID().toString());
         log.info(UUIDs.startOf(0).toString());
         log.info(UUIDs.startOf(1).toString());
     }
