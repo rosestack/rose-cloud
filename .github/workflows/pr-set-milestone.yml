@@ -14,3 +14,10 @@ jobs:
         uses: radcortez/milestone-set-action@main
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
+
+  update-changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: rcmachado/changelog-action@v1
+        with:
+          args: fmt

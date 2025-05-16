@@ -3,11 +3,6 @@ name: Maven Release by Manual
 on:
   workflow_dispatch:
     inputs:
-      publish:
-        description: "Whether to publish to Central"
-        required: false
-        type: boolean
-        default: false
       current-version:
         description: "Release version"
         required: true
@@ -17,16 +12,11 @@ on:
         required: true
         default: "0.0.2-SNAPSHOT"
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   release:
     name: Release
     uses: rose-group/.github/.github/workflows/release-by-manual.yml@main
     secrets: inherit
     with:
-      publish: true
-      current-version: ${{ github.event.inputs.current-version }}
-      next-version: ${{ github.event.inputs.next-version }}
+      current-version: ${{github.event.inputs.current-version}}
+      next-version: ${{github.event.inputs.next-version}}

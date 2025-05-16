@@ -7,16 +7,14 @@ on:
     paths-ignore:
       - '.gitignore'
       - 'LICENSE'
+      - 'CHANGELOG.md'
       - 'README*'
   pull_request:
     paths-ignore:
       - '.gitignore'
       - 'LICENSE'
+      - 'CHANGELOG.md'
       - 'README*'
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   build:
