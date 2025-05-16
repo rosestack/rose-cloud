@@ -63,7 +63,7 @@ public abstract class AbstractRedisStreamMessageListener<T extends AbstractRedis
         try {
             this.streamKey = messageType.getDeclaredConstructor().newInstance().getStreamKey();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 
@@ -121,7 +121,7 @@ public abstract class AbstractRedisStreamMessageListener<T extends AbstractRedis
      */
     @SuppressWarnings("unchecked")
     private Class<T> getMessageClass() {
-        Type type = ReflectionUtils.getTypeArgument(getClass(), 0);
+        Type type = ReflectionUtils.getTypeArgument(getClass());
         if (type == null) {
             throw new IllegalStateException(
                 String.format(Locale.getDefault(), "类型(%s) 需要设置消息类型", getClass().getName()));

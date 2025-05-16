@@ -23,7 +23,6 @@ import io.github.rose.redis.mq.message.AbstractRedisMessage;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Locale;
@@ -56,14 +55,8 @@ public abstract class AbstractRedisChannelMessageListener<T extends AbstractRedi
         this.messageType = getMessageClass();
         try {
             this.channel = messageType.getDeclaredConstructor().newInstance().getChannel();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
         }
     }
 
@@ -114,7 +107,7 @@ public abstract class AbstractRedisChannelMessageListener<T extends AbstractRedi
      */
     @SuppressWarnings("unchecked")
     private Class<T> getMessageClass() {
-        Type type = ReflectionUtils.getTypeArgument(getClass(), 0);
+        Type type = ReflectionUtils.getTypeArgument(getClass());
         if (type == null) {
             throw new IllegalStateException(
                 String.format(Locale.getDefault(), "类型(%s) 需要设置消息类型", getClass().getName()));

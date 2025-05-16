@@ -28,25 +28,21 @@ import java.util.List;
  */
 public class ReflectionUtils {
     private ReflectionUtils() {
-        
+
     }
 
     public static Type getTypeArgument(Type type) {
-        return getTypeArgument(type, 0);
-    }
-
-    public static Type getTypeArgument(Type type, int index) {
         Type[] typeArguments = getTypeArguments(type);
-        return null != typeArguments && typeArguments.length > index ? typeArguments[index] : null;
+
+        return typeArguments.length > 1 ? typeArguments[0] : null;
     }
 
     public static Type[] getTypeArguments(Type type) {
         if (null == type) {
-            return new Type[0];
-        } else {
-            ParameterizedType parameterizedType = toParameterizedType(type);
-            return null == parameterizedType ? null : parameterizedType.getActualTypeArguments();
+            return new Type[]{};
         }
+        ParameterizedType parameterizedType = toParameterizedType(type);
+        return null == parameterizedType ? new Type[]{} : parameterizedType.getActualTypeArguments();
     }
 
     public static ParameterizedType toParameterizedType(Type type) {
