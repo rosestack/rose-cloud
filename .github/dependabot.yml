@@ -3,7 +3,7 @@ updates:
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
-      interval: daily
+      interval: "weekly"
     open-pull-requests-limit: 10
 
   - package-ecosystem: "maven"
@@ -12,9 +12,11 @@ updates:
     schedule:
       interval: "daily"
     ignore:
-      # 忽略所有主要版本更新
+      # 忽略所有主要、次要版本更新
       - dependency-name: "*"
-        update-types: [ "version-update:semver-major" ]
+        update-types:
+          - version-update:semver-major
+          - version-update:semver-minor
       - dependency-name: com.alibaba.cloud:spring-cloud-alibaba-dependencies
         versions:
           - ">= 2021.1"
