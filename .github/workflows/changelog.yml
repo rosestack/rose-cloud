@@ -12,6 +12,6 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Keep A Changelog - New Release
-        uses: thomaseizinger/keep-a-changelog-new-release@3.1.0
+        uses: thomaseizinger/keep-a-changelog-new-release@master
         with:
           tag: v0.0.1
