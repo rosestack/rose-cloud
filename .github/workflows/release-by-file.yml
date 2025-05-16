@@ -1,4 +1,4 @@
-name: Release by File
+name: Maven Release by File
 
 on:
   workflow_dispatch:
