@@ -48,6 +48,12 @@ Building multi-module sites:
 mvn site:site site:stage
 ```
 
+Upload sites to gitHub pages:
+
+```bash
+mvn --update-snapshots clean site scm-publish:publish-scm -Dscmpublish.serverId=github
+```
+
 ### Release
 
 Update Release version:
@@ -125,7 +131,7 @@ spring-boot-microservice-best-practices: https://github.com/abhisheksr01/spring-
 - GitHub Flow
 - GitLab Flow
 
-##                              
+##                               
 
 - [ ] 使用 Redis + Lua 基于令牌桶实现限流
 - [ ] 通过分布式事务 Seata 保证告警、整改和任务的状态一致性

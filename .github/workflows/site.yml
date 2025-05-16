@@ -1,0 +1,14 @@
+name: Push Sites
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  site:
+    name: site
+    uses: rose-group/.github/.github/workflows/site.yml@main
+    secrets: inherit
