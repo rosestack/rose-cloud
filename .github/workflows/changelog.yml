@@ -2,38 +2,13 @@ name: update changelog and generate release notes
 
 on:
   push:
-    tags:
-      - "v*.*.*"
 
 jobs:
   changelog-releasenotes:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout code
+      - name: checkout source
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
-      - name: install auto-changelog
-        run: npm install -g auto-changelog
-
-      - name: generate changelog
-        run: >-
-          auto-changelog -t keepachangelog
-          --commit-limit 50 --backfill-limit 50
-          --ignore-commit-pattern '[Bb]ump version|[Uu]pdate changelog|[Mm]erge pull request'      
-
-      - name: get release notes
-        uses: olofvndrhr/releasenote-gen@v1
-        with:
-          version: latest # default
-          changelog: CHANGELOG.md # default
-          releasenotes: RELEASENOTES.md # default
-
-      # don't forget to include RELEASENOTES.md in your .gitignore
-      - name: commit changes
-        uses: EndBug/add-and-commit@v9
-        with:
-          message: "[bot] update changelog"
-          author_name: xxxx
-          author_email: xxxx
+      - name: Keep A Changelog - New Release
+        uses: thomaseizinger/keep-a-changelog-new-release@3.1.0
