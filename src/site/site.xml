@@ -10,8 +10,8 @@
         <image src="https://maven.apache.org/images/maven-logo-black-on-white.png"></image>
     </bannerRight>
 
-    <publishDate position="right"/>
-    <version position="right"/>
+    <publishDate position="left"/>
+    <version position="left"/>
 
     <body>
         <menu ref="parent" inherit="bottom"/>
