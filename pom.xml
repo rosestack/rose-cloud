@@ -5,15 +5,15 @@
   <parent>
     <groupId>io.github.rose-group</groupId>
     <artifactId>rose-build</artifactId>
-    <version>0.0.10</version>
+    <version>0.0.11-SNAPSHOT</version>
   </parent>
   <groupId>io.github.rose-group</groupId>
   <artifactId>rose</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>Rose :: Parent</name>
-  <description>Rose Parent</description>
+  <name>Rose</name>
+  <description>Rose</description>
   <url>https://github.com/rose-group/rose</url>
   <inceptionYear>2025</inceptionYear>
 
@@ -56,59 +56,4 @@
     <module>rose-service/rose-monitor</module>
     <module>rose-service/rose-upms</module>
   </modules>
-
-  <profiles>
-    <profile>
-      <id>springboot</id>
-      <activation>
-        <file>
-          <!-- Just a way to identify a Spring Boot application -->
-          <exists>src/main/resources/application.yml</exists>
-        </file>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-deploy-plugin</artifactId>
-            <configuration>
-              <skip>true</skip>
-            </configuration>
-          </plugin>
-          <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <version>2.7.18</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>repackage</goal>
-                  <goal>build-info</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <layers>
-                <enabled>true</enabled>
-              </layers>
-              <image>
-                <name>${env.USER}/${project.artifactId}</name>
-              </image>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-      <modules>
-        <module>rose-service/rose-gateway</module>
-        <module>rose-service/rose-monitor</module>
-        <module>rose-service/rose-upms/rose-upms-service</module>
-      </modules>
-      <properties>
-        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-        <maven.deploy.skip>true</maven.deploy.skip>
-        <maven.javadoc.skip>true</maven.javadoc.skip>
-        <maven.source.skip>true</maven.source.skip>
-      </properties>
-    </profile>
-  </profiles>
 </project>

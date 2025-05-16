@@ -56,6 +56,12 @@ services:
         --spring.datasource.password=123456
         --xxl.job.accessToken=xxl-job'
 
+  rose-monitor:
+    image: codecentric/spring-boot-admin:2.7.9
+    ports:
+      - "7010:7010"
+    environment:
+      -
   rose-sentinel:
     image: bladex/sentinel-dashboard:1.8.8
     container_name: rose-sentinel

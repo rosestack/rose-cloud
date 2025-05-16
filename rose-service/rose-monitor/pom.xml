@@ -12,6 +12,13 @@
   <name>${project.artifactId}</name>
   <description>rose-monitor</description>
 
+  <properties>
+    <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+    <maven.deploy.skip>true</maven.deploy.skip>
+    <maven.javadoc.skip>true</maven.javadoc.skip>
+    <maven.source.skip>true</maven.source.skip>
+  </properties>
+  
   <dependencies>
     <dependency>
       <groupId>org.springframework.cloud</groupId>
@@ -42,4 +49,13 @@
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 </project>

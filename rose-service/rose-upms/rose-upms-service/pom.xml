@@ -12,6 +12,13 @@
   <name>rose-upms-service</name>
   <description>rose-upms-service</description>
 
+  <properties>
+    <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+    <maven.deploy.skip>true</maven.deploy.skip>
+    <maven.javadoc.skip>true</maven.javadoc.skip>
+    <maven.source.skip>true</maven.source.skip>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>io.github.rose-group</groupId>
@@ -76,4 +83,13 @@
       <artifactId>spring-boot-admin-starter-client</artifactId>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 </project>
