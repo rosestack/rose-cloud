@@ -4,9 +4,9 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>io.github.rose-group</groupId>
-    <artifactId>rose-dependencies</artifactId>
+    <artifactId>rose</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <relativePath>../rose-dependencies/pom.xml</relativePath>
+    <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>rose-spring-cloud</artifactId>
   <packaging>pom</packaging>
