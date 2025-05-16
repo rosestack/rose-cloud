@@ -5,9 +5,9 @@ on:
     inputs:
       publish:
         description: "Whether to publish to Central"
-        required: false
+        required: true
         type: boolean
-        default: "true"
+        default: false
       current-version:
         description: "Release version"
         required: true
