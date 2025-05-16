@@ -74,7 +74,7 @@
     <xxl-job.version>2.5.0</xxl-job.version>
     <uuid-creator.version>6.1.1</uuid-creator.version>
 
-    <scmpublish.pubScmUrl>${pom.scm.developerConnection}</scmpublish.pubScmUrl>
+    <scmpublish.pubScmUrl>${project.scm.developerConnection}</scmpublish.pubScmUrl>
   </properties>
 
   <modules>
