@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.github.rose-group</groupId>
+    <artifactId>rose-upms</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>rose-upms-service</artifactId>
+  <name>rose-upms-service</name>
+  <description>rose-upms-service</description>
+
+  <properties>
+    <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+    <maven.deploy.skip>true</maven.deploy.skip>
+    <maven.javadoc.skip>true</maven.javadoc.skip>
+    <maven.source.skip>true</maven.source.skip>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.github.rose-group</groupId>
+      <artifactId>rose-upms-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.github.rose-group</groupId>
+      <artifactId>rose-spring-boot-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.github.rose-group</groupId>
+      <artifactId>rose-spring-cloud-feign</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.github.rose-group</groupId>
+      <artifactId>rose-spring-boot-mybatis</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.github.rose-group</groupId>
+      <artifactId>rose-spring-boot-redis</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.github.rose-group</groupId>
+      <artifactId>rose-spring-boot-springdoc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.github.rose-group</groupId>
+      <artifactId>rose-spring-boot-syslog</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.github.rose-group</groupId>
+      <artifactId>rose-spring-boot-xxljob</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.alibaba.cloud</groupId>
+      <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.alibaba.cloud</groupId>
+      <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-openfeign</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-undertow</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>de.codecentric</groupId>
+      <artifactId>spring-boot-admin-starter-client</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.mysql</groupId>
+      <artifactId>mysql-connector-j</artifactId>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>

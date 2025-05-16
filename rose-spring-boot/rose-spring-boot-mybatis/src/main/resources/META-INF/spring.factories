@@ -1,0 +1,2 @@
+org.springframework.boot.env.EnvironmentPostProcessor=\
+  io.github.rose.mybatis.mq.kafka.TenantKafkaEnvironmentPostProcessor

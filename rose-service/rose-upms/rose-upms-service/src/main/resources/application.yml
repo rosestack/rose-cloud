@@ -1,0 +1,41 @@
+server:
+  port: 8010
+  shutdown: graceful
+
+spring.application.name: rose-upms
+spring.profiles.active: dev
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:rose-mysql}:${MYSQL_PORT:3306}/chensoul?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password:
+  cloud:
+    nacos:
+      username: nacos
+      password: 123456
+      discovery:
+        server-addr: ${NACOS_HOST:rose-nacos}:${NACOS_PORT:8848}
+        namespace: rose-${spring.profiles.active}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: rose-${spring.profiles.active}
+        file-extension: yaml
+  config:
+    import:
+      - optional:nacos:chensoul.yaml
+      - optional:nacos:${spring.application.name}.yaml
+
+# 租户表维护
+mybatis-plus:
+  tenant:
+    ignoreUrls:
+    ignoredTables:
+      - sys_client
+      - sys_log
+      - sys_tenant
+      - sys_user
+      - sys_credential
+

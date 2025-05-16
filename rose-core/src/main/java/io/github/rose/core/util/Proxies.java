@@ -1,0 +1,72 @@
+package io.github.rose.core.util;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Method;
+
+import static org.apache.commons.lang3.ArrayUtils.EMPTY_CLASS_ARRAY;
+
+/**
+ * Proxies is a collection of useful dynamic proxies. Internal use only.
+ *
+ * @author vladimir
+ * @since 4.0 infinispan
+ */
+public abstract class Proxies {
+    private static final Logger log = LoggerFactory.getLogger(Proxies.class);
+
+    public static Object newCatchThrowableProxy(Object obj) {
+        return java.lang.reflect.Proxy.newProxyInstance(
+            obj.getClass().getClassLoader(), getInterfaces(obj.getClass()), new CatchThrowableProxy(obj));
+    }
+
+    private static Class<?>[] getInterfaces(Class<?> clazz) {
+        Class<?>[] interfaces = clazz.getInterfaces();
+        if (interfaces.length > 0) {
+            Class<?> superClass = clazz.getSuperclass();
+            if (superClass != null && superClass.getInterfaces().length > 0) {
+                Class<?>[] superInterfaces = superClass.getInterfaces();
+                Class<?>[] clazzes = new Class[interfaces.length + superInterfaces.length];
+                System.arraycopy(interfaces, 0, clazzes, 0, interfaces.length);
+                System.arraycopy(superInterfaces, 0, clazzes, interfaces.length, superInterfaces.length);
+                return clazzes;
+            } else {
+                return interfaces;
+            }
+        }
+        Class<?> superclass = clazz.getSuperclass();
+        if (superclass != Object.class) return superclass.getInterfaces();
+        return EMPTY_CLASS_ARRAY;
+    }
+
+    /**
+     * CatchThrowableProxy is a wrapper around interface that does not allow any exception to be
+     * thrown when invoking methods on that interface. All exceptions are logged but not propagated
+     * to the caller.
+     */
+    static class CatchThrowableProxy implements java.lang.reflect.InvocationHandler {
+
+        private final Object obj;
+
+        private CatchThrowableProxy(Object obj) {
+            this.obj = obj;
+        }
+
+        public static Object newInstance(Object obj) {
+            return java.lang.reflect.Proxy.newProxyInstance(
+                obj.getClass().getClassLoader(), obj.getClass().getInterfaces(), new CatchThrowableProxy(obj));
+        }
+
+        @Override
+        public Object invoke(Object proxy, Method m, Object[] args) throws Throwable {
+            Object result = null;
+            try {
+                result = m.invoke(obj, args);
+            } catch (Throwable t) {
+                log.warn("method {} invoke error: {}, cause: {}", m.getName(), t.getMessage(), t.getCause());
+            }
+            return result;
+        }
+    }
+}
