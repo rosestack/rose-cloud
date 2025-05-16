@@ -14,5 +14,4 @@ jobs:
     secrets: inherit
     with:
       multi-modules: true
-      site-dir: target/staging
 
