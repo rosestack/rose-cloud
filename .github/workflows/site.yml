@@ -12,3 +12,5 @@ jobs:
     name: site
     uses: rose-group/.github/.github/workflows/site.yml@main
     secrets: inherit
+    with:
+      multi-modules: true
