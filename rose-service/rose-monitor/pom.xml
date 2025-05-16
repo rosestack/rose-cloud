@@ -6,7 +6,7 @@
     <groupId>io.github.rose-group</groupId>
     <artifactId>rose-dependencies</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <relativePath>../../pom.xml</relativePath>
+    <relativePath>../../rose-dependencies/pom.xml</relativePath>
   </parent>
   <artifactId>rose-monitor</artifactId>
   <name>${project.artifactId}</name>
