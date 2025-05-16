@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>OS xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../apidocs/io/github/rose/core/util/OS.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> io.github.rose.core.util;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> java.util.Locale;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_javadoccomment"> * Operating system family.</em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_javadoccomment"> * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_javadoccomment"> * Technically Solaris is UNIX, but for test purposes we are classifying it as a separate family.</em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_javadoccomment"> * @since 9.2 infinispan</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">public</strong> enum <a name="OS" href="../../../../../io/github/rose/core/util/OS.html#OS">OS</a> {
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>      UNIX,
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>      WINDOWS,
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>      SOLARIS,
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>      LINUX,
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>      MAC_OS;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a name="OS" href="../../../../../io/github/rose/core/util/OS.html#OS">OS</a> getCurrentOs() {
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>          String os = System.getProperty(<span class="jxr_string">"os.name"</span>).toLowerCase(Locale.CHINA);
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>          <strong class="jxr_keyword">if</strong> (os.contains(<span class="jxr_string">"win"</span>)) {
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>              <strong class="jxr_keyword">return</strong> WINDOWS;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (os.contains(<span class="jxr_string">"sunos"</span>)) {
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>              <strong class="jxr_keyword">return</strong> SOLARIS;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (os.contains(<span class="jxr_string">"linux"</span>)) {
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>              <strong class="jxr_keyword">return</strong> LINUX;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (os.toLowerCase(Locale.CHINA).contains(<span class="jxr_string">"mac os"</span>)) {
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>              <strong class="jxr_keyword">return</strong> MAC_OS;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>          } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>              <strong class="jxr_keyword">return</strong> UNIX;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>          }
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>      }
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  }
+</pre>
+<hr/>
+<div id="footer">© 2025 <a href="https://github.com/rose-group">rose-group.github.io</a></div>
+</body>
+</html>
