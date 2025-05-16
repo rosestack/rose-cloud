@@ -73,6 +73,8 @@
     <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
     <xxl-job.version>2.5.0</xxl-job.version>
     <uuid-creator.version>6.1.1</uuid-creator.version>
+
+    <scmpublish.pubScmUrl>${project.scm.developerConnection}</scmpublish.pubScmUrl>
   </properties>
 
   <modules>
