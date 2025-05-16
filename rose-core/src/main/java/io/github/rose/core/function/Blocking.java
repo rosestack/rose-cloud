@@ -17,6 +17,7 @@ package io.github.rose.core.function;
 
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinPool.ManagedBlocker;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.*;
 
 /**
@@ -27,7 +28,6 @@ import java.util.function.*;
  * @author Lukas Eder
  */
 public final class Blocking {
-
     private Blocking() {
     }
 
@@ -68,12 +68,9 @@ public final class Blocking {
     }
 
     static class BlockingSupplier<T> implements Supplier<T> {
-
-        private static final Object NULL = new Object();
-
-        final Supplier<? extends T> supplier;
-
-        volatile T result = (T) NULL;
+        private static final Object NULL_MARKER = new Object();
+        private final Supplier<? extends T> supplier;
+        private final AtomicReference<Object> resultRef = new AtomicReference<>(NULL_MARKER);
 
         BlockingSupplier(Supplier<? extends T> supplier) {
             this.supplier = supplier;
@@ -82,23 +79,25 @@ public final class Blocking {
         @Override
         public T get() {
             try {
-                ForkJoinPool.managedBlock(new ManagedBlocker() {
-                    @Override
-                    public boolean block() throws InterruptedException {
-                        result = supplier.get();
-                        return true;
-                    }
-
-                    @Override
-                    public boolean isReleasable() {
-                        return result != NULL;
-                    }
-                });
+                ForkJoinPool.managedBlock(new TaskBlocker());
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                Thread.currentThread().interrupt();
+            }
+            return (T) resultRef.get();
+        }
+
+        private class TaskBlocker implements ForkJoinPool.ManagedBlocker {
+            @Override
+            public boolean block() {
+                T result = supplier.get();
+                resultRef.set(result);
+                return true;
             }
 
-            return result;
+            @Override
+            public boolean isReleasable() {
+                return resultRef.get() != NULL_MARKER;
+            }
         }
     }
 }

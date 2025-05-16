@@ -15,6 +15,7 @@
  */
 package org.springframework.messaging.handler.invocation;
 
+import io.github.rose.core.util.StringPool;
 import io.github.rose.mybatis.tenant.util.TenantContextHolder;
 import io.github.rose.mybatis.tenant.util.TenantUtils;
 import org.springframework.core.DefaultParameterNameDiscoverer;
@@ -29,8 +30,9 @@ import org.springframework.util.ObjectUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Objects;
 
 import static io.github.rose.core.util.Constants.HEADER_TENANT_ID;
 
@@ -41,7 +43,7 @@ import static io.github.rose.core.util.Constants.HEADER_TENANT_ID;
  * {@link org.springframework.web.method.support.HandlerMethodArgumentResolver}.
  * <p>
  * 针对 rabbitmq-spring 和 kafka-spring，不存在合适的拓展点，可以实现 Consumer 消费前，读取 Header 中的 tenant-id
- * 设置到 {@link TenantContextHolder} 中 TODO 持续跟进，看看有没新的拓展点
+ * 设置到 {@link TenantContextHolder} 中  持续跟进，看看有没新的拓展点
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -137,7 +139,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
     private String parseTenantId(Message<?> message) {
         Object tenantId = message.getHeaders().get(HEADER_TENANT_ID);
         if (tenantId == null) {
-            return null;
+            return StringPool.UNKNOWN;
         }
         if (tenantId instanceof Long) {
             return String.valueOf(tenantId);
@@ -149,7 +151,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
             return (String) tenantId;
         }
         if (tenantId instanceof byte[]) {
-            return new String((byte[]) tenantId, Charset.forName("UTF-8"));
+            return new String((byte[]) tenantId, StandardCharsets.UTF_8);
         }
         throw new IllegalArgumentException("未知的数据类型：" + tenantId);
     }
@@ -265,8 +267,16 @@ public class InvocableHandlerMethod extends HandlerMethod {
         }
 
         @Override
-        public AsyncResultMethodParameter clone() {
-            return new AsyncResultMethodParameter(this);
+        public boolean equals(Object o) {
+            if (o == null || getClass() != o.getClass()) return false;
+            if (!super.equals(o)) return false;
+            AsyncResultMethodParameter that = (AsyncResultMethodParameter) o;
+            return Objects.equals(returnValue, that.returnValue) && Objects.equals(returnType, that.returnType);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(super.hashCode(), returnValue, returnType);
         }
     }
 }

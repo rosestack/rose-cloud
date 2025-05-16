@@ -7,15 +7,17 @@ import java.util.Base64;
 import java.util.UUID;
 
 /**
- * TODO Comment
- *
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
- * @since TODO
+ * @since
  */
 public abstract class Uuids {
     // Use Java 8's built-in Base64 encoder/decoder
     private static final Base64.Encoder URL_SAFE_ENCODER = Base64.getUrlEncoder().withoutPadding();
     private static final Base64.Decoder URL_SAFE_DECODER = Base64.getUrlDecoder();
+
+    private Uuids() {
+    
+    }
 
     public static UUID getUUID() {
         return UuidCreator.getTimeOrderedEpoch(); // UUIDv7

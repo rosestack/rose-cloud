@@ -27,10 +27,8 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * TODO Comment
- *
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
- * @since TODO
+ * @since
  */
 public class SecurityUtils {
 

@@ -24,7 +24,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.connection.stream.ObjectRecord;
 import org.springframework.data.redis.stream.StreamListener;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Locale;
@@ -63,13 +62,7 @@ public abstract class AbstractRedisStreamMessageListener<T extends AbstractRedis
         this.messageType = getMessageClass();
         try {
             this.streamKey = messageType.getDeclaredConstructor().newInstance().getStreamKey();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -104,7 +97,7 @@ public abstract class AbstractRedisStreamMessageListener<T extends AbstractRedis
             this.onMessage(messageObj);
             // ack 消息消费完成
             redisMQTemplate.getRedisTemplate().opsForStream().acknowledge(group, message);
-            // TODO 需要额外考虑以下几个点：
+            //  需要额外考虑以下几个点：
             // 1. 处理异常的情况
             // 2. 发送日志；以及事务的结合
             // 3. 消费日志；以及通用的幂等性

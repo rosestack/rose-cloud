@@ -29,8 +29,6 @@ import java.util.List;
 import java.util.function.Predicate;
 
 /**
- * TODO Comment
- *
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
@@ -50,11 +48,8 @@ public class CustomRequestLoggingFilter extends CommonsRequestLoggingFilter {
     public void init() {
         Predicate<String> headerPredicate =
             headerName -> ObjectUtils.isEmpty(ignoreHeaders) || !ignoreHeaders.contains(headerName);
-        if (getHeaderPredicate() == null) {
-            setHeaderPredicate(headerPredicate);
-        } else {
-            setHeaderPredicate(getHeaderPredicate().or(headerPredicate));
-        }
+        Predicate<String> oldPredicate = getHeaderPredicate();
+        setHeaderPredicate(oldPredicate == null ? headerPredicate : oldPredicate.or(headerPredicate));
     }
 
     @Override

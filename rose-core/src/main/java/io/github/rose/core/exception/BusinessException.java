@@ -17,8 +17,6 @@ package io.github.rose.core.exception;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.Serializable;
-
 /**
  * 业务异常，http 状态返回码为 200
  *
@@ -31,43 +29,21 @@ public class BusinessException extends RuntimeException {
 
     private final Integer code;
 
-    private Serializable data;
-
     public BusinessException() {
         this(DEFAULT);
     }
 
+    public BusinessException(ResultCode resultCode) {
+        this(resultCode.getCode(), resultCode.getName());
+    }
+
     public BusinessException(Integer code, String message) {
-        this(code, message, null);
+        super(message);
+        this.code = code;
     }
 
     public BusinessException(String message) {
-        this(DEFAULT.getCode(), message, null);
-    }
-
-    public BusinessException(ResultCode resultCode) {
-        this(resultCode.getCode(), resultCode.getName(), null);
-    }
-
-    public BusinessException(ResultCode resultCode, Serializable data) {
-        this(resultCode.getCode(), resultCode.getName(), data);
-    }
-
-    public BusinessException(Integer code, String message, Serializable data) {
-        super(message);
-        this.code = code;
-        this.data = data;
-    }
-
-    public BusinessException(String message, Throwable cause) {
-        super(message, cause);
-        this.code = DEFAULT.getCode();
-    }
-
-    public BusinessException(String message, Serializable data) {
-        super(message);
-        this.code = DEFAULT.getCode();
-        this.data = data;
+        this(DEFAULT.getCode(), message);
     }
 
     @Override
@@ -77,9 +53,5 @@ public class BusinessException extends RuntimeException {
 
     public Integer getCode() {
         return code;
-    }
-
-    public Serializable getData() {
-        return data;
     }
 }

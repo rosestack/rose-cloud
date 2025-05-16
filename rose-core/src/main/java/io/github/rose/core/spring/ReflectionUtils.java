@@ -23,12 +23,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO Comment
- *
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
- * @since TODO
+ * @since
  */
-public class ReflectionUtils extends org.springframework.util.ReflectionUtils {
+public class ReflectionUtils {
+    private ReflectionUtils() {
+        
+    }
+
     public static Type getTypeArgument(Type type) {
         return getTypeArgument(type, 0);
     }
@@ -40,7 +42,7 @@ public class ReflectionUtils extends org.springframework.util.ReflectionUtils {
 
     public static Type[] getTypeArguments(Type type) {
         if (null == type) {
-            return null;
+            return new Type[0];
         } else {
             ParameterizedType parameterizedType = toParameterizedType(type);
             return null == parameterizedType ? null : parameterizedType.getActualTypeArguments();
@@ -67,7 +69,7 @@ public class ReflectionUtils extends org.springframework.util.ReflectionUtils {
     }
 
     public static ParameterizedType[] getGenerics(Class<?> clazz) {
-        List<ParameterizedType> result = new ArrayList();
+        List<ParameterizedType> result = new ArrayList<>();
         Type genericSuper = clazz.getGenericSuperclass();
         if (null != genericSuper && !Object.class.equals(genericSuper)) {
             ParameterizedType parameterizedType = toParameterizedType(genericSuper);

@@ -6,14 +6,12 @@ import org.junit.jupiter.api.Test;
 import java.util.Locale;
 
 /**
- * TODO Comment
- *
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
- * @since TODO
+ * @since
  */
-public class LocaleTest {
+class LocaleTest {
     @Test
-    public void test() {
+    void test() {
         Locale locale1 = Locale.getDefault(Locale.Category.FORMAT);
         Locale locale2 = Locale.getDefault();
         Assertions.assertEquals(locale1, locale2);

@@ -15,19 +15,13 @@
  */
 package io.github.rose.security.config;
 
-import static io.github.rose.security.SecurityProperties.DEFAULT_PATH_TO_SKIP;
-
 import io.github.rose.security.SecurityProperties;
 import io.github.rose.security.rest.filter.RestAccessProcessingFilter;
 import io.github.rose.security.rest.filter.RestLoginProcessingFilter;
 import io.github.rose.security.rest.filter.RestRefreshProcessingFilter;
 import io.github.rose.security.support.IpAuthenticationDetailSource;
 import io.github.rose.security.util.SkipPathRequestMatcher;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.annotation.security.PermitAll;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.ApplicationContext;
@@ -46,15 +40,23 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.condition.PathPatternsRequestCondition;
+import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.util.pattern.PathPattern;
 
+import javax.annotation.security.PermitAll;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static io.github.rose.security.SecurityProperties.DEFAULT_PATH_TO_SKIP;
+
 /**
- * TODO Comment
- *
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
- * @since TODO
+ * @since
  */
 @AutoConfiguration
 @AutoConfigureOrder(-1)
@@ -74,12 +76,12 @@ public class WebSecurityConfig {
     private final AuthenticationManager authenticationManager;
 
     public WebSecurityConfig(
-            ApplicationContext applicationContext,
-            AccessDeniedHandler accessDeniedHandler,
-            SecurityProperties securityProperties,
-            AuthenticationSuccessHandler restAuthenticationSuccessHandler,
-            AuthenticationFailureHandler restAuthenticationFailureHandler,
-            AuthenticationManager authenticationManager) {
+        ApplicationContext applicationContext,
+        AccessDeniedHandler accessDeniedHandler,
+        SecurityProperties securityProperties,
+        AuthenticationSuccessHandler restAuthenticationSuccessHandler,
+        AuthenticationFailureHandler restAuthenticationFailureHandler,
+        AuthenticationManager authenticationManager) {
         this.applicationContext = applicationContext;
         this.accessDeniedHandler = accessDeniedHandler;
         this.securityProperties = securityProperties;
@@ -87,20 +89,6 @@ public class WebSecurityConfig {
         this.restAuthenticationFailureHandler = restAuthenticationFailureHandler;
         this.authenticationManager = authenticationManager;
     }
-
-    // @Nullable
-    // @Qualifier("oauth2AuthenticationSuccessHandler")
-    // private ObjectProvider<AuthenticationSuccessHandler>
-    // oauth2AuthenticationSuccessHandler;
-    // @Nullable
-    // @Qualifier("oauth2AuthenticationFailureHandler")
-    // private ObjectProvider<AuthenticationFailureHandler>
-    // oauth2AuthenticationFailureHandler;
-
-    // private HttpCookieOAuth2AuthorizationRequestRepository
-    // httpCookieOAuth2AuthorizationRequestRepository;
-    // private OAuth2AuthorizationRequestResolver oAuth2AuthorizationRequestResolver;
-    // OAuth2Configuration oauth2Configuration;
 
     /**
      * 配置 URL 的安全配置
@@ -115,67 +103,67 @@ public class WebSecurityConfig {
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                // 开启跨域
-                .cors(Customizer.withDefaults())
-                // CSRF 禁用，因为不使用 Session
-                .csrf(AbstractHttpConfigurer::disable)
-                // 基于 token 机制，所以不需要 Session
-                .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .headers(c -> c.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                // 一堆自定义的 Spring Security 处理器
-                .exceptionHandling(c -> c.accessDeniedHandler(accessDeniedHandler));
+            // 开启跨域
+            .cors(Customizer.withDefaults())
+            // CSRF 禁用，因为不使用 Session
+            .csrf(AbstractHttpConfigurer::disable)
+            // 基于 token 机制，所以不需要 Session
+            .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .headers(c -> c.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+            // 一堆自定义的 Spring Security 处理器
+            .exceptionHandling(c -> c.accessDeniedHandler(accessDeniedHandler));
 
         Set<String> permitUrls = getPermitUrlsFromAnnotation();
         httpSecurity.authorizeHttpRequests(c -> c.antMatchers(HttpMethod.GET, "/*.html", "/*.css", "/*.js")
-                .permitAll()
-                .antMatchers(DEFAULT_PATH_TO_SKIP)
-                .permitAll()
-                .antMatchers(permitUrls.toArray(new String[0]))
-                .permitAll()
-                .antMatchers(securityProperties.getPathsToSkip().toArray(new String[0]))
-                .permitAll()
-                .antMatchers(securityProperties.getBaseUrl())
-                .authenticated());
+            .permitAll()
+            .antMatchers(DEFAULT_PATH_TO_SKIP)
+            .permitAll()
+            .antMatchers(permitUrls.toArray(new String[0]))
+            .permitAll()
+            .antMatchers(securityProperties.getPathsToSkip().toArray(new String[0]))
+            .permitAll()
+            .antMatchers(securityProperties.getBaseUrl())
+            .authenticated());
 
         httpSecurity
-                .addFilterBefore(restLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(restAccessTokenProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(restRefreshProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(restLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(restAccessTokenProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(restRefreshProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
 
     @Bean
-    protected RestLoginProcessingFilter restLoginProcessingFilter() throws Exception {
+    protected RestLoginProcessingFilter restLoginProcessingFilter() {
         RestLoginProcessingFilter filter = new RestLoginProcessingFilter(
-                securityProperties.getLoginUrl(), restAuthenticationSuccessHandler, restAuthenticationFailureHandler);
+            securityProperties.getLoginUrl(), restAuthenticationSuccessHandler, restAuthenticationFailureHandler);
         filter.setAuthenticationManager(authenticationManager);
         filter.setAuthenticationDetailsSource(new IpAuthenticationDetailSource());
         return filter;
     }
 
     @Bean
-    protected RestAccessProcessingFilter restAccessTokenProcessingFilter() throws Exception {
+    protected RestAccessProcessingFilter restAccessTokenProcessingFilter() {
         SkipPathRequestMatcher matcher =
-                new SkipPathRequestMatcher(securityProperties.getPathsToSkip(), securityProperties.getBaseUrl());
+            new SkipPathRequestMatcher(securityProperties.getPathsToSkip(), securityProperties.getBaseUrl());
         RestAccessProcessingFilter filter = new RestAccessProcessingFilter(matcher, restAuthenticationFailureHandler);
         filter.setAuthenticationManager(this.authenticationManager);
         filter.setAuthenticationDetailsSource(new IpAuthenticationDetailSource());
         return filter;
     }
 
-    protected RestRefreshProcessingFilter restRefreshProcessingFilter() throws Exception {
+    protected RestRefreshProcessingFilter restRefreshProcessingFilter() {
         RestRefreshProcessingFilter filter = new RestRefreshProcessingFilter(
-                securityProperties.getTokenRefreshUrl(),
-                restAuthenticationSuccessHandler,
-                restAuthenticationFailureHandler);
+            securityProperties.getTokenRefreshUrl(),
+            restAuthenticationSuccessHandler,
+            restAuthenticationFailureHandler);
         filter.setAuthenticationManager(authenticationManager);
         return filter;
     }
 
     private Set<String> getPermitUrlsFromAnnotation() {
         RequestMappingHandlerMapping requestMappingHandlerMapping =
-                (RequestMappingHandlerMapping) applicationContext.getBean("requestMappingHandlerMapping");
+            (RequestMappingHandlerMapping) applicationContext.getBean("requestMappingHandlerMapping");
 
         Set<String> result = new HashSet<>();
         Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = requestMappingHandlerMapping.getHandlerMethods();
@@ -185,13 +173,16 @@ public class WebSecurityConfig {
                 continue;
             }
             Set<String> urls = new HashSet<>();
-            if (entry.getKey().getPatternsCondition() != null) {
-                urls.addAll(entry.getKey().getPatternsCondition().getPatterns());
+            PatternsRequestCondition patternsCondition = entry.getKey().getPatternsCondition();
+            if (patternsCondition != null && ObjectUtils.isNotEmpty(patternsCondition.getPatterns())) {
+                urls.addAll(patternsCondition.getPatterns());
             }
-            if (entry.getKey().getPathPatternsCondition() != null) {
-                urls.addAll(entry.getKey().getPathPatternsCondition().getPatterns().stream()
-                        .map(PathPattern::getPatternString)
-                        .collect(Collectors.toList()));
+
+            PathPatternsRequestCondition pathPatternsCondition = entry.getKey().getPathPatternsCondition();
+            if (pathPatternsCondition != null && ObjectUtils.isNotEmpty(pathPatternsCondition.getPatterns())) {
+                urls.addAll(pathPatternsCondition.getPatterns().stream()
+                    .map(PathPattern::getPatternString)
+                    .collect(Collectors.toList()));
             }
             result.addAll(urls);
         }

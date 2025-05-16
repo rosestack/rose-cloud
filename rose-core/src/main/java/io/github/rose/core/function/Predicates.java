@@ -19,10 +19,14 @@ import java.util.function.Predicate;
 
 public final class Predicates {
 
-    public static Predicate[] EMPTY_PREDICATE_ARRAY = new Predicate[0];
+    protected static final Predicate[] EMPTY_PREDICATE_ARRAY = new Predicate[0];
+
+    private Predicates() {
+
+    }
 
     public static <T> Predicate<T>[] emptyArray() {
-        return (Predicate<T>[]) EMPTY_PREDICATE_ARRAY;
+        return EMPTY_PREDICATE_ARRAY;
     }
 
     public static <T> Predicate<T> alwaysTrue() {
@@ -45,7 +49,7 @@ public final class Predicates {
      * @param <T>        the type to test
      * @return non-null
      */
-    public static <T> Predicate<? super T> and(Predicate<? super T>... predicates) {
+    public static <T> Predicate<T> and(Predicate<T>... predicates) {
         int length = predicates == null ? 0 : predicates.length;
         if (length == 0) {
             return alwaysTrue();
@@ -53,14 +57,14 @@ public final class Predicates {
             return predicates[0];
         } else {
             Predicate<T> andPredicate = alwaysTrue();
-            for (Predicate<? super T> p : predicates) {
+            for (Predicate<T> p : predicates) {
                 andPredicate = andPredicate.and(p);
             }
             return andPredicate;
         }
     }
 
-    public static <T> Predicate<? super T> not(Predicate<? super T>... predicates) {
+    public static <T> Predicate<T> not(Predicate<T>... predicates) {
         if (predicates == null || predicates.length == 0) {
             // 如果没有传入任何Predicate，返回一个总是返回true的Predicate
             return e -> true;
@@ -70,7 +74,7 @@ public final class Predicates {
         } else {
             // 如果有多个Predicate，对它们全部取反
             Predicate<T> notPredicate = alwaysTrue();
-            for (Predicate<? super T> p : predicates) {
+            for (Predicate<T> p : predicates) {
                 notPredicate = notPredicate.and(p.negate());
             }
             return notPredicate;
@@ -85,7 +89,7 @@ public final class Predicates {
      * @param <T>        the detected type
      * @return non-null
      */
-    public static <T> Predicate<? super T> or(Predicate<? super T>... predicates) {
+    public static <T> Predicate<T> or(Predicate<T>... predicates) {
         int length = predicates == null ? 0 : predicates.length;
         if (length == 0) {
             return alwaysTrue();
@@ -93,7 +97,7 @@ public final class Predicates {
             return predicates[0];
         } else {
             Predicate<T> orPredicate = alwaysFalse();
-            for (Predicate<? super T> p : predicates) {
+            for (Predicate<T> p : predicates) {
                 orPredicate = orPredicate.or(p);
             }
             return orPredicate;

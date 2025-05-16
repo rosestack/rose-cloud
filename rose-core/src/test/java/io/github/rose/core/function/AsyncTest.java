@@ -22,15 +22,13 @@ import java.util.concurrent.CompletionStage;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
- * TODO Comment
- *
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
- * @since TODO
+ * @since
  */
 class AsyncTest {
 
     @Test
-    public void testNoCustomExecutor() {
+    void testNoCustomExecutor() {
         CompletionStage<Void> completionStage = Async.runAsync(() -> {
         });
         assertNull(completionStage.toCompletableFuture().join());

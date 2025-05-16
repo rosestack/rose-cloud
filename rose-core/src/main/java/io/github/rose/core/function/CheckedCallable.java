@@ -24,7 +24,7 @@ import java.util.function.Consumer;
  * @author Zack Young
  */
 @FunctionalInterface
-public interface CheckedCallable<T> extends Callable {
+public interface CheckedCallable<T> extends Callable<T> {
 
     /**
      * @see {@link Sneaky#callable(CheckedCallable)}

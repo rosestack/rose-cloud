@@ -108,7 +108,7 @@ public interface Streams {
      * @return a S object
      */
     @SafeVarargs
-    static <T, S extends Iterable<T>> S filterAll(S values, Predicate<? super T>... predicates) {
+    static <T, S extends Iterable<T>> S filterAll(S values, Predicate<T>... predicates) {
         return filter(values, Predicates.and(predicates));
     }
 
@@ -124,7 +124,7 @@ public interface Streams {
      * @return a S object
      */
     @SafeVarargs
-    static <T, S extends Iterable<T>> S filterAny(S values, Predicate<? super T>... predicates) {
+    static <T, S extends Iterable<T>> S filterAny(S values, Predicate<T>... predicates) {
         return filter(values, Predicates.or(predicates));
     }
 
@@ -139,7 +139,7 @@ public interface Streams {
      * @return a T object
      */
     @SafeVarargs
-    static <T> T filterFirst(Iterable<T> values, Predicate<? super T>... predicates) {
+    static <T> T filterFirst(Iterable<T> values, Predicate<T>... predicates) {
         return StreamSupport.stream(values.spliterator(), false)
             .filter(Predicates.and(predicates))
             .findFirst()

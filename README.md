@@ -91,7 +91,7 @@ spring-boot-microservice-best-practices: https://github.com/abhisheksr01/spring-
 - GitHub Flow
 - GitLab Flow
 
-## TODO
+##  
 
 - [ ] 使用 Redis + Lua 基于令牌桶实现限流
 - [ ] 通过分布式事务 Seata 保证告警、整改和任务的状态一致性

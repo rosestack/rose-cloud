@@ -229,7 +229,7 @@ public class AliossTemplate implements OssTemplate {
     }
 
     /**
-     * TODO 过期时间
+     * 过期时间
      * <p>
      * 获取上传凭证，普通上传
      */

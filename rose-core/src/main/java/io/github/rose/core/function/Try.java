@@ -26,13 +26,15 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
- * TODO Comment
- *
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
- * @since TODO
+ * @since
  */
 public class Try {
     private static final Logger log = LoggerFactory.getLogger(Try.class);
+
+    private Try() {
+        throw new IllegalStateException("Utility class");
+    }
 
     public static <T, R> Function<T, R> tryApply(
         final CheckedFunction<T, R> trueFunction, final CheckedFunction<Throwable, R> errorHandler) {
@@ -90,7 +92,7 @@ public class Try {
                     return falseFunction.apply(t);
                 }
                 return null;
-            } catch (final Throwable e) {
+            } catch (final Exception e) {
                 log.warn("tryApply error", e);
                 if (errorHandler != null) {
                     return CheckedFunction.unchecked(errorHandler).apply(e);
@@ -161,7 +163,7 @@ public class Try {
                 } else if (falseConsumer != null) {
                     falseConsumer.accept(t);
                 }
-            } catch (final Throwable e) {
+            } catch (final Exception e) {
                 log.warn("tryAccept error", e);
                 if (errorHandler != null) {
                     CheckedFunction.unchecked(errorHandler).apply(e);

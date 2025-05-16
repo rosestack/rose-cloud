@@ -19,10 +19,8 @@ import io.github.rose.security.util.SecurityUser;
 import io.github.rose.security.util.TokenPair;
 
 /**
- * TODO Comment
- *
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
- * @since TODO
+ * @since
  */
 public interface TokenFactory {
 

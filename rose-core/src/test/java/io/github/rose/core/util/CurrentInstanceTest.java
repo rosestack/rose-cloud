@@ -15,31 +15,31 @@
  */
 package io.github.rose.core.util;
 
-import io.github.rose.core.spring.ReflectionUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.concurrent.*;
 
 // @NotThreadSafe
-public class CurrentInstanceTest {
+class CurrentInstanceTest {
 
     @BeforeAll
-    public static void clearExistingThreadLocals() {
+    static void clearExistingThreadLocals() {
         // Ensure no previous test left some thread locals hanging
         CurrentInstance.clearAll();
     }
 
     @Test
-    public void testInitiallyCleared() throws Exception {
+    void testInitiallyCleared() throws Exception {
         assertCleared();
     }
 
     @Test
-    public void testClearedAfterRemove() throws Exception {
+    void testClearedAfterRemove() throws Exception {
         CurrentInstance.set(CurrentInstanceTest.class, this);
         Assertions.assertEquals(this, CurrentInstance.get(CurrentInstanceTest.class));
         CurrentInstance.set(CurrentInstanceTest.class, null);
@@ -48,7 +48,7 @@ public class CurrentInstanceTest {
     }
 
     @Test
-    public void testClearedWithClearAll() throws Exception {
+    void testClearedWithClearAll() throws Exception {
         CurrentInstance.set(CurrentInstanceTest.class, this);
         Assertions.assertEquals(this, CurrentInstance.get(CurrentInstanceTest.class));
         CurrentInstance.clearAll();
@@ -69,7 +69,7 @@ public class CurrentInstanceTest {
     }
 
     @Test
-    public void nonInheritableThreadLocals() throws InterruptedException, ExecutionException {
+    void nonInheritableThreadLocals() throws InterruptedException, ExecutionException {
         CurrentInstance.clearAll();
         CurrentInstance.set(CurrentInstanceTest.class, this);
 
