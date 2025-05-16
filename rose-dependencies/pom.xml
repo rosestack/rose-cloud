@@ -80,11 +80,6 @@
       </dependency>
       <dependency>
         <groupId>io.github.rose-group</groupId>
-        <artifactId>rose-spring-boot-feign</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rose-group</groupId>
         <artifactId>rose-spring-boot-redis</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -116,6 +111,11 @@
       <dependency>
         <groupId>io.github.rose-group</groupId>
         <artifactId>rose-spring-boot-xxljob</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rose-group</groupId>
+        <artifactId>rose-spring-cloud-feign</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

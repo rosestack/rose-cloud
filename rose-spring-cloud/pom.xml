@@ -8,20 +8,13 @@
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>../rose-dependencies/pom.xml</relativePath>
   </parent>
-  <artifactId>rose-spring-boot</artifactId>
+  <artifactId>rose-spring-cloud</artifactId>
   <packaging>pom</packaging>
 
   <name>${project.artifactId}</name>
-  <description>rose-spring-boot</description>
+  <description>rose-spring-cloud</description>
 
   <modules>
-    <module>rose-spring-boot-core</module>
-    <module>rose-spring-boot-web</module>
-    <module>rose-spring-boot-mybatis</module>
-    <module>rose-spring-boot-redis</module>
-    <module>rose-spring-boot-security</module>
-    <module>rose-spring-boot-springdoc</module>
-    <module>rose-spring-boot-syslog</module>
-    <module>rose-spring-boot-xxljob</module>
+    <module>rose-spring-cloud-feign</module>
   </modules>
 </project>

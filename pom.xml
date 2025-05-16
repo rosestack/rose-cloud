@@ -52,6 +52,7 @@
     <module>rose-mybatis</module>
     <module>rose-security</module>
     <module>rose-spring-boot</module>
+    <module>rose-spring-cloud</module>
     <module>rose-service/rose-gateway</module>
     <module>rose-service/rose-monitor</module>
     <module>rose-service/rose-upms</module>

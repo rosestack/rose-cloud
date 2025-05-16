@@ -22,11 +22,15 @@
   <dependencies>
     <dependency>
       <groupId>io.github.rose-group</groupId>
+      <artifactId>rose-upms-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.github.rose-group</groupId>
       <artifactId>rose-spring-boot-web</artifactId>
     </dependency>
     <dependency>
       <groupId>io.github.rose-group</groupId>
-      <artifactId>rose-spring-boot-feign</artifactId>
+      <artifactId>rose-spring-cloud-feign</artifactId>
     </dependency>
     <dependency>
       <groupId>io.github.rose-group</groupId>
@@ -48,10 +52,6 @@
       <groupId>io.github.rose-group</groupId>
       <artifactId>rose-spring-boot-xxljob</artifactId>
     </dependency>
-    <dependency>
-      <groupId>io.github.rose-group</groupId>
-      <artifactId>rose-upms-api</artifactId>
-    </dependency>
 
     <dependency>
       <groupId>com.alibaba.cloud</groupId>
@@ -69,19 +69,20 @@
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-openfeign</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-undertow</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.mysql</groupId>
-      <artifactId>mysql-connector-j</artifactId>
-    </dependency>
-    <dependency>
       <groupId>de.codecentric</groupId>
       <artifactId>spring-boot-admin-starter-client</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>com.mysql</groupId>
+      <artifactId>mysql-connector-j</artifactId>
+    </dependency>
+
   </dependencies>
 
   <build>
