@@ -1,0 +1,30 @@
+name: generate release notes
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  get-release-notes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+
+      - name: get release notes
+        id: get-releasenotes
+        uses: olofvndrhr/releasenote-gen@v1
+        with:
+          version: latest # default
+          changelog: CHANGELOG.md # default
+          releasenotes: RELEASENOTES.md # default
+
+      - name: get release notes for ref
+        uses: olofvndrhr/releasenote-gen@v1
+        with:
+          version: ${{ github.ref_name }} # name of the pushed tag
+
+      # use the generated release notes string for further steps
+      - name: print release notes
+        run: echo "${{ steps.get-releasenotes.outputs.releasenotes }}"
