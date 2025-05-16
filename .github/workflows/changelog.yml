@@ -1,4 +1,4 @@
-name: generate release notes
+name: update changelog and generate release notes
 
 on:
   push:
@@ -6,25 +6,35 @@ on:
       - "v*.*.*"
 
 jobs:
-  get-release-notes:
+  changelog-releasenotes:
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: master
+
+      - name: install auto-changelog
+        run: npm install -g auto-changelog
+
+      - name: generate changelog
+        run: >-
+          auto-changelog -t keepachangelog
+          --commit-limit 50 --backfill-limit 50
+          --ignore-commit-pattern '[Bb]ump version|[Uu]pdate changelog|[Mm]erge pull request'      
 
       - name: get release notes
-        id: get-releasenotes
         uses: olofvndrhr/releasenote-gen@v1
         with:
           version: latest # default
           changelog: CHANGELOG.md # default
           releasenotes: RELEASENOTES.md # default
 
-      - name: get release notes for ref
-        uses: olofvndrhr/releasenote-gen@v1
+      # don't forget to include RELEASENOTES.md in your .gitignore
+      - name: commit changes
+        uses: EndBug/add-and-commit@v9
         with:
-          version: ${{ github.ref_name }} # name of the pushed tag
-
-      # use the generated release notes string for further steps
-      - name: print release notes
-        run: echo "${{ steps.get-releasenotes.outputs.releasenotes }}"
+          message: "[bot] update changelog"
+          author_name: xxxx
+          author_email: xxxx
