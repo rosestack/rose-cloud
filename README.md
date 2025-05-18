@@ -65,7 +65,6 @@ mvn versions:set -DprocessAllModules=true -DgenerateBackupPoms=false -DnewVersio
 Publish to Central:
 
 ```bash
-
 mvn -DskipTests -Prelease deploy
 ```
 
