@@ -1,0 +1,18 @@
+# https://github.com/smallrye/smallrye-config/blob/main/.github/workflows/update-milestone.yml
+
+name: PR Update Milestone
+
+on:
+  pull_request_target:
+    types: [ closed ]
+
+jobs:
+  set-milestone:
+    runs-on: ubuntu-latest
+    name: set-milestone
+    if: ${{github.event.pull_request.merged == true}}
+    steps:
+      - name: Set Milestone
+        uses: radcortez/milestone-set-action@main
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
