@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>io.github.rose-group</groupId>
     <artifactId>rose-build</artifactId>
-    <version>0.0.14</version>
-    <relativePath/>
+    <version>0.0.15-SNAPSHOT</version>
+    <relativePath></relativePath>
   </parent>
   <groupId>io.github.rose-group</groupId>
   <artifactId>rose</artifactId>
@@ -40,11 +39,23 @@
     </developer>
   </developers>
 
+  <modules>
+    <module>rose-core</module>
+    <module>rose-mybatis</module>
+    <module>rose-processor</module>
+    <module>rose-security</module>
+    <module>rose-service/rose-gateway</module>
+    <module>rose-service/rose-monitor</module>
+    <module>rose-service/rose-upms</module>
+    <module>rose-spring-boot</module>
+    <module>rose-spring-cloud</module>
+  </modules>
+
   <scm>
     <connection>scm:git:https://github.com/rose-group/rose.git</connection>
     <developerConnection>scm:git:https://github.com/rose-group/rose.git</developerConnection>
-    <url>https://github.com/rose-group/rose.git</url>
     <tag>HEAD</tag>
+    <url>https://github.com/rose-group/rose.git</url>
   </scm>
 
   <properties>
@@ -74,18 +85,6 @@
     <xxl-job.version>2.5.0</xxl-job.version>
     <uuid-creator.version>6.1.1</uuid-creator.version>
   </properties>
-
-  <modules>
-    <module>rose-processor</module>
-    <module>rose-core</module>
-    <module>rose-mybatis</module>
-    <module>rose-security</module>
-    <module>rose-spring-boot</module>
-    <module>rose-spring-cloud</module>
-    <module>rose-service/rose-gateway</module>
-    <module>rose-service/rose-monitor</module>
-    <module>rose-service/rose-upms</module>
-  </modules>
 
   <dependencyManagement>
     <dependencies>
@@ -309,13 +308,13 @@
         <version>${redisson.version}</version>
         <exclusions>
           <exclusion>
-            <artifactId>spring-boot-starter-actuator</artifactId>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
           </exclusion>
           <exclusion>
+            <groupId>org.redisson</groupId>
             <!-- 使用 redisson-spring-data-27 替代，解决 Tuple NoClassDefFoundError 报错 -->
             <artifactId>redisson-spring-data-34</artifactId>
-            <groupId>org.redisson</groupId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -368,14 +367,6 @@
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
           <version>${spring-boot.version}</version>
-          <executions>
-            <execution>
-              <goals>
-                <goal>repackage</goal>
-                <goal>build-info</goal>
-              </goals>
-            </execution>
-          </executions>
           <configuration>
             <layers>
               <enabled>true</enabled>
@@ -384,8 +375,15 @@
               <name>${env.USER}/${project.artifactId}</name>
             </image>
           </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>repackage</goal>
+                <goal>build-info</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
-
       </plugins>
     </pluginManagement>
   </build>
