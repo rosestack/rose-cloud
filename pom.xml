@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>io.github.rose-group</groupId>
@@ -14,7 +15,7 @@
 
   <name>Rose</name>
   <description>Rose</description>
-  <url>https://github.com/rose-group/rose</url>
+  <url>https://rose-group.github.io/rose</url>
   <inceptionYear>2025</inceptionYear>
 
   <organization>
@@ -52,11 +53,23 @@
   </modules>
 
   <scm>
-    <connection>scm:git:https://github.com/rose-group/rose.git</connection>
-    <developerConnection>scm:git:https://github.com/rose-group/rose.git</developerConnection>
+    <connection>scm:git:https://github.com/rose-group/rose</connection>
+    <developerConnection>scm:git:https://github.com/rose-group/rose</developerConnection>
     <tag>HEAD</tag>
-    <url>https://github.com/rose-group/rose.git</url>
+    <url>https://github.com/rose-group/rose</url>
   </scm>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>central</id>
+      <name>central-snapshot</name>
+      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+    </snapshotRepository>
+    <site>
+      <id>github</id>
+      <url>${project.scm.developerConnection}</url>
+    </site>
+  </distributionManagement>
 
   <properties>
     <java.version>8</java.version>
@@ -84,6 +97,9 @@
     <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
     <xxl-job.version>2.5.0</xxl-job.version>
     <uuid-creator.version>6.1.1</uuid-creator.version>
+
+    <disable.checks>false</disable.checks>
+    <scmpublish.content>${project.build.directory}/${project.artifactId}</scmpublish.content>
   </properties>
 
   <dependencyManagement>

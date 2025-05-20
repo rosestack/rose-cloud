@@ -220,7 +220,7 @@
             <property name="minLineCount" value="2"/>
         </module>
         <module name="JavadocMethod">
-            <property name="scope" value="public"/>
+<!--            <property name="scope" value="public"/>-->
             <property name="allowedAnnotations" value="Override, Test"/>
         </module>
         <module name="MethodName">

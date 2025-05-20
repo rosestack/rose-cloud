@@ -2,26 +2,30 @@
 
 <site xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/SITE/2.0.0"
       xsi:schemaLocation="http://maven.apache.org/SITE/2.0.0 https://maven.apache.org/xsd/site-2.0.0.xsd">
-    <bannerLeft href="${this.url}">
-        <image src="https://maven.apache.org/images/apache-maven-project.png"></image>
-    </bannerLeft>
+  <bannerLeft href="${this.url}">
+    <image src="https://maven.apache.org/images/apache-maven-project.png"></image>
+  </bannerLeft>
 
-    <bannerRight href="${this.url}">
-        <image src="https://maven.apache.org/images/maven-logo-black-on-white.png"></image>
-    </bannerRight>
+  <bannerRight href="${this.url}">
+    <image src="https://maven.apache.org/images/maven-logo-black-on-white.png"></image>
+  </bannerRight>
 
-    <publishDate position="left"/>
-    <version position="left"/>
+  <publishDate position="left"/>
+  <version position="left"/>
 
-    <body>
-        <menu ref="parent" inherit="bottom"/>
-        <menu ref="modules" inherit="bottom"/>
-        <menu ref="reports" inherit="bottom"/>
-    </body>
+  <body>
+    <menu ref="parent" inherit="bottom"/>
+    <menu ref="modules" inherit="bottom"/>
+    <menu ref="reports" inherit="bottom"/>
 
-    <skin>
-        <groupId>org.apache.maven.skins</groupId>
-        <artifactId>maven-fluido-skin</artifactId>
-      <version>2.0.0-M11</version>
-    </skin>
+    <links>
+      <item name="Your Site" href="https://rose-group.github.io/rose/"/>
+    </links>
+  </body>
+
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-fluido-skin</artifactId>
+    <version>2.1.0</version>
+  </skin>
 </site>
