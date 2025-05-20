@@ -6,7 +6,7 @@
     <groupId>io.github.rose-group</groupId>
     <artifactId>rose-build</artifactId>
     <version>0.0.15-SNAPSHOT</version>
-    <relativePath></relativePath>
+    <relativePath/>
   </parent>
   <groupId>io.github.rose-group</groupId>
   <artifactId>rose</artifactId>
