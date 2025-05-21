@@ -16,12 +16,14 @@
 package io.github.rose.core.cache;
 
 import io.github.rose.core.reflect.Classes;
+import io.github.rose.core.util.ServiceLoaders;
 
 import java.util.Iterator;
-import java.util.ServiceLoader;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @FunctionalInterface
 public interface Cache<K, V> {
@@ -42,12 +44,15 @@ public interface Cache<K, V> {
     V get(K key);
 
     class Factories {
+        private static final ConcurrentMap<Class<? extends CacheFactory>, CacheFactory> FACTORIES = new ConcurrentHashMap<>(loadFactory());
         private static final CacheFactory DEFAULT = resolveDefaultCacheFactory();
-        private static final ConcurrentMap<Class<? extends CacheFactory>, CacheFactory> FACTORIES = new
-            ConcurrentHashMap<>();
+
+        private static Map<Class<? extends CacheFactory>, CacheFactory> loadFactory() {
+            return ServiceLoaders.load(CacheFactory.class).stream().collect(Collectors.toMap(CacheFactory::getClass, a -> a));
+        }
 
         private static CacheFactory resolveDefaultCacheFactory() {
-            Iterator<CacheFactory> cacheFactoryIterator = ServiceLoader.load(CacheFactory.class).iterator();
+            Iterator<CacheFactory> cacheFactoryIterator = FACTORIES.values().iterator();
             if (cacheFactoryIterator.hasNext()) {
                 return cacheFactoryIterator.next();
             } else {

@@ -15,7 +15,7 @@
  */
 package io.github.rose.env;
 
-import io.github.rose.core.spi.LauncherService;
+import io.github.rose.core.util.LauncherService;
 import io.github.rose.processor.AutoService;
 import org.springframework.core.env.ConfigurableEnvironment;
 

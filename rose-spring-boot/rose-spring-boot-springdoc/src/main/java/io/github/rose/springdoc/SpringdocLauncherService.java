@@ -15,7 +15,7 @@
  */
 package io.github.rose.springdoc;
 
-import io.github.rose.core.spi.LauncherService;
+import io.github.rose.core.util.LauncherService;
 import io.github.rose.processor.AutoService;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;

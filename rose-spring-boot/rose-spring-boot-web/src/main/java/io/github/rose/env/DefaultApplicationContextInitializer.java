@@ -15,8 +15,8 @@
  */
 package io.github.rose.env;
 
-import io.github.rose.core.spi.LauncherService;
-import io.github.rose.core.spi.ServiceFinder;
+import io.github.rose.core.util.LauncherService;
+import io.github.rose.core.util.ServiceLoaders;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -28,7 +28,7 @@ public class DefaultApplicationContextInitializer
 
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
-        ServiceFinder.load(LauncherService.class).stream()
+        ServiceLoaders.load(LauncherService.class).stream()
             .sorted(Comparator.comparing(LauncherService::getOrder))
             .collect(Collectors.toList())
             .forEach(launcherService -> launcherService.initialize(applicationContext.getEnvironment()));
