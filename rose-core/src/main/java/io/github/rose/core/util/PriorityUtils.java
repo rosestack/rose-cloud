@@ -7,6 +7,9 @@
  */
 package io.github.rose.core.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.OrderUtils;
 
 import javax.annotation.Priority;
@@ -16,10 +19,11 @@ import java.util.List;
 import java.util.function.ToIntFunction;
 
 public final class PriorityUtils {
+    private static final Logger log = LoggerFactory.getLogger(PriorityUtils.class);
+
     private PriorityUtils() {
         // no instantiation allowed
     }
-
 
     /***
      * A specialization of {@link #sortByPriority(List, ToIntFunction)} for a list of classes.
@@ -51,8 +55,8 @@ public final class PriorityUtils {
      * @param <T>         Ensure type consistency
      * @param someObjects the list of objects to sort.
      */
-    public static <T extends Object> void sortByClassPriority(List<T> someObjects) {
-        sortByPriority(someObjects, PriorityUtils::priorityOfClassOf);
+    public static <T extends Object> void sortByObjectPriority(List<T> someObjects) {
+        sortByPriority(someObjects, PriorityUtils::priorityOfObject);
     }
 
 
@@ -65,14 +69,18 @@ public final class PriorityUtils {
      * @return the priority.
      */
     public static int priorityOf(Class<?> someClass) {
+        Integer order = 0;
         while (someClass != null) {
-            Integer order = OrderUtils.getOrder(someClass);
+            order = OrderUtils.getOrder(someClass);
             if (order != null) {
-                return order;
+                break;
             }
             someClass = someClass.getSuperclass();
         }
-        return 0;
+        if (order == null) {
+            order = 0;
+        }
+        return order;
     }
 
     /**
@@ -81,7 +89,11 @@ public final class PriorityUtils {
      * @param object the object from which to extract class from which to extract priority.
      * @return the priority.
      */
-    public static int priorityOfClassOf(Object object) {
+    public static int priorityOfObject(Object object) {
+        if (object instanceof Ordered) {
+            return ((Ordered) object).getOrder();
+        }
+
         return priorityOf(object.getClass());
     }
 }

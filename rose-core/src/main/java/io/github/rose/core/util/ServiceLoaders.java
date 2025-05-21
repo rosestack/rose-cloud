@@ -59,10 +59,10 @@ public class ServiceLoaders {
         }
 
         if (services.isEmpty()) {
-            log.info("No service impls found: %s", contract.getSimpleName());
+            log.info("No service impls found: {}", contract.getSimpleName());
         }
 
-        PriorityUtils.sortByClassPriority(services);
+        PriorityUtils.sortByObjectPriority(services);
         return services;
     }
 
@@ -72,9 +72,9 @@ public class ServiceLoaders {
             T service = i.next();
             if (!services.contains(service.getClass().getName())) {
                 services.add(service);
-                log.info("Loading service impl: %s", service.getClass().getName());
+                log.info("Loading service impl: {}", service.getClass().getName());
             } else {
-                log.info("Ignoring already loaded service: %s", service.getClass().getName());
+                log.info("Ignoring already loaded service: {}", service.getClass().getName());
             }
         }
     }
