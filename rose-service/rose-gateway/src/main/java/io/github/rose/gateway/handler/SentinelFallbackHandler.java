@@ -17,7 +17,6 @@ package io.github.rose.gateway.handler;
 
 import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.GatewayCallbackManager;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
-import io.github.rose.core.exception.ResultCode;
 import io.github.rose.core.util.RestResponse;
 import io.github.rose.gateway.util.WebfluxUtils;
 import org.springframework.http.HttpStatus;
@@ -31,8 +30,8 @@ import reactor.core.publisher.Mono;
  */
 public class SentinelFallbackHandler implements WebExceptionHandler {
 
-    private Mono<Void> writeResponse(ServerResponse response, ServerWebExchange exchange) {
-        RestResponse<Object> error = RestResponse.error(ResultCode.TOO_MANY_REQUESTS.getCode(), "请求超过最大数，请稍候再试");
+    private Mono<Void> writeResponse(ServerWebExchange exchange) {
+        RestResponse<Object> error = RestResponse.error(HttpStatus.TOO_MANY_REQUESTS.value(), "请求超过最大数，请稍候再试");
         return WebfluxUtils.writeResponse(HttpStatus.TOO_MANY_REQUESTS, exchange.getResponse(), error);
     }
 
@@ -44,7 +43,7 @@ public class SentinelFallbackHandler implements WebExceptionHandler {
         if (!BlockException.isBlockException(ex)) {
             return Mono.error(ex);
         }
-        return handleBlockedRequest(exchange, ex).flatMap(response -> writeResponse(response, exchange));
+        return handleBlockedRequest(exchange, ex).flatMap(response -> writeResponse(exchange));
     }
 
     private Mono<ServerResponse> handleBlockedRequest(ServerWebExchange exchange, Throwable throwable) {

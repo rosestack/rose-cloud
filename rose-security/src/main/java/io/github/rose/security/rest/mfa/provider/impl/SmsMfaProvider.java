@@ -51,7 +51,7 @@ public class SmsMfaProvider extends OtpBasedMfaProvider<SmsMfaProviderConfig, Sm
         // "userEmail", user.getEmail()
         // );
         // String message =
-        // FormatUtils.formatVariables(providerConfig.getSmsVerificationMessageTemplate(),
+        // TextFormatUtils.formatVariables(providerConfig.getSmsVerificationMessageTemplate(),
         // "${", "}", messageData);
         // String phoneNumber = twoFaConfig.getPhoneNumber();
         // try {

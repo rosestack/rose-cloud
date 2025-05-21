@@ -16,7 +16,6 @@
 package io.github.rose.xxljob.core;
 
 import com.xxl.job.core.handler.annotation.XxlJob;
-import io.github.rose.core.exception.BusinessException;
 import io.github.rose.core.spring.SpringContextHolder;
 import io.github.rose.xxljob.anntation.XxlRegister;
 import io.github.rose.xxljob.config.XxlJobProperties;
@@ -24,10 +23,6 @@ import io.github.rose.xxljob.model.XxlJobGroup;
 import io.github.rose.xxljob.model.XxlJobInfo;
 import io.github.rose.xxljob.service.JobGroupService;
 import io.github.rose.xxljob.service.JobInfoService;
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +34,11 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.core.MethodIntrospector;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.util.CollectionUtils;
+
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyEvent>, ApplicationContextAware {
     private static final Logger log = LoggerFactory.getLogger(XxlJobAutoRegister.class);
@@ -52,7 +52,7 @@ public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyE
     private ApplicationContext applicationContext;
 
     public XxlJobAutoRegister(
-            JobGroupService jobGroupService, JobInfoService jobInfoService, XxlJobProperties xxlJobProperties) {
+        JobGroupService jobGroupService, JobInfoService jobInfoService, XxlJobProperties xxlJobProperties) {
         this.jobGroupService = jobGroupService;
         this.jobInfoService = jobInfoService;
         this.xxlJobProperties = xxlJobProperties;
@@ -69,7 +69,7 @@ public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyE
 
         List<XxlJobGroup> jobGroups = jobGroupService.getJobGroup(appName);
         if (CollectionUtils.isEmpty(jobGroups)) {
-            throw new BusinessException("执行器管理" + appName + "没有注册");
+            throw new RuntimeException("执行器管理" + appName + "没有注册");
         }
         XxlJobGroup xxlJobGroup = jobGroups.get(0);
         addJobInfo(xxlJobGroup);
@@ -87,8 +87,8 @@ public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyE
             Object bean = applicationContext.getBean(beanDefinitionName);
 
             Map<Method, XxlJob> annotatedMethods =
-                    MethodIntrospector.selectMethods(bean.getClass(), (MethodIntrospector.MetadataLookup<XxlJob>)
-                            method -> AnnotatedElementUtils.findMergedAnnotation(method, XxlJob.class));
+                MethodIntrospector.selectMethods(bean.getClass(), (MethodIntrospector.MetadataLookup<XxlJob>)
+                    method -> AnnotatedElementUtils.findMergedAnnotation(method, XxlJob.class));
             for (Map.Entry<Method, XxlJob> methodXxlJobEntry : annotatedMethods.entrySet()) {
                 Method executeMethod = methodXxlJobEntry.getKey();
                 XxlJob xxlJob = methodXxlJobEntry.getValue();
@@ -99,9 +99,9 @@ public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyE
                     if (!jobInfo.isEmpty()) {
                         // 服务端是模糊查询，需要再判断一次
                         Optional<XxlJobInfo> first = jobInfo.stream()
-                                .filter(xxlJobInfo ->
-                                        xxlJobInfo.getExecutorHandler().equals(xxlJob.value()))
-                                .findFirst();
+                            .filter(xxlJobInfo ->
+                                xxlJobInfo.getExecutorHandler().equals(xxlJob.value()))
+                            .findFirst();
                         if (first.isPresent()) {
                             continue;
                         }
@@ -120,17 +120,17 @@ public class XxlJobAutoRegister implements ApplicationListener<ApplicationReadyE
         xxlJobInfo.setJobGroup(xxlJobGroup.getId());
         xxlJobInfo.setJobDesc(StringUtils.defaultIfBlank(xxlRegister.jobDesc(), xxlJob.value() + " 任务"));
         xxlJobInfo.setAuthor(StringUtils.defaultIfBlank(
-                xxlRegister.author(), xxlJobProperties.getClient().getAuthor()));
+            xxlRegister.author(), xxlJobProperties.getClient().getAuthor()));
         xxlJobInfo.setAlarmEmail(StringUtils.defaultIfBlank(
-                xxlRegister.alarmEmail(), xxlJobProperties.getClient().getAlarmEmail()));
+            xxlRegister.alarmEmail(), xxlJobProperties.getClient().getAlarmEmail()));
         xxlJobInfo.setScheduleType(xxlJobProperties.getClient().getScheduleType());
         xxlJobInfo.setScheduleConf(xxlRegister.cron());
         xxlJobInfo.setGlueType(xxlJobProperties.getClient().getGlueType());
         xxlJobInfo.setExecutorHandler(xxlJob.value());
         xxlJobInfo.setExecutorParam(xxlRegister.executorParam());
         xxlJobInfo.setExecutorRouteStrategy(StringUtils.defaultIfBlank(
-                xxlRegister.executorRouteStrategy(),
-                xxlJobProperties.getClient().getExecutorRouteStrategy()));
+            xxlRegister.executorRouteStrategy(),
+            xxlJobProperties.getClient().getExecutorRouteStrategy()));
         xxlJobInfo.setMisfireStrategy(xxlJobProperties.getClient().getMisfireStrategy());
         xxlJobInfo.setExecutorBlockStrategy(xxlJobProperties.getClient().getExecutorBlockStrategy());
         xxlJobInfo.setExecutorTimeout(xxlJobProperties.getClient().getExecutorTimeout());

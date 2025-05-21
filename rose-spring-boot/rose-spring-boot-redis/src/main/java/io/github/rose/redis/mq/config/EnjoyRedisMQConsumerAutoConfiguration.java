@@ -15,7 +15,7 @@
  */
 package io.github.rose.redis.mq.config;
 
-import io.github.rose.core.util.FormatUtils;
+import io.github.rose.core.util.text.TextFormatUtils;
 import io.github.rose.core.util.NetUtils;
 import io.github.rose.redis.config.RedisCacheConfig;
 import io.github.rose.redis.mq.RedisMQTemplate;
@@ -81,7 +81,7 @@ public class EnjoyRedisMQConsumerAutoConfiguration {
         // 校验最低版本必须大于等于 5.0.0
         int majorVersion = Integer.parseInt(StringUtils.substringBefore(version, '.'));
         if (majorVersion < 5) {
-            throw new IllegalStateException(FormatUtils.format("您当前的 Redis 版本为 {}，小于最低要求的 5.0.0 版本！", version));
+            throw new IllegalStateException(TextFormatUtils.format("您当前的 Redis 版本为 {}，小于最低要求的 5.0.0 版本！", version));
         }
     }
 

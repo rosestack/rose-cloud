@@ -18,7 +18,6 @@ package old.domain.service.impl;
 import cc.chensoul.rose.upms.old.domain.service.AuthService;
 import cc.chensoul.rose.upms.old.domain.service.SmsService;
 import cc.chensoul.rose.upms.old.domain.service.SystemSettingService;
-import io.github.rose.core.exception.BusinessException;
 import io.github.rose.core.validation.Validators;
 import io.github.rose.upms.contact.domain.UserService;
 import io.github.rose.upms.domain.account.Credential;

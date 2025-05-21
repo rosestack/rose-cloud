@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.rose.core.util;
+package io.github.rose.core.util.text;
 
+import io.github.rose.core.util.StringPool;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
@@ -27,7 +28,7 @@ import java.util.regex.Pattern;
  *
  * @since 0.0.1
  */
-public abstract class FormatUtils {
+public abstract class TextFormatUtils {
 
     public static final String DEFAULT_PLACEHOLDER = "{}";
 
@@ -120,16 +121,16 @@ public abstract class FormatUtils {
         return stringBuilder.toString();
     }
 
-    public static String substituteVariables(String template, Map<String, String> variables) {
+    public static String substituteVariables(String template, Map<String, Object> variables) {
         Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}");
         Matcher matcher = pattern.matcher(template);
         // StringBuilder cannot be used here because Matcher expects StringBuffer
         StringBuffer buffer = new StringBuffer();
         while (matcher.find()) {
             if (variables.containsKey(matcher.group(1))) {
-                String replacement = variables.get(matcher.group(1));
+                Object replacement = variables.get(matcher.group(1));
                 // quote to work properly with $ and {,} signs
-                matcher.appendReplacement(buffer, replacement != null ? Matcher.quoteReplacement(replacement) : "null");
+                matcher.appendReplacement(buffer, replacement != null ? Matcher.quoteReplacement(replacement.toString()) : "null");
             }
         }
         matcher.appendTail(buffer);

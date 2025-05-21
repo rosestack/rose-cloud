@@ -18,7 +18,7 @@ package io.github.rose.mybatis.tenant.aspect;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.xxl.job.core.context.XxlJobHelper;
 import io.github.rose.core.json.JsonUtils;
-import io.github.rose.core.util.FormatUtils;
+import io.github.rose.core.util.text.TextFormatUtils;
 import io.github.rose.mybatis.tenant.annotation.TenantJob;
 import io.github.rose.mybatis.tenant.service.TenantService;
 import io.github.rose.mybatis.tenant.util.TenantUtils;
@@ -62,7 +62,7 @@ public class TenantJobAspect {
                     joinPoint.proceed();
                 } catch (Throwable e) {
                     results.put(tenantId, ExceptionUtils.getRootCauseMessage(e));
-                    XxlJobHelper.log(FormatUtils.format(
+                    XxlJobHelper.log(TextFormatUtils.format(
                         "{}租户执行任务({})，发生异常：{}]",
                         tenantId,
                         joinPoint.getSignature(),

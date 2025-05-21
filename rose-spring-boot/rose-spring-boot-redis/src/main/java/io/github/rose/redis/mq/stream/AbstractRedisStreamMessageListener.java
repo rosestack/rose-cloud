@@ -16,7 +16,7 @@
 package io.github.rose.redis.mq.stream;
 
 import io.github.rose.core.json.JsonUtils;
-import io.github.rose.core.spring.ReflectionUtils;
+import io.github.rose.core.reflect.Types;
 import io.github.rose.redis.mq.RedisMQTemplate;
 import io.github.rose.redis.mq.interceptor.RedisMessageInterceptor;
 import io.github.rose.redis.mq.message.AbstractRedisMessage;
@@ -121,7 +121,7 @@ public abstract class AbstractRedisStreamMessageListener<T extends AbstractRedis
      */
     @SuppressWarnings("unchecked")
     private Class<T> getMessageClass() {
-        Type type = ReflectionUtils.getTypeArgument(getClass());
+        Type type = Types.getTypeArgument(getClass());
         if (type == null) {
             throw new IllegalStateException(
                 String.format(Locale.getDefault(), "类型(%s) 需要设置消息类型", getClass().getName()));

@@ -16,7 +16,8 @@
 package io.github.rose.mybatis.tenant.util;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
-import io.github.rose.core.exception.BusinessException;
+import io.github.rose.core.exception.RoseErrorCode;
+import io.github.rose.core.exception.RoseException;
 import org.apache.commons.lang3.StringUtils;
 
 public class TenantContextHolder {
@@ -40,7 +41,7 @@ public class TenantContextHolder {
     public static String getRequiredTenantId() {
         String tenantId = getTenantId();
         if (StringUtils.isBlank(tenantId)) {
-            throw new BusinessException("TenantContextHolder不存在租户");
+            throw RoseException.createNew(RoseErrorCode.TENANT_IS_NULL);
         }
         return tenantId;
     }

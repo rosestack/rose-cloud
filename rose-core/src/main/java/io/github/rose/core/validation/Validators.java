@@ -15,37 +15,30 @@
  */
 package io.github.rose.core.validation;
 
-import io.github.rose.core.exception.BusinessException;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.regex.Pattern;
-import org.apache.commons.lang3.StringUtils;
 
 public class Validators {
-
     public static final Pattern PROPERTY_PATTERN = Pattern.compile("^[\\p{L}0-9_-]+$"); // Unicode
-    // letters,
-    // numbers,
-    // '_'
-    // and
-    // '-'
-    // allowed
 
     public static void checkNotBlank(String val, String errorMessage) {
         if (StringUtils.isBlank(val)) {
-            throw new BusinessException(errorMessage);
+            throw new ValidateException(errorMessage);
         }
     }
 
     public static void checkNotBlank(String val, Function<String, String> errorMessageFunction) {
         if (StringUtils.isBlank(val)) {
-            throw new BusinessException(errorMessageFunction.apply(val));
+            throw new ValidateException(errorMessageFunction.apply(val));
         }
     }
 
     public static void checkPositiveNumber(long val, String errorMessage) {
         if (val <= 0) {
-            throw new BusinessException(errorMessage);
+            throw new ValidateException(errorMessage);
         }
     }
 
@@ -59,7 +52,7 @@ public class Validators {
 
     public static <T> T checkNotNull(T reference, String notFoundMessage) {
         if (reference == null) {
-            throw new BusinessException(notFoundMessage);
+            throw new ValidateException(notFoundMessage);
         }
         return reference;
     }
@@ -72,7 +65,7 @@ public class Validators {
         if (reference.isPresent()) {
             return reference.get();
         } else {
-            throw new BusinessException(notFoundMessage);
+            throw new ValidateException(notFoundMessage);
         }
     }
 }

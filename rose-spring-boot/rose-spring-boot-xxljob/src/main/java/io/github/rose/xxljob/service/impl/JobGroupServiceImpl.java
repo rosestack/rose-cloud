@@ -15,14 +15,11 @@
  */
 package io.github.rose.xxljob.service.impl;
 
-import io.github.rose.core.exception.BusinessException;
 import io.github.rose.xxljob.model.XxlJobGroup;
 import io.github.rose.xxljob.model.XxlJobGroupPage;
 import io.github.rose.xxljob.model.XxlRestResponse;
 import io.github.rose.xxljob.service.JobGroupService;
 import io.github.rose.xxljob.service.JobLoginService;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -30,6 +27,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class JobGroupServiceImpl implements JobGroupService {
 
@@ -59,12 +59,12 @@ public class JobGroupServiceImpl implements JobGroupService {
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(map, headers);
 
         ResponseEntity<XxlJobGroupPage> response =
-                restTemplate.postForEntity(url, requestEntity, XxlJobGroupPage.class);
+            restTemplate.postForEntity(url, requestEntity, XxlJobGroupPage.class);
         List<XxlJobGroup> jobGroup = response.getBody().getData();
 
         return jobGroup.stream()
-                .filter(xxlJobGroup -> xxlJobGroup.getAppname().equals(appName))
-                .collect(Collectors.toList());
+            .filter(xxlJobGroup -> xxlJobGroup.getAppname().equals(appName))
+            .collect(Collectors.toList());
     }
 
     @Override
@@ -82,11 +82,11 @@ public class JobGroupServiceImpl implements JobGroupService {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
 
         ResponseEntity<XxlRestResponse> response =
-                restTemplate.postForEntity(url, requestEntity, XxlRestResponse.class);
+            restTemplate.postForEntity(url, requestEntity, XxlRestResponse.class);
 
         XxlRestResponse xxlRestResponse = response.getBody();
         if (xxlRestResponse.getCode() != 200) {
-            throw new BusinessException(xxlRestResponse.getMsg());
+            throw new RuntimeException(xxlRestResponse.getMsg());
         }
     }
 }

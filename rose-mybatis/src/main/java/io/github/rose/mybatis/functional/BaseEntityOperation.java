@@ -16,14 +16,15 @@
 package io.github.rose.mybatis.functional;
 
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
-import io.github.rose.core.exception.BusinessException;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import io.github.rose.core.validation.ValidateException;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -37,8 +38,8 @@ public abstract class BaseEntityOperation implements EntityOperation {
         Set<ConstraintViolation<T>> constraintViolations = validator.validate(t, group, Default.class);
         if (ObjectUtils.isNotEmpty(constraintViolations)) {
             List<String> message =
-                    constraintViolations.stream().map(cv -> cv.getMessage()).collect(Collectors.toList());
-            throw new BusinessException(message.get(0));
+                constraintViolations.stream().map(cv -> cv.getMessage()).collect(Collectors.toList());
+            throw new ValidateException(message.get(0));
         }
     }
 }

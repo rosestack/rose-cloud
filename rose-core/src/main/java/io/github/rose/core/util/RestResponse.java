@@ -16,7 +16,7 @@
 package io.github.rose.core.util;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.github.rose.core.exception.ResultCode;
+import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -41,27 +41,19 @@ public class RestResponse<T> implements Serializable {
     }
 
     public static <T> RestResponse<T> ok(T data) {
-        return ok(data, ResultCode.SUCCESS.getName());
+        return ok(data, HttpStatus.OK.name());
     }
 
     public static <T> RestResponse<T> ok(T data, String message) {
-        return build(data, ResultCode.SUCCESS.getCode(), message);
+        return build(data, HttpStatus.OK.value(), message);
     }
 
-    public static <T> RestResponse<T> error() {
-        return error(null, ResultCode.INTERNAL_ERROR.getName());
+    public static <T> RestResponse<T> error(int code, String message) {
+        return build(null, code, message);
     }
 
     public static <T> RestResponse<T> error(String message) {
-        return error(null, message);
-    }
-
-    public static <T> RestResponse<T> error(T data) {
-        return error(data, ResultCode.INTERNAL_ERROR.getName());
-    }
-
-    public static <T> RestResponse<T> error(T data, String message) {
-        return build(data, ResultCode.INTERNAL_ERROR.getCode(), message);
+        return build(null, HttpStatus.INTERNAL_SERVER_ERROR.value(), message);
     }
 
     public static <T> RestResponse<T> build(T data, int code, String message) {
@@ -86,7 +78,7 @@ public class RestResponse<T> implements Serializable {
 
     @JsonIgnore
     public Boolean isSuccess() {
-        return (this.code == ResultCode.SUCCESS.getCode());
+        return (this.code == HttpStatus.OK.value());
     }
 
     @JsonIgnore

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.rose.core.util;
+package io.github.rose.core.util.text;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,37 +24,37 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * {@link FormatUtils} Test
+ * {@link TextFormatUtils} Test
  *
  * @since 1.0.0
  */
-public class FormatUtilsTest {
+public class TextFormatUtilsTest {
 
     @Test
     public void testFormat() {
-        String message = FormatUtils.format("A,{},C,{},E", "B", "D");
+        String message = TextFormatUtils.format("A,{},C,{},E", "B", "D");
         assertEquals("A,B,C,D,E", message);
 
-        message = FormatUtils.format("A,{},C,{},E", "B");
+        message = TextFormatUtils.format("A,{},C,{},E", "B");
         assertEquals("A,B,C,{},E", message);
 
-        message = FormatUtils.format("A,{},C,{},E");
+        message = TextFormatUtils.format("A,{},C,{},E");
         assertEquals("A,{},C,{},E", message);
 
-        message = FormatUtils.format("A,{},C,{},E", 1, 2, 3);
+        message = TextFormatUtils.format("A,{},C,{},E", 1, 2, 3);
         assertEquals("A,1,C,2,E", message);
     }
 
     @Test
     public void testSubVariables() {
-        Map<String, String> variables = new HashMap<>();
+        Map<String, Object> variables = new HashMap<>();
         variables.put("v1", "abc");
         variables.put("v2", "def");
 
         String text = "This is a test for ${v1} and ${v2}";
         String expect = "This is a test for abc and def";
 
-        Assertions.assertEquals(expect, FormatUtils.substituteVariables(text, variables));
+        Assertions.assertEquals(expect, TextFormatUtils.substituteVariables(text, variables));
 
     }
 }

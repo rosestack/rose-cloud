@@ -18,7 +18,6 @@ package io.github.rose.xxljob.config;
 import com.alibaba.ttl.TtlRunnable;
 import com.xxl.job.core.executor.XxlJobExecutor;
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
-import io.github.rose.core.exception.BusinessException;
 import io.github.rose.core.spring.SpringContextHolder;
 import io.github.rose.core.util.StringPool;
 import org.apache.commons.lang3.StringUtils;
@@ -102,7 +101,7 @@ public class XxlJobExecutorConfiguration {
             xxlJobExecutor.setAdminAddresses(serverList);
         } else {
             if (StringUtils.isBlank(properties.getAdmin().getAddresses())) {
-                throw new BusinessException("调度器地址不能为空");
+                throw new RuntimeException("调度器地址不能为空");
             }
             xxlJobExecutor.setAdminAddresses(properties.getAdmin().getAddresses());
         }

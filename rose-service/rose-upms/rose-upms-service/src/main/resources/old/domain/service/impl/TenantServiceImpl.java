@@ -19,7 +19,6 @@ import cc.chensoul.rose.upms.old.domain.mapper.TenantMapper;
 import cc.chensoul.rose.upms.old.domain.model.event.SaveEntityEvent;
 import cc.chensoul.rose.upms.old.domain.service.TenantService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import io.github.rose.core.exception.BusinessException;
 import io.github.rose.core.spring.SpringContextHolder;
 import io.github.rose.upms.contact.domain.UserService;
 import io.github.rose.upms.domain.contact.User;

@@ -16,16 +16,17 @@
 package io.github.rose.mybatis.functional;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import io.github.rose.core.exception.BusinessException;
 import io.github.rose.core.validation.Update;
+import io.github.rose.core.validation.ValidateException;
 import io.vavr.control.Try;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -50,12 +51,12 @@ public class EntityUpdater<T> extends BaseEntityOperation implements Loader<T>, 
     public Optional<T> execute() {
         doValidate(this.entity, Update.class);
         T save = Try.of(() -> {
-                    baseMapper.updateById(entity);
-                    return this.entity;
-                })
-                .onSuccess(successHook)
-                .onFailure(errorHook)
-                .getOrNull();
+                baseMapper.updateById(entity);
+                return this.entity;
+            })
+            .onSuccess(successHook)
+            .onFailure(errorHook)
+            .getOrNull();
         return Optional.ofNullable(save);
     }
 
@@ -64,7 +65,7 @@ public class EntityUpdater<T> extends BaseEntityOperation implements Loader<T>, 
         Objects.requireNonNull(id, "id is null");
         T t = baseMapper.selectById(id);
         if (Objects.isNull(t)) {
-            throw new BusinessException("entity not found");
+            throw new ValidateException("entity not found");
         } else {
             this.entity = t;
         }

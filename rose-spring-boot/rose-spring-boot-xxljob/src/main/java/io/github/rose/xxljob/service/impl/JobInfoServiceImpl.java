@@ -15,7 +15,6 @@
  */
 package io.github.rose.xxljob.service.impl;
 
-import io.github.rose.core.exception.BusinessException;
 import io.github.rose.xxljob.config.XxlJobProperties;
 import io.github.rose.xxljob.model.XxlJobInfo;
 import io.github.rose.xxljob.model.XxlJobInfoPage;
@@ -130,7 +129,7 @@ public class JobInfoServiceImpl implements JobInfoService {
 
         XxlRestResponse xxlRestResponse = response.getBody();
         if (xxlRestResponse.getCode() != 200) {
-            throw new BusinessException(xxlRestResponse.getMsg());
+            throw new RuntimeException(xxlRestResponse.getMsg());
         }
         return xxlRestResponse;
     }

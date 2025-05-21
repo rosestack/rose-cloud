@@ -15,7 +15,6 @@
  */
 package io.github.rose.core.spring;
 
-import io.github.rose.core.exception.BusinessException;
 import io.github.rose.core.json.JsonUtils;
 import io.github.rose.core.util.NetUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -163,7 +162,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
     }
 
     public static HttpServletRequest getRequest() {
-        return ofRequest().orElseThrow(() -> new BusinessException("Request is null"));
+        return ofRequest().orElseThrow(() -> new IllegalStateException("Request is null"));
     }
 
     public static HttpServletResponse getResponse() {
