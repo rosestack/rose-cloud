@@ -26,7 +26,7 @@ public class UnboundedCache<K, V> implements Cache<K, V> {
     private UnboundedCache(CacheConfig<K, V> cacheConfig) {
         loadingFunction = cacheConfig.getLoadingFunction();
         this.map = new ConcurrentHashMap<>(cacheConfig.getInitialSize(), 0.75f,
-                1);
+            cacheConfig.getConcurrencyLevel());
     }
 
     @Override
