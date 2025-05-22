@@ -53,7 +53,7 @@
   </modules>
 
   <scm>
-    <connection>scm:git:https://github.com/rosestack/rose</connection>
+    <connection>scm:git:https://github.com/rosestack/rose.git</connection>
     <developerConnection>scm:git:https://github.com/rosestack/rose</developerConnection>
     <tag>HEAD</tag>
     <url>https://github.com/rosestack/rose</url>
