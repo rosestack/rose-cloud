@@ -17,6 +17,7 @@ package io.github.rose.core.spring;
 
 import io.github.rose.core.json.JsonUtils;
 import io.github.rose.core.util.NetUtils;
+import io.github.rose.core.util.StringPool;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -86,7 +87,12 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         if (request == null) {
             return null;
         }
-        return StringUtils.defaultString(request.getParameter(headerName), request.getHeader(headerName));
+
+        String value = StringUtils.defaultString(request.getParameter(headerName), request.getHeader(headerName));
+        if (value != null) {
+            value = value.replaceAll("[\n\r]", StringPool.EMPTY);
+        }
+        return value;
     }
 
     public static String constructUrl(HttpServletRequest request) {

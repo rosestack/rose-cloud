@@ -37,7 +37,6 @@ public class TenantContextFilter extends OncePerRequestFilter {
         throws ServletException, IOException {
         String tenantId = WebUtils.getValue(request, HEADER_TENANT_ID);
         if (tenantId != null) {
-            log.info("Visit {} with tenantId {}", request.getRequestURI(), tenantId);
             TenantContextHolder.setTenantId(tenantId);
         }
         try {

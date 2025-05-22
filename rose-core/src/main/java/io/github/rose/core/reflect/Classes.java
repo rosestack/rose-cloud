@@ -17,6 +17,7 @@ package io.github.rose.core.reflect;
 
 import io.github.rose.core.cache.Cache;
 import io.github.rose.core.cache.CacheConfig;
+import io.github.rose.core.cache.SimpleLRUCache;
 import io.github.rose.core.exception.RoseErrorCode;
 import io.github.rose.core.exception.RoseException;
 
@@ -31,7 +32,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public final class Classes {
-    private static Cache<Context, List<Class<?>>> cache = Cache.create(
+    private static Cache<Context, List<Class<?>>> cache = new SimpleLRUCache.Factory().createCache(
         CacheConfig.<Context, List<Class<?>>>builder().loadingFunction(Context::gather).build()
     );
 
