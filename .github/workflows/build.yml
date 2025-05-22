@@ -19,5 +19,5 @@ on:
 jobs:
   build:
     name: build
-    uses: rose-group/.github/.github/workflows/build.yml@main
+    uses: rosestack/.github/.github/workflows/build.yml@main
     secrets: inherit

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 rose-group.github.io
+ * Copyright © 2025 rosestack.github.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,8 +49,6 @@ public abstract class BaseException extends RuntimeException {
 
     private List<String> causes;
     private String message;
-    private String fix;
-    private String url;
 
     /**
      * Create a BaseException from an {@link ErrorCode}.
@@ -115,8 +113,7 @@ public abstract class BaseException extends RuntimeException {
      */
     public static <E extends BaseException> E wrap(Class<E> exceptionType, Throwable throwable, ErrorCode errorCode) {
         try {
-            Constructor<E> constructor = exceptionType
-                .getDeclaredConstructor(ErrorCode.class, Throwable.class);
+            Constructor<E> constructor = exceptionType.getDeclaredConstructor(ErrorCode.class, Throwable.class);
             constructor.setAccessible(true);
             return constructor.newInstance(errorCode, throwable);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException
@@ -183,7 +180,7 @@ public abstract class BaseException extends RuntimeException {
     public String toString() {
         int location = getLocation();
 
-        if (location == 1 || location == 3) {
+        if (location == 1) {
             // if called from throwable constructor or from a verbose Guice exception
             // we return the simple message to avoid messing the stack trace
             return getMessage();
@@ -217,7 +214,7 @@ public abstract class BaseException extends RuntimeException {
 
         s.append(super.toString());
 
-        String roseMessage = getMessage();
+        String roseMessage = getDescription();
         if (roseMessage != null) {
             ensureBlankLine(s);
             s.append("Description\n-----------\n");
@@ -239,18 +236,6 @@ public abstract class BaseException extends RuntimeException {
                     TextUtils.leftPad(textWrapper.wrap(seedCause), "   ", 1)));
                 count++;
             }
-        }
-
-        if (fix != null) {
-            ensureBlankLine(s);
-            s.append("Fix\n---\n");
-            s.append(textWrapper.wrap(fix));
-        }
-
-        if (url != null) {
-            ensureBlankLine(s);
-            s.append("Online information\n------------------\n");
-            s.append(url);
         }
 
         if (location == 2) {
@@ -275,7 +260,7 @@ public abstract class BaseException extends RuntimeException {
      *
      * @return the exception description or null if none exists.
      */
-    public String getMessage() {
+    public String getDescription() {
         compute();
         return this.message;
     }
@@ -292,28 +277,6 @@ public abstract class BaseException extends RuntimeException {
         return this.causes;
     }
 
-    /**
-     * Provides advice on how to fix the root cause of the exception. This fix is effectively
-     * extracted from the last cause available.
-     *
-     * @return the fix of the root cause or null if none exists.
-     */
-    public String getFix() {
-        compute();
-        return this.fix;
-    }
-
-    /**
-     * Provides an URL to online information about the root cause of the exception. This URL is
-     * effectively extracted from the last cause available.
-     *
-     * @return the online information URL of the root cause or null if none exists.
-     */
-    public String getUrl() {
-        compute();
-        return this.url;
-    }
-
     private void compute() {
         if (alreadyComputed.getAndSet(true)) {
             return;
@@ -327,18 +290,6 @@ public abstract class BaseException extends RuntimeException {
             if (theCause instanceof BaseException) {
                 BaseException seedCause = (BaseException) theCause;
                 Map<String, Object> processedProperties = processProperties(seedCause.getProperties());
-
-                // Find the fix at lowest depth
-                String fixTemplate = seedCause.getTemplate("fix");
-                if (fixTemplate != null) {
-                    fix = TextFormatUtils.substituteVariables(fixTemplate, processedProperties);
-                }
-
-                // Also get the url
-                String urlTemplate = seedCause.getTemplate("url");
-                if (urlTemplate != null) {
-                    url = TextFormatUtils.substituteVariables(urlTemplate, processedProperties);
-                }
 
                 // Collects all cause messages from highest to lowest level
                 String seedCauseErrorTemplate = seedCause.getTemplate(null);
@@ -371,20 +322,6 @@ public abstract class BaseException extends RuntimeException {
             String messageTemplate = getTemplate(null);
             if (messageTemplate != null) {
                 message = TextFormatUtils.substituteVariables(messageTemplate, processedProperties);
-            }
-        }
-
-        if (fix == null) {
-            String fixTemplate = getTemplate("fix");
-            if (fixTemplate != null) {
-                fix = TextFormatUtils.substituteVariables(fixTemplate, processedProperties);
-            }
-        }
-
-        if (url == null) {
-            String urlTemplate = getTemplate("url");
-            if (urlTemplate != null) {
-                url = TextFormatUtils.substituteVariables(urlTemplate, processedProperties);
             }
         }
     }

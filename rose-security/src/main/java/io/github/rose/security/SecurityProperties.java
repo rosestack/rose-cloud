@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 rose-group.github.io
+ * Copyright © 2025 rosestack.github.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -117,7 +117,7 @@ public class SecurityProperties {
     public static class JwtProperties {
         private boolean enabled = false;
 
-        private String tokenIssuer = "rose.rose-group.github.io";
+        private String tokenIssuer = "rose.rosestack.github.io";
 
         private String tokenSigningKey =
                 "secret12345678901234567890123456789012345678901234567890123456789012345678901234567890";

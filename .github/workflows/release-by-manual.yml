@@ -15,7 +15,7 @@ on:
 jobs:
   release:
     name: Release
-    uses: rose-group/.github/.github/workflows/release-by-manual.yml@main
+    uses: rosestack/.github/.github/workflows/release-by-manual.yml@main
     secrets: inherit
     with:
       current-version: ${{github.event.inputs.current-version}}

@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>io.github.rose-group</groupId>
+    <groupId>io.github.rosestack</groupId>
     <artifactId>rose</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>../../rose-dependencies/pom.xml</relativePath>
@@ -18,7 +18,7 @@
       <artifactId>mybatis-plus-annotation</artifactId>
     </dependency>
     <dependency>
-      <groupId>io.github.rose-group</groupId>
+      <groupId>io.github.rosestack</groupId>
       <artifactId>rose-spring-boot-mybatis</artifactId>
     </dependency>
     <dependency>

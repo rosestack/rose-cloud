@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 rose-group.github.io
+ * Copyright © 2025 rosestack.github.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cc.rose-group.github.iore.text;
+package cc.rosestack.github.iore.text;
 
 
-import cc.rose-group.github.iore.util.FormatUtils;
+import cc.rosestack.github.iore.util.FormatUtils;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

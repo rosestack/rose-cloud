@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.github.rose-group</groupId>
+    <groupId>io.github.rosestack</groupId>
     <artifactId>rose</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -14,7 +14,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>io.github.rose-group</groupId>
+      <groupId>io.github.rosestack</groupId>
       <artifactId>rose-core</artifactId>
     </dependency>
 

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 rose-group.github.io
+ * Copyright © 2025 rosestack.github.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,10 +30,10 @@
 // */
 // package cc.chensoul.rose.upms;
 //
-// import util.security.rose.rose-group.github.io.SecurityUser;
-// import domain.contact.upms.rose.rose-group.github.io.UserService;
-// import account.domain.upms.rose.rose-group.github.io.Credential;
-// import contact.domain.upms.rose.rose-group.github.io.User;
+// import util.security.rose.rosestack.github.io.SecurityUser;
+// import domain.contact.upms.rose.rosestack.github.io.UserService;
+// import account.domain.upms.rose.rosestack.github.io.Credential;
+// import contact.domain.upms.rose.rosestack.github.io.User;
 // import lombok.RequiredArgsConstructor;
 // import org.springframework.security.authentication.AuthenticationServiceException;
 // import org.springframework.security.core.authority.AuthorityUtils;

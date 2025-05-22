@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 rose-group.github.io
+ * Copyright © 2025 rosestack.github.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -124,13 +124,13 @@ public abstract class TextFormatUtils {
     public static String substituteVariables(String template, Map<String, Object> variables) {
         Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}");
         Matcher matcher = pattern.matcher(template);
-        // StringBuilder cannot be used here because Matcher expects StringBuffer
         StringBuffer buffer = new StringBuffer();
         while (matcher.find()) {
-            if (variables.containsKey(matcher.group(1))) {
-                Object replacement = variables.get(matcher.group(1));
-                // quote to work properly with $ and {,} signs
-                matcher.appendReplacement(buffer, replacement != null ? Matcher.quoteReplacement(replacement.toString()) : "null");
+            Object replacement = variables.get(matcher.group(1));
+            matcher.appendReplacement(buffer, "");
+
+            if (replacement != null) {
+                buffer.append(replacement.toString());
             }
         }
         matcher.appendTail(buffer);

@@ -11,5 +11,5 @@ jobs:
   release:
     name: Release
     if: ${{ github.event.pull_request.merged == true}}
-    uses: rose-group/.github/.github/workflows/release-by-file.yml@main
+    uses: rosestack/.github/.github/workflows/release-by-file.yml@main
     secrets: inherit

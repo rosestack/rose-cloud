@@ -19,7 +19,7 @@
     <menu ref="reports" inherit="bottom"/>
 
     <links>
-      <item name="Your Site" href="https://rose-group.github.io/rose/"/>
+      <item name="Your Site" href="https://rosestack.github.io/rose/"/>
     </links>
   </body>
 

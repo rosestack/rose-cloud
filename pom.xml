@@ -3,24 +3,24 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>io.github.rose-group</groupId>
+    <groupId>io.github.rosestack</groupId>
     <artifactId>rose-build</artifactId>
-    <version>0.0.15-SNAPSHOT</version>
+    <version>0.0.1</version>
     <relativePath/>
   </parent>
-  <groupId>io.github.rose-group</groupId>
+  <groupId>io.github.rosestack</groupId>
   <artifactId>rose</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Rose</name>
   <description>Rose</description>
-  <url>https://rose-group.github.io/rose</url>
+  <url>https://rosestack.github.io/rose</url>
   <inceptionYear>2025</inceptionYear>
 
   <organization>
-    <name>rose-group.github.io</name>
-    <url>https://github.com/rose-group</url>
+    <name>rosestack.github.io</name>
+    <url>https://github.com/rosestack</url>
   </organization>
 
   <licenses>
@@ -53,10 +53,10 @@
   </modules>
 
   <scm>
-    <connection>scm:git:https://github.com/rose-group/rose</connection>
-    <developerConnection>scm:git:https://github.com/rose-group/rose</developerConnection>
+    <connection>scm:git:https://github.com/rosestack/rose</connection>
+    <developerConnection>scm:git:https://github.com/rosestack/rose</developerConnection>
     <tag>HEAD</tag>
-    <url>https://github.com/rose-group/rose</url>
+    <url>https://github.com/rosestack/rose</url>
   </scm>
 
   <distributionManagement>
@@ -106,92 +106,92 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>io.github.rose-group</groupId>
+        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-processor</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.github.rose-group</groupId>
+        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-core</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.github.rose-group</groupId>
+        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-security</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.github.rose-group</groupId>
+        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-mybatis</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.github.rose-group</groupId>
+        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-spring-boot-core</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.github.rose-group</groupId>
+        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-spring-boot-web</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.github.rose-group</groupId>
+        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-spring-boot-redis</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.github.rose-group</groupId>
+        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-spring-boot-mybatis</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.github.rose-group</groupId>
+        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-spring-boot-oss</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.github.rose-group</groupId>
+        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-spring-boot-security</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.github.rose-group</groupId>
+        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-spring-boot-springdoc</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.github.rose-group</groupId>
+        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-spring-boot-syslog</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.github.rose-group</groupId>
+        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-spring-boot-xxljob</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.github.rose-group</groupId>
+        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-spring-cloud-feign</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.github.rose-group</groupId>
+        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-gateway</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.github.rose-group</groupId>
+        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-monitor</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.github.rose-group</groupId>
+        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-upms-api</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.github.rose-group</groupId>
+        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-upms-service</artifactId>
         <version>${project.version}</version>
       </dependency>

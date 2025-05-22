@@ -6,7 +6,7 @@ on:
 jobs:
   site:
     name: site
-    uses: rose-group/.github/.github/workflows/site.yml@main
+    uses: rosestack/.github/.github/workflows/site.yml@main
     secrets: inherit
     with:
       multi_modules: false
