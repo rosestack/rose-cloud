@@ -1,0 +1,10 @@
+name: Maven Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  site:
+    name: site
+    uses: rosestack/.github/.github/workflows/maven-deploy.yml@main
+    secrets: inherit

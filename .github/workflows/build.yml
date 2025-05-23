@@ -2,22 +2,19 @@ name: Maven Build
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "main" ]
-    paths-ignore:
-      - '.gitignore'
-      - 'LICENSE'
-      - 'CHANGELOG.md'
-      - 'README*'
   pull_request:
-    paths-ignore:
-      - '.gitignore'
-      - 'LICENSE'
-      - 'CHANGELOG.md'
-      - 'README*'
+    branches:
+      - main
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  schedule:
+    - cron: '55 5 * * 5'
 
 jobs:
   build:
     name: build
-    uses: rosestack/.github/.github/workflows/build.yml@main
+    uses: rosestack/.github/.github/workflows/maven-build.yml@main
     secrets: inherit
