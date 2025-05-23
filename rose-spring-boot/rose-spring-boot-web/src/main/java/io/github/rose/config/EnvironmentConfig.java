@@ -30,8 +30,8 @@ import org.springframework.core.annotation.Order;
 @AutoConfiguration
 @Order(value = Ordered.HIGHEST_PRECEDENCE)
 @PropertySource(value = "classpath:common-config.yml", factory = YamlPropertySourceFactory.class)
-public class EnvironmentConfiguration {
-    private static final Logger log = LoggerFactory.getLogger(EnvironmentConfiguration.class);
+public class EnvironmentConfig {
+    private static final Logger log = LoggerFactory.getLogger(EnvironmentConfig.class);
 
     @Order
     @EventListener(WebServerInitializedEvent.class)

@@ -15,6 +15,7 @@
  */
 package io.github.rose.core.function;
 
+import io.github.rose.core.util.concurrent.Async;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CompletionStage;

@@ -1,31 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<site xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/SITE/2.0.0"
+<site xmlns="http://maven.apache.org/SITE/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://maven.apache.org/SITE/2.0.0 https://maven.apache.org/xsd/site-2.0.0.xsd">
-  <bannerLeft href="${this.url}">
-    <image src="https://maven.apache.org/images/apache-maven-project.png"></image>
-  </bannerLeft>
-
-  <bannerRight href="${this.url}">
-    <image src="https://maven.apache.org/images/maven-logo-black-on-white.png"></image>
-  </bannerRight>
-
-  <publishDate position="left"/>
-  <version position="left"/>
-
   <body>
-    <menu ref="parent" inherit="bottom"/>
-    <menu ref="modules" inherit="bottom"/>
-    <menu ref="reports" inherit="bottom"/>
-
-    <links>
-      <item name="Your Site" href="https://rosestack.github.io/rose/"/>
-    </links>
+    <menu name="Overview">
+      <item name="Introduction" href="index.html"/>
+    </menu>
   </body>
-
-  <skin>
-    <groupId>org.apache.maven.skins</groupId>
-    <artifactId>maven-fluido-skin</artifactId>
-    <version>2.1.0</version>
-  </skin>
 </site>

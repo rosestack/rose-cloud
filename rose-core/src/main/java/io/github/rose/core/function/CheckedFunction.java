@@ -25,14 +25,6 @@ import java.util.function.Function;
  */
 @FunctionalInterface
 public interface CheckedFunction<T, R> {
-
-    /**
-     * @see {@link Sneaky#function(CheckedFunction)}
-     */
-    static <T, R> Function<T, R> sneaky(CheckedFunction<T, R> function) {
-        return Sneaky.function(function);
-    }
-
     /**
      * @see {@link Unchecked#function(CheckedFunction)}
      */

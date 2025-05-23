@@ -15,14 +15,13 @@
  */
 package io.github.rose.core.reflect;
 
-import io.github.rose.core.cache.Cache;
-import io.github.rose.core.cache.CacheConfig;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 import static io.github.rose.core.reflect.ExecutablePredicates.executableIsEquivalentTo;
@@ -30,10 +29,7 @@ import static io.github.rose.core.reflect.ExecutablePredicates.executableIsEquiv
 public final class Annotations {
     private static final String JAVA_LANG = "java.lang";
     private static final String KOTLIN_ANNOTATION = "kotlin.annotation";
-    private static Cache<Context, List<Annotation>> cache = Cache.create(
-        CacheConfig.<Context, List<Annotation>>builder()
-            .loadingFunction(Context::gather).build()
-    );
+    private static Map<Context, List<Annotation>> cache = new ConcurrentHashMap<>();
 
     private Annotations() {
         // no instantiation allowed

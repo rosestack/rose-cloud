@@ -24,14 +24,6 @@ import java.util.function.Consumer;
  */
 @FunctionalInterface
 public interface CheckedRunnable {
-
-    /**
-     * @see {@link Sneaky#runnable(CheckedRunnable)}
-     */
-    static Runnable sneaky(CheckedRunnable runnable) {
-        return Sneaky.runnable(runnable);
-    }
-
     /**
      * @see {@link Unchecked#runnable(CheckedRunnable)}
      */

@@ -5,7 +5,7 @@
   <parent>
     <groupId>io.github.rosestack</groupId>
     <artifactId>rose-build</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.3-SNAPSHOT</version>
     <relativePath/>
   </parent>
   <groupId>io.github.rosestack</groupId>
@@ -98,9 +98,6 @@
     <xxl-job.version>2.5.0</xxl-job.version>
     <uuid-creator.version>6.1.1</uuid-creator.version>
     <jmh.version>1.18</jmh.version>
-
-    <disable.checks>false</disable.checks>
-    <scmpublish.content>${project.build.directory}/${project.artifactId}</scmpublish.content>
   </properties>
 
   <dependencyManagement>

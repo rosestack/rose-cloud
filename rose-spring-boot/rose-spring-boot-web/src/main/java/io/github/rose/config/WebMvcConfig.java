@@ -48,8 +48,8 @@ import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebA
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ConditionalOnWebApplication(type = SERVLET)
 @EnableConfigurationProperties({XssProperties.class})
-public class WebMvcConfiguration implements WebMvcConfigurer {
-    private static final Logger log = LoggerFactory.getLogger(WebMvcConfiguration.class);
+public class WebMvcConfig implements WebMvcConfigurer {
+    private static final Logger log = LoggerFactory.getLogger(WebMvcConfig.class);
 
     private final XssProperties xssProperties;
 
@@ -59,7 +59,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     @Value("${server.http.max_payload_size:/api/image*/**=52428800;/api/resource/**=52428800;/api/**=16777216}")
     private String maxPayloadSizeConfig;
 
-    public WebMvcConfiguration(XssProperties xssProperties) {
+    public WebMvcConfig(XssProperties xssProperties) {
         this.xssProperties = xssProperties;
     }
 

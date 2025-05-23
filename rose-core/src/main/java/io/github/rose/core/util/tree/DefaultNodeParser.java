@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.rose.core.util.tree.parser;
+package io.github.rose.core.util.tree;
 
-import io.github.rose.core.util.tree.Tree;
-import io.github.rose.core.util.tree.TreeNode;
 import java.util.Map;
 import org.apache.commons.lang3.ObjectUtils;
 

@@ -70,7 +70,7 @@ public class CustomRequestLoggingFilter extends CommonsRequestLoggingFilter {
             message = message + ", cost " + cost + " ms";
 
             if (cost >= this.maxResponseTimeToLogInMs) {
-                String execTime = DateUtils.format(DateUtils.fromMilliseconds(startTime), DatePattern.NORM_DATETIME_MS_PATTERN);
+                String execTime = DateUtils.format(DateUtils.fromMilliseconds(startTime), DatePattern.NORM_DATETIME_MS);
                 log.warn("[SLOW_REQUEST] {} {} {} {}", execTime, request.getMethod(), request.getRequestURI(), cost);
             }
         }

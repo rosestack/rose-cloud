@@ -27,13 +27,6 @@ import java.util.function.Consumer;
 public interface CheckedComparator<T> {
 
     /**
-     * @see {@link Sneaky#comparator(CheckedComparator)}
-     */
-    static <T> Comparator<T> sneaky(CheckedComparator<T> comparator) {
-        return Sneaky.comparator(comparator);
-    }
-
-    /**
      * @see {@link Unchecked#comparator(CheckedComparator)}
      */
     static <T> Comparator<T> unchecked(CheckedComparator<T> comparator) {

@@ -39,12 +39,12 @@ import static org.springframework.aop.interceptor.AsyncExecutionAspectSupport.DE
 @Configuration
 @EnableAsync
 @EnableScheduling
-public class TaskExecutorConfiguration implements AsyncConfigurer {
-    private static final Logger log = LoggerFactory.getLogger(TaskExecutorConfiguration.class);
+public class AsyncConfig implements AsyncConfigurer {
+    private static final Logger log = LoggerFactory.getLogger(AsyncConfig.class);
 
     private final TaskExecutionProperties taskExecutionProperties;
 
-    public TaskExecutorConfiguration(TaskExecutionProperties taskExecutionProperties) {
+    public AsyncConfig(TaskExecutionProperties taskExecutionProperties) {
         this.taskExecutionProperties = taskExecutionProperties;
     }
 

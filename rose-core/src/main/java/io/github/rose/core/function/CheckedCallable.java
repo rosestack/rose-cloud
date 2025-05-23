@@ -25,14 +25,6 @@ import java.util.function.Consumer;
  */
 @FunctionalInterface
 public interface CheckedCallable<T> extends Callable<T> {
-
-    /**
-     * @see {@link Sneaky#callable(CheckedCallable)}
-     */
-    static <T> Callable<T> sneaky(CheckedCallable<T> callable) {
-        return Sneaky.callable(callable);
-    }
-
     /**
      * @see {@link Unchecked#callable(CheckedCallable)}
      */

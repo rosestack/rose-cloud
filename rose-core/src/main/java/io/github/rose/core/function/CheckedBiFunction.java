@@ -23,14 +23,6 @@ import java.util.function.Consumer;
  */
 @FunctionalInterface
 public interface CheckedBiFunction<T, U, R> {
-
-    /**
-     * @see {@link Sneaky#biFunction(CheckedBiFunction)}
-     */
-    static <T, U, R> BiFunction<T, U, R> sneaky(CheckedBiFunction<T, U, R> function) {
-        return Sneaky.biFunction(function);
-    }
-
     /**
      * @see {@link Unchecked#biFunction(CheckedBiFunction)}
      */

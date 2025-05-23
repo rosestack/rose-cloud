@@ -25,14 +25,6 @@ import java.util.function.Predicate;
  */
 @FunctionalInterface
 public interface CheckedPredicate<T> {
-
-    /**
-     * @see {@link Sneaky#predicate(CheckedPredicate)}
-     */
-    static <T> Predicate<T> sneaky(CheckedPredicate<T> predicate) {
-        return Sneaky.predicate(predicate);
-    }
-
     /**
      * @see {@link Unchecked#predicate(CheckedPredicate)}
      */

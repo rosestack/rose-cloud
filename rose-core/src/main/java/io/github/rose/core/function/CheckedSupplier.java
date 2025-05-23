@@ -25,14 +25,6 @@ import java.util.function.Supplier;
  */
 @FunctionalInterface
 public interface CheckedSupplier<T> {
-
-    /**
-     * @see {@link Sneaky#supplier(CheckedSupplier)}
-     */
-    static <T> Supplier<T> sneaky(CheckedSupplier<T> supplier) {
-        return Sneaky.supplier(supplier);
-    }
-
     /**
      * @see {@link Unchecked#supplier(CheckedSupplier)}
      */

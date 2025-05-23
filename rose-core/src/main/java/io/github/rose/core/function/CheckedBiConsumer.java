@@ -25,14 +25,6 @@ import java.util.function.Consumer;
  */
 @FunctionalInterface
 public interface CheckedBiConsumer<T, U> {
-
-    /**
-     * @see {@link Sneaky#biConsumer(CheckedBiConsumer)}
-     */
-    static <T, U> BiConsumer<T, U> sneaky(CheckedBiConsumer<T, U> consumer) {
-        return Sneaky.biConsumer(consumer);
-    }
-
     /**
      * @see {@link Unchecked#biConsumer(CheckedBiConsumer)}
      */

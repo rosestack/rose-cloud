@@ -13,39 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.rose.ratelimiter;
-
-import java.lang.annotation.*;
+package io.github.rose.core.util.tree;
 
 /**
- * 限流注解
+ * 树节点解析器 可以参考{@link DefaultNodeParser}
  *
- * @author canghe
+ * @param <T> 转换的实体 为数据源里的对象类型
+ * @author liangbaikai
  */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface RateLimiter {
-
-    String RATE_LIMIT_KEY = "rate_limit:";
+@FunctionalInterface
+public interface NodeParser<T, E> {
 
     /**
-     * 限流key
+     * @param object   源数据实体
+     * @param treeNode 树节点实体
      */
-    String key() default RATE_LIMIT_KEY;
-
-    /**
-     * 限流时间,单位秒
-     */
-    int time() default 60;
-
-    /**
-     * 限流次数
-     */
-    int count() default 100;
-
-    /**
-     * 限流类型
-     */
-    LimitType limitType() default LimitType.DEFAULT;
+    void parse(T object, Tree<E> treeNode);
 }

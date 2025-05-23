@@ -25,14 +25,6 @@ import java.util.function.Consumer;
  */
 @FunctionalInterface
 public interface CheckedBiPredicate<T, U> {
-
-    /**
-     * @see {@link Sneaky#biPredicate(CheckedBiPredicate)}
-     */
-    static <T, U> BiPredicate<T, U> sneaky(CheckedBiPredicate<T, U> predicate) {
-        return Sneaky.biPredicate(predicate);
-    }
-
     /**
      * @see {@link Unchecked#biPredicate(CheckedBiPredicate)}
      */

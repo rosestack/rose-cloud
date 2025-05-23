@@ -41,8 +41,8 @@ import java.util.Objects;
 @ConditionalOnClass(Timed.class)
 @Import(MetricsInterceptor.class)
 @AutoConfigureAfter(MetricsEndpointAutoConfiguration.class)
-public class MetricConfiguration {
-    private static final Logger log = LoggerFactory.getLogger(MetricConfiguration.class);
+public class MetricConfig {
+    private static final Logger log = LoggerFactory.getLogger(MetricConfig.class);
 
     @Bean
     @ConditionalOnAvailableEndpoint

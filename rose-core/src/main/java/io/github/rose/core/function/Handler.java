@@ -13,20 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.rose.ratelimiter;
+package io.github.rose.core.function;
 
 /**
- * 限流类型
+ * @param <I>
+ * @param <O>
+ * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  */
-public enum LimitType {
+@FunctionalInterface
+public interface Handler<I, O> {
 
-    /**
-     * 默认策略全局限流
-     */
-    DEFAULT,
-
-    /**
-     * 根据请求者IP进行限流
-     */
-    IP
+    O process(I input);
 }

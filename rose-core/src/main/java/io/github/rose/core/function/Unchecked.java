@@ -39,22 +39,12 @@ public final class Unchecked {
     /**
      * A {@link Consumer} that wraps any {@link Throwable} in a {@link RuntimeException}.
      */
-    public static final Consumer<Throwable> THROWABLE_TO_RUNTIME_EXCEPTION = Unchecked::uncheckedThrow;
-
-    /**
-     * A {@link Consumer} that rethrows all exceptions, including checked exceptions.
-     */
-    public static final Consumer<Throwable> RETHROW_ALL = Unchecked::sneakyThrow;
+    public static final Consumer<Throwable> THROWABLE_TO_RUNTIME = Unchecked::uncheckedThrow;
 
     /**
      * No instances
      */
     private Unchecked() {
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <E extends Throwable> void sneakyThrow(Throwable t) throws E {
-        throw (E) t;
     }
 
     public static <E extends Throwable> void uncheckedThrow(Throwable t) throws E {
@@ -84,7 +74,7 @@ public final class Unchecked {
      * </code></pre>
      */
     public static Runnable runnable(CheckedRunnable runnable) {
-        return runnable(runnable, THROWABLE_TO_RUNTIME_EXCEPTION);
+        return runnable(runnable, THROWABLE_TO_RUNTIME);
     }
 
     /**
@@ -124,7 +114,7 @@ public final class Unchecked {
      * </code></pre>
      */
     public static <T> Callable<T> callable(CheckedCallable<T> callable) {
-        return callable(callable, THROWABLE_TO_RUNTIME_EXCEPTION);
+        return callable(callable, THROWABLE_TO_RUNTIME);
     }
 
     /**
@@ -158,7 +148,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedComparator} in a {@link Comparator}.
      */
     public static <T> Comparator<T> comparator(CheckedComparator<T> comparator) {
-        return comparator(comparator, THROWABLE_TO_RUNTIME_EXCEPTION);
+        return comparator(comparator, THROWABLE_TO_RUNTIME);
     }
 
     /**
@@ -188,7 +178,7 @@ public final class Unchecked {
      * </code></pre>
      */
     public static <T, U> BiConsumer<T, U> biConsumer(CheckedBiConsumer<T, U> consumer) {
-        return biConsumer(consumer, THROWABLE_TO_RUNTIME_EXCEPTION);
+        return biConsumer(consumer, THROWABLE_TO_RUNTIME);
     }
 
     /**
@@ -232,7 +222,7 @@ public final class Unchecked {
      * </code></pre>
      */
     public static <T, U, R> BiFunction<T, U, R> biFunction(CheckedBiFunction<T, U, R> function) {
-        return biFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
+        return biFunction(function, THROWABLE_TO_RUNTIME);
     }
 
     /**
@@ -270,7 +260,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedBiPredicate} in a {@link BiPredicate}.
      */
     public static <T, U> BiPredicate<T, U> biPredicate(CheckedBiPredicate<T, U> predicate) {
-        return biPredicate(predicate, THROWABLE_TO_RUNTIME_EXCEPTION);
+        return biPredicate(predicate, THROWABLE_TO_RUNTIME);
     }
 
     /**
@@ -303,7 +293,7 @@ public final class Unchecked {
      * </code></pre>
      */
     public static <T, R> Function<T, R> function(CheckedFunction<T, R> function) {
-        return function(function, THROWABLE_TO_RUNTIME_EXCEPTION);
+        return function(function, THROWABLE_TO_RUNTIME);
     }
 
     /**
@@ -349,7 +339,7 @@ public final class Unchecked {
      * </code></pre>
      */
     public static <T> Predicate<T> predicate(CheckedPredicate<T> predicate) {
-        return predicate(predicate, THROWABLE_TO_RUNTIME_EXCEPTION);
+        return predicate(predicate, THROWABLE_TO_RUNTIME);
     }
 
     /**
@@ -391,7 +381,7 @@ public final class Unchecked {
      * </code></pre>
      */
     public static <T> Supplier<T> supplier(CheckedSupplier<T> supplier) {
-        return supplier(supplier, THROWABLE_TO_RUNTIME_EXCEPTION);
+        return supplier(supplier, THROWABLE_TO_RUNTIME);
     }
 
     /**
@@ -432,7 +422,7 @@ public final class Unchecked {
      * </code></pre>
      */
     public static <T> Consumer<T> consumer(CheckedConsumer<T> consumer) {
-        return consumer(consumer, THROWABLE_TO_RUNTIME_EXCEPTION);
+        return consumer(consumer, THROWABLE_TO_RUNTIME);
     }
 
     /**

@@ -15,6 +15,7 @@
  */
 package io.github.rose.core.function;
 
+import io.github.rose.core.util.concurrent.Blocking;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

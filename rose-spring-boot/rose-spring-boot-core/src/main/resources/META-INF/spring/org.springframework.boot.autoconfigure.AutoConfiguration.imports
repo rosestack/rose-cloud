@@ -1,8 +1,8 @@
-io.github.rose.config.EnvironmentConfiguration
+io.github.rose.config.EnvironmentConfig
 io.github.rose.config.JacksonConfiguration
-io.github.rose.config.MetricConfiguration
+io.github.rose.config.MetricConfig
 io.github.rose.config.RestTemplateConfiguration
-io.github.rose.config.RetryConfiguration
-io.github.rose.config.TaskExecutorConfiguration
-io.github.rose.config.UndertowSSLConfiguration
-io.github.rose.config.WebMvcConfiguration
+io.github.rose.config.RetryConfig
+io.github.rose.config.AsyncConfig
+io.github.rose.config.UndertowSSLConfig
+io.github.rose.config.WebMvcConfig

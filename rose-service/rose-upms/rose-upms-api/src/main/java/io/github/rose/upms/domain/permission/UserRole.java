@@ -15,13 +15,14 @@
  */
 package io.github.rose.upms.domain.permission;
 
-import static io.github.rose.core.util.date.DatePattern.NORM_DATETIME_PATTERN;
-
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDateTime;
+
+import static io.github.rose.core.util.date.DatePattern.NORM_DATETIME;
 
 @TableName("sys_user_role")
 public class UserRole {
@@ -36,7 +37,7 @@ public class UserRole {
     @TableField(value = "created_by", fill = FieldFill.INSERT)
     private String createdBy;
 
-    @JsonFormat(pattern = NORM_DATETIME_PATTERN)
+    @JsonFormat(pattern = NORM_DATETIME)
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 }

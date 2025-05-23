@@ -25,8 +25,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.github.rose.core.util.date.DatePattern;
 import io.github.rose.core.validation.Views;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,11 +42,10 @@ import static java.util.TimeZone.getTimeZone;
  */
 public class JsonUtils {
     public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    private static final Logger log = LoggerFactory.getLogger(JsonUtils.class);
 
     static {
         OBJECT_MAPPER.setTimeZone(getTimeZone(ZoneId.systemDefault()))
-            .setDateFormat(new SimpleDateFormat(DatePattern.NORM_DATETIME_PATTERN, Locale.getDefault()))
+            .setDateFormat(new SimpleDateFormat(DatePattern.NORM_DATETIME, Locale.getDefault()))
             .setSerializationInclusion(JsonInclude.Include.NON_NULL)
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
             .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true)
@@ -63,7 +60,6 @@ public class JsonUtils {
             return value != null ? OBJECT_MAPPER.writeValueAsBytes(value) : null;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
-
         }
     }
 

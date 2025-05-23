@@ -26,8 +26,8 @@ import org.springframework.retry.interceptor.RetryOperationsInterceptor;
 
 @Configuration
 @ConditionalOnClass(RetryOperationsInterceptor.class)
-public class RetryConfiguration {
-    private static final Logger log = LoggerFactory.getLogger(RetryConfiguration.class);
+public class RetryConfig {
+    private static final Logger log = LoggerFactory.getLogger(RetryConfig.class);
 
     @Bean
     @ConditionalOnMissingBean(name = "configServerRetryInterceptor")

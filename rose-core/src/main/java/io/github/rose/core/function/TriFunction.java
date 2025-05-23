@@ -13,15 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.rose.core.function.pipeline;
+package io.github.rose.core.function;
+
+import java.util.function.BiFunction;
 
 /**
- * @param <I>
- * @param <O>
- * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
+ * A {@link BiFunction} that allows for checked exceptions.
  */
 @FunctionalInterface
-public interface Handler<I, O> {
-
-    O process(I input);
+public interface TriFunction<T, U, V, R> {
+    /**
+     * Applies this function to the given arguments.
+     *
+     * @param t the first function argument
+     * @param u the second function argument
+     * @return the function result
+     */
+    R apply(T t, U u, V v) throws Exception;
 }

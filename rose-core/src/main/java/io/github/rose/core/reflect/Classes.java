@@ -15,9 +15,6 @@
  */
 package io.github.rose.core.reflect;
 
-import io.github.rose.core.cache.Cache;
-import io.github.rose.core.cache.CacheConfig;
-import io.github.rose.core.cache.SimpleLRUCache;
 import io.github.rose.core.exception.RoseErrorCode;
 import io.github.rose.core.exception.RoseException;
 
@@ -25,16 +22,12 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 public final class Classes {
-    private static Cache<Context, List<Class<?>>> cache = new SimpleLRUCache.Factory().createCache(
-        CacheConfig.<Context, List<Class<?>>>builder().loadingFunction(Context::gather).build()
-    );
+    private static Map<Context, List<Class<?>>> cache = new ConcurrentHashMap<>();
 
     private Classes() {
         // no instantiation allowed
