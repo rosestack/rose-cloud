@@ -104,7 +104,7 @@ public final class Annotations {
          * @return a stream of annotation objects.
          */
         public Stream<Annotation> findAll() {
-            return cache.get(context).stream();
+            return cache.computeIfAbsent(context, Context::gather).stream();
         }
     }
 

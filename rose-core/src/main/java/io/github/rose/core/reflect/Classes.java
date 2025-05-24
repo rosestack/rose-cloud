@@ -138,7 +138,7 @@ public final class Classes {
          * @return a stream of class objects.
          */
         public Stream<Class<?>> classes() {
-            return cache.get(context).stream();
+            return cache.computeIfAbsent(context, Context::gather).stream();
         }
 
         /**
