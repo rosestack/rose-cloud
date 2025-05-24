@@ -64,7 +64,7 @@ public class JsonUtilsTest {
         String data = "{\n  \"data\" : \"123\"\n}";
         JsonNode actualResult = JsonUtils.OBJECT_MAPPER.readTree(data);
         String toPrettyString = JsonUtils.toPrettyJson(actualResult);
-        Assertions.assertEquals(data, toPrettyString);
+        Assertions.assertEquals(data, toPrettyString.replaceAll("\\r\\n", "\\n"));
     }
 
     @Test
