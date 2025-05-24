@@ -61,10 +61,13 @@ public class JsonUtilsTest {
 
     @Test
     public void testToPrettyJson() throws JsonProcessingException {
-        String data = "{\n  \"data\" : \"123\"\n}";
+        String lineSeparator = System.getProperty("line.separator");
+        String data = "{" + lineSeparator +
+            "  \"data\" : \"123\"" + lineSeparator +
+            "}";
         JsonNode actualResult = JsonUtils.OBJECT_MAPPER.readTree(data);
         String toPrettyString = JsonUtils.toPrettyJson(actualResult);
-        Assertions.assertEquals(data, toPrettyString.replaceAll("\\r\\n", "\\n"));
+        Assertions.assertEquals(data, toPrettyString);
     }
 
     @Test
