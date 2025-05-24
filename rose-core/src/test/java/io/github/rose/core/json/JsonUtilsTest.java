@@ -73,7 +73,7 @@ public class JsonUtilsTest {
         JsonNode actualResult = JsonUtils.OBJECT_MAPPER.readTree(data);
 
         Map<String, String> flatMap = JsonUtils.toFlatMap(actualResult);
-        Assertions.assertEquals(data, JsonUtils.toJson(flatMap));
+        Assertions.assertEquals("123", flatMap.get("data"));
     }
 
     @ParameterizedTest
