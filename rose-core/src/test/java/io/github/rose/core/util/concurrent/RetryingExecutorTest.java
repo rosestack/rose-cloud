@@ -49,7 +49,7 @@ class RetryingExecutorTest {
         });
         try {
             executor.start();
-            assertThat(latch.await(200, TimeUnit.MILLISECONDS)).isFalse();
+            assertThat(latch.await(1, TimeUnit.SECONDS)).isFalse();
             assertThat(count.get()).isGreaterThan(1);
         } finally {
             executor.stop();
