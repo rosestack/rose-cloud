@@ -21,9 +21,7 @@ public final class Predicates {
 
     protected static final Predicate[] EMPTY_PREDICATE_ARRAY = new Predicate[0];
 
-    private Predicates() {
-
-    }
+    private Predicates() {}
 
     public static <T> Predicate<T>[] emptyArray() {
         return EMPTY_PREDICATE_ARRAY;

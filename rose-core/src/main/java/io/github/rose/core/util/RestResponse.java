@@ -16,10 +16,9 @@
 package io.github.rose.core.util;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.http.HttpStatus;
-
 import java.io.Serializable;
 import java.util.Map;
+import org.springframework.http.HttpStatus;
 
 /**
  * 统一封装 Restful 接口返回信息
@@ -33,8 +32,7 @@ public class RestResponse<T> implements Serializable {
     private String message;
     private T data;
 
-    public RestResponse() {
-    }
+    public RestResponse() {}
 
     public static RestResponse<Void> ok() {
         return ok(null);

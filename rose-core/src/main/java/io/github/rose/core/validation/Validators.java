@@ -15,11 +15,10 @@
  */
 package io.github.rose.core.validation;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 
 public class Validators {
     public static final Pattern PROPERTY_PATTERN = Pattern.compile("^[\\p{L}0-9_-]+$"); // Unicode

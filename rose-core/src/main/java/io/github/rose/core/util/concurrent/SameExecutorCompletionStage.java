@@ -94,13 +94,13 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
 
     @Override
     public <U, V> CompletionStage<V> thenCombine(
-        CompletionStage<? extends U> other, BiFunction<? super T, ? super U, ? extends V> fn) {
+            CompletionStage<? extends U> other, BiFunction<? super T, ? super U, ? extends V> fn) {
         return of(delegate.thenCombine(other, fn), defaultExecutor);
     }
 
     @Override
     public <U, V> CompletionStage<V> thenCombineAsync(
-        CompletionStage<? extends U> other, BiFunction<? super T, ? super U, ? extends V> fn) {
+            CompletionStage<? extends U> other, BiFunction<? super T, ? super U, ? extends V> fn) {
         if (defaultExecutor == null) {
             return of(delegate.thenCombineAsync(other, fn), null);
         }
@@ -109,19 +109,19 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
 
     @Override
     public <U, V> CompletionStage<V> thenCombineAsync(
-        CompletionStage<? extends U> other, BiFunction<? super T, ? super U, ? extends V> fn, Executor executor) {
+            CompletionStage<? extends U> other, BiFunction<? super T, ? super U, ? extends V> fn, Executor executor) {
         return of(delegate.thenCombineAsync(other, fn, executor), executor);
     }
 
     @Override
     public <U> CompletionStage<Void> thenAcceptBoth(
-        CompletionStage<? extends U> other, BiConsumer<? super T, ? super U> action) {
+            CompletionStage<? extends U> other, BiConsumer<? super T, ? super U> action) {
         return of(delegate.thenAcceptBoth(other, action), defaultExecutor);
     }
 
     @Override
     public <U> CompletionStage<Void> thenAcceptBothAsync(
-        CompletionStage<? extends U> other, BiConsumer<? super T, ? super U> action) {
+            CompletionStage<? extends U> other, BiConsumer<? super T, ? super U> action) {
         if (defaultExecutor == null) {
             return of(delegate.thenAcceptBothAsync(other, action), null);
         }
@@ -130,7 +130,7 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
 
     @Override
     public <U> CompletionStage<Void> thenAcceptBothAsync(
-        CompletionStage<? extends U> other, BiConsumer<? super T, ? super U> action, Executor executor) {
+            CompletionStage<? extends U> other, BiConsumer<? super T, ? super U> action, Executor executor) {
         return of(delegate.thenAcceptBothAsync(other, action, executor), executor);
     }
 
@@ -158,8 +158,7 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
     }
 
     @Override
-    public <U> CompletionStage<U> applyToEitherAsync(
-        CompletionStage<? extends T> other, Function<? super T, U> fn) {
+    public <U> CompletionStage<U> applyToEitherAsync(CompletionStage<? extends T> other, Function<? super T, U> fn) {
         if (defaultExecutor == null) {
             return of(delegate.applyToEitherAsync(other, fn), null);
         }
@@ -168,7 +167,7 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
 
     @Override
     public <U> CompletionStage<U> applyToEitherAsync(
-        CompletionStage<? extends T> other, Function<? super T, U> fn, Executor executor) {
+            CompletionStage<? extends T> other, Function<? super T, U> fn, Executor executor) {
         return of(delegate.applyToEitherAsync(other, fn, executor), executor);
     }
 
@@ -178,8 +177,7 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
     }
 
     @Override
-    public CompletionStage<Void> acceptEitherAsync(
-        CompletionStage<? extends T> other, Consumer<? super T> action) {
+    public CompletionStage<Void> acceptEitherAsync(CompletionStage<? extends T> other, Consumer<? super T> action) {
         if (defaultExecutor == null) {
             return of(delegate.acceptEitherAsync(other, action), null);
         }
@@ -188,7 +186,7 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
 
     @Override
     public CompletionStage<Void> acceptEitherAsync(
-        CompletionStage<? extends T> other, Consumer<? super T> action, Executor executor) {
+            CompletionStage<? extends T> other, Consumer<? super T> action, Executor executor) {
         return of(delegate.acceptEitherAsync(other, action, executor), executor);
     }
 
@@ -206,8 +204,7 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
     }
 
     @Override
-    public CompletionStage<Void> runAfterEitherAsync(
-        CompletionStage<?> other, Runnable action, Executor executor) {
+    public CompletionStage<Void> runAfterEitherAsync(CompletionStage<?> other, Runnable action, Executor executor) {
         return of(delegate.runAfterEitherAsync(other, action, executor), executor);
     }
 
@@ -226,7 +223,7 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
 
     @Override
     public <U> CompletionStage<U> thenComposeAsync(
-        Function<? super T, ? extends CompletionStage<U>> fn, Executor executor) {
+            Function<? super T, ? extends CompletionStage<U>> fn, Executor executor) {
         return of(delegate.thenComposeAsync(fn, executor), executor);
     }
 
@@ -249,8 +246,7 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
     }
 
     @Override
-    public CompletionStage<T> whenCompleteAsync(
-        BiConsumer<? super T, ? super Throwable> action, Executor executor) {
+    public CompletionStage<T> whenCompleteAsync(BiConsumer<? super T, ? super Throwable> action, Executor executor) {
         return of(delegate.whenCompleteAsync(action, executor), executor);
     }
 
@@ -268,8 +264,7 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
     }
 
     @Override
-    public <U> CompletionStage<U> handleAsync(
-        BiFunction<? super T, Throwable, ? extends U> fn, Executor executor) {
+    public <U> CompletionStage<U> handleAsync(BiFunction<? super T, Throwable, ? extends U> fn, Executor executor) {
         return of(delegate.handleAsync(fn, executor), executor);
     }
 

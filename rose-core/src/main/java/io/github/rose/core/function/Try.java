@@ -15,15 +15,14 @@
  */
 package io.github.rose.core.function;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -37,38 +36,38 @@ public class Try {
     }
 
     public static <T, R> Function<T, R> tryApply(
-        final CheckedFunction<T, R> trueFunction, final CheckedFunction<Throwable, R> errorHandler) {
+            final CheckedFunction<T, R> trueFunction, final CheckedFunction<Throwable, R> errorHandler) {
         return tryApply(Predicates.alwaysTrue(), trueFunction, null, errorHandler, null);
     }
 
     public static <T, R> Function<T, R> tryApply(
-        final CheckedFunction<T, R> trueFunction,
-        final CheckedFunction<Throwable, R> errorHandler,
-        final CheckedConsumer<T> finalConsumer) {
+            final CheckedFunction<T, R> trueFunction,
+            final CheckedFunction<Throwable, R> errorHandler,
+            final CheckedConsumer<T> finalConsumer) {
         return tryApply(Predicates.alwaysTrue(), trueFunction, null, errorHandler, finalConsumer);
     }
 
     public static <T, R> Function<T, R> tryApply(
-        final CheckedFunction<T, R> trueFunction, final CheckedConsumer<T> finalConsumer) {
+            final CheckedFunction<T, R> trueFunction, final CheckedConsumer<T> finalConsumer) {
         return tryApply(Predicates.alwaysTrue(), trueFunction, null, null, finalConsumer);
     }
 
     public static <T, R> Function<T, R> tryApply(
-        final Predicate<T> condition, final CheckedFunction<T, R> trueFunction) {
+            final Predicate<T> condition, final CheckedFunction<T, R> trueFunction) {
         return tryApply(condition, trueFunction, null, null, null);
     }
 
     public static <T, R> Function<T, R> tryApply(
-        final Predicate<T> condition,
-        final CheckedFunction<T, R> trueFunction,
-        final CheckedFunction<T, R> falseFunction) {
+            final Predicate<T> condition,
+            final CheckedFunction<T, R> trueFunction,
+            final CheckedFunction<T, R> falseFunction) {
         return tryApply(condition, trueFunction, falseFunction, null, null);
     }
 
     public static <T, R> Function<T, R> tryApply(
-        final boolean condition,
-        final CheckedFunction<T, R> trueFunction,
-        final CheckedFunction<T, R> falseFunction) {
+            final boolean condition,
+            final CheckedFunction<T, R> trueFunction,
+            final CheckedFunction<T, R> falseFunction) {
         return tryApply(Predicates.of(condition), trueFunction, falseFunction, null, null);
     }
 
@@ -77,11 +76,11 @@ public class Try {
     }
 
     public static <T, R> Function<T, R> tryApply(
-        final Predicate<T> condition,
-        final CheckedFunction<T, R> trueFunction,
-        final CheckedFunction<T, R> falseFunction,
-        final CheckedFunction<Throwable, R> errorHandler,
-        final CheckedConsumer<T> finalConsumer) {
+            final Predicate<T> condition,
+            final CheckedFunction<T, R> trueFunction,
+            final CheckedFunction<T, R> falseFunction,
+            final CheckedFunction<Throwable, R> errorHandler,
+            final CheckedConsumer<T> finalConsumer) {
         Objects.nonNull(condition);
         Objects.nonNull(trueFunction);
         return t -> {
@@ -108,7 +107,7 @@ public class Try {
     }
 
     public static <R> Consumer<R> tryAccept(
-        final CheckedConsumer<R> trueConsumer, final CheckedFunction<Throwable, R> errorHandler) {
+            final CheckedConsumer<R> trueConsumer, final CheckedFunction<Throwable, R> errorHandler) {
         return tryAccept(Predicates.alwaysTrue(), trueConsumer, null, errorHandler, null);
     }
 
@@ -117,17 +116,17 @@ public class Try {
     }
 
     public static <R> Consumer<R> tryAccept(
-        final Predicate<R> condition,
-        final CheckedConsumer<R> trueConsumer,
-        final CheckedConsumer<R> falseConsumer) {
+            final Predicate<R> condition,
+            final CheckedConsumer<R> trueConsumer,
+            final CheckedConsumer<R> falseConsumer) {
         return tryAccept(condition, trueConsumer, falseConsumer, null, null);
     }
 
     public static <R> Consumer<R> tryAccept(
-        final Predicate<R> condition,
-        final CheckedConsumer<R> trueConsumer,
-        final CheckedConsumer<R> falseConsumer,
-        final CheckedFunction<Throwable, R> errorHandler) {
+            final Predicate<R> condition,
+            final CheckedConsumer<R> trueConsumer,
+            final CheckedConsumer<R> falseConsumer,
+            final CheckedFunction<Throwable, R> errorHandler) {
         return tryAccept(condition, trueConsumer, falseConsumer, errorHandler, null);
     }
 
@@ -136,24 +135,24 @@ public class Try {
     }
 
     public static <R> Consumer<R> tryAccept(
-        final boolean condition, final CheckedConsumer<R> trueConsumer, final CheckedConsumer<R> falseConsumer) {
+            final boolean condition, final CheckedConsumer<R> trueConsumer, final CheckedConsumer<R> falseConsumer) {
         return tryAccept(Predicates.of(condition), trueConsumer, falseConsumer, null, null);
     }
 
     public static <R> Consumer<R> tryAccept(
-        final boolean condition,
-        final CheckedConsumer<R> trueConsumer,
-        final CheckedConsumer<R> falseConsumer,
-        final CheckedFunction<Throwable, R> errorHandler) {
+            final boolean condition,
+            final CheckedConsumer<R> trueConsumer,
+            final CheckedConsumer<R> falseConsumer,
+            final CheckedFunction<Throwable, R> errorHandler) {
         return tryAccept(Predicates.of(condition), trueConsumer, falseConsumer, errorHandler, null);
     }
 
     public static <R> Consumer<R> tryAccept(
-        final Predicate<R> condition,
-        final CheckedConsumer<R> trueConsumer,
-        final CheckedConsumer<R> falseConsumer,
-        final CheckedFunction<Throwable, R> errorHandler,
-        final CheckedConsumer<R> finalConsumer) {
+            final Predicate<R> condition,
+            final CheckedConsumer<R> trueConsumer,
+            final CheckedConsumer<R> falseConsumer,
+            final CheckedFunction<Throwable, R> errorHandler,
+            final CheckedConsumer<R> finalConsumer) {
         Objects.nonNull(condition);
         Objects.nonNull(trueConsumer);
         return t -> {
@@ -182,29 +181,29 @@ public class Try {
     }
 
     public static <R> Supplier<R> tryGet(
-        final boolean condition, final CheckedSupplier<R> trueSupplier, final CheckedSupplier<R> falseSupplier) {
+            final boolean condition, final CheckedSupplier<R> trueSupplier, final CheckedSupplier<R> falseSupplier) {
         return tryGet(condition, trueSupplier, falseSupplier, null);
     }
 
     public static <R> Supplier<R> tryGet(
-        final boolean condition,
-        final CheckedSupplier<R> trueSupplier,
-        final CheckedSupplier<R> falseSupplier,
-        final CheckedFunction<Throwable, R> errorHandler) {
+            final boolean condition,
+            final CheckedSupplier<R> trueSupplier,
+            final CheckedSupplier<R> falseSupplier,
+            final CheckedFunction<Throwable, R> errorHandler) {
         return tryGet(condition, trueSupplier, falseSupplier, errorHandler, null);
     }
 
     public static <R> Supplier<R> tryGet(
-        final CheckedSupplier<R> trueSupplier, final CheckedFunction<Throwable, R> errorHandler) {
+            final CheckedSupplier<R> trueSupplier, final CheckedFunction<Throwable, R> errorHandler) {
         return tryGet(true, trueSupplier, null, errorHandler, null);
     }
 
     public static <R> Supplier<R> tryGet(
-        final boolean condition,
-        final CheckedSupplier<R> trueSupplier,
-        final CheckedSupplier<R> falseSupplier,
-        final CheckedFunction<Throwable, R> errorHandler,
-        final CheckedConsumer<R> finalConsumer) {
+            final boolean condition,
+            final CheckedSupplier<R> trueSupplier,
+            final CheckedSupplier<R> falseSupplier,
+            final CheckedFunction<Throwable, R> errorHandler,
+            final CheckedConsumer<R> finalConsumer) {
         Objects.nonNull(trueSupplier);
 
         return () -> {
@@ -241,7 +240,7 @@ public class Try {
     }
 
     public static void throwIf(final boolean condition, final CheckedSupplier<? extends Throwable> throwable)
-        throws Throwable {
+            throws Throwable {
         if (condition) {
             throw throwable.get();
         }

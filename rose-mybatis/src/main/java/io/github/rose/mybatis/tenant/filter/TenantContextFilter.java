@@ -15,26 +15,25 @@
  */
 package io.github.rose.mybatis.tenant.filter;
 
+import static io.github.rose.core.util.Constants.HEADER_TENANT_ID;
+
 import io.github.rose.core.spring.WebUtils;
 import io.github.rose.mybatis.tenant.util.TenantContextHolder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.filter.OncePerRequestFilter;
-
+import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
-import static io.github.rose.core.util.Constants.HEADER_TENANT_ID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 public class TenantContextFilter extends OncePerRequestFilter {
     private static final Logger log = LoggerFactory.getLogger(TenantContextFilter.class);
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         String tenantId = WebUtils.getValue(request, HEADER_TENANT_ID);
         if (tenantId != null) {
             TenantContextHolder.setTenantId(tenantId);

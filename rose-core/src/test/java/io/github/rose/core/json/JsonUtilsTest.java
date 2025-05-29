@@ -15,21 +15,20 @@
  */
 package io.github.rose.core.json;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.*;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class JsonUtilsTest {
     private static final Logger log = LoggerFactory.getLogger(JsonUtilsTest.class);
@@ -62,9 +61,7 @@ public class JsonUtilsTest {
     @Test
     public void testToPrettyJson() throws JsonProcessingException {
         String lineSeparator = System.getProperty("line.separator");
-        String data = "{" + lineSeparator +
-            "  \"data\" : \"123\"" + lineSeparator +
-            "}";
+        String data = "{" + lineSeparator + "  \"data\" : \"123\"" + lineSeparator + "}";
         JsonNode actualResult = JsonUtils.OBJECT_MAPPER.readTree(data);
         String toPrettyString = JsonUtils.toPrettyJson(actualResult);
         Assertions.assertEquals(data, toPrettyString);
@@ -81,27 +78,27 @@ public class JsonUtilsTest {
 
     @ParameterizedTest
     @ValueSource(
-        strings = {
-            "",
-            "false",
-            "\"",
-            "\"\"",
-            "\"This is a string with double quotes\"",
-            "Path: /home/developer/test.txt",
-            "First line\nSecond line\n\nFourth line",
-            "Before\rAfter",
-            "Tab\tSeparated\tValues",
-            "Test\bbackspace",
-            "[]",
-            "[1, 2, 3]",
-            "{\"key\": \"value\"}",
-            "{\n\"temperature\": 25.5,\n\"humidity\": 50.2\n\"}",
-            "Expression: (a + b) * c",
-            "世界",
-            "Україна",
-            "\u1F1FA\u1F1E6",
-            "🇺🇦"
-        })
+            strings = {
+                "",
+                "false",
+                "\"",
+                "\"\"",
+                "\"This is a string with double quotes\"",
+                "Path: /home/developer/test.txt",
+                "First line\nSecond line\n\nFourth line",
+                "Before\rAfter",
+                "Tab\tSeparated\tValues",
+                "Test\bbackspace",
+                "[]",
+                "[1, 2, 3]",
+                "{\"key\": \"value\"}",
+                "{\n\"temperature\": 25.5,\n\"humidity\": 50.2\n\"}",
+                "Expression: (a + b) * c",
+                "世界",
+                "Україна",
+                "\u1F1FA\u1F1E6",
+                "🇺🇦"
+            })
     public void toPlainStringTest(String original) {
         String serialized = JsonUtils.toJson(original);
         Assertions.assertNotNull(serialized);
@@ -115,9 +112,9 @@ public class JsonUtilsTest {
         // to enable handling
         assertThat(JsonUtils.toJson(Optional.of("hello"))).isEqualTo("\"hello\"");
         assertThat(JsonUtils.toJson(Collections.singletonList(Optional.of("abc"))))
-            .isEqualTo("[\"abc\"]");
+                .isEqualTo("[\"abc\"]");
         assertThat(JsonUtils.toJson(new HashSet<>(Collections.singletonList(Optional.empty()))))
-            .isEqualTo("[null]");
+                .isEqualTo("[null]");
     }
 
     @Test

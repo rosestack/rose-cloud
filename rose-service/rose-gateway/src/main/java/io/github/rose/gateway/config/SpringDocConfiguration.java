@@ -20,6 +20,9 @@ import com.alibaba.nacos.common.notify.Event;
 import com.alibaba.nacos.common.notify.NotifyCenter;
 import com.alibaba.nacos.common.notify.listener.Subscriber;
 import com.alibaba.nacos.common.utils.StringUtils;
+import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springdoc.core.AbstractSwaggerUiConfigProperties;
@@ -28,10 +31,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Locale;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * swagger 3.0 展示
@@ -46,7 +45,7 @@ public class SpringDocConfiguration implements InitializingBean {
     private final DiscoveryClient discoveryClient;
 
     public SpringDocConfiguration(
-        SwaggerUiConfigProperties swaggerUiConfigProperties, DiscoveryClient discoveryClient) {
+            SwaggerUiConfigProperties swaggerUiConfigProperties, DiscoveryClient discoveryClient) {
         this.swaggerUiConfigProperties = swaggerUiConfigProperties;
         this.discoveryClient = discoveryClient;
     }
@@ -85,18 +84,20 @@ class SwaggerDocRegister extends Subscriber<InstancesChangeEvent> {
     @Override
     public void onEvent(InstancesChangeEvent event) {
         Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> swaggerUrlSet = discoveryClient.getServices().stream()
-            .flatMap(serviceId -> discoveryClient.getInstances(serviceId).stream())
-            .filter(instance ->
-                StringUtils.isNotBlank(instance.getMetadata().get("spring-doc")))
-            .map(instance -> {
-                AbstractSwaggerUiConfigProperties.SwaggerUrl swaggerUrl =
-                    new AbstractSwaggerUiConfigProperties.SwaggerUrl();
-                swaggerUrl.setName(instance.getServiceId());
-                swaggerUrl.setUrl(String.format(Locale.getDefault(),
-                    "/%s/v3/api-docs", instance.getMetadata().get("spring-doc")));
-                return swaggerUrl;
-            })
-            .collect(Collectors.toSet());
+                .flatMap(serviceId -> discoveryClient.getInstances(serviceId).stream())
+                .filter(instance ->
+                        StringUtils.isNotBlank(instance.getMetadata().get("spring-doc")))
+                .map(instance -> {
+                    AbstractSwaggerUiConfigProperties.SwaggerUrl swaggerUrl =
+                            new AbstractSwaggerUiConfigProperties.SwaggerUrl();
+                    swaggerUrl.setName(instance.getServiceId());
+                    swaggerUrl.setUrl(String.format(
+                            Locale.getDefault(),
+                            "/%s/v3/api-docs",
+                            instance.getMetadata().get("spring-doc")));
+                    return swaggerUrl;
+                })
+                .collect(Collectors.toSet());
 
         swaggerUiConfigProperties.setUrls(swaggerUrlSet);
     }

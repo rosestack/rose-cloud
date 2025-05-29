@@ -5,7 +5,7 @@
   <parent>
     <groupId>io.github.rosestack</groupId>
     <artifactId>rose-build</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4-SNAPSHOT</version>
     <relativePath/>
   </parent>
   <groupId>io.github.rosestack</groupId>
@@ -98,6 +98,8 @@
     <xxl-job.version>2.5.0</xxl-job.version>
     <uuid-creator.version>6.1.1</uuid-creator.version>
     <jmh.version>1.18</jmh.version>
+
+    <dockerImageName>chensoul/${project.artifactId}</dockerImageName>
   </properties>
 
   <dependencyManagement>
@@ -386,7 +388,7 @@
               <enabled>true</enabled>
             </layers>
             <image>
-              <name>${env.USER}/${project.artifactId}</name>
+              <name>${dockerImageName}</name>
             </image>
           </configuration>
           <executions>

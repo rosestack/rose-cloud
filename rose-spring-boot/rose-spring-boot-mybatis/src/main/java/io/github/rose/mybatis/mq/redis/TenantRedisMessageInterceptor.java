@@ -15,12 +15,12 @@
  */
 package io.github.rose.mybatis.mq.redis;
 
+import static io.github.rose.core.util.Constants.HEADER_TENANT_ID;
+
 import io.github.rose.mybatis.tenant.util.TenantContextHolder;
 import io.github.rose.redis.mq.interceptor.RedisMessageInterceptor;
 import io.github.rose.redis.mq.message.AbstractRedisMessage;
 import org.apache.commons.lang3.StringUtils;
-
-import static io.github.rose.core.util.Constants.HEADER_TENANT_ID;
 
 /**
  * 多租户拦截器

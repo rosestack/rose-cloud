@@ -28,6 +28,8 @@ class RoseExceptionTest {
 
     @Test
     public void test() {
-        Assertions.assertEquals("Tenant is null", RoseException.createNew(RoseErrorCode.TENANT_IS_NULL).getMessage());
+        Assertions.assertEquals(
+                "Tenant is null",
+                RoseException.createNew(RoseErrorCode.TENANT_IS_NULL).getMessage());
     }
 }

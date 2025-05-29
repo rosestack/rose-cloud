@@ -24,6 +24,8 @@ public class CommonLauncherService implements LauncherService {
 
     @Override
     public void initialize(ConfigurableEnvironment configurableEnvironment) {
-        configurableEnvironment.getSystemProperties().putIfAbsent("spring.main.allow-bean-definition-overriding", "true");
+        configurableEnvironment
+                .getSystemProperties()
+                .putIfAbsent("spring.main.allow-bean-definition-overriding", "true");
     }
 }

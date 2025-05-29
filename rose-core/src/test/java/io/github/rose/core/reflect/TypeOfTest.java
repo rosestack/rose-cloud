@@ -18,11 +18,10 @@
  */
 package io.github.rose.core.reflect;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import java.io.StringWriter;
 import java.util.List;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for {@link TypeOf}
@@ -34,16 +33,13 @@ public class TypeOfTest {
      */
     @Test
     public void result() {
-        TypeOf<List<String>> typeOf = new TypeOf<List<String>>() {
-        };
+        TypeOf<List<String>> typeOf = new TypeOf<List<String>>() {};
         Assertions.assertThat(typeOf.getType().toString()).isEqualTo("java.util.List<java.lang.String>");
         Assertions.assertThat(typeOf.getRawType()).isEqualTo(List.class);
 
-        TypeOf<Long> typeOf2 = new TypeOf<Long>() {
-        };
+        TypeOf<Long> typeOf2 = new TypeOf<Long>() {};
         Assertions.assertThat(typeOf2.getType()).isEqualTo(Long.class);
         Assertions.assertThat(typeOf2.getRawType()).isEqualTo(Long.class);
-
     }
 
     /**
@@ -54,8 +50,7 @@ public class TypeOfTest {
     public void getTypeWithoutParameterized() {
         StringWriter stringWriter = new StringWriter();
         try {
-            new TypeOf() {
-            };
+            new TypeOf() {};
             Assertions.fail("Should throw a SeedException");
         } catch (Exception e) {
             Assertions.assertThat(e.getMessage()).contains("Missing generic parameter");

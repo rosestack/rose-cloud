@@ -101,7 +101,8 @@ public class TextWrapper {
                 if (wordLength > width && strict) {
                     int i = 0;
                     while (i + width < wordLength) {
-                        sb.append(word.substring(i, width - continuationLength)).append(continuation)
+                        sb.append(word.substring(i, width - continuationLength))
+                                .append(continuation)
                                 .append(LINE_SEPARATOR);
                         i += width - continuationLength;
                     }

@@ -16,10 +16,9 @@
 package io.github.rose.config;
 
 import io.github.rose.core.util.Constants;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>

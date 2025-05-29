@@ -15,19 +15,17 @@
  */
 package io.github.rose.core.util.text;
 
-
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class TextWrapperTest {
     @Test
     public void simpleWrap() throws Exception {
-        String longString = "Nec vox accusatoris ulla licet subditicii in his malorum quaerebatur acervis ut saltem " +
-                "specie tenus crimina praescriptis legum committerentur, quod aliquotiens fecere principes saevi: sed" +
-                " quicquid Caesaris implacabilitati sedisset, id velut fas iusque perpensum confestim urgebatur " +
-                "impleri.";
+        String longString = "Nec vox accusatoris ulla licet subditicii in his malorum quaerebatur acervis ut saltem "
+                + "specie tenus crimina praescriptis legum committerentur, quod aliquotiens fecere principes saevi: sed"
+                + " quicquid Caesaris implacabilitati sedisset, id velut fas iusque perpensum confestim urgebatur "
+                + "impleri.";
         String wrapped = new TextWrapper().wrap(longString);
         for (String line : wrapped.split("\n")) {
             assertThat(line.length()).isLessThanOrEqualTo(120);
@@ -44,10 +42,10 @@ public class TextWrapperTest {
 
     @Test
     public void longWordWrapStrictMode() throws Exception {
-        String longWord = "abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz" +
-                "----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----";
-        String wrapped = new TextWrapper(TextWrapper.DEFAULT_WIDTH, TextWrapper.DEFAULT_CONTINUATION, true).wrap
-                (longWord);
+        String longWord = "abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz"
+                + "----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----";
+        String wrapped =
+                new TextWrapper(TextWrapper.DEFAULT_WIDTH, TextWrapper.DEFAULT_CONTINUATION, true).wrap(longWord);
         for (String line : wrapped.split("\n")) {
             assertThat(line.length()).isLessThanOrEqualTo(80);
         }
@@ -56,8 +54,8 @@ public class TextWrapperTest {
 
     @Test
     public void longWordWrapLaxMode() throws Exception {
-        String longWord = "abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz" +
-                "----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----";
+        String longWord = "abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz"
+                + "----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----";
         String wrapped = new TextWrapper().wrap(longWord);
         for (String line : wrapped.split("\n")) {
             assertThat(line.length()).isEqualTo(longWord.length());

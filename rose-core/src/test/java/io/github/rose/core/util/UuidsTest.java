@@ -16,14 +16,13 @@
 package io.github.rose.core.util;
 
 import io.github.rose.core.json.JsonUtils;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public class UuidsTest {
     private static final Logger log = LoggerFactory.getLogger(UuidsTest.class);

@@ -16,15 +16,14 @@
 package io.github.rose.core.benchmarks;
 
 import io.github.rose.core.reflect.Annotations;
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.State;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Method;
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.State;
 
 @State(Scope.Benchmark)
 public class AnnotationsBenchmark {
@@ -41,24 +40,22 @@ public class AnnotationsBenchmark {
     @Benchmark
     public void findMetaAnnotationByInterface() {
         Annotations.on(notAnnotatedMethod)
-            .fallingBackOnClasses()
-            .includingMetaAnnotations()
-            .traversingSuperclasses()
-            .traversingInterfaces()
-            .find(TypeAnnotation.class)
-            .get();
+                .fallingBackOnClasses()
+                .includingMetaAnnotations()
+                .traversingSuperclasses()
+                .traversingInterfaces()
+                .find(TypeAnnotation.class)
+                .get();
     }
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.TYPE})
-    private @interface TypeAnnotation {
-    }
+    private @interface TypeAnnotation {}
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.TYPE})
     @TypeAnnotation
-    private @interface TypeMetaAnnotation {
-    }
+    private @interface TypeMetaAnnotation {}
 
     @TypeMetaAnnotation
     private interface MetaAnnotatedInterface {
@@ -68,13 +65,10 @@ public class AnnotationsBenchmark {
     private static class MetaAnnotatedByInterface implements MetaAnnotatedInterface {
         Object notAnnotatedField;
 
-        MetaAnnotatedByInterface() {
-        }
+        MetaAnnotatedByInterface() {}
 
-        public void notAnnotatedMethod() {
-        }
+        public void notAnnotatedMethod() {}
 
-        void notAnnotatedLocalMethod() {
-        }
+        void notAnnotatedLocalMethod() {}
     }
 }

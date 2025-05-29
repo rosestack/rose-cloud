@@ -65,8 +65,8 @@ public final class ExecutablePredicates {
                 && candidate.getName().equals(reference.getName())
                 && executableHasSameParameterTypesAs(reference).test(candidate);
         if (reference instanceof Method) {
-            predicate.and(candidate -> candidate instanceof Method && ((Method) candidate).getReturnType()
-                    .equals(((Method) reference).getReturnType()));
+            predicate.and(candidate -> candidate instanceof Method
+                    && ((Method) candidate).getReturnType().equals(((Method) reference).getReturnType()));
         }
         return predicate;
     }

@@ -16,12 +16,11 @@
 package io.github.rose.core.util.text;
 
 import io.github.rose.core.util.StringPool;
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * The utility class of text format
@@ -57,7 +56,7 @@ public abstract class TextFormatUtils {
      * @return a {@link String} object
      */
     public static String formatVariables(
-        final String template, String prefix, String suffix, final Map<String, ?> map) {
+            final String template, String prefix, String suffix, final Map<String, ?> map) {
         if (null == template) {
             return null;
         }

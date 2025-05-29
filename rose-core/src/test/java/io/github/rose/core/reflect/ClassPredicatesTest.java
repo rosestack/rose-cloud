@@ -15,7 +15,7 @@
  */
 package io.github.rose.core.reflect;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -25,20 +25,23 @@ import java.lang.reflect.Modifier;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collection;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import org.junit.jupiter.api.Test;
 
 public class ClassPredicatesTest {
     @Test
     public void classIs() throws Exception {
-        assertThat(ClassPredicates.classIs(SomeAnnotation.class).test(SomeAnnotation.class)).isTrue();
-        assertThat(ClassPredicates.classIs(SomeAnnotation.class).test(SomeMetaAnnotation.class)).isFalse();
+        assertThat(ClassPredicates.classIs(SomeAnnotation.class).test(SomeAnnotation.class))
+                .isTrue();
+        assertThat(ClassPredicates.classIs(SomeAnnotation.class).test(SomeMetaAnnotation.class))
+                .isFalse();
     }
 
     @Test
     public void classIsAssignable() throws Exception {
-        assertThat(ClassPredicates.classIsAssignableFrom(Number.class).test(Integer.class)).isTrue();
-        assertThat(ClassPredicates.classIsAssignableFrom(Number.class).test(String.class)).isFalse();
+        assertThat(ClassPredicates.classIsAssignableFrom(Number.class).test(Integer.class))
+                .isTrue();
+        assertThat(ClassPredicates.classIsAssignableFrom(Number.class).test(String.class))
+                .isFalse();
     }
 
     @Test
@@ -49,38 +52,43 @@ public class ClassPredicatesTest {
 
     @Test
     public void classIsAnnotation() throws Exception {
-        assertThat(ClassPredicates.classIsAnnotation().test(SomeAnnotation.class)).isTrue();
+        assertThat(ClassPredicates.classIsAnnotation().test(SomeAnnotation.class))
+                .isTrue();
         assertThat(ClassPredicates.classIsInterface().test(String.class)).isFalse();
     }
 
     @Test
     public void classHasModifierIs() throws Exception {
-        assertThat(ClassPredicates.classModifierIs(Modifier.ABSTRACT).test(AbstractCollection.class)).isTrue();
-        assertThat(ClassPredicates.classModifierIs(Modifier.ABSTRACT).test(ArrayList.class)).isFalse();
+        assertThat(ClassPredicates.classModifierIs(Modifier.ABSTRACT).test(AbstractCollection.class))
+                .isTrue();
+        assertThat(ClassPredicates.classModifierIs(Modifier.ABSTRACT).test(ArrayList.class))
+                .isFalse();
     }
 
     @Test
     public void atLeastOneInterfaceImplemented() throws Exception {
-        assertThat(ClassPredicates.atLeastOneInterfaceImplemented().test(ArrayList.class)).isTrue();
-        assertThat(ClassPredicates.atLeastOneInterfaceImplemented().test(Object.class)).isFalse();
+        assertThat(ClassPredicates.atLeastOneInterfaceImplemented().test(ArrayList.class))
+                .isTrue();
+        assertThat(ClassPredicates.atLeastOneInterfaceImplemented().test(Object.class))
+                .isFalse();
     }
 
     @Test
     public void atLeastOneConstructorIsPublic() throws Exception {
-        assertThat(ClassPredicates.atLeastOneConstructorIsPublic().test(ClassPredicates.class)).isFalse();
-        assertThat(ClassPredicates.atLeastOneConstructorIsPublic().test(String.class)).isTrue();
+        assertThat(ClassPredicates.atLeastOneConstructorIsPublic().test(ClassPredicates.class))
+                .isFalse();
+        assertThat(ClassPredicates.atLeastOneConstructorIsPublic().test(String.class))
+                .isTrue();
     }
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.ANNOTATION_TYPE})
-    private @interface SomeMetaAnnotation {
-    }
+    private @interface SomeMetaAnnotation {}
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR})
     @SomeMetaAnnotation
-    private @interface SomeAnnotation {
-    }
+    private @interface SomeAnnotation {}
 
     @SomeAnnotation
     private static class AnnotatedElements {
@@ -88,8 +96,6 @@ public class ClassPredicatesTest {
         private String someField;
 
         @SomeAnnotation
-        private void someMethod() {
-
-        }
+        private void someMethod() {}
     }
 }

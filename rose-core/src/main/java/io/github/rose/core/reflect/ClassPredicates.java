@@ -52,8 +52,7 @@ public final class ClassPredicates {
      * @return the predicate.
      */
     public static Predicate<Class<?>> classIsDescendantOf(Class<?> ancestor) {
-        return candidate -> candidate != null && candidate != ancestor && ancestor
-                .isAssignableFrom(candidate);
+        return candidate -> candidate != null && candidate != ancestor && ancestor.isAssignableFrom(candidate);
     }
 
     /**
@@ -65,8 +64,7 @@ public final class ClassPredicates {
         if (!anInterface.isInterface()) {
             throw new IllegalArgumentException("Class " + anInterface.getName() + " is not an interface");
         }
-        return candidate -> candidate != null && !candidate.isInterface() && anInterface
-                .isAssignableFrom(candidate);
+        return candidate -> candidate != null && !candidate.isInterface() && anInterface.isAssignableFrom(candidate);
     }
 
     /**
@@ -122,8 +120,7 @@ public final class ClassPredicates {
      * @return the predicate.
      */
     public static Predicate<Class<?>> atLeastOneConstructorIsPublic() {
-        return candidate -> candidate != null && Classes.from(candidate)
-                .constructors()
-                .anyMatch(executableModifierIs(Modifier.PUBLIC));
+        return candidate -> candidate != null
+                && Classes.from(candidate).constructors().anyMatch(executableModifierIs(Modifier.PUBLIC));
     }
 }

@@ -16,12 +16,11 @@
 package io.github.rose.core.function;
 
 import io.github.rose.core.util.concurrent.Blocking;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class BlockingTest {
     private static final ForkJoinPool pool = new ForkJoinPool(1);

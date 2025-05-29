@@ -15,12 +15,12 @@
  */
 package io.github.rose.processor;
 
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.SOURCE;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 /**
  * An annotation for service providers as described in {@link java.util.ServiceLoader}. The

@@ -39,12 +39,11 @@ public abstract class TypeOf<T> {
             throw new IllegalStateException("Missing generic parameter");
         }
         this.type = ((ParameterizedType) superclass).getActualTypeArguments()[0];
-        Class<?> clazz = type instanceof Class<?> ? (Class<?>) type : (Class<?>) ((ParameterizedType) type)
-                .getRawType();
+        Class<?> clazz =
+                type instanceof Class<?> ? (Class<?>) type : (Class<?>) ((ParameterizedType) type).getRawType();
         @SuppressWarnings("unchecked")
         Class<? super T> clazz2 = (Class<? super T>) clazz;
         this.rawType = clazz2;
-
     }
 
     /**

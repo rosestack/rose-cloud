@@ -25,36 +25,33 @@ public class ClassesBenchmark {
     @Benchmark
     public void findHierarchyMethods() {
         Classes.from(SubClass.class)
-            .traversingSuperclasses()
-            .traversingInterfaces()
-            .classes()
-            .toArray();
+                .traversingSuperclasses()
+                .traversingInterfaces()
+                .classes()
+                .toArray();
     }
 
     @Benchmark
     public void findHierarchyFields() {
-        Classes.from(SubClass.class)
-            .traversingSuperclasses()
-            .fields()
-            .toArray();
+        Classes.from(SubClass.class).traversingSuperclasses().fields().toArray();
     }
 
     @Benchmark
     public void findSpecificFieldByFilter() {
         Classes.from(SubClass.class)
-            .traversingSuperclasses()
-            .fields()
-            .filter(field -> "baseClassField".equals(field.getName()))
-            .findFirst()
-            .get();
+                .traversingSuperclasses()
+                .fields()
+                .filter(field -> "baseClassField".equals(field.getName()))
+                .findFirst()
+                .get();
     }
 
     @Benchmark
     public void findSpecificFieldByName() throws NoSuchFieldException {
         Classes.from(SubClass.class)
-            .traversingSuperclasses()
-            .field("baseClassField")
-            .get();
+                .traversingSuperclasses()
+                .field("baseClassField")
+                .get();
     }
 
     interface SomeInterface {
@@ -68,17 +65,14 @@ public class ClassesBenchmark {
     static class BaseClass implements SomeInterface {
         private String baseClassField;
 
-        public void someInterfaceMethod() {
-        }
+        public void someInterfaceMethod() {}
     }
 
     static class SubClass extends BaseClass implements SomeOtherInterface {
         private String subClassField;
 
-        public void someInterfaceMethod() {
-        }
+        public void someInterfaceMethod() {}
 
-        public void someOtherInterfaceMethod() {
-        }
+        public void someOtherInterfaceMethod() {}
     }
 }

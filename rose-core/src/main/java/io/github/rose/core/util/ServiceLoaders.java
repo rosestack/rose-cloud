@@ -15,10 +15,9 @@
  */
 package io.github.rose.core.util;
 
+import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.*;
 
 /**
  * ServiceLoaders is a {@link ServiceLoader} replacement which understands multiple classpaths.
@@ -74,7 +73,9 @@ public class ServiceLoaders {
                 services.add(service);
                 log.info("Loading service impl: {}", service.getClass().getName());
             } else {
-                log.info("Ignoring already loaded service: {}", service.getClass().getName());
+                log.info(
+                        "Ignoring already loaded service: {}",
+                        service.getClass().getName());
             }
         }
     }

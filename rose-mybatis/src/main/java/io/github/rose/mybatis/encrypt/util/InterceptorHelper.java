@@ -19,6 +19,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.rose.mybatis.encrypt.FieldSetProperty;
 import io.github.rose.mybatis.encrypt.IEncryptor;
 import io.github.rose.mybatis.encrypt.annotation.FieldEncrypt;
+import java.lang.reflect.Field;
+import java.util.*;
+import java.util.function.BiConsumer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.executor.resultset.DefaultResultSetHandler;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -30,10 +33,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ReflectionUtils;
 
-import java.lang.reflect.Field;
-import java.util.*;
-import java.util.function.BiConsumer;
-
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
@@ -43,8 +42,7 @@ public class InterceptorHelper {
 
     private static Map<Class<? extends IEncryptor>, IEncryptor> encryptorMap;
 
-    private InterceptorHelper() {
-    }
+    private InterceptorHelper() {}
 
     public static Object encrypt(Invocation invocation, IEncryptor encryptor, String password) throws Throwable {
         if (encryptor == null || StringUtils.isBlank(password)) {
@@ -56,7 +54,10 @@ public class InterceptorHelper {
         Object paramMap = args[1];
 
         SqlCommandType sqlCommandType = mappedStatement.getSqlCommandType();
-        if (paramMap == null || (SqlCommandType.UPDATE != sqlCommandType && SqlCommandType.INSERT != sqlCommandType && SqlCommandType.SELECT != sqlCommandType)) {
+        if (paramMap == null
+                || (SqlCommandType.UPDATE != sqlCommandType
+                        && SqlCommandType.INSERT != sqlCommandType
+                        && SqlCommandType.SELECT != sqlCommandType)) {
             return invocation.proceed();
         }
 
@@ -85,7 +86,7 @@ public class InterceptorHelper {
     }
 
     public static boolean encryptValue(
-        Configuration configuration, IEncryptor encryptor, String password, Object object) {
+            Configuration configuration, IEncryptor encryptor, String password, Object object) {
         if (object == null) {
             return false;
         }
@@ -96,7 +97,7 @@ public class InterceptorHelper {
                 if (null != objectValue) {
                     try {
                         String value = getEncryptor(encryptor, fieldEncrypt.encryptor())
-                            .encrypt(fieldEncrypt.algorithm(), password, (String) objectValue, null);
+                                .encrypt(fieldEncrypt.algorithm(), password, (String) objectValue, null);
                         metaObject.setValue(fieldSetProperty.getFieldName(), value);
                     } catch (Exception e) {
                         log.error("field encrypt: {}", e.getMessage());
@@ -123,7 +124,7 @@ public class InterceptorHelper {
     }
 
     public static Object decrypt(Invocation invocation, BiConsumer<MetaObject, FieldSetProperty> consumer)
-        throws Throwable {
+            throws Throwable {
         List<?> result = (List<?>) invocation.proceed();
         if (result.isEmpty()) {
             return result;

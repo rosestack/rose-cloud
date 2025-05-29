@@ -22,14 +22,13 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Optional;
 
-public abstract class StandardAnnotationResolver<E extends AnnotatedElement, A extends Annotation> implements
-        AnnotationResolver<E, A> {
+public abstract class StandardAnnotationResolver<E extends AnnotatedElement, A extends Annotation>
+        implements AnnotationResolver<E, A> {
     private final Class<A> annotationClass;
 
     @SuppressWarnings("unchecked")
     protected StandardAnnotationResolver() {
-        Type[] actualTypeArguments = ((ParameterizedType) getClass().getGenericSuperclass())
-                .getActualTypeArguments();
+        Type[] actualTypeArguments = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments();
         annotationClass = (Class<A>) Types.rawClassOf(actualTypeArguments[1]);
     }
 
@@ -57,8 +56,6 @@ public abstract class StandardAnnotationResolver<E extends AnnotatedElement, A e
         } else {
             return Optional.empty();
         }
-        return on.fallingBackOnClasses()
-                .includingMetaAnnotations()
-                .find(annotationClass);
+        return on.fallingBackOnClasses().includingMetaAnnotations().find(annotationClass);
     }
 }

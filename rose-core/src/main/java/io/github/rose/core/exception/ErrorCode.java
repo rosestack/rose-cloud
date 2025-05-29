@@ -15,6 +15,4 @@
  */
 package io.github.rose.core.exception;
 
-public interface ErrorCode {
-
-}
+public interface ErrorCode {}

@@ -15,14 +15,10 @@
  */
 package io.github.rose.filter;
 
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.owasp.encoder.Encode;
-import org.springframework.http.HttpMethod;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.StreamUtils;
-import org.springframework.web.filter.OncePerRequestFilter;
-
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 import javax.servlet.FilterChain;
 import javax.servlet.ReadListener;
 import javax.servlet.ServletException;
@@ -30,10 +26,13 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.owasp.encoder.Encode;
+import org.springframework.http.HttpMethod;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.StreamUtils;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
  * 防止XSS攻击的过滤器
@@ -69,11 +68,10 @@ public class XssFilter extends OncePerRequestFilter {
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-        throws IOException, ServletException {
+            throws IOException, ServletException {
         XssHttpServletRequestWrapper xssRequest = new XssHttpServletRequestWrapper(request);
         chain.doFilter(xssRequest, response);
     }
-
 
     public static class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
         public XssHttpServletRequestWrapper(HttpServletRequest request) {

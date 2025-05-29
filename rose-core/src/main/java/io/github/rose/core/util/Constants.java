@@ -23,13 +23,13 @@ import org.springframework.core.Ordered;
 public interface Constants {
     String PROJECT_NAME = "rose";
 
-    //profile
+    // profile
     String PROFILE_PROD = "prod";
     String PROFILE_NOT_PROD = "!" + PROFILE_PROD;
     String PROFILE_TEST = "test";
     String PROFILE_NOT_TEST = "!" + PROFILE_TEST;
 
-    //filter order
+    // filter order
     int CORS_FILTER_ORDER = Ordered.HIGHEST_PRECEDENCE;
     int CACHING_REQUEST_FILTER_ORDER = CORS_FILTER_ORDER + 1;
     int TRACE_FILTER_ORDER = CORS_FILTER_ORDER + 2;
@@ -38,7 +38,7 @@ public interface Constants {
     // Spring Security Filter 默认为 -100，可见 org.springframework.boot.autoconfigure.security.SecurityProperties
     int TENANT_SECURITY_FILTER_ORDER = -99;
 
-    //header
+    // header
     String HEADER_TENANT_ID = "tenant-id";
     String REQUEST_START_TIME = "Request-Start-Time";
     String REQUEST_FROM_INNER = "Request-From-Inner";
@@ -47,5 +47,4 @@ public interface Constants {
     String RATELIMIT_REMAINING = "RateLimit-Remaining";
     String RATELIMIT_RESET = "RateLimit-Reset";
     String RETRY_AFTER = "Retry-After";
-
 }

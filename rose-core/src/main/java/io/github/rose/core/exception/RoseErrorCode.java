@@ -20,6 +20,6 @@ public enum RoseErrorCode implements ErrorCode {
     UNABLE_TO_GET_FIELD,
     UNABLE_TO_INSTANTIATE_CLASS,
     UNABLE_TO_INVOKE_METHOD,
-    
+
     TENANT_IS_NULL
 }

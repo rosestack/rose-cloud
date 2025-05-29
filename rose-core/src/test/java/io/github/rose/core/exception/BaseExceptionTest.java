@@ -15,21 +15,20 @@
  */
 package io.github.rose.core.exception;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
 
 public class BaseExceptionTest {
     @Test
     public void createNewTotoException1() {
         assertThrows(TotoException.class, () -> {
             throw BaseException.createNew(TotoException.class, TotoErrorCode.CARAMBAR_MODE)
-                .put("key1", "value1")
-                .put("key2", "value2");
+                    .put("key1", "value1")
+                    .put("key2", "value2");
         });
     }
 
@@ -40,7 +39,7 @@ public class BaseExceptionTest {
                 throw new NullPointerException();
             } catch (Exception exception) {
                 throw BaseException.wrap(TotoException.class, exception, TotoErrorCode.JOKE_MODE)
-                    .put("Error Code", "this is how we do it !");
+                        .put("Error Code", "this is how we do it !");
             }
         });
     }
@@ -63,7 +62,7 @@ public class BaseExceptionTest {
                 throw new TotoException(TotoErrorCode.JOKE_MODE);
             } catch (TotoException exception) {
                 throw BaseException.wrap(TotoException.class, exception, TotoErrorCode.JOKE_MODE)
-                    .put("Error Code", "this is how we do it !");
+                        .put("Error Code", "this is how we do it !");
             }
         });
     }
@@ -71,28 +70,32 @@ public class BaseExceptionTest {
     @Test
     public void multiple_causes_should_be_visible() {
         StringWriter stringWriter = new StringWriter();
-        BaseException.wrap(TotoException.class,
-            BaseException.wrap(TotoException.class, new RuntimeException("yop"), TotoErrorCode.CARAMBAR_MODE),
-            TotoErrorCode.JOKE_MODE
-        ).printStackTrace(new PrintWriter(stringWriter));
+        BaseException.wrap(
+                        TotoException.class,
+                        BaseException.wrap(
+                                TotoException.class, new RuntimeException("yop"), TotoErrorCode.CARAMBAR_MODE),
+                        TotoErrorCode.JOKE_MODE)
+                .printStackTrace(new PrintWriter(stringWriter));
         String text = stringWriter.toString();
 
         assertThat(text).contains("Caused by: java.lang.RuntimeException: yop");
-        assertThat(text).contains("Caused by: io.github.rose.core.exception.BaseExceptionTest$TotoException: " +
-            "Carambar mode");
+        assertThat(text)
+                .contains(
+                        "Caused by: io.github.rose.core.exception.BaseExceptionTest$TotoException: " + "Carambar mode");
         assertThat(text).contains("io.github.rose.core.exception.BaseExceptionTest$TotoException: Joke mode");
     }
 
     @Test
     public void infoShouldBeLoaded() {
         BaseException seedException = BaseException.createNew(TotoException.class, TotoErrorCode.CARAMBAR_MODE)
-            .put("who", "World");
+                .put("who", "World");
         String text = seedException.toString();
         assertThat(text).contains("Hello World!");
     }
 
     private enum TotoErrorCode implements ErrorCode {
-        JOKE_MODE, CARAMBAR_MODE;
+        JOKE_MODE,
+        CARAMBAR_MODE;
     }
 
     private static class TotoException extends BaseException {

@@ -15,15 +15,14 @@
  */
 package io.github.rose.core.reflect;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.lang.annotation.*;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import org.junit.jupiter.api.Test;
 
 public class AnnotationsTest {
     @Test
@@ -33,10 +32,13 @@ public class AnnotationsTest {
     }
 
     private void checkNotAnnotated(Class<?> classToCheck, Class<? extends Annotation> annotationClass, boolean meta)
-        throws NoSuchFieldException, NoSuchMethodException {
+            throws NoSuchFieldException, NoSuchMethodException {
         assertThat(Annotations.on(classToCheck).find(annotationClass)).isNotPresent();
-        assertThat(Annotations.on(classToCheck).traversingSuperclasses().traversingInterfaces().find(annotationClass)
-        ).isNotPresent();
+        assertThat(Annotations.on(classToCheck)
+                        .traversingSuperclasses()
+                        .traversingInterfaces()
+                        .find(annotationClass))
+                .isNotPresent();
 
         Field notAnnotatedField = classToCheck.getDeclaredField("notAnnotatedField");
         assertThat(on(notAnnotatedField, false, meta).find(annotationClass)).isNotPresent();
@@ -47,8 +49,10 @@ public class AnnotationsTest {
         assertThat(on(notAnnotatedMethod, true, meta).find(annotationClass)).isNotPresent();
 
         Constructor<?> notAnnotatedConstructor = classToCheck.getDeclaredConstructor();
-        assertThat(on(notAnnotatedConstructor, false, meta).find(annotationClass)).isNotPresent();
-        assertThat(on(notAnnotatedConstructor, true, meta).find(annotationClass)).isNotPresent();
+        assertThat(on(notAnnotatedConstructor, false, meta).find(annotationClass))
+                .isNotPresent();
+        assertThat(on(notAnnotatedConstructor, true, meta).find(annotationClass))
+                .isNotPresent();
     }
 
     @Test
@@ -62,8 +66,8 @@ public class AnnotationsTest {
         checkAnnotatedClass(MetaAnnotatedBaseClass.class, TypeAnnotation.class, true);
     }
 
-    private void checkAnnotatedClass(Class<?> classToCheck, Class<? extends Annotation> annotationClass, boolean
-        meta) throws NoSuchFieldException, NoSuchMethodException {
+    private void checkAnnotatedClass(Class<?> classToCheck, Class<? extends Annotation> annotationClass, boolean meta)
+            throws NoSuchFieldException, NoSuchMethodException {
         assertThat(on(classToCheck, false, meta).find(annotationClass)).isPresent();
 
         Field notAnnotatedField = classToCheck.getDeclaredField("notAnnotatedField");
@@ -75,8 +79,10 @@ public class AnnotationsTest {
         assertThat(on(notAnnotatedMethod, true, meta).find(annotationClass)).isPresent();
 
         Constructor<?> notAnnotatedConstructor = classToCheck.getDeclaredConstructor();
-        assertThat(on(notAnnotatedConstructor, false, meta).find(annotationClass)).isNotPresent();
-        assertThat(on(notAnnotatedConstructor, true, meta).find(annotationClass)).isPresent();
+        assertThat(on(notAnnotatedConstructor, false, meta).find(annotationClass))
+                .isNotPresent();
+        assertThat(on(notAnnotatedConstructor, true, meta).find(annotationClass))
+                .isPresent();
     }
 
     @Test
@@ -90,37 +96,64 @@ public class AnnotationsTest {
         checkAnnotatedByBaseClass(MetaAnnotatedByBaseClass.class, TypeAnnotation.class, true);
     }
 
-    private void checkAnnotatedByBaseClass(Class<?> classToCheck, Class<? extends Annotation> annotationClass,
-                                           boolean meta) throws NoSuchFieldException, NoSuchMethodException {
+    private void checkAnnotatedByBaseClass(
+            Class<?> classToCheck, Class<? extends Annotation> annotationClass, boolean meta)
+            throws NoSuchFieldException, NoSuchMethodException {
         assertThat(on(classToCheck, false, meta).find(annotationClass)).isNotPresent();
-        assertThat(on(classToCheck, false, meta).traversingSuperclasses().find(annotationClass)).isPresent();
-        assertThat(on(classToCheck, false, meta).traversingInterfaces().find(annotationClass)).isNotPresent();
-        assertThat(on(classToCheck, false, meta).traversingSuperclasses().traversingInterfaces().find
-            (annotationClass)).isPresent();
+        assertThat(on(classToCheck, false, meta).traversingSuperclasses().find(annotationClass))
+                .isPresent();
+        assertThat(on(classToCheck, false, meta).traversingInterfaces().find(annotationClass))
+                .isNotPresent();
+        assertThat(on(classToCheck, false, meta)
+                        .traversingSuperclasses()
+                        .traversingInterfaces()
+                        .find(annotationClass))
+                .isPresent();
 
         Field notAnnotatedField = classToCheck.getDeclaredField("notAnnotatedField");
         assertThat(on(notAnnotatedField, false, meta).find(annotationClass)).isNotPresent();
         assertThat(on(notAnnotatedField, true, meta).find(annotationClass)).isNotPresent();
-        assertThat(on(notAnnotatedField, true, meta).traversingSuperclasses().find(annotationClass)).isPresent();
-        assertThat(on(notAnnotatedField, true, meta).traversingInterfaces().find(annotationClass)).isNotPresent();
-        assertThat(on(notAnnotatedField, true, meta).traversingSuperclasses().traversingInterfaces().find
-            (annotationClass)).isPresent();
+        assertThat(on(notAnnotatedField, true, meta).traversingSuperclasses().find(annotationClass))
+                .isPresent();
+        assertThat(on(notAnnotatedField, true, meta).traversingInterfaces().find(annotationClass))
+                .isNotPresent();
+        assertThat(on(notAnnotatedField, true, meta)
+                        .traversingSuperclasses()
+                        .traversingInterfaces()
+                        .find(annotationClass))
+                .isPresent();
 
         Method notAnnotatedMethod = classToCheck.getDeclaredMethod("notAnnotatedMethod");
         assertThat(on(notAnnotatedMethod, false, meta).find(annotationClass)).isNotPresent();
         assertThat(on(notAnnotatedMethod, true, meta).find(annotationClass)).isNotPresent();
-        assertThat(on(notAnnotatedMethod, true, meta).traversingSuperclasses().find(annotationClass)).isPresent();
-        assertThat(on(notAnnotatedMethod, true, meta).traversingInterfaces().find(annotationClass)).isNotPresent();
-        assertThat(on(notAnnotatedMethod, true, meta).traversingSuperclasses().traversingInterfaces().find
-            (annotationClass)).isPresent();
+        assertThat(on(notAnnotatedMethod, true, meta).traversingSuperclasses().find(annotationClass))
+                .isPresent();
+        assertThat(on(notAnnotatedMethod, true, meta).traversingInterfaces().find(annotationClass))
+                .isNotPresent();
+        assertThat(on(notAnnotatedMethod, true, meta)
+                        .traversingSuperclasses()
+                        .traversingInterfaces()
+                        .find(annotationClass))
+                .isPresent();
 
         Constructor<?> notAnnotatedConstructor = classToCheck.getDeclaredConstructor();
-        assertThat(on(notAnnotatedConstructor, false, meta).find(annotationClass)).isNotPresent();
-        assertThat(on(notAnnotatedConstructor, true, meta).find(annotationClass)).isNotPresent();
-        assertThat(on(notAnnotatedConstructor, true, meta).traversingSuperclasses().find(annotationClass)).isPresent();
-        assertThat(on(notAnnotatedConstructor, true, meta).traversingInterfaces().find(annotationClass)).isNotPresent();
-        assertThat(on(notAnnotatedConstructor, true, meta).traversingSuperclasses().traversingInterfaces().find
-            (annotationClass)).isPresent();
+        assertThat(on(notAnnotatedConstructor, false, meta).find(annotationClass))
+                .isNotPresent();
+        assertThat(on(notAnnotatedConstructor, true, meta).find(annotationClass))
+                .isNotPresent();
+        assertThat(on(notAnnotatedConstructor, true, meta)
+                        .traversingSuperclasses()
+                        .find(annotationClass))
+                .isPresent();
+        assertThat(on(notAnnotatedConstructor, true, meta)
+                        .traversingInterfaces()
+                        .find(annotationClass))
+                .isNotPresent();
+        assertThat(on(notAnnotatedConstructor, true, meta)
+                        .traversingSuperclasses()
+                        .traversingInterfaces()
+                        .find(annotationClass))
+                .isPresent();
     }
 
     @Test
@@ -134,38 +167,64 @@ public class AnnotationsTest {
         checkAnnotatedByInterface(MetaAnnotatedByInterface.class, TypeAnnotation.class, true);
     }
 
-    private void checkAnnotatedByInterface(Class<?> classToCheck, Class<? extends Annotation> annotationClass,
-                                           boolean meta) throws NoSuchFieldException, NoSuchMethodException {
+    private void checkAnnotatedByInterface(
+            Class<?> classToCheck, Class<? extends Annotation> annotationClass, boolean meta)
+            throws NoSuchFieldException, NoSuchMethodException {
         assertThat(on(classToCheck, false, meta).find(annotationClass)).isNotPresent();
-        assertThat(on(classToCheck, false, meta).traversingSuperclasses().find(annotationClass)).isNotPresent();
-        assertThat(on(classToCheck, false, meta).traversingInterfaces().find(annotationClass)).isPresent();
-        assertThat(on(classToCheck, false, meta).traversingSuperclasses().traversingInterfaces().find
-            (annotationClass)).isPresent();
+        assertThat(on(classToCheck, false, meta).traversingSuperclasses().find(annotationClass))
+                .isNotPresent();
+        assertThat(on(classToCheck, false, meta).traversingInterfaces().find(annotationClass))
+                .isPresent();
+        assertThat(on(classToCheck, false, meta)
+                        .traversingSuperclasses()
+                        .traversingInterfaces()
+                        .find(annotationClass))
+                .isPresent();
 
         Field notAnnotatedField = classToCheck.getDeclaredField("notAnnotatedField");
         assertThat(on(notAnnotatedField, false, meta).find(annotationClass)).isNotPresent();
         assertThat(on(notAnnotatedField, true, meta).find(annotationClass)).isNotPresent();
-        assertThat(on(notAnnotatedField, true, meta).traversingSuperclasses().find(annotationClass)).isNotPresent();
-        assertThat(on(notAnnotatedField, true, meta).traversingInterfaces().find(annotationClass)).isPresent();
-        assertThat(on(notAnnotatedField, true, meta).traversingSuperclasses().traversingInterfaces().find
-            (annotationClass)).isPresent();
+        assertThat(on(notAnnotatedField, true, meta).traversingSuperclasses().find(annotationClass))
+                .isNotPresent();
+        assertThat(on(notAnnotatedField, true, meta).traversingInterfaces().find(annotationClass))
+                .isPresent();
+        assertThat(on(notAnnotatedField, true, meta)
+                        .traversingSuperclasses()
+                        .traversingInterfaces()
+                        .find(annotationClass))
+                .isPresent();
 
         Method notAnnotatedMethod = classToCheck.getDeclaredMethod("notAnnotatedMethod");
         assertThat(on(notAnnotatedMethod, false, meta).find(annotationClass)).isNotPresent();
         assertThat(on(notAnnotatedMethod, true, meta).find(annotationClass)).isNotPresent();
-        assertThat(on(notAnnotatedMethod, true, meta).traversingSuperclasses().find(annotationClass)).isNotPresent();
-        assertThat(on(notAnnotatedMethod, true, meta).traversingInterfaces().find(annotationClass)).isPresent();
-        assertThat(on(notAnnotatedMethod, true, meta).traversingSuperclasses().traversingInterfaces().find
-            (annotationClass)).isPresent();
+        assertThat(on(notAnnotatedMethod, true, meta).traversingSuperclasses().find(annotationClass))
+                .isNotPresent();
+        assertThat(on(notAnnotatedMethod, true, meta).traversingInterfaces().find(annotationClass))
+                .isPresent();
+        assertThat(on(notAnnotatedMethod, true, meta)
+                        .traversingSuperclasses()
+                        .traversingInterfaces()
+                        .find(annotationClass))
+                .isPresent();
 
         Constructor<?> notAnnotatedConstructor = classToCheck.getDeclaredConstructor();
-        assertThat(on(notAnnotatedConstructor, false, meta).find(annotationClass)).isNotPresent();
-        assertThat(on(notAnnotatedConstructor, true, meta).find(annotationClass)).isNotPresent();
-        assertThat(on(notAnnotatedConstructor, true, meta).traversingSuperclasses().find(annotationClass))
-            .isNotPresent();
-        assertThat(on(notAnnotatedConstructor, true, meta).traversingInterfaces().find(annotationClass)).isPresent();
-        assertThat(on(notAnnotatedConstructor, true, meta).traversingSuperclasses().traversingInterfaces().find
-            (annotationClass)).isPresent();
+        assertThat(on(notAnnotatedConstructor, false, meta).find(annotationClass))
+                .isNotPresent();
+        assertThat(on(notAnnotatedConstructor, true, meta).find(annotationClass))
+                .isNotPresent();
+        assertThat(on(notAnnotatedConstructor, true, meta)
+                        .traversingSuperclasses()
+                        .find(annotationClass))
+                .isNotPresent();
+        assertThat(on(notAnnotatedConstructor, true, meta)
+                        .traversingInterfaces()
+                        .find(annotationClass))
+                .isPresent();
+        assertThat(on(notAnnotatedConstructor, true, meta)
+                        .traversingSuperclasses()
+                        .traversingInterfaces()
+                        .find(annotationClass))
+                .isPresent();
     }
 
     @Test
@@ -178,36 +237,46 @@ public class AnnotationsTest {
     @Test
     public void metaAnnotatedField() throws Exception {
         Field metaAnnotatedField = NotAnnotatedClass.class.getDeclaredField("metaAnnotatedField");
-        assertThat(on(metaAnnotatedField, false, false).find(FieldAnnotation.class)).isNotPresent();
-        assertThat(on(metaAnnotatedField, false, true).find(FieldAnnotation.class)).isPresent();
+        assertThat(on(metaAnnotatedField, false, false).find(FieldAnnotation.class))
+                .isNotPresent();
+        assertThat(on(metaAnnotatedField, false, true).find(FieldAnnotation.class))
+                .isPresent();
     }
 
     @Test
     public void annotatedMethod() throws Exception {
         Method annotatedMethod = NotAnnotatedClass.class.getDeclaredMethod("annotatedMethod");
-        assertThat(on(annotatedMethod, false, false).find(MethodAnnotation.class)).isPresent();
-        assertThat(on(annotatedMethod, false, true).find(MethodAnnotation.class)).isPresent();
+        assertThat(on(annotatedMethod, false, false).find(MethodAnnotation.class))
+                .isPresent();
+        assertThat(on(annotatedMethod, false, true).find(MethodAnnotation.class))
+                .isPresent();
     }
 
     @Test
     public void metaAnnotatedMethod() throws Exception {
         Method metaAnnotatedMethod = NotAnnotatedClass.class.getDeclaredMethod("metaAnnotatedMethod");
-        assertThat(on(metaAnnotatedMethod, false, false).find(MethodAnnotation.class)).isNotPresent();
-        assertThat(on(metaAnnotatedMethod, false, true).find(MethodAnnotation.class)).isPresent();
+        assertThat(on(metaAnnotatedMethod, false, false).find(MethodAnnotation.class))
+                .isNotPresent();
+        assertThat(on(metaAnnotatedMethod, false, true).find(MethodAnnotation.class))
+                .isPresent();
     }
 
     @Test
     public void annotatedConstructor() throws Exception {
         Constructor annotatedConstructor = NotAnnotatedClass.class.getDeclaredConstructor(String.class);
-        assertThat(on(annotatedConstructor, false, false).find(ConstructorAnnotation.class)).isPresent();
-        assertThat(on(annotatedConstructor, false, true).find(ConstructorAnnotation.class)).isPresent();
+        assertThat(on(annotatedConstructor, false, false).find(ConstructorAnnotation.class))
+                .isPresent();
+        assertThat(on(annotatedConstructor, false, true).find(ConstructorAnnotation.class))
+                .isPresent();
     }
 
     @Test
     public void metaAnnotatedConstructor() throws Exception {
         Constructor metaAnnotatedConstructor = NotAnnotatedClass.class.getDeclaredConstructor(Integer.class);
-        assertThat(on(metaAnnotatedConstructor, false, false).find(ConstructorAnnotation.class)).isNotPresent();
-        assertThat(on(metaAnnotatedConstructor, false, true).find(ConstructorAnnotation.class)).isPresent();
+        assertThat(on(metaAnnotatedConstructor, false, false).find(ConstructorAnnotation.class))
+                .isNotPresent();
+        assertThat(on(metaAnnotatedConstructor, false, true).find(ConstructorAnnotation.class))
+                .isPresent();
     }
 
     @Test
@@ -215,42 +284,65 @@ public class AnnotationsTest {
         Method annotatedMethod = MethodsAnnotatedByInterface.class.getDeclaredMethod("annotatedMethod");
         assertThat(Annotations.on(annotatedMethod).find(MethodAnnotation.class)).isNotPresent();
         assertThat(Annotations.on(annotatedMethod).traversingOverriddenMembers().find(MethodAnnotation.class))
-            .isPresent();
+                .isPresent();
     }
 
     @Test
     public void methodsMetaAnnotatedByInterface() throws Exception {
         Method metaAnnotatedMethod = MethodsAnnotatedByInterface.class.getDeclaredMethod("metaAnnotatedMethod");
-        assertThat(Annotations.on(metaAnnotatedMethod).find(MethodAnnotation.class)).isNotPresent();
-        assertThat(Annotations.on(metaAnnotatedMethod).traversingOverriddenMembers().includingMetaAnnotations().find
-            (MethodAnnotation.class)).isPresent();
+        assertThat(Annotations.on(metaAnnotatedMethod).find(MethodAnnotation.class))
+                .isNotPresent();
+        assertThat(Annotations.on(metaAnnotatedMethod)
+                        .traversingOverriddenMembers()
+                        .includingMetaAnnotations()
+                        .find(MethodAnnotation.class))
+                .isPresent();
     }
 
     @Test
     public void classAnnotationScopeIsLimited() throws Exception {
         Method notAnnotatedMethod = AnnotatedByInterface.class.getDeclaredMethod("notAnnotatedMethod");
-        assertThat(Annotations.on(notAnnotatedMethod).find(TypeAnnotation.class)).isNotPresent();
-        assertThat(Annotations.on(notAnnotatedMethod).fallingBackOnClasses().find(TypeAnnotation.class)).isNotPresent();
-        assertThat(Annotations.on(notAnnotatedMethod).fallingBackOnClasses().traversingInterfaces().find
-            (TypeAnnotation.class)).isPresent();
-        assertThat(Annotations.on(notAnnotatedMethod).traversingOverriddenMembers().find(TypeAnnotation.class))
-            .isNotPresent();
-        assertThat(Annotations.on(notAnnotatedMethod).traversingOverriddenMembers().fallingBackOnClasses().find
-            (TypeAnnotation.class)).isPresent();
-
+        assertThat(Annotations.on(notAnnotatedMethod).find(TypeAnnotation.class))
+                .isNotPresent();
+        assertThat(Annotations.on(notAnnotatedMethod).fallingBackOnClasses().find(TypeAnnotation.class))
+                .isNotPresent();
+        assertThat(Annotations.on(notAnnotatedMethod)
+                        .fallingBackOnClasses()
+                        .traversingInterfaces()
+                        .find(TypeAnnotation.class))
+                .isPresent();
+        assertThat(Annotations.on(notAnnotatedMethod)
+                        .traversingOverriddenMembers()
+                        .find(TypeAnnotation.class))
+                .isNotPresent();
+        assertThat(Annotations.on(notAnnotatedMethod)
+                        .traversingOverriddenMembers()
+                        .fallingBackOnClasses()
+                        .find(TypeAnnotation.class))
+                .isPresent();
     }
 
     @Test
     public void classFallbackExcludesSubclasses() throws Exception {
         Method notAnnotatedMethod = AnnotatedSubClass.class.getMethod("notAnnotatedMethod");
-        assertThat(Annotations.on(notAnnotatedMethod).find(TypeAnnotation.class)).isNotPresent();
-        assertThat(Annotations.on(notAnnotatedMethod).fallingBackOnClasses().find(TypeAnnotation.class)).isNotPresent();
-        assertThat(Annotations.on(notAnnotatedMethod).fallingBackOnClasses().traversingInterfaces().find
-            (TypeAnnotation.class)).isNotPresent();
-        assertThat(Annotations.on(notAnnotatedMethod).traversingOverriddenMembers().find(TypeAnnotation.class))
-            .isNotPresent();
-        assertThat(Annotations.on(notAnnotatedMethod).traversingOverriddenMembers().fallingBackOnClasses().find
-            (TypeAnnotation.class)).isNotPresent();
+        assertThat(Annotations.on(notAnnotatedMethod).find(TypeAnnotation.class))
+                .isNotPresent();
+        assertThat(Annotations.on(notAnnotatedMethod).fallingBackOnClasses().find(TypeAnnotation.class))
+                .isNotPresent();
+        assertThat(Annotations.on(notAnnotatedMethod)
+                        .fallingBackOnClasses()
+                        .traversingInterfaces()
+                        .find(TypeAnnotation.class))
+                .isNotPresent();
+        assertThat(Annotations.on(notAnnotatedMethod)
+                        .traversingOverriddenMembers()
+                        .find(TypeAnnotation.class))
+                .isNotPresent();
+        assertThat(Annotations.on(notAnnotatedMethod)
+                        .traversingOverriddenMembers()
+                        .fallingBackOnClasses()
+                        .find(TypeAnnotation.class))
+                .isNotPresent();
     }
 
     private Annotations.OnClass on(AnnotatedElement annotatedElement, boolean fallback, boolean meta) {
@@ -261,47 +353,39 @@ public class AnnotationsTest {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.TYPE})
-    private @interface TypeAnnotation {
-    }
+    private @interface TypeAnnotation {}
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.TYPE})
     @TypeAnnotation
-    private @interface TypeMetaAnnotation {
-    }
+    private @interface TypeMetaAnnotation {}
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.FIELD, ElementType.ANNOTATION_TYPE})
-    private @interface FieldAnnotation {
-    }
+    private @interface FieldAnnotation {}
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.FIELD})
     @FieldAnnotation
-    private @interface FieldMetaAnnotation {
-    }
+    private @interface FieldMetaAnnotation {}
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
-    private @interface MethodAnnotation {
-    }
+    private @interface MethodAnnotation {}
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.METHOD})
     @MethodAnnotation
-    private @interface MethodMetaAnnotation {
-    }
+    private @interface MethodMetaAnnotation {}
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.CONSTRUCTOR, ElementType.ANNOTATION_TYPE})
-    private @interface ConstructorAnnotation {
-    }
+    private @interface ConstructorAnnotation {}
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.CONSTRUCTOR})
     @ConstructorAnnotation
-    private @interface ConstructorMetaAnnotation {
-    }
+    private @interface ConstructorMetaAnnotation {}
 
     @TypeAnnotation
     private interface AnnotatedInterface {
@@ -323,113 +407,92 @@ public class AnnotationsTest {
 
     private static class NotAnnotatedClass {
         Object notAnnotatedField;
+
         @FieldAnnotation
         Object annotatedField;
+
         @FieldMetaAnnotation
         Object metaAnnotatedField;
 
-        NotAnnotatedClass() {
-        }
+        NotAnnotatedClass() {}
 
         @ConstructorAnnotation
-        NotAnnotatedClass(String dummy) {
-        }
+        NotAnnotatedClass(String dummy) {}
 
         @ConstructorMetaAnnotation
-        NotAnnotatedClass(Integer dummy) {
-        }
+        NotAnnotatedClass(Integer dummy) {}
 
-        public void notAnnotatedMethod() {
-        }
+        public void notAnnotatedMethod() {}
 
         @MethodAnnotation
-        void annotatedMethod() {
-        }
+        void annotatedMethod() {}
 
         @MethodMetaAnnotation
-        void metaAnnotatedMethod() {
-        }
+        void metaAnnotatedMethod() {}
     }
 
     @TypeAnnotation
     private static class AnnotatedBaseClass {
         Object notAnnotatedField;
 
-        AnnotatedBaseClass() {
-        }
+        AnnotatedBaseClass() {}
 
-        void notAnnotatedMethod() {
-        }
+        void notAnnotatedMethod() {}
     }
 
     @TypeMetaAnnotation
     private static class MetaAnnotatedBaseClass {
         Object notAnnotatedField;
 
-        MetaAnnotatedBaseClass() {
-        }
+        MetaAnnotatedBaseClass() {}
 
-        void notAnnotatedMethod() {
-        }
+        void notAnnotatedMethod() {}
     }
 
     private static class AnnotatedByBaseClass extends AnnotatedBaseClass {
         Object notAnnotatedField;
 
-        AnnotatedByBaseClass() {
-        }
+        AnnotatedByBaseClass() {}
 
-        void notAnnotatedMethod() {
-        }
+        void notAnnotatedMethod() {}
     }
 
     private static class MetaAnnotatedByBaseClass extends MetaAnnotatedBaseClass {
         Object notAnnotatedField;
 
-        MetaAnnotatedByBaseClass() {
-        }
+        MetaAnnotatedByBaseClass() {}
 
-        void notAnnotatedMethod() {
-        }
+        void notAnnotatedMethod() {}
     }
 
     private static class AnnotatedByInterface implements AnnotatedInterface {
         Object notAnnotatedField;
 
-        AnnotatedByInterface() {
-        }
+        AnnotatedByInterface() {}
 
-        public void notAnnotatedMethod() {
-        }
+        public void notAnnotatedMethod() {}
 
-        void notAnnotatedLocalMethod() {
-        }
+        void notAnnotatedLocalMethod() {}
     }
 
     private static class MetaAnnotatedByInterface implements MetaAnnotatedInterface {
         Object notAnnotatedField;
 
-        MetaAnnotatedByInterface() {
-        }
+        MetaAnnotatedByInterface() {}
 
-        public void notAnnotatedMethod() {
-        }
+        public void notAnnotatedMethod() {}
 
-        void notAnnotatedLocalMethod() {
-        }
+        void notAnnotatedLocalMethod() {}
     }
 
     private static class MethodsAnnotatedByInterface implements InterfaceWithAnnotatedMethod {
         @Override
-        public void annotatedMethod() {
-        }
+        public void annotatedMethod() {}
 
         @Override
-        public void metaAnnotatedMethod() {
-        }
+        public void metaAnnotatedMethod() {}
     }
 
     @TypeAnnotation
-    private static class AnnotatedSubClass extends NotAnnotatedClass {
-    }
+    private static class AnnotatedSubClass extends NotAnnotatedClass {}
 }

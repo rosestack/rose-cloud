@@ -17,6 +17,14 @@ package io.github.rose.core.spring.expression;
 
 import io.github.rose.core.spring.SpringContextHolder;
 import io.github.rose.core.util.date.DateUtils;
+import java.time.Clock;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Map;
+import java.util.Properties;
+import java.util.UUID;
+import java.util.function.Function;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -32,15 +40,6 @@ import org.springframework.expression.spel.SpelParserConfiguration;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
-import java.time.Clock;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.Map;
-import java.util.Properties;
-import java.util.UUID;
-import java.util.function.Function;
-
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
@@ -51,7 +50,7 @@ public class SpringExpressionResolver implements Function<Object, Object> {
     private static final ParserContext PARSER_CONTEXT = new TemplateParserContext("${", "}");
     private static final ParameterNameDiscoverer PARAMETER_NAME_DISCOVERER = new DefaultParameterNameDiscoverer();
     private static final SpelExpressionParser EXPRESSION_PARSER = new SpelExpressionParser(
-        new SpelParserConfiguration(SpelCompilerMode.IMMEDIATE, SpringExpressionResolver.class.getClassLoader()));
+            new SpelParserConfiguration(SpelCompilerMode.IMMEDIATE, SpringExpressionResolver.class.getClassLoader()));
     private static SpringExpressionResolver INSTANCE;
     private final StandardEvaluationContext evaluationContext = new StandardEvaluationContext();
 
@@ -117,15 +116,23 @@ public class SpringExpressionResolver implements Function<Object, Object> {
         evaluationContext.setVariable("randomString8", RandomStringUtils.randomAlphabetic(8));
         evaluationContext.setVariable("uuid", UUID.randomUUID().toString());
 
-        evaluationContext.setVariable("localStartWorkDay", DateUtils.getStartWorkDay().toString());
-        evaluationContext.setVariable("localEndWorkDay", DateUtils.getEndWorkDay().toString());
+        evaluationContext.setVariable(
+                "localStartWorkDay", DateUtils.getStartWorkDay().toString());
+        evaluationContext.setVariable(
+                "localEndWorkDay", DateUtils.getEndWorkDay().toString());
         evaluationContext.setVariable("localStartDay", DateUtils.getStartDay().toString());
         evaluationContext.setVariable("localEndDay", DateUtils.getEndDay().toString());
-        evaluationContext.setVariable("localDateTime", DateUtils.getLocalDateTime().toString());
-        evaluationContext.setVariable("localDateTimeUtc", DateUtils.getLocalDateTimeUTC().toString());
-        evaluationContext.setVariable("localDate", LocalDate.now(ZoneId.systemDefault()).toString());
-        evaluationContext.setVariable("localDateUtc", LocalDate.now(Clock.systemUTC()).toString());
-        evaluationContext.setVariable("zonedDateTime", ZonedDateTime.now(ZoneId.systemDefault()).toString());
-        evaluationContext.setVariable("zonedDateTimeUtc", ZonedDateTime.now(Clock.systemUTC()).toString());
+        evaluationContext.setVariable(
+                "localDateTime", DateUtils.getLocalDateTime().toString());
+        evaluationContext.setVariable(
+                "localDateTimeUtc", DateUtils.getLocalDateTimeUTC().toString());
+        evaluationContext.setVariable(
+                "localDate", LocalDate.now(ZoneId.systemDefault()).toString());
+        evaluationContext.setVariable(
+                "localDateUtc", LocalDate.now(Clock.systemUTC()).toString());
+        evaluationContext.setVariable(
+                "zonedDateTime", ZonedDateTime.now(ZoneId.systemDefault()).toString());
+        evaluationContext.setVariable(
+                "zonedDateTimeUtc", ZonedDateTime.now(Clock.systemUTC()).toString());
     }
 }

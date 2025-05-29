@@ -15,15 +15,13 @@
  */
 package io.github.rose.core.util.concurrent;
 
-
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Duration;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 class RetryingExecutorTest {
     private RetryingExecutor executor = new RetryingExecutor("test", Duration.ofMillis(100));

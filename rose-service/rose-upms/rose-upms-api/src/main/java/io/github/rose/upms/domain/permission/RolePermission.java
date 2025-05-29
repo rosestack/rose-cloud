@@ -15,15 +15,14 @@
  */
 package io.github.rose.upms.domain.permission;
 
+import static io.github.rose.core.util.date.DatePattern.NORM_DATETIME;
+
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-import static io.github.rose.core.util.date.DatePattern.NORM_DATETIME;
 
 @TableName("sys_role_permission")
 public class RolePermission implements Serializable {

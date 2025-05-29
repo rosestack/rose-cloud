@@ -16,7 +16,6 @@
 package io.github.rose.mybatis.encrypt.util;
 
 import com.baomidou.mybatisplus.core.toolkit.AES;
-
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -30,10 +29,9 @@ import java.util.function.Function;
 public class AlgorithmUtils {
 
     static final String PREFIX = "{@##@}";
-    static char[] CHARS = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    static char[] CHARS = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
-    private AlgorithmUtils() {
-    }
+    private AlgorithmUtils() {}
 
     public static String resolve(Algorithm algorithmEnum, String password, boolean isEncrypt, String plaintext) {
         if (algorithmEnum == Algorithm.MD5_32) {
@@ -42,12 +40,12 @@ public class AlgorithmUtils {
             return isEncrypt ? encrypt(plaintext, AlgorithmUtils::md5With16) : plaintext;
         } else if (algorithmEnum == Algorithm.AES) {
             return isEncrypt
-                ? encrypt(plaintext, s -> AES.encrypt(s, password))
-                : decrypt(plaintext, s -> AES.decrypt(s, password));
+                    ? encrypt(plaintext, s -> AES.encrypt(s, password))
+                    : decrypt(plaintext, s -> AES.decrypt(s, password));
         } else {
             return isEncrypt
-                ? encrypt(plaintext, AlgorithmUtils::base64Encode)
-                : decrypt(plaintext, AlgorithmUtils::base64Decode);
+                    ? encrypt(plaintext, AlgorithmUtils::base64Encode)
+                    : decrypt(plaintext, AlgorithmUtils::base64Decode);
         }
     }
 
@@ -57,8 +55,8 @@ public class AlgorithmUtils {
 
     private static String decrypt(String plaintext, Function<String, String> function) {
         return plaintext != null && plaintext.startsWith(PREFIX)
-            ? function.apply(plaintext.substring(PREFIX.length()))
-            : plaintext;
+                ? function.apply(plaintext.substring(PREFIX.length()))
+                : plaintext;
     }
 
     private static String md5With32(String data) {

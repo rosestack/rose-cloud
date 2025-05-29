@@ -2,13 +2,12 @@ version: '3'
 
 vars:
   GOOS: "{{default OS .GOOS}}"
-  MVNW: '{{if eq .GOOS "windows"}}mvnw.cmd{{else}}./mvnw{{end}}'
-  MVN: '{{if eq .GOOS "windows"}}mvn.cmd{{else}}mvn{{end}}'
+  MVN: '{{if eq .GOOS "windows"}}mvnw.cmd{{else}}./mvnw{{end}}'
+  SLEEP: '{{if eq .GOOS "windows"}}timeout{{else}}sleep{{end}}'
   DC_DIR: "."
   INFRA_DC_FILE: "{{.DC_DIR}}/docker-compose.yml"
   APP_DC_FILE: "{{.DC_DIR}}/docker-compose-app.yml"
   MONITOR_DC_FILE: "{{.DC_DIR}}/docker-compose-monitor.yml"
-  SLEEP_CMD: '{{if eq .GOOS "windows"}}timeout{{else}}sleep{{end}}'
 
 tasks:
   default:
@@ -24,7 +23,7 @@ tasks:
     cmds:
       - "{{.MVN}} spotless:apply"
 
-  build:
+  build-image:
     cmds:
       - "{{.MVN}} -pl rose/rose-upms spring-boot:build-image -DskipTests"
       - "{{.MVN}} -pl rose/rose-monitor spring-boot:build-image -DskipTests"
@@ -80,4 +79,4 @@ tasks:
     vars:
       DURATION: "{{default 5 .DURATION}}"
     cmds:
-      - "{{.SLEEP_CMD}} {{.DURATION}}"
+      - "{{.SLEEP}} {{.DURATION}}"

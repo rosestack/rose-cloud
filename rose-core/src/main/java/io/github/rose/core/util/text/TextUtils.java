@@ -21,8 +21,7 @@ import java.util.regex.Pattern;
 public final class TextUtils {
     private static final Pattern LINE_START_PATTERN = Pattern.compile("^.*", Pattern.MULTILINE);
 
-    private TextUtils() {
-    }
+    private TextUtils() {}
 
     /**
      * Inserts the specified string at the beginning of each newline of the specified text.

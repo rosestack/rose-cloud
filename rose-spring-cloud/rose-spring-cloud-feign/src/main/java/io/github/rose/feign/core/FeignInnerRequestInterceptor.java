@@ -15,15 +15,14 @@
  */
 package io.github.rose.feign.core;
 
+import static io.github.rose.core.util.Constants.REQUEST_FROM_INNER;
+
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import io.github.rose.core.util.StringPool;
 import io.github.rose.feign.annotation.NoToken;
-import org.springframework.core.Ordered;
-
 import java.lang.reflect.Method;
-
-import static io.github.rose.core.util.Constants.REQUEST_FROM_INNER;
+import org.springframework.core.Ordered;
 
 public class FeignInnerRequestInterceptor implements RequestInterceptor, Ordered {
 

@@ -15,15 +15,14 @@
  */
 package io.github.rose.core.util;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.net.*;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 网络相关工具
@@ -38,9 +37,9 @@ public abstract class NetUtils {
     private static final Logger log = LoggerFactory.getLogger(NetUtils.class);
     private static final Pattern LOCAL_IP_PATTERN = Pattern.compile("127(\\.\\d{1,3}){3}$");
     private static final Pattern IP4_PATTERN = Pattern.compile(
-        "^(\\d{1,2}|1\\d{2}|2[0-4]\\d|25[0-5])" + // 第一个数字部分
-            "(\\.(\\d{1,2}|1\\d{2}|2[0-4]\\d|25[0-5])){3}$" // 接下来的三个数字部分
-    );
+            "^(\\d{1,2}|1\\d{2}|2[0-4]\\d|25[0-5])" + // 第一个数字部分
+                    "(\\.(\\d{1,2}|1\\d{2}|2[0-4]\\d|25[0-5])){3}$" // 接下来的三个数字部分
+            );
     private static final String LEGAL_LOCAL_IP_PROPERTY = "java.net.preferIPv6Addresses";
 
     private static InetAddress localInetAddress;
@@ -87,7 +86,6 @@ public abstract class NetUtils {
         return inetAddress;
     }
 
-
     public static InetAddress getLocalInetAddress() {
         return getLocalInetAddress(null);
     }
@@ -104,10 +102,13 @@ public abstract class NetUtils {
             return false;
         }
         String name = address.getHostAddress();
-        return (name != null && !ANY_IP4.equals(name) && !LOCAL_IP4.equals(name) && IP4_PATTERN.matcher(name).matches());
+        return (name != null
+                && !ANY_IP4.equals(name)
+                && !LOCAL_IP4.equals(name)
+                && IP4_PATTERN.matcher(name).matches());
     }
 
-    //return ip to avoid lookup dns
+    // return ip to avoid lookup dns
     public static String getHostName(SocketAddress socketAddress) {
         if (socketAddress == null) {
             return null;
@@ -145,6 +146,19 @@ public abstract class NetUtils {
         }
 
         throw new RuntimeException("Could not find a free permitted port on the machine.");
+    }
+
+    public static boolean isReachable(String host) throws IOException {
+        return isReachable(host, 443, 5000);
+    }
+
+    public static boolean isReachable(String host, int openPort, int timeOutMillis) throws IOException {
+        // Any Open port on other machine
+        // openPort =  22 - ssh, 80 or 443 - webserver, 25 - mailserver etc.
+        try (Socket soc = new Socket()) {
+            soc.connect(new InetSocketAddress(host, openPort), timeOutMillis);
+            return true;
+        }
     }
 
     public static String resolveAddress(String fqdn) {
@@ -195,7 +209,11 @@ public abstract class NetUtils {
                     }
                 }
             } catch (Exception e) {
-                log.error("Failed to retrieve local address by connecting to dest host:port({}:{}) false, e={}", host, port, e);
+                log.error(
+                        "Failed to retrieve local address by connecting to dest host:port({}:{}) false, e={}",
+                        host,
+                        port,
+                        e);
             }
         }
         return null;
@@ -221,7 +239,8 @@ public abstract class NetUtils {
                     while (addresses.hasMoreElements()) {
                         InetAddress address = addresses.nextElement();
                         boolean isLegalIpVersion = Boolean.parseBoolean(System.getProperty(LEGAL_LOCAL_IP_PROPERTY))
-                            ? address instanceof Inet6Address : address instanceof Inet4Address;
+                                ? address instanceof Inet6Address
+                                : address instanceof Inet4Address;
                         if (isLegalIpVersion && !address.isLoopbackAddress()) {
                             result = address;
                         }
@@ -229,7 +248,7 @@ public abstract class NetUtils {
                 }
             }
         } catch (Exception e) {
-            //ignore
+            // ignore
         }
         return result;
     }

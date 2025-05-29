@@ -15,22 +15,21 @@
  */
 package io.github.rose.core.spring;
 
+import static org.springframework.http.HttpHeaders.USER_AGENT;
+
 import io.github.rose.core.json.JsonUtils;
 import io.github.rose.core.util.NetUtils;
 import io.github.rose.core.util.StringPool;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.MediaType;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.*;
-
-import static org.springframework.http.HttpHeaders.USER_AGENT;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.MediaType;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -38,12 +37,12 @@ import static org.springframework.http.HttpHeaders.USER_AGENT;
  */
 public class WebUtils extends org.springframework.web.util.WebUtils {
     private static final List<String> CLIENT_IP_HEADER_NAMES = Arrays.asList(
-        "X-Forwarded-For",
-        "X-Real-IP",
-        "Proxy-Client-IP",
-        "WL-Proxy-Client-IP",
-        "HTTP_CLIENT_IP",
-        "HTTP_X_FORWARDED_FOR");
+            "X-Forwarded-For",
+            "X-Real-IP",
+            "Proxy-Client-IP",
+            "WL-Proxy-Client-IP",
+            "HTTP_CLIENT_IP",
+            "HTTP_X_FORWARDED_FOR");
 
     public static String getUsername() {
         HttpServletRequest request = WebUtils.ofRequest().get();
@@ -96,7 +95,12 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
     }
 
     public static String constructUrl(HttpServletRequest request) {
-        return String.format(Locale.getDefault(), "%s://%s%s", getScheme(request), getDomainNameAndPort(request), request.getRequestURI());
+        return String.format(
+                Locale.getDefault(),
+                "%s://%s%s",
+                getScheme(request),
+                getDomainNameAndPort(request),
+                request.getRequestURI());
     }
 
     public static String getScheme(HttpServletRequest request) {

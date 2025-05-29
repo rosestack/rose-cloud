@@ -15,15 +15,15 @@
  */
 package io.github.rose.core.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class ClassLoadersTest {
     @Test
     public void findMostCompleteClassLoader() throws Exception {
-        assertThat(ClassLoaders.findMostCompleteClassLoader(ClassLoadersTest.class)).isNotNull();
+        assertThat(ClassLoaders.findMostCompleteClassLoader(ClassLoadersTest.class))
+                .isNotNull();
         assertThat(ClassLoaders.findMostCompleteClassLoader()).isNotNull();
     }
 }

@@ -15,10 +15,9 @@
  */
 package io.github.rose.boot.util;
 
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>

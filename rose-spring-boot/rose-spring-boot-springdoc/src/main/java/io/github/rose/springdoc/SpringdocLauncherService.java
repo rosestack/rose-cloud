@@ -25,7 +25,9 @@ public class SpringdocLauncherService implements LauncherService {
 
     @Override
     public void initialize(ConfigurableEnvironment configurableEnvironment) {
-        configurableEnvironment.getSystemProperties().putIfAbsent("spring.mvc.pathmatch.matching-handler", "ANT_PATH_MATCHER");
+        configurableEnvironment
+                .getSystemProperties()
+                .putIfAbsent("spring.mvc.pathmatch.matching-handler", "ANT_PATH_MATCHER");
     }
 
     @Override

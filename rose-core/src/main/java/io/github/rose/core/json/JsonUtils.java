@@ -15,6 +15,8 @@
  */
 package io.github.rose.core.json;
 
+import static java.util.TimeZone.getTimeZone;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
@@ -25,7 +27,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.github.rose.core.util.date.DatePattern;
 import io.github.rose.core.validation.Views;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
@@ -33,8 +34,6 @@ import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.*;
-
-import static java.util.TimeZone.getTimeZone;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -44,15 +43,16 @@ public class JsonUtils {
     public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     static {
-        OBJECT_MAPPER.setTimeZone(getTimeZone(ZoneId.systemDefault()))
-            .setDateFormat(new SimpleDateFormat(DatePattern.NORM_DATETIME, Locale.getDefault()))
-            .setSerializationInclusion(JsonInclude.Include.NON_NULL)
-            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-            .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true)
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
-            .configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true)
-            .findAndRegisterModules();
+        OBJECT_MAPPER
+                .setTimeZone(getTimeZone(ZoneId.systemDefault()))
+                .setDateFormat(new SimpleDateFormat(DatePattern.NORM_DATETIME, Locale.getDefault()))
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+                .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true)
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
+                .configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true)
+                .findAndRegisterModules();
     }
 
     public static byte[] toBytes(Object value) {
@@ -68,7 +68,6 @@ public class JsonUtils {
             return value != null ? OBJECT_MAPPER.writeValueAsString(value) : null;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
-
         }
     }
 
@@ -114,7 +113,7 @@ public class JsonUtils {
             return OBJECT_MAPPER.readValue(string, clazz);
         } catch (IOException e) {
             throw new IllegalArgumentException(
-                "The given string value cannot be transformed to Json object: " + string, e);
+                    "The given string value cannot be transformed to Json object: " + string, e);
         }
     }
 
@@ -123,7 +122,7 @@ public class JsonUtils {
             return OBJECT_MAPPER.readValue(string, clazz);
         } catch (IOException e) {
             throw new IllegalArgumentException(
-                "The given string value cannot be transformed to Json object: " + string, e);
+                    "The given string value cannot be transformed to Json object: " + string, e);
         }
     }
 
@@ -153,8 +152,7 @@ public class JsonUtils {
 
     public static Map<String, Object> toMap(String json) {
         try {
-            return OBJECT_MAPPER.readValue(json, new TypeReference<Map<String, Object>>() {
-            });
+            return OBJECT_MAPPER.readValue(json, new TypeReference<Map<String, Object>>() {});
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -162,8 +160,7 @@ public class JsonUtils {
 
     public static List<Map<String, Object>> toList(String json) {
         try {
-            return OBJECT_MAPPER.readValue(json, new TypeReference<List<Map<String, Object>>>() {
-            });
+            return OBJECT_MAPPER.readValue(json, new TypeReference<List<Map<String, Object>>>() {});
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

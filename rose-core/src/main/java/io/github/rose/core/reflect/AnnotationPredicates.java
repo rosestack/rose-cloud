@@ -31,8 +31,8 @@ public final class AnnotationPredicates {
      * @param includeMetaAnnotations if true, meta-annotations are included in the search.
      * @return the predicate.
      */
-    public static <T extends AnnotatedElement> Predicate<T> elementAnnotatedWith(Class<? extends Annotation>
-            annotationClass, boolean includeMetaAnnotations) {
+    public static <T extends AnnotatedElement> Predicate<T> elementAnnotatedWith(
+            Class<? extends Annotation> annotationClass, boolean includeMetaAnnotations) {
         return candidate -> {
             if (candidate == null) {
                 return false;
@@ -52,10 +52,10 @@ public final class AnnotationPredicates {
      * @param includeMetaAnnotations if true, meta-annotations are included in the search.
      * @return the predicate.
      */
-    public static <T extends Annotation> Predicate<T> annotationAnnotatedWith(Class<? extends Annotation>
-            annotationClass, boolean includeMetaAnnotations) {
-        return candidate -> elementAnnotatedWith(annotationClass, includeMetaAnnotations)
-                .test(candidate.annotationType());
+    public static <T extends Annotation> Predicate<T> annotationAnnotatedWith(
+            Class<? extends Annotation> annotationClass, boolean includeMetaAnnotations) {
+        return candidate ->
+                elementAnnotatedWith(annotationClass, includeMetaAnnotations).test(candidate.annotationType());
     }
 
     /**
@@ -66,13 +66,14 @@ public final class AnnotationPredicates {
      * @param includeMetaAnnotations if true, meta-annotations are included in the search.
      * @return the predicate.
      */
-    public static Predicate<Class<?>> classOrAncestorAnnotatedWith(final Class<? extends Annotation> annotationClass,
-            boolean includeMetaAnnotations) {
-        return candidate -> candidate != null && Classes.from(candidate)
-                .traversingSuperclasses()
-                .traversingInterfaces()
-                .classes()
-                .anyMatch(elementAnnotatedWith(annotationClass, includeMetaAnnotations));
+    public static Predicate<Class<?>> classOrAncestorAnnotatedWith(
+            final Class<? extends Annotation> annotationClass, boolean includeMetaAnnotations) {
+        return candidate -> candidate != null
+                && Classes.from(candidate)
+                        .traversingSuperclasses()
+                        .traversingInterfaces()
+                        .classes()
+                        .anyMatch(elementAnnotatedWith(annotationClass, includeMetaAnnotations));
     }
 
     /**
@@ -93,12 +94,13 @@ public final class AnnotationPredicates {
      * @param includeMetaAnnotations if true, meta-annotations are included in the search.
      * @return the predicate.
      */
-    public static Predicate<Class<?>> atLeastOneFieldAnnotatedWith(final Class<? extends Annotation> annotationClass,
-            boolean includeMetaAnnotations) {
-        return candidate -> candidate != null && Classes.from(candidate)
-                .traversingSuperclasses()
-                .fields()
-                .anyMatch(elementAnnotatedWith(annotationClass, includeMetaAnnotations));
+    public static Predicate<Class<?>> atLeastOneFieldAnnotatedWith(
+            final Class<? extends Annotation> annotationClass, boolean includeMetaAnnotations) {
+        return candidate -> candidate != null
+                && Classes.from(candidate)
+                        .traversingSuperclasses()
+                        .fields()
+                        .anyMatch(elementAnnotatedWith(annotationClass, includeMetaAnnotations));
     }
 
     /**
@@ -110,13 +112,12 @@ public final class AnnotationPredicates {
      * @param includeMetaAnnotations if true, meta-annotations are included in the search.
      * @return the predicate.
      */
-    public static Predicate<Class<?>> atLeastOneMethodAnnotatedWith(final Class<? extends Annotation>
-            annotationClass, boolean includeMetaAnnotations) {
+    public static Predicate<Class<?>> atLeastOneMethodAnnotatedWith(
+            final Class<? extends Annotation> annotationClass, boolean includeMetaAnnotations) {
         return candidate -> Classes.from(candidate)
                 .traversingInterfaces()
                 .traversingSuperclasses()
                 .methods()
                 .anyMatch(elementAnnotatedWith(annotationClass, includeMetaAnnotations));
-
     }
 }

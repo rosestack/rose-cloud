@@ -18,7 +18,6 @@ package io.github.rose.core.exception;
 import io.github.rose.core.util.text.TextFormatUtils;
 import io.github.rose.core.util.text.TextUtils;
 import io.github.rose.core.util.text.TextWrapper;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.*;
@@ -72,13 +71,8 @@ public abstract class BaseException extends RuntimeException {
     }
 
     private static String formatErrorCode(ErrorCode errorCode) {
-        String name = errorCode.toString()
-            .toLowerCase(Locale.ENGLISH)
-            .replace("_", " ");
-        return String.format(
-            ERROR_CODE_PATTERN,
-            name.substring(0, 1).toUpperCase(Locale.ENGLISH) + name.substring(1)
-        );
+        String name = errorCode.toString().toLowerCase(Locale.ENGLISH).replace("_", " ");
+        return String.format(ERROR_CODE_PATTERN, name.substring(0, 1).toUpperCase(Locale.ENGLISH) + name.substring(1));
     }
 
     /**
@@ -94,10 +88,12 @@ public abstract class BaseException extends RuntimeException {
             Constructor<E> constructor = exceptionType.getDeclaredConstructor(ErrorCode.class);
             constructor.setAccessible(true);
             return constructor.newInstance(errorCode);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException
-                 | InstantiationException e) {
-            throw new IllegalArgumentException(exceptionType.getCanonicalName()
-                + " must implement a constructor with ErrorCode as parameter", e);
+        } catch (NoSuchMethodException
+                | IllegalAccessException
+                | InvocationTargetException
+                | InstantiationException e) {
+            throw new IllegalArgumentException(
+                    exceptionType.getCanonicalName() + " must implement a constructor with ErrorCode as parameter", e);
         }
     }
 
@@ -116,10 +112,14 @@ public abstract class BaseException extends RuntimeException {
             Constructor<E> constructor = exceptionType.getDeclaredConstructor(ErrorCode.class, Throwable.class);
             constructor.setAccessible(true);
             return constructor.newInstance(errorCode, throwable);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException
-                 | InstantiationException e) {
-            throw new IllegalArgumentException(exceptionType.getCanonicalName()
-                + " must implement a constructor with an ErrorCode and a Throwable as parameters", e);
+        } catch (NoSuchMethodException
+                | IllegalAccessException
+                | InvocationTargetException
+                | InstantiationException e) {
+            throw new IllegalArgumentException(
+                    exceptionType.getCanonicalName()
+                            + " must implement a constructor with an ErrorCode and a Throwable as parameters",
+                    e);
         }
     }
 
@@ -232,8 +232,8 @@ public abstract class BaseException extends RuntimeException {
             int count = 1;
             for (String seedCause : causes) {
                 ensureBlankLine(s);
-                s.append(String.format(MULTIPLE_CAUSES_PATTERN, count,
-                    TextUtils.leftPad(textWrapper.wrap(seedCause), "   ", 1)));
+                s.append(String.format(
+                        MULTIPLE_CAUSES_PATTERN, count, TextUtils.leftPad(textWrapper.wrap(seedCause), "   ", 1)));
                 count++;
             }
         }
@@ -294,8 +294,9 @@ public abstract class BaseException extends RuntimeException {
                 // Collects all cause messages from highest to lowest level
                 String seedCauseErrorTemplate = seedCause.getTemplate(null);
                 if (seedCauseErrorTemplate != null) {
-                    causeMessage = String.format(ERROR_CODE_PATTERN,
-                        TextFormatUtils.substituteVariables(seedCauseErrorTemplate, processedProperties));
+                    causeMessage = String.format(
+                            ERROR_CODE_PATTERN,
+                            TextFormatUtils.substituteVariables(seedCauseErrorTemplate, processedProperties));
                 } else {
                     causeMessage = seedCause.getMessage();
                 }
@@ -304,13 +305,13 @@ public abstract class BaseException extends RuntimeException {
             }
             StackTraceElement stackTraceElement = findRelevantStackTraceElement(theCause);
             if (stackTraceElement != null) {
-                causes.add(String.format(CAUSE_PATTERN,
-                    causeMessage,
-                    stackTraceElement.getClassName(),
-                    stackTraceElement.getMethodName(),
-                    stackTraceElement.getFileName(),
-                    stackTraceElement.getLineNumber()
-                ));
+                causes.add(String.format(
+                        CAUSE_PATTERN,
+                        causeMessage,
+                        stackTraceElement.getClassName(),
+                        stackTraceElement.getMethodName(),
+                        stackTraceElement.getFileName(),
+                        stackTraceElement.getLineNumber()));
             }
 
             theCause = theCause.getCause();
@@ -337,9 +338,9 @@ public abstract class BaseException extends RuntimeException {
                     processedProperties.put(entry.getKey(), getSourceLocation((Class) value, false));
                 }
             } else if (value instanceof Method) {
-                processedProperties.put(entry.getKey(),
-                    ((Method) value).getName() + (((Method) value).getParameters().length > 0 ? "(...)"
-                        : "()"));
+                processedProperties.put(
+                        entry.getKey(),
+                        ((Method) value).getName() + (((Method) value).getParameters().length > 0 ? "(...)" : "()"));
             } else if (value instanceof Field) {
                 processedProperties.put(entry.getKey(), ((Field) value).getName());
             } else {
@@ -351,8 +352,8 @@ public abstract class BaseException extends RuntimeException {
 
     private String getSourceLocation(Class someClass, boolean simple) {
         if (someClass.getDeclaringClass() == null && Modifier.isPublic(someClass.getModifiers())) {
-            return (simple ? "." + someClass.getSimpleName() : someClass.getName()) + "(" + someClass
-                .getSimpleName() + ".java" + ":1)";
+            return (simple ? "." + someClass.getSimpleName() : someClass.getName()) + "(" + someClass.getSimpleName()
+                    + ".java" + ":1)";
         } else {
             return simple ? someClass.getSimpleName() : someClass.getName();
         }
@@ -369,9 +370,8 @@ public abstract class BaseException extends RuntimeException {
 
     private String getTemplate(String key) {
         try {
-            return ResourceBundle
-                .getBundle(errorCode.getClass().getName())
-                .getString(key == null ? errorCode.toString() : errorCode.toString() + "." + key);
+            return ResourceBundle.getBundle(errorCode.getClass().getName())
+                    .getString(key == null ? errorCode.toString() : errorCode.toString() + "." + key);
         } catch (MissingResourceException e) {
             return null;
         }
@@ -380,13 +380,13 @@ public abstract class BaseException extends RuntimeException {
     private int getLocation() {
         for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace()) {
             // In Throwable constructor
-            if (JAVA_LANG_THROWABLE.equals(stackTraceElement.getClassName()) && CONSTRUCTOR
-                .equals(stackTraceElement.getMethodName())) {
+            if (JAVA_LANG_THROWABLE.equals(stackTraceElement.getClassName())
+                    && CONSTRUCTOR.equals(stackTraceElement.getMethodName())) {
                 return 1;
             }
             // In Throwable printStackTrace
-            if (JAVA_LANG_THROWABLE.equals(stackTraceElement.getClassName()) && PRINT_STACK_TRACE
-                .equals(stackTraceElement.getMethodName())) {
+            if (JAVA_LANG_THROWABLE.equals(stackTraceElement.getClassName())
+                    && PRINT_STACK_TRACE.equals(stackTraceElement.getMethodName())) {
                 return 2;
             }
         }

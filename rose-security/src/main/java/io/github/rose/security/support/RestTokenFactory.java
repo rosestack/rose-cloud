@@ -15,20 +15,19 @@
  */
 package io.github.rose.security.support;
 
+import static io.github.rose.security.CacheConstants.USER_REFRESH_TOKEN_PREFIX;
+import static io.github.rose.security.CacheConstants.USER_TOKEN_PREFIX;
+
 import io.github.rose.core.json.JsonUtils;
 import io.github.rose.security.SecurityProperties;
 import io.github.rose.security.util.Authority;
 import io.github.rose.security.util.SecurityUser;
 import io.github.rose.security.util.TokenPair;
+import java.util.UUID;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.authority.AuthorityUtils;
-
-import java.util.UUID;
-
-import static io.github.rose.security.CacheConstants.USER_REFRESH_TOKEN_PREFIX;
-import static io.github.rose.security.CacheConstants.USER_TOKEN_PREFIX;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -49,10 +48,10 @@ public class RestTokenFactory implements TokenFactory {
     public TokenPair createPreVerificationTokenPair(SecurityUser securityUser) {
         String accessToken = RandomStringUtils.randomAlphabetic(20);
         redisTemplate
-            .opsForValue()
-            .set(USER_TOKEN_PREFIX + accessToken, securityUser, securityProperties.getAccessTokenExpireTime());
+                .opsForValue()
+                .set(USER_TOKEN_PREFIX + accessToken, securityUser, securityProperties.getAccessTokenExpireTime());
         return new TokenPair(
-            accessToken, null, AuthorityUtils.createAuthorityList(Authority.PRE_VERIFICATION_TOKEN.name()));
+                accessToken, null, AuthorityUtils.createAuthorityList(Authority.PRE_VERIFICATION_TOKEN.name()));
     }
 
     @Override
@@ -61,14 +60,14 @@ public class RestTokenFactory implements TokenFactory {
         String refreshToken = UUID.randomUUID().toString();
 
         redisTemplate
-            .opsForValue()
-            .set(USER_TOKEN_PREFIX + accessToken, securityUser, securityProperties.getAccessTokenExpireTime());
+                .opsForValue()
+                .set(USER_TOKEN_PREFIX + accessToken, securityUser, securityProperties.getAccessTokenExpireTime());
         redisTemplate
-            .opsForValue()
-            .set(
-                USER_REFRESH_TOKEN_PREFIX + refreshToken,
-                accessToken,
-                securityProperties.getRefreshTokenExpireTime());
+                .opsForValue()
+                .set(
+                        USER_REFRESH_TOKEN_PREFIX + refreshToken,
+                        accessToken,
+                        securityProperties.getRefreshTokenExpireTime());
 
         return new TokenPair(accessToken, refreshToken, securityUser.getAuthorities());
     }

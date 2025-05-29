@@ -21,7 +21,5 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public interface AnnotationResolver<E extends AnnotatedElement, A extends Annotation> extends Function<E,
-        Optional<A>>, Predicate<E> {
-
-}
+public interface AnnotationResolver<E extends AnnotatedElement, A extends Annotation>
+        extends Function<E, Optional<A>>, Predicate<E> {}

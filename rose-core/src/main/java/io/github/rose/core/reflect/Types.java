@@ -15,11 +15,10 @@
  */
 package io.github.rose.core.reflect;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.ArrayUtils;
 
 public final class Types {
 
@@ -70,10 +69,10 @@ public final class Types {
 
     public static Type[] getTypeArguments(Type type) {
         if (null == type) {
-            return new Type[]{};
+            return new Type[] {};
         }
         ParameterizedType parameterizedType = toParameterizedType(type);
-        return null == parameterizedType ? new Type[]{} : parameterizedType.getActualTypeArguments();
+        return null == parameterizedType ? new Type[] {} : parameterizedType.getActualTypeArguments();
     }
 
     public static ParameterizedType toParameterizedType(Type type) {
@@ -118,8 +117,7 @@ public final class Types {
         return result.toArray(new ParameterizedType[0]);
     }
 
-    private static StringBuilder buildTypeName(Type type, StringBuilder sb, boolean simpleName,
-                                               boolean canonicalName) {
+    private static StringBuilder buildTypeName(Type type, StringBuilder sb, boolean simpleName, boolean canonicalName) {
         if (type instanceof ParameterizedType) {
             buildTypeName(((ParameterizedType) type).getRawType(), sb, simpleName, canonicalName);
             Type[] actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();
@@ -127,8 +125,10 @@ public final class Types {
             buildGenericTypeNames(actualTypeArguments, sb, simpleName, canonicalName);
             sb.append(">");
         } else if (type instanceof Class) {
-            sb.append(simpleName ? ((Class) type).getSimpleName()
-                : (canonicalName ? ((Class) type).getCanonicalName() : ((Class) type).getName()));
+            sb.append(
+                    simpleName
+                            ? ((Class) type).getSimpleName()
+                            : (canonicalName ? ((Class) type).getCanonicalName() : ((Class) type).getName()));
         } else if (type instanceof WildcardType) {
             sb.append("?");
             Type[] lowerBounds = ((WildcardType) type).getLowerBounds();
@@ -146,8 +146,8 @@ public final class Types {
         return sb;
     }
 
-    private static void buildGenericTypeNames(Type[] actualTypeArguments, StringBuilder sb,
-                                              boolean simpleName, boolean canonicalName) {
+    private static void buildGenericTypeNames(
+            Type[] actualTypeArguments, StringBuilder sb, boolean simpleName, boolean canonicalName) {
         for (int i = 0; i < actualTypeArguments.length; i++) {
             Type typeArgument = actualTypeArguments[i];
             buildTypeName(typeArgument, sb, simpleName, canonicalName);

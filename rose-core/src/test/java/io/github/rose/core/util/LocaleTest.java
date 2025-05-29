@@ -15,10 +15,9 @@
  */
 package io.github.rose.core.util;
 
+import java.util.Locale;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.Locale;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>

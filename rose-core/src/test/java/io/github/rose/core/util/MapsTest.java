@@ -15,10 +15,9 @@
  */
 package io.github.rose.core.util;
 
+import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.Map;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -43,6 +42,5 @@ class MapsTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             Maps.of("key", "value", "other");
         });
-
     }
 }

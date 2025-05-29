@@ -15,7 +15,9 @@
  */
 package io.github.rose.core.reflect;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
@@ -25,10 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.junit.jupiter.api.Test;
 
 /**
  * TODO Comment
@@ -52,8 +51,7 @@ class TypesTest {
         assertEquals("Map", Types.simpleNameOf(Map.class));
 
         // 测试参数化类型
-        TypeOf<List<String>> typeOf = new TypeOf<List<String>>() {
-        };
+        TypeOf<List<String>> typeOf = new TypeOf<List<String>>() {};
         assertEquals("List<String>", Types.simpleNameOf(typeOf.getType()));
 
         // 测试匿名内部类
@@ -126,7 +124,8 @@ class TypesTest {
 
         // 测试TypeVariable类型
         List<String> list = new ArrayList<>();
-        TypeVariable<? extends Class<? extends List>> typeVariable = list.getClass().getTypeParameters()[0];
+        TypeVariable<? extends Class<? extends List>> typeVariable =
+                list.getClass().getTypeParameters()[0];
         assertEquals(Object.class, Types.rawClassOf(typeVariable));
     }
 
@@ -135,44 +134,35 @@ class TypesTest {
      * 验证能否正确获取类型的第一个泛型参数
      */
     @Test
-    void testGetTypeArgument() {
-
-    }
+    void testGetTypeArgument() {}
 
     /**
      * 测试getTypeArguments方法
      * 验证能否正确获取类型的所有泛型参数
      */
     @Test
-    void testGetTypeArguments() {
-
-    }
+    void testGetTypeArguments() {}
 
     /**
      * 测试toParameterizedType方法
      * 验证能否正确将类型转换为ParameterizedType
      */
     @Test
-    void testToParameterizedType() {
-    }
+    void testToParameterizedType() {}
 
     /**
      * 测试带interfaceIndex参数的toParameterizedType方法
      * 验证能否正确获取指定索引处的泛型接口
      */
     @Test
-    void testToParameterizedTypeWithInterfaceIndex() {
-
-    }
+    void testToParameterizedTypeWithInterfaceIndex() {}
 
     /**
      * 测试getGenerics方法
      * 验证能否正确获取类的泛型信息
      */
     @Test
-    void testGetGenerics() {
-
-    }
+    void testGetGenerics() {}
 
     /**
      * 测试buildTypeName私有方法
@@ -182,7 +172,7 @@ class TypesTest {
     void testBuildTypeName() throws Exception {
         // 使用反射访问私有方法
         java.lang.reflect.Method method = Types.class.getDeclaredMethod(
-            "buildTypeName", Type.class, StringBuilder.class, boolean.class, boolean.class);
+                "buildTypeName", Type.class, StringBuilder.class, boolean.class, boolean.class);
         method.setAccessible(true);
 
         // 测试简单类名构建
@@ -198,7 +188,7 @@ class TypesTest {
         // 测试参数化类型构建
         ParameterizedType parameterizedType = mock(ParameterizedType.class);
         when(parameterizedType.getRawType()).thenReturn(List.class);
-        when(parameterizedType.getActualTypeArguments()).thenReturn(new Type[]{String.class});
+        when(parameterizedType.getActualTypeArguments()).thenReturn(new Type[] {String.class});
 
         sb = new StringBuilder();
         method.invoke(null, parameterizedType, sb, true, false);
@@ -213,17 +203,17 @@ class TypesTest {
     void testBuildGenericTypeNames() throws Exception {
         // 使用反射访问私有方法
         java.lang.reflect.Method method = Types.class.getDeclaredMethod(
-            "buildGenericTypeNames", Type[].class, StringBuilder.class, boolean.class, boolean.class);
+                "buildGenericTypeNames", Type[].class, StringBuilder.class, boolean.class, boolean.class);
         method.setAccessible(true);
 
         // 测试单个泛型参数
         StringBuilder sb = new StringBuilder();
-        method.invoke(null, new Type[]{String.class}, sb, true, false);
+        method.invoke(null, new Type[] {String.class}, sb, true, false);
         assertEquals("String", sb.toString());
 
         // 测试多个泛型参数
         sb = new StringBuilder();
-        method.invoke(null, new Type[]{String.class, Integer.class}, sb, true, false);
+        method.invoke(null, new Type[] {String.class, Integer.class}, sb, true, false);
         assertEquals("String, Integer", sb.toString());
     }
 
@@ -242,6 +232,5 @@ class TypesTest {
     }
 
     // 创建一个具体的TypeOf子类用于测试
-    private static class ListTypeOf extends TypeOf<List<String>> {
-    }
+    private static class ListTypeOf extends TypeOf<List<String>> {}
 }

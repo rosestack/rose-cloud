@@ -16,19 +16,18 @@
 package io.github.rose.filter;
 
 import io.github.rose.core.json.JsonUtils;
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class PayloadSizeFilter extends OncePerRequestFilter {
     private static final Logger log = LoggerFactory.getLogger(PayloadSizeFilter.class);
@@ -52,7 +51,7 @@ public class PayloadSizeFilter extends OncePerRequestFilter {
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-        throws IOException, ServletException {
+            throws IOException, ServletException {
         for (String url : limits.keySet()) {
             if (pathMatcher.match(url, request.getRequestURI())) {
                 if (checkMaxPayloadSizeExceeded(request, response, limits.get(url))) {
@@ -65,15 +64,16 @@ public class PayloadSizeFilter extends OncePerRequestFilter {
     }
 
     private boolean checkMaxPayloadSizeExceeded(
-        HttpServletRequest request, HttpServletResponse response, long maxPayloadSize) throws IOException {
+            HttpServletRequest request, HttpServletResponse response, long maxPayloadSize) throws IOException {
         if (request.getContentLength() > maxPayloadSize) {
             log.info(
-                "[{}] [{}] Payload size {} exceeds the limit of {} bytes",
-                request.getRemoteAddr(),
-                request.getRequestURL(),
-                request.getContentLength(),
-                maxPayloadSize);
-            handleMaxPayloadSizeExceededException(response, new RuntimeException("Payload size exceeds the limit of " + maxPayloadSize + " bytes"));
+                    "[{}] [{}] Payload size {} exceeds the limit of {} bytes",
+                    request.getRemoteAddr(),
+                    request.getRequestURL(),
+                    request.getContentLength(),
+                    maxPayloadSize);
+            handleMaxPayloadSizeExceededException(
+                    response, new RuntimeException("Payload size exceeds the limit of " + maxPayloadSize + " bytes"));
             return true;
         }
         return false;
@@ -89,8 +89,8 @@ public class PayloadSizeFilter extends OncePerRequestFilter {
         return false;
     }
 
-    private void handleMaxPayloadSizeExceededException(
-        HttpServletResponse response, RuntimeException exception) throws IOException {
+    private void handleMaxPayloadSizeExceededException(HttpServletResponse response, RuntimeException exception)
+            throws IOException {
         response.setStatus(HttpStatus.PAYLOAD_TOO_LARGE.value());
         JsonUtils.writeValue(response.getWriter(), exception.getMessage());
     }

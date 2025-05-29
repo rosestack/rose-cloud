@@ -17,7 +17,6 @@ package io.github.rose.core.reflect;
 
 import io.github.rose.core.exception.RoseErrorCode;
 import io.github.rose.core.exception.RoseException;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -70,7 +69,7 @@ public final class Classes {
                     return defaultConstructor.newInstance();
                 } catch (Exception e) {
                     throw RoseException.wrap(e, RoseErrorCode.UNABLE_TO_INSTANTIATE_CLASS)
-                        .put("class", someClass);
+                            .put("class", someClass);
                 }
             }
         }
@@ -148,9 +147,9 @@ public final class Classes {
          */
         public Stream<Constructor<?>> constructors() {
             return classes()
-                .map(Class::getDeclaredConstructors)
-                .flatMap(Arrays::stream)
-                .filter(c -> !c.isSynthetic());
+                    .map(Class::getDeclaredConstructors)
+                    .flatMap(Arrays::stream)
+                    .filter(c -> !c.isSynthetic());
         }
 
         /**
@@ -161,8 +160,8 @@ public final class Classes {
          */
         public Optional<? extends Constructor<?>> constructor(Class<?>... parameterTypes) {
             return constructors()
-                .filter(constructor -> Arrays.equals(constructor.getParameterTypes(), parameterTypes))
-                .findFirst();
+                    .filter(constructor -> Arrays.equals(constructor.getParameterTypes(), parameterTypes))
+                    .findFirst();
         }
 
         /**
@@ -172,9 +171,9 @@ public final class Classes {
          */
         public Stream<Method> methods() {
             return classes()
-                .map(Class::getDeclaredMethods)
-                .flatMap(Arrays::stream)
-                .filter(m -> !m.isSynthetic());
+                    .map(Class::getDeclaredMethods)
+                    .flatMap(Arrays::stream)
+                    .filter(m -> !m.isSynthetic());
         }
 
         /**
@@ -186,9 +185,9 @@ public final class Classes {
          */
         public Optional<Method> method(String name, Class<?>... parameterTypes) {
             return methods()
-                .filter(method -> method.getName().equals(name)
-                    && Arrays.equals(method.getParameterTypes(), parameterTypes))
-                .findFirst();
+                    .filter(method ->
+                            method.getName().equals(name) && Arrays.equals(method.getParameterTypes(), parameterTypes))
+                    .findFirst();
         }
 
         /**
@@ -201,10 +200,10 @@ public final class Classes {
          */
         public Optional<Method> method(String name, Class<?> returnType, Class<?>... parameterTypes) {
             return methods()
-                .filter(method -> method.getName().equals(name)
-                    && returnType.equals(method.getReturnType())
-                    && Arrays.equals(method.getParameterTypes(), parameterTypes))
-                .findFirst();
+                    .filter(method -> method.getName().equals(name)
+                            && returnType.equals(method.getReturnType())
+                            && Arrays.equals(method.getParameterTypes(), parameterTypes))
+                    .findFirst();
         }
 
         /**
@@ -223,9 +222,7 @@ public final class Classes {
          * @return an optional containing the field if found.
          */
         public Optional<Field> field(String name) {
-            return fields()
-                .filter(field -> field.getName().equals(name))
-                .findFirst();
+            return fields().filter(field -> field.getName().equals(name)).findFirst();
         }
     }
 

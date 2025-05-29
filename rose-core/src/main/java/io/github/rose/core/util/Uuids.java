@@ -16,7 +16,6 @@
 package io.github.rose.core.util;
 
 import com.github.f4b6a3.uuid.UuidCreator;
-
 import java.nio.ByteBuffer;
 import java.util.Base64;
 import java.util.UUID;
@@ -27,12 +26,11 @@ import java.util.UUID;
  */
 public abstract class Uuids {
     // Use Java 8's built-in Base64 encoder/decoder
-    private static final Base64.Encoder URL_SAFE_ENCODER = Base64.getUrlEncoder().withoutPadding();
+    private static final Base64.Encoder URL_SAFE_ENCODER =
+            Base64.getUrlEncoder().withoutPadding();
     private static final Base64.Decoder URL_SAFE_DECODER = Base64.getUrlDecoder();
 
-    private Uuids() {
-    
-    }
+    private Uuids() {}
 
     public static UUID getUUID() {
         return UuidCreator.getTimeOrderedEpoch(); // UUIDv7

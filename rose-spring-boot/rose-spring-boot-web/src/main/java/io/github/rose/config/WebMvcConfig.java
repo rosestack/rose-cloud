@@ -15,6 +15,9 @@
  */
 package io.github.rose.config;
 
+import static io.github.rose.core.util.Constants.*;
+import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
+
 import io.github.rose.boot.util.FilterUtils;
 import io.github.rose.core.json.Java8TimeModule;
 import io.github.rose.core.util.Constants;
@@ -40,9 +43,6 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import static io.github.rose.core.util.Constants.*;
-import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
 
 @Configuration
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -103,10 +103,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/**")
-            .allowedOrigins("**")
-            .allowedHeaders("*")
-            .allowedMethods("*")
-            .maxAge(86400);
+                .allowedOrigins("**")
+                .allowedHeaders("*")
+                .allowedMethods("*")
+                .maxAge(86400);
     }
 
     @Bean

@@ -15,14 +15,14 @@
  */
 package io.github.rose.core.function;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -141,8 +141,8 @@ public interface Streams {
     @SafeVarargs
     static <T> T filterFirst(Iterable<T> values, Predicate<T>... predicates) {
         return StreamSupport.stream(values.spliterator(), false)
-            .filter(Predicates.and(predicates))
-            .findFirst()
-            .orElse(null);
+                .filter(Predicates.and(predicates))
+                .findFirst()
+                .orElse(null);
     }
 }

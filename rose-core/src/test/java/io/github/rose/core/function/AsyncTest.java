@@ -15,12 +15,11 @@
  */
 package io.github.rose.core.function;
 
-import io.github.rose.core.util.concurrent.Async;
-import org.junit.jupiter.api.Test;
-
-import java.util.concurrent.CompletionStage;
-
 import static org.junit.jupiter.api.Assertions.assertNull;
+
+import io.github.rose.core.util.concurrent.Async;
+import java.util.concurrent.CompletionStage;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
@@ -30,8 +29,7 @@ class AsyncTest {
 
     @Test
     void testNoCustomExecutor() {
-        CompletionStage<Void> completionStage = Async.runAsync(() -> {
-        });
+        CompletionStage<Void> completionStage = Async.runAsync(() -> {});
         assertNull(completionStage.toCompletableFuture().join());
 
         completionStage = Async.supplyAsync(() -> null);

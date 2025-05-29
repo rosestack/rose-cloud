@@ -15,6 +15,10 @@
  */
 package io.github.rose.processor;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.NoSuchFileException;
+import java.util.*;
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
@@ -27,10 +31,6 @@ import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.NoSuchFileException;
-import java.util.*;
 
 /**
  * Processes {@link AutoService} annotations and generates the service provider configuration files
@@ -102,7 +102,8 @@ public class AutoServiceProcessor extends AbstractProcessor {
             try {
                 String contract = e.getKey();
                 FileObject f = filer.getResource(StandardLocation.CLASS_OUTPUT, "", "META-INF/services/" + contract);
-                BufferedReader r = new BufferedReader(new InputStreamReader(f.openInputStream(), StandardCharsets.UTF_8));
+                BufferedReader r =
+                        new BufferedReader(new InputStreamReader(f.openInputStream(), StandardCharsets.UTF_8));
                 String line;
                 while ((line = r.readLine()) != null) {
                     e.getValue().add(line);
@@ -112,8 +113,8 @@ public class AutoServiceProcessor extends AbstractProcessor {
                 // doesn't exist
             } catch (IOException x) {
                 processingEnv
-                    .getMessager()
-                    .printMessage(Kind.ERROR, "Failed to load existing service definition files: " + x);
+                        .getMessager()
+                        .printMessage(Kind.ERROR, "Failed to load existing service definition files: " + x);
             }
         }
 
@@ -148,14 +149,14 @@ public class AutoServiceProcessor extends AbstractProcessor {
                 if (m.getKind() == TypeKind.VOID) {
                     // contract inferred from the signature
                     boolean hasBaseClass =
-                        type.getSuperclass().getKind() != TypeKind.NONE && !isObject(type.getSuperclass());
+                            type.getSuperclass().getKind() != TypeKind.NONE && !isObject(type.getSuperclass());
                     boolean hasInterfaces = !type.getInterfaces().isEmpty();
                     if (hasBaseClass ^ hasInterfaces) {
                         if (hasBaseClass) {
                             typeElementList.add((TypeElement) ((DeclaredType) type.getSuperclass()).asElement());
                         } else {
                             typeElementList.add((TypeElement)
-                                ((DeclaredType) type.getInterfaces().get(0)).asElement());
+                                    ((DeclaredType) type.getInterfaces().get(0)).asElement());
                         }
                         continue;
                     }

@@ -15,11 +15,10 @@
  */
 package io.github.rose.core.reflect;
 
-
-import org.junit.jupiter.api.Test;
-
 import static io.github.rose.core.reflect.ReflectUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 
 public class ReflectUtilsTest {
     private String simpleField;
@@ -39,13 +38,18 @@ public class ReflectUtilsTest {
     public void testGetValue() throws Exception {
         simpleField = "someValue";
         assertThat((String) getValue(makeAccessible(ReflectUtilsTest.class.getDeclaredField("simpleField")), this))
-            .isEqualTo("someValue");
+                .isEqualTo("someValue");
     }
 
     @Test
     public void testInvoke() throws Exception {
-        assertThat((String) invoke(makeAccessible(ReflectUtilsTest.class.getDeclaredMethod("someMethod", String
-            .class, String.class)), this, "a", "b")).isEqualTo("ab");
+        assertThat((String) invoke(
+                        makeAccessible(
+                                ReflectUtilsTest.class.getDeclaredMethod("someMethod", String.class, String.class)),
+                        this,
+                        "a",
+                        "b"))
+                .isEqualTo("ab");
     }
 
     private String someMethod(String arg1, String arg2) {

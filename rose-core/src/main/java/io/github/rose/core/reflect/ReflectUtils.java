@@ -17,7 +17,6 @@ package io.github.rose.core.reflect;
 
 import io.github.rose.core.exception.RoseErrorCode;
 import io.github.rose.core.exception.RoseException;
-
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -61,8 +60,7 @@ public final class ReflectUtils {
         try {
             return (T) method.invoke(self, args);
         } catch (IllegalAccessException | InvocationTargetException e) {
-            throw RoseException.wrap(e, RoseErrorCode.UNABLE_TO_INVOKE_METHOD)
-                .put("method", method.toGenericString());
+            throw RoseException.wrap(e, RoseErrorCode.UNABLE_TO_INVOKE_METHOD).put("method", method.toGenericString());
         }
     }
 
@@ -78,8 +76,7 @@ public final class ReflectUtils {
         try {
             field.set(self, value);
         } catch (IllegalAccessException e) {
-            throw RoseException.wrap(e, RoseErrorCode.UNABLE_TO_SET_FIELD)
-                .put("field", field.toGenericString());
+            throw RoseException.wrap(e, RoseErrorCode.UNABLE_TO_SET_FIELD).put("field", field.toGenericString());
         }
     }
 
@@ -96,8 +93,7 @@ public final class ReflectUtils {
         try {
             return (T) field.get(self);
         } catch (IllegalAccessException e) {
-            throw RoseException.wrap(e, RoseErrorCode.UNABLE_TO_GET_FIELD)
-                .put("field", field.toGenericString());
+            throw RoseException.wrap(e, RoseErrorCode.UNABLE_TO_GET_FIELD).put("field", field.toGenericString());
         }
     }
 }

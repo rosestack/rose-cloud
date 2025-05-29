@@ -15,11 +15,11 @@
  */
 package io.github.rose.mybatis.mq.rocketmq;
 
+import static io.github.rose.core.util.Constants.HEADER_TENANT_ID;
+
 import io.github.rose.mybatis.tenant.util.TenantContextHolder;
 import org.apache.rocketmq.client.hook.SendMessageContext;
 import org.apache.rocketmq.client.hook.SendMessageHook;
-
-import static io.github.rose.core.util.Constants.HEADER_TENANT_ID;
 
 /**
  * RocketMQ 消息队列的多租户 {@link SendMessageHook} 实现类
@@ -45,6 +45,5 @@ public class TenantRocketMQSendMessageHook implements SendMessageHook {
     }
 
     @Override
-    public void sendMessageAfter(SendMessageContext sendMessageContext) {
-    }
+    public void sendMessageAfter(SendMessageContext sendMessageContext) {}
 }

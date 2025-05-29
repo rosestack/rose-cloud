@@ -15,6 +15,8 @@
  */
 package io.github.rose.core.reflect;
 
+import static io.github.rose.core.reflect.ExecutablePredicates.executableIsEquivalentTo;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.ArrayList;
@@ -23,8 +25,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
-
-import static io.github.rose.core.reflect.ExecutablePredicates.executableIsEquivalentTo;
 
 public final class Annotations {
     private static final String JAVA_LANG = "java.lang";
@@ -82,8 +82,9 @@ public final class Annotations {
          */
         @SuppressWarnings("unchecked")
         public <T extends Annotation> Optional<T> find(Class<T> annotationClass) {
-            return (Optional<T>) findAll().filter(AnnotationPredicates.annotationIsOfClass(annotationClass))
-                .findFirst();
+            return (Optional<T>) findAll()
+                    .filter(AnnotationPredicates.annotationIsOfClass(annotationClass))
+                    .findFirst();
         }
 
         /**
@@ -93,9 +94,8 @@ public final class Annotations {
          */
         @SuppressWarnings("unchecked")
         public <T extends Annotation> Stream<T> findAll(Class<T> annotationClass) {
-            return (Stream<T>) cache.get(context)
-                .stream()
-                .filter(AnnotationPredicates.annotationIsOfClass(annotationClass));
+            return (Stream<T>)
+                    cache.get(context).stream().filter(AnnotationPredicates.annotationIsOfClass(annotationClass));
         }
 
         /**
@@ -180,16 +180,16 @@ public final class Annotations {
             } else if (annotatedElement instanceof Method) {
                 if (traversingOverriddenMembers) {
                     Classes.from(((Method) annotatedElement).getDeclaringClass())
-                        .traversingInterfaces()
-                        .traversingSuperclasses()
-                        .methods()
-                        .filter(executableIsEquivalentTo(((Method) annotatedElement)))
-                        .forEach(method -> {
-                            annotatedElements.add(method);
-                            if (fallingBackOnClasses) {
-                                annotatedElements.add(method.getDeclaringClass());
-                            }
-                        });
+                            .traversingInterfaces()
+                            .traversingSuperclasses()
+                            .methods()
+                            .filter(executableIsEquivalentTo(((Method) annotatedElement)))
+                            .forEach(method -> {
+                                annotatedElements.add(method);
+                                if (fallingBackOnClasses) {
+                                    annotatedElements.add(method.getDeclaringClass());
+                                }
+                            });
                 } else {
                     annotatedElements.add(annotatedElement);
                     if (fallingBackOnClasses) {
@@ -199,15 +199,15 @@ public final class Annotations {
             } else if (annotatedElement instanceof Constructor) {
                 if (traversingOverriddenMembers) {
                     Classes.from(((Constructor) annotatedElement).getDeclaringClass())
-                        .traversingSuperclasses()
-                        .constructors()
-                        .filter(executableIsEquivalentTo(((Constructor) annotatedElement)))
-                        .forEach(constructor -> {
-                            annotatedElements.add(constructor);
-                            if (fallingBackOnClasses) {
-                                annotatedElements.add(constructor.getDeclaringClass());
-                            }
-                        });
+                            .traversingSuperclasses()
+                            .constructors()
+                            .filter(executableIsEquivalentTo(((Constructor) annotatedElement)))
+                            .forEach(constructor -> {
+                                annotatedElements.add(constructor);
+                                if (fallingBackOnClasses) {
+                                    annotatedElements.add(constructor.getDeclaringClass());
+                                }
+                            });
                 } else {
                     annotatedElements.add(annotatedElement);
                     if (fallingBackOnClasses) {
@@ -239,8 +239,8 @@ public final class Annotations {
                 Class<? extends Annotation> annotationType = annotation.annotationType();
                 String annotationPackageName = annotationType.getPackage().getName();
                 if (!annotationPackageName.startsWith(JAVA_LANG)
-                    && !annotationPackageName.startsWith(KOTLIN_ANNOTATION)
-                    && !annotationType.equals(ae)) {
+                        && !annotationPackageName.startsWith(KOTLIN_ANNOTATION)
+                        && !annotationType.equals(ae)) {
                     list.add(annotation);
                     if (includingMetaAnnotations) {
                         findAnnotations(annotationType, list);

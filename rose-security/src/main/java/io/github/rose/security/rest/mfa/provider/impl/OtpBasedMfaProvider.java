@@ -15,23 +15,22 @@
  */
 package io.github.rose.security.rest.mfa.provider.impl;
 
+import static io.github.rose.security.CacheConstants.TWO_FA_VERIFICATION_CODE_CACHE;
+
 import io.github.rose.core.json.JsonUtils;
 import io.github.rose.security.rest.mfa.config.OtpBasedMfaConfig;
 import io.github.rose.security.rest.mfa.provider.MfaProvider;
 import io.github.rose.security.rest.mfa.provider.OtpBasedMfaProviderConfig;
 import io.github.rose.security.util.SecurityUser;
+import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
-import java.util.concurrent.TimeUnit;
-
-import static io.github.rose.security.CacheConstants.TWO_FA_VERIFICATION_CODE_CACHE;
-
 @Component
 public abstract class OtpBasedMfaProvider<C extends OtpBasedMfaProviderConfig, A extends OtpBasedMfaConfig>
-    implements MfaProvider<C, A> {
+        implements MfaProvider<C, A> {
 
     private final CacheManager cacheManager;
 
@@ -44,34 +43,34 @@ public abstract class OtpBasedMfaProvider<C extends OtpBasedMfaProviderConfig, A
         String verificationCode = RandomStringUtils.randomNumeric(6);
         sendVerificationCode(user, verificationCode, providerConfig, twoFaConfig);
         cacheManager
-            .getCache(TWO_FA_VERIFICATION_CODE_CACHE)
-            .put(
-                TWO_FA_VERIFICATION_CODE_CACHE + ":" + user.getUsername(),
-                JsonUtils.toBytes(new Otp(System.currentTimeMillis(), verificationCode, twoFaConfig)));
+                .getCache(TWO_FA_VERIFICATION_CODE_CACHE)
+                .put(
+                        TWO_FA_VERIFICATION_CODE_CACHE + ":" + user.getUsername(),
+                        JsonUtils.toBytes(new Otp(System.currentTimeMillis(), verificationCode, twoFaConfig)));
     }
 
     protected abstract void sendVerificationCode(
-        SecurityUser user, String verificationCode, C providerConfig, A accountConfig);
+            SecurityUser user, String verificationCode, C providerConfig, A accountConfig);
 
     @Override
     public final boolean checkVerificationCode(SecurityUser user, String code, C providerConfig, A twoFaConfig) {
         String correctVerificationCode = cacheManager
-            .getCache(TWO_FA_VERIFICATION_CODE_CACHE)
-            .get(TWO_FA_VERIFICATION_CODE_CACHE + ":" + user.getUsername())
-            .toString();
+                .getCache(TWO_FA_VERIFICATION_CODE_CACHE)
+                .get(TWO_FA_VERIFICATION_CODE_CACHE + ":" + user.getUsername())
+                .toString();
         Otp otp = JsonUtils.fromJson(correctVerificationCode, Otp.class);
         if (correctVerificationCode != null) {
             if (System.currentTimeMillis() - otp.getTimestamp()
-                > TimeUnit.SECONDS.toMillis(providerConfig.getVerificationCodeExpireTime())) {
+                    > TimeUnit.SECONDS.toMillis(providerConfig.getVerificationCodeExpireTime())) {
                 cacheManager
-                    .getCache(TWO_FA_VERIFICATION_CODE_CACHE)
-                    .evict(TWO_FA_VERIFICATION_CODE_CACHE + ":" + user.getUsername());
+                        .getCache(TWO_FA_VERIFICATION_CODE_CACHE)
+                        .evict(TWO_FA_VERIFICATION_CODE_CACHE + ":" + user.getUsername());
                 return false;
             }
             if (code.equals(otp.getValue()) && twoFaConfig.equals(otp.getTwoFaConfig())) {
                 cacheManager
-                    .getCache(TWO_FA_VERIFICATION_CODE_CACHE)
-                    .evict(TWO_FA_VERIFICATION_CODE_CACHE + ":" + user.getUsername());
+                        .getCache(TWO_FA_VERIFICATION_CODE_CACHE)
+                        .evict(TWO_FA_VERIFICATION_CODE_CACHE + ":" + user.getUsername());
                 return true;
             }
         }

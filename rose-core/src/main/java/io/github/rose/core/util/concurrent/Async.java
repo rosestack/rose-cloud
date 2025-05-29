@@ -22,8 +22,7 @@ import java.util.function.Supplier;
 
 public final class Async {
 
-    private Async() {
-    }
+    private Async() {}
 
     public static <U> CompletionStage<U> supplyAsync(Supplier<U> supplier) {
         return SameExecutorCompletionStage.of(CompletableFuture.supplyAsync(supplier), null);

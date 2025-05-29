@@ -18,6 +18,11 @@ package io.github.rose.security.rest.filter;
 import io.github.rose.core.json.JsonUtils;
 import io.github.rose.security.exception.AuthMethodNotSupportedException;
 import io.github.rose.security.rest.param.LoginRequest;
+import java.io.IOException;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
@@ -31,12 +36,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 public class RestLoginProcessingFilter extends AbstractAuthenticationProcessingFilter {
     private static final Logger log = LoggerFactory.getLogger(RestLoginProcessingFilter.class);
 
@@ -45,9 +44,9 @@ public class RestLoginProcessingFilter extends AbstractAuthenticationProcessingF
     private final AuthenticationFailureHandler failureHandler;
 
     public RestLoginProcessingFilter(
-        String defaultProcessUrl,
-        AuthenticationSuccessHandler successHandler,
-        AuthenticationFailureHandler failureHandler) {
+            String defaultProcessUrl,
+            AuthenticationSuccessHandler successHandler,
+            AuthenticationFailureHandler failureHandler) {
         super(defaultProcessUrl);
         this.successHandler = successHandler;
         this.failureHandler = failureHandler;
@@ -55,7 +54,7 @@ public class RestLoginProcessingFilter extends AbstractAuthenticationProcessingF
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-        throws AuthenticationException, IOException, ServletException {
+            throws AuthenticationException, IOException, ServletException {
         if (!HttpMethod.POST.name().equals(request.getMethod())) {
             if (log.isDebugEnabled()) {
                 log.debug("{} authentication method not supported", request.getMethod());
@@ -75,22 +74,22 @@ public class RestLoginProcessingFilter extends AbstractAuthenticationProcessingF
         }
 
         UsernamePasswordAuthenticationToken token =
-            new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
         token.setDetails(authenticationDetailsSource.buildDetails(request));
         return this.getAuthenticationManager().authenticate(token);
     }
 
     @Override
     protected void successfulAuthentication(
-        HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult)
-        throws IOException, ServletException {
+            HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult)
+            throws IOException, ServletException {
         successHandler.onAuthenticationSuccess(request, response, authResult);
     }
 
     @Override
     protected void unsuccessfulAuthentication(
-        HttpServletRequest request, HttpServletResponse response, AuthenticationException failed)
-        throws IOException, ServletException {
+            HttpServletRequest request, HttpServletResponse response, AuthenticationException failed)
+            throws IOException, ServletException {
         SecurityContextHolder.clearContext();
         failureHandler.onAuthenticationFailure(request, response, failed);
     }

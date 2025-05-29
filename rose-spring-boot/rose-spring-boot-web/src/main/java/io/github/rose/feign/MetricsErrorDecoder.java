@@ -15,6 +15,8 @@
  */
 package io.github.rose.feign;
 
+import static io.github.rose.feign.MetricsInterceptor.FEIGN_REQUEST_ERROR;
+
 import feign.FeignException;
 import feign.Response;
 import feign.codec.ErrorDecoder;
@@ -26,8 +28,6 @@ import io.micrometer.core.instrument.Metrics;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.apache.commons.lang3.StringUtils;
 
-import static io.github.rose.feign.MetricsInterceptor.FEIGN_REQUEST_ERROR;
-
 public class MetricsErrorDecoder implements ErrorDecoder {
 
     private static final MeterRegistry registry = new SimpleMeterRegistry();
@@ -38,8 +38,8 @@ public class MetricsErrorDecoder implements ErrorDecoder {
 
     protected void metrics(String methodKey) {
         Micrometers.async(() -> Metrics.counter(
-                FEIGN_REQUEST_ERROR, "method", StringUtils.substringBefore(methodKey, StringPool.LEFT_BRACKET))
-            .increment());
+                        FEIGN_REQUEST_ERROR, "method", StringUtils.substringBefore(methodKey, StringPool.LEFT_BRACKET))
+                .increment());
     }
 
     @Override

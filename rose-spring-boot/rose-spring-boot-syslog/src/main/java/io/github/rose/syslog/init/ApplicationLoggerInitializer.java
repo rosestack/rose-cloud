@@ -15,12 +15,11 @@
  */
 package io.github.rose.syslog.init;
 
+import java.util.Locale;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
-
-import java.util.Locale;
 
 /**
  * <p>
@@ -41,7 +40,7 @@ public class ApplicationLoggerInitializer implements EnvironmentPostProcessor, O
 
         // 避免各种依赖的地方组件造成 BeanPostProcessorChecker 警告
         System.setProperty(
-            "logging.level.org.springframework.context.support.PostProcessorRegistrationDelegate", "ERROR");
+                "logging.level.org.springframework.context.support.PostProcessorRegistrationDelegate", "ERROR");
     }
 
     @Override

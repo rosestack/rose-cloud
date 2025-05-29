@@ -15,42 +15,40 @@
  */
 package io.github.rose.core.util;
 
+import java.io.IOException;
+import java.net.*;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.net.*;
 
 public class NetUtilsTest {
     private static final Logger log = LoggerFactory.getLogger(NetUtilsTest.class);
 
     @Test
     public void isIp4Address() {
-        String[] testIPs = {
-            "192.168.1.1",    // 有效
-            "255.255.255.255", // 有效
-            "127.0.0.1",         // 无效
-            "0.0.0.0",         // 无效
-            "256.255.255.255", // 无效
-            "192.168.1",       // 无效
-            "192.168.1.1.1",   // 无效
-            "123.45.67.890",   // 无效（最后一位超过255）
-            "123.045.67.89"    // 无效（前导零）
-        };
+        Map<String, Boolean> ips = new HashMap<>();
+        ips.put("192.168.1.1", true);
+        ips.put("255.255.255.255", true);
+        ips.put("127.0.0.1", true);
+        ips.put("0.0.0.0", false);
+        ips.put("256.255.255.255", false);
+        ips.put("192.168.1", false);
+        ips.put("192.168.1.1.1", false);
+        ips.put("123.45.67.890", false);
+        ips.put("123.045.67.89", false);
+        ips.put("192.168.1.1.1.1", false);
 
-        for (String ip : testIPs) {
-            log.info("{}: {}", ip, NetUtils.isIp4Address(ip));
-        }
+        ips.forEach((k, v) -> {
+            Assertions.assertEquals(NetUtils.isIp4Address(k), v);
+        });
     }
 
     @Test
     public void testGetLocalAddress() {
         InetAddress address = NetUtils.getLocalInetAddress();
-        log.info("address: {}", NetUtils.getLocalAddress());
-        log.info("ip: {}", NetUtils.getLocalAddress());
-        log.info("localhostName: {}", NetUtils.getLocalhostName());
-
         Assertions.assertNotNull(address);
         Assertions.assertTrue(NetUtils.isIp4Address(address));
     }
@@ -58,24 +56,33 @@ public class NetUtilsTest {
     @Test
     public void testGetLocalAddressByDatagram() {
         String ip = NetUtils.getLocalAddressByDatagram();
-        log.info("ip = {}", ip);
+        Assertions.assertNotNull(ip);
     }
 
     @Test
     public void testInetSocketAddress() throws UnknownHostException {
-        InetSocketAddress inetSocketAddress1 = new InetSocketAddress("google.ca", 443);
-        InetAddress inetAddress = InetAddress.getByName(inetSocketAddress1.getAddress().getHostAddress());
+        InetSocketAddress inetSocketAddress1 = new InetSocketAddress("www.baidu.com", 443);
+        InetAddress inetAddress =
+                InetAddress.getByName(inetSocketAddress1.getAddress().getHostAddress());
         InetSocketAddress inetSocketAddress2 = new InetSocketAddress(inetAddress, 443);
 
-        Assertions.assertEquals(inetSocketAddress1.getAddress().getHostAddress(), inetSocketAddress2.getAddress().getHostAddress());
+        Assertions.assertEquals(
+                inetSocketAddress1.getAddress().getHostAddress(),
+                inetSocketAddress2.getAddress().getHostAddress());
     }
 
     @Test
     public void testResolveAddress() throws URISyntaxException {
-        String ip = NetUtils.resolveAddress("www.google.ca");
-        log.info("ip = {}", ip);
+        String ip = NetUtils.resolveAddress("www.baidu.com");
+        Assertions.assertNotNull(ip);
 
-        URI uri = NetUtils.resolveAddress(new URI("https://localhost:8443/index"));
-        Assertions.assertEquals("https://127.0.0.1:8443/index", uri.toString());
+        URI uri = NetUtils.resolveAddress(new URI("https://www.baidu.com"));
+        Assertions.assertEquals("https://" + ip, uri.toString());
+    }
+
+    @Test
+    void isReachable() throws IOException {
+        Assertions.assertTrue(NetUtils.isReachable("www.baidu.com"));
+        Assertions.assertTrue(NetUtils.isReachable("www.baidu.com", 443, 5000));
     }
 }

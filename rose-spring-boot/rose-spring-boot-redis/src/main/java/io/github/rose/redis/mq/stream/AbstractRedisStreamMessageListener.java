@@ -20,13 +20,12 @@ import io.github.rose.core.reflect.Types;
 import io.github.rose.redis.mq.RedisMQTemplate;
 import io.github.rose.redis.mq.interceptor.RedisMessageInterceptor;
 import io.github.rose.redis.mq.message.AbstractRedisMessage;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.connection.stream.ObjectRecord;
-import org.springframework.data.redis.stream.StreamListener;
-
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Locale;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.connection.stream.ObjectRecord;
+import org.springframework.data.redis.stream.StreamListener;
 
 /**
  * Redis Stream 监听器抽象类，用于实现集群消费
@@ -35,7 +34,7 @@ import java.util.Locale;
  * @author EnjoyIot
  */
 public abstract class AbstractRedisStreamMessageListener<T extends AbstractRedisStreamMessage>
-    implements StreamListener<String, ObjectRecord<String, String>> {
+        implements StreamListener<String, ObjectRecord<String, String>> {
 
     /**
      * 消息类型
@@ -123,8 +122,8 @@ public abstract class AbstractRedisStreamMessageListener<T extends AbstractRedis
     private Class<T> getMessageClass() {
         Type type = Types.getTypeArgument(getClass());
         if (type == null) {
-            throw new IllegalStateException(
-                String.format(Locale.getDefault(), "类型(%s) 需要设置消息类型", getClass().getName()));
+            throw new IllegalStateException(String.format(
+                    Locale.getDefault(), "类型(%s) 需要设置消息类型", getClass().getName()));
         }
         return (Class<T>) type;
     }
