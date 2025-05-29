@@ -19,17 +19,17 @@ tasks:
     cmds:
       - "{{.MVN}} spotless:apply"
 
-  deploy:
-    deps: [ test ]
-    cmds:
-      - "{{.MVN}} deploy"
-
   release-perform:
     cmds:
       - "{{.MVN}} release:clean release:prepare"
       - "{{.MVN}} release:perform"
 
-  release-central:
+  deploy-local:
+    deps: [ test ]
+    cmds:
+      - "{{.MVN}} deploy"
+
+  deploy-central:
     deps: [ test ]
     cmds:
       - "{{.MVN}} deploy -Prelease"
