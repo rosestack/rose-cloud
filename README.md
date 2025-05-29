@@ -69,7 +69,7 @@ mvn -DskipTests -Prelease deploy
 ### Sonar
 
 ```bash
-mvn verify -Pcoverage javadoc:javadoc
+mvn verify javadoc:javadoc
 mvn sonar:sonar -Dsonar.token=$SONAR_TOKEN
 ```
 

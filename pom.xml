@@ -45,6 +45,7 @@
     <module>rose-mybatis</module>
     <module>rose-processor</module>
     <module>rose-security</module>
+    <module>rose-test</module>
     <module>rose-service/rose-gateway</module>
     <module>rose-service/rose-monitor</module>
     <module>rose-service/rose-upms</module>
@@ -72,12 +73,6 @@
   </distributionManagement>
 
   <properties>
-    <java.version>8</java.version>
-    <maven.compiler.source>${java.version}</maven.compiler.source>
-    <maven.compiler.target>${java.version}</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
     <spring-boot.version>2.7.18</spring-boot.version>
     <spring-cloud-alibaba.version>2021.0.6.2</spring-cloud-alibaba.version>
     <spring-cloud.version>2021.0.9</spring-cloud.version>
@@ -98,6 +93,11 @@
     <xxl-job.version>2.5.0</xxl-job.version>
     <uuid-creator.version>6.1.1</uuid-creator.version>
     <jmh.version>1.18</jmh.version>
+
+    <!--suppress UnresolvedMavenProperty -->
+    <sonar.coverage.jacoco.xmlReportPaths>
+      ${maven.multiModuleProjectDirectory}/rose-test/target/site/jacoco-aggregate/jacoco.xml
+    </sonar.coverage.jacoco.xmlReportPaths>
 
     <dockerImageName>chensoul/${project.artifactId}</dockerImageName>
   </properties>
@@ -142,11 +142,6 @@
       <dependency>
         <groupId>io.github.rosestack</groupId>
         <artifactId>rose-spring-boot-mybatis</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-spring-boot-oss</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -403,4 +398,17 @@
       </plugins>
     </pluginManagement>
   </build>
+
+  <repositories>
+    <repository>
+      <id>central-portal-snapshots</id>
+      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 </project>
