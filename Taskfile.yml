@@ -24,7 +24,12 @@ tasks:
     cmds:
       - "{{.MVN}} deploy"
 
-  release:
+  release-perform:
+    cmds:
+      - "{{.MVN}} release:clean release:prepare"
+      - "{{.MVN}} release:perform"
+
+  release-central:
     deps: [ test ]
     cmds:
       - "{{.MVN}} deploy -Prelease"
