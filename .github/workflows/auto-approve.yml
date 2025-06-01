@@ -11,5 +11,4 @@ on:
 jobs:
   auto-approve:
     uses: rosestack/.github/.github/workflows/auto-approve.yml@main
-    secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    secrets: inherit
