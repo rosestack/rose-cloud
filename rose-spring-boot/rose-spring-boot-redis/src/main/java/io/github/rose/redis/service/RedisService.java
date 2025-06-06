@@ -15,9 +15,6 @@
  */
 package io.github.rose.redis.service;
 
-import java.nio.charset.Charset;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -27,6 +24,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
+
+import java.nio.charset.Charset;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author zhijun.chen
@@ -129,9 +130,9 @@ public class RedisService {
 
     public boolean releaseLock(String lockKey, String value) {
         String script = "if mq.call('get', KEYS[1]) == ARGV[1] then return mq.call('del', KEYS[1]) else return 0 end";
-        RedisScript<Long> redisScript = new DefaultRedisScript<>(script, Long.class);
+        RedisScript<Integer> redisScript = new DefaultRedisScript<>(script, Integer.class);
         return redisTemplate
-                .execute(redisScript, Collections.singletonList(lockKey), value)
-                .equals(1);
+            .execute(redisScript, Collections.singletonList(lockKey), value)
+            .equals(1);
     }
 }

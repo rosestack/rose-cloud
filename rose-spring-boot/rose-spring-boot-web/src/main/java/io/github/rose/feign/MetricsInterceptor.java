@@ -36,7 +36,7 @@ public class MetricsInterceptor implements RequestInterceptor, MeterBinder {
 
     public static final String FEIGN_REQUEST_ERROR = FEIGN_REQUEST + ".error";
 
-    private static MeterRegistry meterRegistry;
+    private MeterRegistry meterRegistry;
 
     @Override
     public void apply(RequestTemplate template) { // FeignClient 子上下文调用
@@ -45,12 +45,12 @@ public class MetricsInterceptor implements RequestInterceptor, MeterBinder {
             // 方法统计
             String methodKey = template.methodMetadata().configKey();
             Counter counter = Counter.builder(FEIGN_REQUEST)
-                    .tags("method", StringUtils.substringBefore(methodKey, StringPool.LEFT_BRACKET)) // Feign
-                    // 调用方法（接口
-                    // +
-                    // 方法）
-                    // Tag
-                    .register(meterRegistry);
+                .tags("method", StringUtils.substringBefore(methodKey, StringPool.LEFT_BRACKET)) // Feign
+                // 调用方法（接口
+                // +
+                // 方法）
+                // Tag
+                .register(meterRegistry);
             counter.increment();
         });
     }

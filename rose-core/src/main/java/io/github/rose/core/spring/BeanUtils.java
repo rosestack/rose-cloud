@@ -31,7 +31,7 @@ import org.springframework.util.ObjectUtils;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-public class BeanUtils extends org.springframework.beans.BeanUtils {
+public class BeanUtils {
 
     /**
      * 获取所有的属性值为空属性名数组

@@ -38,7 +38,7 @@ public class CachingRequestFilter extends OncePerRequestFilter {
         chain.doFilter(requestWrapper, response);
     }
 
-    public class CachingHttpServletRequestWrapper extends HttpServletRequestWrapper {
+    public static class CachingHttpServletRequestWrapper extends HttpServletRequestWrapper {
         private final byte[] bodyBytes;
         private final Map<String, String[]> parameterMap;
 

@@ -35,7 +35,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * @author <a href="mailto:ichensoul@gmail.com">chensoul</a>
  * @since 0.0.1
  */
-public class WebUtils extends org.springframework.web.util.WebUtils {
+public class WebUtils {
     private static final List<String> CLIENT_IP_HEADER_NAMES = Arrays.asList(
             "X-Forwarded-For",
             "X-Real-IP",

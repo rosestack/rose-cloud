@@ -24,9 +24,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
  * @since
  */
 public abstract class FilterUtils {
-    private FilterUtils() {
-        throw new IllegalStateException("Utility class");
-    }
+    private FilterUtils() {}
 
     public static <T extends Filter> FilterRegistrationBean<T> createFilterBean(T filter, Integer order) {
         FilterRegistrationBean<T> registrationBean = new FilterRegistrationBean<>(filter);

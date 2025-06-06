@@ -145,5 +145,5 @@ public class SecurityConfig {
 
     @ConditionalOnProperty(prefix = "security.jwt.mfa", value = "enabled", havingValue = "true")
     @ComponentScan(basePackageClasses = MfaAuthController.class)
-    public class MfaConfig {}
+    public static class MfaConfig {}
 }
