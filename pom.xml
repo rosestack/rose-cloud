@@ -45,12 +45,12 @@
     <module>rose-mybatis</module>
     <module>rose-processor</module>
     <module>rose-security</module>
-    <module>rose-test</module>
     <module>rose-service/rose-gateway</module>
     <module>rose-service/rose-monitor</module>
     <module>rose-service/rose-upms</module>
     <module>rose-spring-boot</module>
     <module>rose-spring-cloud</module>
+    <module>rose-test</module>
   </modules>
 
   <scm>
@@ -105,106 +105,6 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-processor</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-core</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-security</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-mybatis</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-spring-boot-core</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-spring-boot-web</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-spring-boot-redis</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-spring-boot-mybatis</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-spring-boot-security</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-spring-boot-springdoc</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-spring-boot-syslog</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-spring-boot-xxljob</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-spring-cloud-feign</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-gateway</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-monitor</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-upms-api</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-upms-service</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-dependencies</artifactId>
-        <version>${spring-boot.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-dependencies</artifactId>
-        <version>${spring-cloud.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
         <groupId>com.alibaba.cloud</groupId>
         <artifactId>spring-cloud-alibaba-dependencies</artifactId>
         <version>${spring-cloud-alibaba.version}</version>
@@ -232,10 +132,20 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+
       <dependency>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
+        <artifactId>spring-boot-dependencies</artifactId>
         <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>com.alibaba</groupId>
@@ -252,6 +162,12 @@
         <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
         <!-- 多数据源 -->
         <version>${dynamic-datasource.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.f4b6a3</groupId>
+        <artifactId>uuid-creator</artifactId>
+        <version>${uuid-creator.version}</version>
       </dependency>
       <dependency>
         <groupId>com.github.therapi</groupId>
@@ -287,6 +203,91 @@
         <groupId>de.codecentric</groupId>
         <artifactId>spring-boot-admin-starter-server</artifactId>
         <version>${spring-boot-admin.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rosestack</groupId>
+        <artifactId>rose-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rosestack</groupId>
+        <artifactId>rose-gateway</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rosestack</groupId>
+        <artifactId>rose-monitor</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rosestack</groupId>
+        <artifactId>rose-mybatis</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rosestack</groupId>
+        <artifactId>rose-processor</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rosestack</groupId>
+        <artifactId>rose-security</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rosestack</groupId>
+        <artifactId>rose-spring-boot-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rosestack</groupId>
+        <artifactId>rose-spring-boot-mybatis</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rosestack</groupId>
+        <artifactId>rose-spring-boot-redis</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rosestack</groupId>
+        <artifactId>rose-spring-boot-security</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rosestack</groupId>
+        <artifactId>rose-spring-boot-springdoc</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rosestack</groupId>
+        <artifactId>rose-spring-boot-syslog</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rosestack</groupId>
+        <artifactId>rose-spring-boot-web</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rosestack</groupId>
+        <artifactId>rose-spring-boot-xxljob</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rosestack</groupId>
+        <artifactId>rose-spring-cloud-feign</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rosestack</groupId>
+        <artifactId>rose-upms-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.rosestack</groupId>
+        <artifactId>rose-upms-service</artifactId>
+        <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>io.jsonwebtoken</groupId>
@@ -354,11 +355,10 @@
         <artifactId>springdoc-openapi-webmvc-core</artifactId>
         <version>${springdoc.version}</version>
       </dependency>
-
       <dependency>
-        <groupId>com.github.f4b6a3</groupId>
-        <artifactId>uuid-creator</artifactId>
-        <version>${uuid-creator.version}</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+        <version>${spring-boot.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -370,6 +370,19 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <repositories>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>central-portal-snapshots</id>
+      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+    </repository>
+  </repositories>
 
   <build>
     <pluginManagement>
@@ -398,17 +411,4 @@
       </plugins>
     </pluginManagement>
   </build>
-
-  <repositories>
-    <repository>
-      <id>central-portal-snapshots</id>
-      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 </project>

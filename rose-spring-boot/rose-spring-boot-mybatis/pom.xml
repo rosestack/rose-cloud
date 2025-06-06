@@ -13,19 +13,6 @@
   <description>rose-spring-boot-mybatis</description>
 
   <dependencies>
-    <dependency>
-      <groupId>io.github.rosestack</groupId>
-      <artifactId>rose-mybatis</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.github.rosestack</groupId>
-      <artifactId>rose-spring-boot-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.github.rosestack</groupId>
-      <artifactId>rose-spring-boot-redis</artifactId>
-      <optional>true</optional>
-    </dependency>
 
     <dependency>
       <groupId>com.baomidou</groupId>
@@ -44,6 +31,19 @@
       <groupId>com.github.yulichang</groupId>
       <artifactId>mybatis-plus-join-boot-starter</artifactId>
       <!-- MyBatis 联表查询 -->
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>io.github.rosestack</groupId>
+      <artifactId>rose-mybatis</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.github.rosestack</groupId>
+      <artifactId>rose-spring-boot-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.github.rosestack</groupId>
+      <artifactId>rose-spring-boot-redis</artifactId>
       <optional>true</optional>
     </dependency>
     <dependency>

@@ -13,10 +13,6 @@
   <description>rose-spring-boot-redis</description>
 
   <dependencies>
-    <dependency>
-      <groupId>io.github.rosestack</groupId>
-      <artifactId>rose-core</artifactId>
-    </dependency>
 
     <dependency>
       <groupId>com.github.ben-manes.caffeine</groupId>
@@ -28,6 +24,10 @@
       <artifactId>guava</artifactId>
       <version>33.4.8-jre</version>
       <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>io.github.rosestack</groupId>
+      <artifactId>rose-core</artifactId>
     </dependency>
     <dependency>
       <groupId>io.micrometer</groupId>

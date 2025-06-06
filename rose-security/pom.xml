@@ -13,14 +13,14 @@
   <description>rose-security</description>
 
   <dependencies>
-    <dependency>
-      <groupId>io.github.rosestack</groupId>
-      <artifactId>rose-core</artifactId>
-    </dependency>
 
     <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>transmittable-thread-local</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.github.rosestack</groupId>
+      <artifactId>rose-core</artifactId>
     </dependency>
     <dependency>
       <groupId>io.jsonwebtoken</groupId>
