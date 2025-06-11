@@ -5,5 +5,5 @@ on:
 
 jobs:
   site:
-    uses: rosestack/.github/.github/workflows/maven-maven-site.yml@main
+    uses: rosestack/.github/.github/workflows/maven-site.yml@main
     secrets: inherit
