@@ -1,4 +1,4 @@
-[![Build](https://github.com/rosestack/rose/actions/workflows/build.yml/badge.svg)](https://github.com/rosestack/rose/actions/workflows/build.yml)
+[![Build](https://github.com/rosestack/rose/actions/workflows/build.yml/badge.svg)](https://github.com/rosestack/rose/actions/workflows/maven-build.yml)
 [![Maven](https://img.shields.io/maven-central/v/io.github.rosestack/rose.svg)](https://repo1.maven.org/maven2/io/github/rosestack/rose/)
 ![License](https://img.shields.io/github/license/rosestack/rose.svg)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=io.github.rosestack%3Arose&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=io.github.rosestack%3Arose)

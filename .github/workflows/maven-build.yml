@@ -15,5 +15,5 @@ on:
 
 jobs:
   build:
-    uses: rosestack/.github/.github/workflows/maven-build.yml@main
+    uses: rosestack/.github/.github/workflows/maven-maven-build.yml@main
     secrets: inherit
