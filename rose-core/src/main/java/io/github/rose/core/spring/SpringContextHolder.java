@@ -77,7 +77,7 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
     public static String getApplicationName() {
         return applicationContext
                 .getEnvironment()
-                .getProperty("spring.application.name", String.class, StringPool.DASHDASH);
+                .getProperty("spring.application.name", String.class, StringPool.DASH_DASH);
     }
 
     public static Set<String> getActiveProfiles() {

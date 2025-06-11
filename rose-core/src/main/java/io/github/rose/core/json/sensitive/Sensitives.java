@@ -57,7 +57,7 @@ public class Sensitives {
      * @return 结果
      */
     public static String chineseName(String fullName) {
-        return deSensitive(fullName, 0, 1, StringPool.STAR);
+        return deSensitive(fullName, 0, 1, StringPool.ASTERISK);
     }
 
     /**
@@ -67,7 +67,7 @@ public class Sensitives {
      * @return 结果
      */
     public static String idCardNum(String id) {
-        return deSensitive(id, 6, 4, StringPool.STAR);
+        return deSensitive(id, 6, 4, StringPool.ASTERISK);
     }
 
     /**
@@ -77,7 +77,7 @@ public class Sensitives {
      * @return 结果
      */
     public static String tel(String num) {
-        return deSensitive(num, 0, 4, StringPool.STAR);
+        return deSensitive(num, 0, 4, StringPool.ASTERISK);
     }
 
     /**
@@ -87,7 +87,7 @@ public class Sensitives {
      * @return 结果
      */
     public static String phone(String num) {
-        return deSensitive(num, 3, 4, StringPool.STAR);
+        return deSensitive(num, 3, 4, StringPool.ASTERISK);
     }
 
     /**
@@ -97,7 +97,7 @@ public class Sensitives {
      * @return 结果
      */
     public static String address(String address) {
-        return deSensitive(address, 6, 0, StringPool.STAR);
+        return deSensitive(address, 6, 0, StringPool.ASTERISK);
     }
 
     /**
@@ -114,7 +114,7 @@ public class Sensitives {
         if (index <= 1) {
             return email;
         }
-        String preEmail = deSensitive(email.substring(0, index), 1, 0, StringPool.STAR);
+        String preEmail = deSensitive(email.substring(0, index), 1, 0, StringPool.ASTERISK);
         return preEmail + email.substring(index);
     }
 
@@ -125,11 +125,11 @@ public class Sensitives {
      * @return 结果
      */
     public static String bankCard(String cardNum) {
-        return deSensitive(cardNum, 6, 4, StringPool.STAR);
+        return deSensitive(cardNum, 6, 4, StringPool.ASTERISK);
     }
 
     public static String carLicense(String carLicense) {
-        return deSensitive(carLicense, 2, 1, StringPool.STAR);
+        return deSensitive(carLicense, 2, 1, StringPool.ASTERISK);
     }
 
     /**

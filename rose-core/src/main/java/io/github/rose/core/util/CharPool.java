@@ -41,7 +41,6 @@ public abstract class CharPool {
     public static final char EQUALS = '='; // 等号
     public static final char AMPERSAND = '&'; // 与号
     public static final char ASTERISK = '*'; // 星号
-    public static final char STAR = ASTERISK; // 星号（别名）
     public static final char BACK_SLASH = '\\'; // 反斜杠
     public static final char COLON = ':'; // 冒号
     public static final char COMMA = ','; // 逗号
