@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.net.*;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -48,9 +49,16 @@ public class NetUtilsTest {
 
     @Test
     public void testGetLocalAddress() {
-        InetAddress address = NetUtils.getLocalInetAddress();
+        InetAddress inetAddress = NetUtils.getLocalInetAddress();
+        Assertions.assertNotNull(inetAddress);
+        Assertions.assertTrue(NetUtils.isIp4Address(inetAddress));
+
+        String address = NetUtils.getLocalAddress();
         Assertions.assertNotNull(address);
-        Assertions.assertTrue(NetUtils.isIp4Address(address));
+        log.info("Local address: {}", address);
+
+        String localhostName = NetUtils.getLocalhostName();
+        log.info("Local hostname: {}", localhostName);
     }
 
     @Test
@@ -63,12 +71,12 @@ public class NetUtilsTest {
     public void testInetSocketAddress() throws UnknownHostException {
         InetSocketAddress inetSocketAddress1 = new InetSocketAddress("www.baidu.com", 443);
         InetAddress inetAddress =
-                InetAddress.getByName(inetSocketAddress1.getAddress().getHostAddress());
+            InetAddress.getByName(inetSocketAddress1.getAddress().getHostAddress());
         InetSocketAddress inetSocketAddress2 = new InetSocketAddress(inetAddress, 443);
 
         Assertions.assertEquals(
-                inetSocketAddress1.getAddress().getHostAddress(),
-                inetSocketAddress2.getAddress().getHostAddress());
+            inetSocketAddress1.getAddress().getHostAddress(),
+            inetSocketAddress2.getAddress().getHostAddress());
     }
 
     @Test

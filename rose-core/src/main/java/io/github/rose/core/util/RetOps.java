@@ -22,28 +22,33 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import org.apache.commons.lang3.ObjectUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 简化{@code RestResponse<T>} 的访问操作,例子
+ * 
  * <pre>
  * RestResponse<Integer> result = RestResponse.ok(0);
  * // 使用场景1: 链式操作: 断言然后消费
  * RetOps.of(result)
- * 		.assertCode(-1,r -> new RuntimeException("error "+r.getCode()))
- * 		.assertHasData(r -> new IllegalStateException("oops!"))
- * 		.accept(System.out::println);
+ *         .assertCode(-1, r -> new RuntimeException("error " + r.getCode()))
+ *         .assertHasData(r -> new IllegalStateException("oops!"))
+ *         .accept(System.out::println);
  *
  * // 使用场景2: 读取原始值(data),这里返回的是Optional
  * RetOps.of(result).getData().orElse(null);
  *
  * // 使用场景3: 类型转换
  * RestResponse<String> s = RetOps.of(result)
- *        .assertHasData(r -> new IllegalStateException("nani"))
- *        .map(i -> Integer.toHexString(i))
- *        .peek();
+ *         .assertHasData(r -> new IllegalStateException("nani"))
+ *         .map(i -> Integer.toHexString(i))
+ *         .peek();
  * </pre>
  */
 public class RetOps<T> {
+    private static final Logger log = LoggerFactory.getLogger(RetOps.class);
+
     /**
      * 状态码为成功
      */
@@ -60,6 +65,10 @@ public class RetOps<T> {
     public static final Predicate<RestResponse<?>> SUCCESS_AND_HAS_DATA = CODE_SUCCESS.and(HAS_DATA);
 
     private final RestResponse<T> original;
+
+    private RetOps() {
+        throw new IllegalStateException("Utility class");
+    }
 
     RetOps(RestResponse<T> original) {
         this.original = original;
@@ -120,6 +129,7 @@ public class RetOps<T> {
     public <Ex extends Exception> RetOps<T> assertCode(int expect, Function<? super RestResponse<T>, ? extends Ex> func)
             throws Ex {
         if (codeNotEquals(expect)) {
+            log.error("Assertion failed: expected code {}, but got {}", expect, original.getCode());
             throw func.apply(original);
         }
         return this;
@@ -136,6 +146,7 @@ public class RetOps<T> {
     public <Ex extends Exception> RetOps<T> assertSuccess(Function<? super RestResponse<T>, ? extends Ex> func)
             throws Ex {
         if (!CODE_SUCCESS.test(original)) {
+            log.error("Assertion failed: expected success, but got code {}", original.getCode());
             throw func.apply(original);
         }
         return this;
@@ -165,8 +176,9 @@ public class RetOps<T> {
      * @return 返回新实例，以便于继续进行链式操作
      */
     public <U> RetOps<U> map(Function<? super T, ? extends U> mapper) {
-        RestResponse<U> result =
-                RestResponse.build(mapper.apply(original.getData()), original.getCode(), original.getMessage());
+        RestResponse<U> result = RestResponse.build(mapper.apply(original.getData()), original.getCode(),
+                original.getMessage());
+        log.debug("Mapped data from {} to {}", original.getData(), result.getData());
         return of(result);
     }
 
@@ -202,7 +214,10 @@ public class RetOps<T> {
      */
     public void acceptIf(Predicate<? super RestResponse<T>> predicate, Consumer<? super T> consumer) {
         if (predicate.test(original)) {
+            log.debug("Condition met, executing consumer for data: {}", original.getData());
             consumer.accept(original.getData());
+        } else {
+            log.debug("Condition not met, skipping consumer for data: {}", original.getData());
         }
     }
 
