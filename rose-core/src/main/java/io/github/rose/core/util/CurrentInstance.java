@@ -27,11 +27,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * Keeps track of various current instances for the current thread. All the instances are
- * automatically cleared after handling a request from the client to avoid leaking memory.
+ * Keeps track of various current instances for the current thread. All the
+ * instances are
+ * automatically cleared after handling a request from the client to avoid
+ * leaking memory.
  * <p>
- * Please note that the instances are stored using {@link WeakReference}. This means that
- * a current instance value may suddenly disappear if another references to the object.
+ * Please note that the instances are stored using {@link WeakReference}. This
+ * means that
+ * a current instance value may suddenly disappear if another references to the
+ * object.
  * <p>
  * Currently the framework uses the following instances:
  * </p>
@@ -43,6 +47,7 @@ import java.util.Map.Entry;
  * @since 1.0
  */
 public class CurrentInstance implements Serializable {
+    private static final Logger log = LoggerFactory.getLogger(CurrentInstance.class);
 
     private static final Object NULL_OBJECT = new Object();
 
@@ -56,12 +61,17 @@ public class CurrentInstance implements Serializable {
         this.instance = new WeakReference<>(instance);
     }
 
+    private CurrentInstance() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * Gets the current instance of a specific type if available.
      *
      * @param <T>  the instance type
      * @param type the class to get an instance of
-     * @return the current instance or the provided type, or <code>null</code> if there is
+     * @return the current instance or the provided type, or <code>null</code> if
+     * there is
      * no current instance.
      */
     public static <T> T get(Class<T> type) {
@@ -101,15 +111,18 @@ public class CurrentInstance implements Serializable {
     }
 
     private static void removeStaleInstances(Map<Class<?>, CurrentInstance> map) {
-        for (Iterator<Entry<Class<?>, CurrentInstance>> iterator =
-             map.entrySet().iterator();
-             iterator.hasNext(); ) {
+        int count = 0;
+        for (Iterator<Entry<Class<?>, CurrentInstance>> iterator = map.entrySet().iterator(); iterator.hasNext(); ) {
             Entry<Class<?>, CurrentInstance> entry = iterator.next();
             Object instance = entry.getValue().instance.get();
             if (instance == null) {
                 iterator.remove();
-                getLogger().debug("CurrentInstance for {} has been garbage collected.", entry.getKey());
+                count++;
+                log.debug("CurrentInstance for {} has been garbage collected.", entry.getKey());
             }
+        }
+        if (count > 0) {
+            log.info("Removed {} stale instances from CurrentInstance.", count);
         }
     }
 
@@ -117,7 +130,8 @@ public class CurrentInstance implements Serializable {
      * Sets the current instance of the given type.
      *
      * @param <T>      the instance type
-     * @param type     the class that should be used when getting the current instance back
+     * @param type     the class that should be used when getting the current
+     *                 instance back
      * @param instance the actual instance
      * @see ThreadLocal
      */
@@ -128,7 +142,8 @@ public class CurrentInstance implements Serializable {
     /**
      * Sets the current instance of the given type.
      *
-     * @param type     the class that should be used when getting the current instance back
+     * @param type     the class that should be used when getting the current
+     *                 instance back
      * @param instance the actual instance
      * @return previous CurrentInstance wrapper
      * @see ThreadLocal
@@ -137,13 +152,13 @@ public class CurrentInstance implements Serializable {
         Map<Class<?>, CurrentInstance> map = instances.get();
         CurrentInstance previousInstance = null;
         if (instance == null) {
-            // remove the instance
             if (map != null) {
                 previousInstance = map.remove(type);
                 if (map.isEmpty()) {
                     instances.remove();
                     map = null;
                 }
+                log.debug("Removed instance for type: {}", type);
             }
         } else {
             assert type.isInstance(instance) : "Invalid instance type";
@@ -151,8 +166,8 @@ public class CurrentInstance implements Serializable {
                 map = new HashMap<>();
                 instances.set(map);
             }
-
             previousInstance = map.put(type, new CurrentInstance(instance));
+            log.debug("Set instance for type: {}", type);
         }
         if (previousInstance == null) {
             previousInstance = CURRENT_INSTANCE_NULL;
@@ -168,7 +183,8 @@ public class CurrentInstance implements Serializable {
     }
 
     /**
-     * Restores the given instances to the given values. Note that this should only be
+     * Restores the given instances to the given values. Note that this should only
+     * be
      * used internally to restore Vaadin classes.
      *
      * @param old A Class -&lt; CurrentInstance map to set as current instances
@@ -235,11 +251,8 @@ public class CurrentInstance implements Serializable {
                     instances.remove();
                 }
             }
+            log.debug("Retrieved {} instances from CurrentInstance.", copy.size());
             return copy;
         }
-    }
-
-    private static Logger getLogger() {
-        return LoggerFactory.getLogger(CurrentInstance.class.getName());
     }
 }

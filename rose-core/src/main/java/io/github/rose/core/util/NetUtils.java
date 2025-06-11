@@ -39,11 +39,15 @@ public abstract class NetUtils {
     private static final Pattern IP4_PATTERN = Pattern.compile(
             "^(\\d{1,2}|1\\d{2}|2[0-4]\\d|25[0-5])" + // 第一个数字部分
                     "(\\.(\\d{1,2}|1\\d{2}|2[0-4]\\d|25[0-5])){3}$" // 接下来的三个数字部分
-            );
+    );
     private static final String LEGAL_LOCAL_IP_PROPERTY = "java.net.preferIPv6Addresses";
 
-    private static InetAddress localInetAddress;
-    private static String localhostName;
+    private static volatile InetAddress localInetAddress;
+    private static volatile String localhostName;
+
+    private NetUtils() {
+        throw new IllegalStateException("Utility class");
+    }
 
     public static String getLocalAddress() {
         return localInetAddress.getHostAddress();
@@ -53,35 +57,35 @@ public abstract class NetUtils {
         if (localhostName != null) {
             return localhostName;
         }
-
-        try {
-            InetAddress inetAddress = InetAddress.getLocalHost();
-            localhostName = inetAddress.getHostName();
-        } catch (UnknownHostException e) {
-            localhostName = LOCALHOST;
+        synchronized (NetUtils.class) {
+            if (localhostName != null) {
+                return localhostName;
+            }
+            try {
+                InetAddress inetAddress = InetAddress.getLocalHost();
+                localhostName = inetAddress.getHostName();
+            } catch (UnknownHostException e) {
+                localhostName = LOCALHOST;
+            }
+            return localhostName;
         }
-        return localhostName;
     }
 
     public static InetAddress getLocalInetAddress(Map<String, Integer> destHostPorts) {
         if (localInetAddress != null) {
             return localInetAddress;
         }
-
         InetAddress inetAddress = getFirstInet4AddressByNetwork();
-
         if (inetAddress == null) {
             inetAddress = getLocalAddressBySocket(destHostPorts);
         }
-
         if (inetAddress == null) {
             try {
                 inetAddress = InetAddress.getLocalHost();
             } catch (UnknownHostException e) {
-                // ignore
+                log.error("Failed to get local host address", e);
             }
         }
-
         localInetAddress = inetAddress;
         return inetAddress;
     }
@@ -109,7 +113,7 @@ public abstract class NetUtils {
     }
 
     // return ip to avoid lookup dns
-    public static String getHostName(SocketAddress socketAddress) {
+    public static String getHostIp(SocketAddress socketAddress) {
         if (socketAddress == null) {
             return null;
         }
@@ -154,7 +158,7 @@ public abstract class NetUtils {
 
     public static boolean isReachable(String host, int openPort, int timeOutMillis) throws IOException {
         // Any Open port on other machine
-        // openPort =  22 - ssh, 80 or 443 - webserver, 25 - mailserver etc.
+        // openPort = 22 - ssh, 80 or 443 - webserver, 25 - mailserver etc.
         try (Socket soc = new Socket()) {
             soc.connect(new InetSocketAddress(host, openPort), timeOutMillis);
             return true;
@@ -206,6 +210,7 @@ public abstract class NetUtils {
                     try {
                         socket.close();
                     } catch (Throwable e) {
+                        log.error("Error closing socket", e);
                     }
                 }
             } catch (Exception e) {
@@ -226,11 +231,9 @@ public abstract class NetUtils {
      */
     private static InetAddress getFirstInet4AddressByNetwork() {
         InetAddress result = null;
-
         try {
             Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
             int lowest = Integer.MAX_VALUE;
-
             while (interfaces.hasMoreElements()) {
                 NetworkInterface network = interfaces.nextElement();
                 if (network.isUp() && (network.getIndex() < lowest || result == null)) {
@@ -243,12 +246,13 @@ public abstract class NetUtils {
                                 : address instanceof Inet4Address;
                         if (isLegalIpVersion && !address.isLoopbackAddress()) {
                             result = address;
+                            break;
                         }
                     }
                 }
             }
         } catch (Exception e) {
-            // ignore
+            log.error("Failed to get first Inet4Address by network", e);
         }
         return result;
     }
