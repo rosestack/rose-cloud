@@ -94,7 +94,8 @@ public class RetOps<T> {
      * @return 返回 Optional 包装的data,如果断言失败返回empty
      */
     public Optional<T> ofData(Predicate<? super RestResponse<?>> predicate) {
-        return predicate.test(original) ? Optional.of(original.getData()) : Optional.empty();
+        Objects.requireNonNull(predicate, "Predicate must not be null");
+        return predicate.test(original) ? Optional.ofNullable(original.getData()) : Optional.empty();
     }
 
     /**
@@ -163,6 +164,7 @@ public class RetOps<T> {
     public <Ex extends Exception> RetOps<T> assertHasData(Function<? super RestResponse<T>, ? extends Ex> func)
             throws Ex {
         if (!HAS_DATA.test(original)) {
+            log.error("Assertion failed: expected data, but got null or empty");
             throw func.apply(original);
         }
         return this;
@@ -176,6 +178,7 @@ public class RetOps<T> {
      * @return 返回新实例，以便于继续进行链式操作
      */
     public <U> RetOps<U> map(Function<? super T, ? extends U> mapper) {
+        Objects.requireNonNull(mapper, "Mapper must not be null");
         RestResponse<U> result = RestResponse.build(mapper.apply(original.getData()), original.getCode(),
                 original.getMessage());
         log.debug("Mapped data from {} to {}", original.getData(), result.getData());
@@ -188,6 +191,7 @@ public class RetOps<T> {
      * @param consumer 消费函数
      */
     public void accept(Consumer<? super T> consumer) {
+        Objects.requireNonNull(consumer, "Consumer must not be null");
         consumer.accept(original.getData());
     }
 
@@ -213,6 +217,8 @@ public class RetOps<T> {
      * @see RetOps#HAS_DATA
      */
     public void acceptIf(Predicate<? super RestResponse<T>> predicate, Consumer<? super T> consumer) {
+        Objects.requireNonNull(predicate, "Predicate must not be null");
+        Objects.requireNonNull(consumer, "Consumer must not be null");
         if (predicate.test(original)) {
             log.debug("Condition met, executing consumer for data: {}", original.getData());
             consumer.accept(original.getData());

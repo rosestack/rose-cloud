@@ -18,6 +18,7 @@ package io.github.rose.core.util;
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.Objects;
 
 /**
  * Utilities method to Enums.
@@ -29,6 +30,10 @@ public abstract class EnumUtil {
 
     // Represents an empty bit set.
     public static final long EMPTY_BIT_SET = 0L;
+
+    private EnumUtil() {
+        throw new IllegalStateException("Utility class");
+    }
 
     /**
      * Converts a collection of enums into a bit set.
@@ -79,9 +84,13 @@ public abstract class EnumUtil {
      * @return the bit set representing the enums
      */
     public static long bitSetOf(Enum<?> first, Enum<?> second, Enum<?>... remaining) {
+        Objects.requireNonNull(first, "First enum must not be null");
+        Objects.requireNonNull(second, "Second enum must not be null");
         long bitSet = bitSetOf(first, second);
         for (Enum<?> f : remaining) {
-            bitSet |= bitSetOf(f);
+            if (f != null) {
+                bitSet |= bitSetOf(f);
+            }
         }
         return bitSet;
     }
@@ -95,7 +104,9 @@ public abstract class EnumUtil {
     public static long bitSetOf(Enum<?>[] flags) {
         long bitSet = EMPTY_BIT_SET;
         for (Enum<?> flag : flags) {
-            bitSet |= bitSetOf(flag);
+            if (flag != null) {
+                bitSet |= bitSetOf(flag);
+            }
         }
         return bitSet;
     }
@@ -109,6 +120,7 @@ public abstract class EnumUtil {
      * @return the EnumSet representing the bit set
      */
     public static <E extends Enum<E>> EnumSet<E> enumSetOf(long bitSet, Class<E> eClass) {
+        Objects.requireNonNull(eClass, "Enum class must not be null");
         if (bitSet == EMPTY_BIT_SET) {
             return EnumSet.noneOf(eClass);
         }
@@ -229,7 +241,8 @@ public abstract class EnumUtil {
     }
 
     /**
-     * Checks if a bit set contains none of the enums represented by another bit set.
+     * Checks if a bit set contains none of the enums represented by another bit
+     * set.
      *
      * @param bitSet     the bit set to check
      * @param testBitSet the bit set representing the enums to check for
@@ -258,10 +271,10 @@ public abstract class EnumUtil {
      * @return the enum array representing the bit set
      */
     public static <E extends Enum<E>> E[] enumArrayOf(long bitSet, Class<E> eClass) {
+        Objects.requireNonNull(eClass, "Enum class must not be null");
         if (bitSet == EMPTY_BIT_SET) {
             return null;
         }
-
         E[] array = (E[]) Array.newInstance(eClass, bitSetSize(bitSet));
         int i = 0;
         for (E f : eClass.getEnumConstants()) {
