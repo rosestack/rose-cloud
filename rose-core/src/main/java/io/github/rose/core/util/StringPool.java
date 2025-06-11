@@ -16,6 +16,8 @@
 package io.github.rose.core.util;
 
 import java.nio.charset.Charset;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 字符串常量
@@ -102,8 +104,6 @@ public final class StringPool {
     public static final String HTML_QUOTE = "&quot;";
     public static final String HTML_LT = "&lt;";
     public static final String HTML_GT = "&gt;";
-    public static final String[] EMPTY_ARRAY = new String[0];
-    public static final byte[] BYTES_NEW_LINE = NEWLINE.getBytes(Charset.forName("UTF-8"));
     public static final String UNKNOWN = "unknown";
 
     private StringPool() {}
