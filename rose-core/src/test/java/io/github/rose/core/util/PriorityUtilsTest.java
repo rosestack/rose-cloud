@@ -17,14 +17,15 @@ package io.github.rose.core.util;
 
 import java.util.List;
 import javax.annotation.Priority;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 
-public class PriorityUtilsTest {
+class PriorityUtilsTest {
 
     @Test
-    public void testPriorityOf() {
+    void testPriorityOf() {
         Assertions.assertThat(PriorityUtils.priorityOf(NoPriority.class)).isEqualTo(0);
         Assertions.assertThat(PriorityUtils.priorityOf(ChildOfNoPriority.class)).isEqualTo(0);
         Assertions.assertThat(PriorityUtils.priorityOf(Priority10.class)).isEqualTo(10);
@@ -32,19 +33,19 @@ public class PriorityUtilsTest {
     }
 
     @Test
-    public void testPriorityOfObject() {
+    void testPriorityOfObject() {
         Assertions.assertThat(PriorityUtils.priorityOfObject(new NoPriority())).isEqualTo(0);
         Assertions.assertThat(PriorityUtils.priorityOfObject(new ChildOfNoPriority()))
-                .isEqualTo(0);
+            .isEqualTo(0);
         Assertions.assertThat(PriorityUtils.priorityOfObject(new Priority10())).isEqualTo(10);
         Assertions.assertThat(PriorityUtils.priorityOfObject(new ChildOf10Priority()))
-                .isEqualTo(10);
+            .isEqualTo(10);
     }
 
     @Test
-    public void testSortByPriority() {
+    void testSortByPriority() {
         List<Class<? extends Object>> classes =
-                Lists.list(Priority10.class, Negative10Priority.class, NoPriority.class);
+            Lists.list(Priority10.class, Negative10Priority.class, NoPriority.class);
 
         Assertions.assertThat(classes).containsExactly(Priority10.class, Negative10Priority.class, NoPriority.class);
 
@@ -54,7 +55,7 @@ public class PriorityUtilsTest {
     }
 
     @Test
-    public void testSortByObjectPriority() {
+    void testSortByObjectPriority() {
         Priority10 p10 = new Priority10();
         Negative10Priority pMinus10 = new Negative10Priority();
         NoPriority pNone = new NoPriority();
@@ -67,25 +68,25 @@ public class PriorityUtilsTest {
         Assertions.assertThat(objects).containsExactly(p10, pNone, pMinus10);
     }
 
-    public class NoPriority {
+    class NoPriority {
         // Fixture Class
     }
 
     @Priority(10)
-    public class Priority10 {
+    class Priority10 {
         // Fixture class
     }
 
     @Priority(-10)
-    public class Negative10Priority {
+    class Negative10Priority {
         // Fixture Class
     }
 
-    public class ChildOfNoPriority extends NoPriority {
+    class ChildOfNoPriority extends NoPriority {
         // Fixture class
     }
 
-    public class ChildOf10Priority extends Priority10 {
+    class ChildOf10Priority extends Priority10 {
         // Fixture class
     }
 }

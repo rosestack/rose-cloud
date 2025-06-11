@@ -16,9 +16,11 @@
 package io.github.rose.core.util;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Utilities method to Enums.
@@ -47,11 +49,10 @@ public abstract class EnumUtil {
         if (enums == null || enums.isEmpty()) {
             return EMPTY_BIT_SET;
         }
-        long flagBitSet = EMPTY_BIT_SET;
-        for (Enum<?> f : enums) {
-            flagBitSet |= bitSetOf(f);
-        }
-        return flagBitSet;
+        return enums.stream()
+                .filter(Objects::nonNull)
+                .mapToLong(EnumUtil::bitSetOf)
+                .reduce(EMPTY_BIT_SET, (a, b) -> a | b);
     }
 
     /**
@@ -124,13 +125,10 @@ public abstract class EnumUtil {
         if (bitSet == EMPTY_BIT_SET) {
             return EnumSet.noneOf(eClass);
         }
-        EnumSet<E> flagSet = EnumSet.noneOf(eClass);
-        for (E f : eClass.getEnumConstants()) {
-            if (hasEnum(bitSet, f)) {
-                flagSet.add(f);
-            }
-        }
-        return flagSet;
+        return EnumSet.copyOf(
+                Arrays.stream(eClass.getEnumConstants())
+                        .filter(e -> hasEnum(bitSet, e))
+                        .collect(Collectors.toSet()));
     }
 
     /**

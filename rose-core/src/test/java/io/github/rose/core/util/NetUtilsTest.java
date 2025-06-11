@@ -25,11 +25,11 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class NetUtilsTest {
+class NetUtilsTest {
     private static final Logger log = LoggerFactory.getLogger(NetUtilsTest.class);
 
     @Test
-    public void isIp4Address() {
+    void isIp4Address() {
         Map<String, Boolean> ips = new HashMap<>();
         ips.put("192.168.1.1", true);
         ips.put("255.255.255.255", true);
@@ -48,7 +48,7 @@ public class NetUtilsTest {
     }
 
     @Test
-    public void testGetLocalAddress() {
+    void testGetLocalAddress() {
         InetAddress inetAddress = NetUtils.getLocalInetAddress();
         Assertions.assertNotNull(inetAddress);
         Assertions.assertTrue(NetUtils.isIp4Address(inetAddress));
@@ -62,13 +62,13 @@ public class NetUtilsTest {
     }
 
     @Test
-    public void testGetLocalAddressByDatagram() {
+    void testGetLocalAddressByDatagram() {
         String ip = NetUtils.getLocalAddressByDatagram();
         Assertions.assertNotNull(ip);
     }
 
     @Test
-    public void testInetSocketAddress() throws UnknownHostException {
+    void testInetSocketAddress() throws UnknownHostException {
         InetSocketAddress inetSocketAddress1 = new InetSocketAddress("www.baidu.com", 443);
         InetAddress inetAddress =
             InetAddress.getByName(inetSocketAddress1.getAddress().getHostAddress());
@@ -80,7 +80,7 @@ public class NetUtilsTest {
     }
 
     @Test
-    public void testResolveAddress() throws URISyntaxException {
+    void testResolveAddress() throws URISyntaxException {
         String ip = NetUtils.resolveAddress("www.baidu.com");
         Assertions.assertNotNull(ip);
 

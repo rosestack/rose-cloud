@@ -16,19 +16,21 @@
 package io.github.rose.core.util;
 
 import io.github.rose.core.json.JsonUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UuidsTest {
+class UuidsTest {
     private static final Logger log = LoggerFactory.getLogger(UuidsTest.class);
 
     @Test
-    public void testGetUUID() {
+    void testGetUUID() {
         UUID uuid = Uuids.getUUID();
         log.info("uuid: {}", uuid);
         // Encode for URL
@@ -44,7 +46,7 @@ public class UuidsTest {
     }
 
     @Test
-    public void testUuidInMap() {
+    void testUuidInMap() {
         Map<String, Object> map = new HashMap<>();
         UUID uuid = Uuids.getUUID();
         map.put("key", uuid);

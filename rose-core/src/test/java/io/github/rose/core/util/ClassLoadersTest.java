@@ -19,11 +19,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-public class ClassLoadersTest {
+class ClassLoadersTest {
     @Test
-    public void findMostCompleteClassLoader() throws Exception {
+    void findMostCompleteClassLoader() {
         assertThat(ClassLoaders.findMostCompleteClassLoader(ClassLoadersTest.class))
-                .isNotNull();
+            .isNotNull();
         assertThat(ClassLoaders.findMostCompleteClassLoader()).isNotNull();
     }
 }

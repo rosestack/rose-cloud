@@ -15,7 +15,7 @@
  */
 package io.github.rose.core.util;
 
-import static io.github.rose.core.util.BitsetTest.Flag.CACHED_VALUES;
+import static io.github.rose.core.util.EnumUtilTest.Flag.CACHED_VALUES;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.util.AssertionErrors.assertNull;
 
@@ -25,21 +25,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
+
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.util.AssertionErrors;
 
-public class BitsetTest {
-    private static final Logger log = LoggerFactory.getLogger(BitsetTest.class);
+class EnumUtilTest {
+    private static final Logger log = LoggerFactory.getLogger(EnumUtilTest.class);
 
-    private BitsetTest() {}
+    private EnumUtilTest() {
+    }
 
     private static void assertBitSet(long bitSet, int startIdx, int range) {
         IntStream.range(0, startIdx).forEach(idx -> assertNotFlag(bitSet, CACHED_VALUES[idx]));
         IntStream.range(startIdx, startIdx + range).forEach(idx -> assertFlag(bitSet, CACHED_VALUES[idx]));
         IntStream.range(startIdx + range, CACHED_VALUES.length)
-                .forEach(idx -> assertNotFlag(bitSet, CACHED_VALUES[idx]));
+            .forEach(idx -> assertNotFlag(bitSet, CACHED_VALUES[idx]));
     }
 
     private static void assertFlag(long bitset, Flag flag) {
