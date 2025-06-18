@@ -1,10 +1,11 @@
 ---
+
 name: Bug Report
 about: Create a report to help us improve
 title: '[BUG] '
 labels: bug
 assignees: ''
----
+-------------
 
 **Describe the bug**
 A clear and concise description of what the bug is.
@@ -22,10 +23,10 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Environment:**
- - OS: [e.g. macOS 12.0]
- - Java Version: [e.g. 8, 11, 17]
- - Maven Version: [e.g. 3.6.3]
- - Rose Build Version: [e.g. 0.0.6-SNAPSHOT]
+- OS: [e.g. macOS 12.0]
+- Java Version: [e.g. 8, 11, 17]
+- Maven Version: [e.g. 3.6.3]
+- Rose Build Version: [e.g. 0.0.6-SNAPSHOT]
 
 **Additional context**
-Add any other context about the problem here. 
+Add any other context about the problem here.

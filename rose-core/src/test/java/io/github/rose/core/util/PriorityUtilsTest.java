@@ -17,7 +17,6 @@ package io.github.rose.core.util;
 
 import java.util.List;
 import javax.annotation.Priority;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
@@ -36,16 +35,16 @@ class PriorityUtilsTest {
     void testPriorityOfObject() {
         Assertions.assertThat(PriorityUtils.priorityOfObject(new NoPriority())).isEqualTo(0);
         Assertions.assertThat(PriorityUtils.priorityOfObject(new ChildOfNoPriority()))
-            .isEqualTo(0);
+                .isEqualTo(0);
         Assertions.assertThat(PriorityUtils.priorityOfObject(new Priority10())).isEqualTo(10);
         Assertions.assertThat(PriorityUtils.priorityOfObject(new ChildOf10Priority()))
-            .isEqualTo(10);
+                .isEqualTo(10);
     }
 
     @Test
     void testSortByPriority() {
         List<Class<? extends Object>> classes =
-            Lists.list(Priority10.class, Negative10Priority.class, NoPriority.class);
+                Lists.list(Priority10.class, Negative10Priority.class, NoPriority.class);
 
         Assertions.assertThat(classes).containsExactly(Priority10.class, Negative10Priority.class, NoPriority.class);
 

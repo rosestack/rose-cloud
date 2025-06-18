@@ -1,9 +1,0 @@
-name: Maven Release
-
-on:
-  workflow_dispatch:
-
-jobs:
-  site:
-    uses: rosestack/.github/.github/workflows/maven-release.yml@main
-    secrets: inherit

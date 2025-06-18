@@ -125,10 +125,9 @@ public abstract class EnumUtil {
         if (bitSet == EMPTY_BIT_SET) {
             return EnumSet.noneOf(eClass);
         }
-        return EnumSet.copyOf(
-                Arrays.stream(eClass.getEnumConstants())
-                        .filter(e -> hasEnum(bitSet, e))
-                        .collect(Collectors.toSet()));
+        return EnumSet.copyOf(Arrays.stream(eClass.getEnumConstants())
+                .filter(e -> hasEnum(bitSet, e))
+                .collect(Collectors.toSet()));
     }
 
     /**

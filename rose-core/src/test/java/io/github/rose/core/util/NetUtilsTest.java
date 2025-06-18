@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.net.*;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -71,12 +70,12 @@ class NetUtilsTest {
     void testInetSocketAddress() throws UnknownHostException {
         InetSocketAddress inetSocketAddress1 = new InetSocketAddress("www.baidu.com", 443);
         InetAddress inetAddress =
-            InetAddress.getByName(inetSocketAddress1.getAddress().getHostAddress());
+                InetAddress.getByName(inetSocketAddress1.getAddress().getHostAddress());
         InetSocketAddress inetSocketAddress2 = new InetSocketAddress(inetAddress, 443);
 
         Assertions.assertEquals(
-            inetSocketAddress1.getAddress().getHostAddress(),
-            inetSocketAddress2.getAddress().getHostAddress());
+                inetSocketAddress1.getAddress().getHostAddress(),
+                inetSocketAddress2.getAddress().getHostAddress());
     }
 
     @Test

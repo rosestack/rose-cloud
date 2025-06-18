@@ -16,7 +16,6 @@
 package io.github.rose.mybatis;
 
 import static io.github.rose.core.util.Constants.TENANT_CONTEXT_FILTER_ORDER;
-import static io.github.rose.core.util.Constants.TENANT_SECURITY_FILTER_ORDER;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -28,7 +27,6 @@ import io.github.rose.mybatis.tenant.aspect.TenantIgnoreAspect;
 import io.github.rose.mybatis.tenant.aspect.TenantJobAspect;
 import io.github.rose.mybatis.tenant.feign.TenantFeignRequestInterceptor;
 import io.github.rose.mybatis.tenant.filter.TenantContextFilter;
-import io.github.rose.mybatis.tenant.filter.TenantSecurityFilter;
 import io.github.rose.mybatis.tenant.handler.DefaultTenantLineHandler;
 import io.github.rose.mybatis.tenant.handler.TenantMetaObjectHandler;
 import io.github.rose.mybatis.tenant.service.TenantService;
@@ -98,11 +96,11 @@ public class MybatisTenantConfiguration {
         return FilterUtils.createFilterBean(new TenantContextFilter(), TENANT_CONTEXT_FILTER_ORDER);
     }
 
-    @Bean
-    public FilterRegistrationBean<TenantSecurityFilter> tenantSecurityFilter(TenantProperties tenantProperties) {
-        return FilterUtils.createFilterBean(
-                new TenantSecurityFilter(tenantProperties.getIgnoreUrls()), TENANT_SECURITY_FILTER_ORDER);
-    }
+    //    @Bean
+    //    public FilterRegistrationBean<TenantSecurityFilter> tenantSecurityFilter(TenantProperties tenantProperties) {
+    //        return FilterUtils.createFilterBean(
+    //                new TenantSecurityFilter(tenantProperties.getIgnoreUrls()), TENANT_SECURITY_FILTER_ORDER);
+    //    }
 
     @Bean
     public MetaObjectHandler metaObjectHandler(TenantProperties tenantProperties) {

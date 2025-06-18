@@ -37,16 +37,16 @@ By participating in this project, you agree to abide by our Code of Conduct.
 ### Development Setup
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/rosestack/rose-build.git
    cd rose-build
    ```
-
 2. Install dependencies:
+
    ```bash
    mvn clean install
    ```
-
 3. Configure your IDE:
    - Import as Maven project
    - Enable EditorConfig support
@@ -119,4 +119,4 @@ Types:
 
 ## License
 
-By contributing to Rose Build, you agree that your contributions will be licensed under the project's [Apache License 2.0](LICENSE). 
+By contributing to Rose Build, you agree that your contributions will be licensed under the project's [Apache License 2.0](LICENSE).

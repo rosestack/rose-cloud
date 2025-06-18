@@ -1,9 +1,0 @@
-name: Maven Site
-
-on:
-  workflow_dispatch:
-
-jobs:
-  site:
-    uses: rosestack/.github/.github/workflows/maven-site.yml@main
-    secrets: inherit

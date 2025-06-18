@@ -17,7 +17,6 @@ package io.github.rose.upms.contact.domain;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import io.github.rose.security.util.TokenPair;
 import io.github.rose.upms.domain.account.Credential;
 import io.github.rose.upms.domain.contact.User;
 import io.github.rose.upms.model.UserInfoDTO;
@@ -36,8 +35,6 @@ public interface UserService extends IService<User> {
     Credential saveUserCredential(Credential credential);
 
     User setUserCredentialEnabled(Long userId, boolean userCredentialsEnabled);
-
-    TokenPair getUserToken(Long userId);
 
     Page<User> findUserByTenantId(Page page, String tenantId);
 

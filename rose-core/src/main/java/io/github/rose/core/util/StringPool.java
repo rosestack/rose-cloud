@@ -15,10 +15,6 @@
  */
 package io.github.rose.core.util;
 
-import java.nio.charset.Charset;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * 字符串常量
  *

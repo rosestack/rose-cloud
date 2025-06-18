@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 简化{@code RestResponse<T>} 的访问操作,例子
- * 
+ *
  * <pre>
  * RestResponse<Integer> result = RestResponse.ok(0);
  * // 使用场景1: 链式操作: 断言然后消费
@@ -179,8 +179,8 @@ public class RetOps<T> {
      */
     public <U> RetOps<U> map(Function<? super T, ? extends U> mapper) {
         Objects.requireNonNull(mapper, "Mapper must not be null");
-        RestResponse<U> result = RestResponse.build(mapper.apply(original.getData()), original.getCode(),
-                original.getMessage());
+        RestResponse<U> result =
+                RestResponse.build(mapper.apply(original.getData()), original.getCode(), original.getMessage());
         log.debug("Mapped data from {} to {}", original.getData(), result.getData());
         return of(result);
     }
