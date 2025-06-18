@@ -43,7 +43,6 @@
     <module>rose-core</module>
     <module>rose-mybatis</module>
     <module>rose-processor</module>
-    <module>rose-security</module>
     <module>rose-service/rose-gateway</module>
     <module>rose-service/rose-monitor</module>
     <module>rose-service/rose-upms</module>
@@ -228,11 +227,6 @@
       </dependency>
       <dependency>
         <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-security</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
         <artifactId>rose-spring-boot-core</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -244,11 +238,6 @@
       <dependency>
         <groupId>io.github.rosestack</groupId>
         <artifactId>rose-spring-boot-redis</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.rosestack</groupId>
-        <artifactId>rose-spring-boot-security</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

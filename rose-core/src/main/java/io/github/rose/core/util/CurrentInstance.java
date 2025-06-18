@@ -15,9 +15,6 @@
  */
 package io.github.rose.core.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.Collections;
@@ -25,6 +22,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Keeps track of various current instances for the current thread. All the
@@ -112,7 +111,9 @@ public class CurrentInstance implements Serializable {
 
     private static void removeStaleInstances(Map<Class<?>, CurrentInstance> map) {
         int count = 0;
-        for (Iterator<Entry<Class<?>, CurrentInstance>> iterator = map.entrySet().iterator(); iterator.hasNext(); ) {
+        for (Iterator<Entry<Class<?>, CurrentInstance>> iterator =
+                        map.entrySet().iterator();
+                iterator.hasNext(); ) {
             Entry<Class<?>, CurrentInstance> entry = iterator.next();
             Object instance = entry.getValue().instance.get();
             if (instance == null) {

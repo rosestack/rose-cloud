@@ -23,7 +23,7 @@ class ClassLoadersTest {
     @Test
     void findMostCompleteClassLoader() {
         assertThat(ClassLoaders.findMostCompleteClassLoader(ClassLoadersTest.class))
-            .isNotNull();
+                .isNotNull();
         assertThat(ClassLoaders.findMostCompleteClassLoader()).isNotNull();
     }
 }

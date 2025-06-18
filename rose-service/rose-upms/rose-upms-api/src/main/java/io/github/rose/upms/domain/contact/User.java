@@ -18,7 +18,6 @@ package io.github.rose.upms.domain.contact;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.github.rose.mybatis.model.BaseEntity;
-import io.github.rose.security.util.Authority;
 import java.time.LocalDateTime;
 
 /**
@@ -47,8 +46,6 @@ public class User extends BaseEntity {
     private String departmentId;
 
     private Integer status;
-
-    private Authority authority;
 
     private String lastLoginIp;
 
@@ -128,14 +125,6 @@ public class User extends BaseEntity {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public Authority getAuthority() {
-        return authority;
-    }
-
-    public void setAuthority(Authority authority) {
-        this.authority = authority;
     }
 
     public String getLastLoginIp() {

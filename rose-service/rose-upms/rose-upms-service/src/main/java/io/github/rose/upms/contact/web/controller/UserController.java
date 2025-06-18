@@ -20,7 +20,6 @@ import static io.github.rose.upms.Constants.USER_ID;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.rose.core.util.RestResponse;
-import io.github.rose.security.util.TokenPair;
 import io.github.rose.syslog.annotation.SysLog;
 import io.github.rose.upms.contact.domain.UserService;
 import io.github.rose.upms.domain.contact.User;
@@ -73,12 +72,6 @@ public class UserController {
     @GetMapping("/{userId}")
     public RestResponse<User> findUserById(@PathVariable(USER_ID) Long userId) {
         return RestResponse.ok(userService.getById(userId));
-    }
-
-    // @PreAuthorize("hasAnyAuthority('SYS_ADMIN', 'TENANT_ADMIN')")
-    @GetMapping("/{userId}/token")
-    public RestResponse<TokenPair> getUserToken(@PathVariable(USER_ID) Long userId) {
-        return RestResponse.ok(userService.getUserToken(userId));
     }
 
     // @PreAuthorize("hasAuthority('SYS_ADMIN')")

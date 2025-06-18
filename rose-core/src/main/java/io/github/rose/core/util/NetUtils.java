@@ -39,7 +39,7 @@ public abstract class NetUtils {
     private static final Pattern IP4_PATTERN = Pattern.compile(
             "^(\\d{1,2}|1\\d{2}|2[0-4]\\d|25[0-5])" + // 第一个数字部分
                     "(\\.(\\d{1,2}|1\\d{2}|2[0-4]\\d|25[0-5])){3}$" // 接下来的三个数字部分
-    );
+            );
     private static final String LEGAL_LOCAL_IP_PROPERTY = "java.net.preferIPv6Addresses";
 
     private static volatile InetAddress localInetAddress;
