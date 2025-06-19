@@ -8,9 +8,6 @@ name: Build and Deploy Release
 ## 4. Run `git push origin --tags`
 ##
 
-permissions:
-  contents: write
-
 on:
   push:
     tags:

@@ -4,7 +4,7 @@
   <parent>
     <groupId>io.github.rosestack</groupId>
     <artifactId>rose-build</artifactId>
-    <version>0.0.6-SNAPSHOT</version>
+    <version>0.0.26-SNAPSHOT</version>
     <relativePath/>
   </parent>
   <groupId>io.github.rosestack</groupId>
@@ -12,8 +12,8 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>Rose</name>
-  <description>Rose</description>
+  <name>rose</name>
+  <description>rose</description>
   <url>https://rosestack.github.io/rose</url>
   <inceptionYear>2025</inceptionYear>
 
@@ -396,19 +396,5 @@
         </plugin>
       </plugins>
     </pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>org.owasp</groupId>
-        <artifactId>dependency-check-maven</artifactId>
-        <version>10.0.4</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
   </build>
 </project>

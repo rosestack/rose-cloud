@@ -35,16 +35,8 @@
       <artifactId>mybatis-plus-spring</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-annotations</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.github.yulichang</groupId>
       <artifactId>mybatis-plus-join-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.xuxueli</groupId>
-      <artifactId>xxl-job-core</artifactId>
     </dependency>
     <dependency>
       <groupId>io.github.openfeign</groupId>
@@ -54,6 +46,7 @@
       <groupId>io.github.rosestack</groupId>
       <artifactId>rose-core</artifactId>
     </dependency>
+
     <dependency>
       <groupId>io.vavr</groupId>
       <artifactId>vavr</artifactId>

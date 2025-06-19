@@ -16,7 +16,6 @@
 package io.github.rose.mybatis.tenant.aspect;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.xxl.job.core.context.XxlJobHelper;
 import io.github.rose.core.json.JsonUtils;
 import io.github.rose.core.util.text.TextFormatUtils;
 import io.github.rose.mybatis.tenant.annotation.TenantJob;
@@ -29,6 +28,8 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 多租户 JobHandler AOP 任务执行时，会按照租户逐个执行 Job 的逻辑
@@ -39,6 +40,7 @@ import org.aspectj.lang.annotation.Aspect;
  */
 @Aspect
 public class TenantJobAspect {
+    private static final Logger log = LoggerFactory.getLogger(TenantJobAspect.class);
 
     private final TenantService tenantService;
 
@@ -61,7 +63,7 @@ public class TenantJobAspect {
                     joinPoint.proceed();
                 } catch (Throwable e) {
                     results.put(tenantId, ExceptionUtils.getRootCauseMessage(e));
-                    XxlJobHelper.log(TextFormatUtils.format(
+                    log.info(TextFormatUtils.format(
                             "{}租户执行任务({})，发生异常：{}]",
                             tenantId,
                             joinPoint.getSignature(),
@@ -71,7 +73,7 @@ public class TenantJobAspect {
         });
         // 如果 results 非空，说明发生了异常，标记 XXL-Job 执行失败
         if (CollectionUtils.isNotEmpty(results)) {
-            XxlJobHelper.handleFail(JsonUtils.toJson(results));
+            log.error(JsonUtils.toJson(results));
         }
         return JsonUtils.toJson(results);
     }
