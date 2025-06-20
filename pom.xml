@@ -77,11 +77,8 @@
     <spring.authorization.version>0.4.5</spring.authorization.version>
     <spring-boot-admin.version>2.7.16</spring-boot-admin.version>
     <commons-io.version>2.19.0</commons-io.version>
-    <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
     <jjwt.version>0.12.6</jjwt.version>
-    <mybatis-plus-join.version>1.5.3</mybatis-plus-join.version>
     <mybatis-plus.version>3.5.12</mybatis-plus.version>
-    <netty.version>4.2.2.Final</netty.version>
     <redisson.version>3.46.0</redisson.version>
     <seata.version>2.0.0</seata.version>
     <skywalking.version>9.4.0</skywalking.version>
@@ -94,8 +91,6 @@
 
     <!--suppress UnresolvedMavenProperty -->
     <sonar.coverage.jacoco.xmlReportPaths>${maven.multiModuleProjectDirectory}/rose-test/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-
-    <dockerImageName>chensoul/${project.artifactId}</dockerImageName>
   </properties>
 
   <dependencyManagement>
@@ -122,14 +117,6 @@
         <scope>import</scope>
       </dependency>
       <dependency>
-        <groupId>io.netty</groupId>
-        <artifactId>netty-bom</artifactId>
-        <version>${netty.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-
-      <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
         <version>${spring-boot.version}</version>
@@ -149,18 +136,6 @@
         <version>${transmittable-thread-local.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.baomidou</groupId>
-        <artifactId>dynamic-datasource-spring</artifactId>
-        <version>${dynamic-datasource.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.baomidou</groupId>
-        <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-        <!-- 多数据源 -->
-        <version>${dynamic-datasource.version}</version>
-      </dependency>
-
-      <dependency>
         <groupId>com.github.f4b6a3</groupId>
         <artifactId>uuid-creator</artifactId>
         <version>${uuid-creator.version}</version>
@@ -169,16 +144,6 @@
         <groupId>com.github.therapi</groupId>
         <artifactId>therapi-runtime-javadoc</artifactId>
         <version>${therapi.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.github.yulichang</groupId>
-        <artifactId>mybatis-plus-join-boot-starter</artifactId>
-        <version>${mybatis-plus-join.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.github.yulichang</groupId>
-        <artifactId>mybatis-plus-join-core</artifactId>
-        <version>${mybatis-plus-join.version}</version>
       </dependency>
       <dependency>
         <groupId>com.xuxueli</groupId>
@@ -341,11 +306,6 @@
         <artifactId>springdoc-openapi-webmvc-core</artifactId>
         <version>${springdoc.version}</version>
       </dependency>
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
-        <version>${spring-boot.version}</version>
-      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -354,21 +314,9 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
+      <optional>true</optional>
     </dependency>
   </dependencies>
-
-  <repositories>
-    <repository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <id>central-portal-snapshots</id>
-      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
-    </repository>
-  </repositories>
 
   <build>
     <pluginManagement>
@@ -381,9 +329,6 @@
             <layers>
               <enabled>true</enabled>
             </layers>
-            <image>
-              <name>${dockerImageName}</name>
-            </image>
           </configuration>
           <executions>
             <execution>

@@ -19,15 +19,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.ToIntFunction;
-import javax.annotation.Priority;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.OrderUtils;
 
 public final class PriorityUtils {
-    private static final Logger log = LoggerFactory.getLogger(PriorityUtils.class);
-
     private PriorityUtils() {
         // no instantiation allowed
     }
@@ -66,7 +61,7 @@ public final class PriorityUtils {
     }
 
     /**
-     * Retrieves the priority of a class by using the value of the {@link Priority} annotation
+     * Retrieves the priority of a class by using the value of the Priority annotation
      * present on the class or on
      * its superclasses. If no annotation is found, the returned priority is 0.
      *

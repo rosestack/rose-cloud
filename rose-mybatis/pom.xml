@@ -13,18 +13,9 @@
   <description>rose-mybatis</description>
 
   <dependencies>
-
     <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>transmittable-thread-local</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.baomidou</groupId>
-      <artifactId>mybatis-plus-annotation</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.baomidou</groupId>
-      <artifactId>mybatis-plus-extension</artifactId>
     </dependency>
     <dependency>
       <groupId>com.baomidou</groupId>
@@ -33,10 +24,6 @@
     <dependency>
       <groupId>com.baomidou</groupId>
       <artifactId>mybatis-plus-spring</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.github.yulichang</groupId>
-      <artifactId>mybatis-plus-join-core</artifactId>
     </dependency>
     <dependency>
       <groupId>io.github.openfeign</groupId>
@@ -54,6 +41,10 @@
       <optional>true</optional>
     </dependency>
     <dependency>
+      <groupId>jakarta.validation</groupId>
+      <artifactId>jakarta.validation-api</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjweaver</artifactId>
     </dependency>
@@ -62,10 +53,13 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-aop</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring-messaging</artifactId>
+      <artifactId>spring-jms</artifactId>
+      <optional>true</optional>
     </dependency>
+
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>

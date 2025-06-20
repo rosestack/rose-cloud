@@ -13,25 +13,14 @@
   <description>rose-spring-boot-mybatis</description>
 
   <dependencies>
-
     <dependency>
       <groupId>com.baomidou</groupId>
       <artifactId>mybatis-plus-boot-starter</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.baomidou</groupId>
-      <artifactId>mybatis-plus-jsqlparser-4.9</artifactId>
     </dependency>
     <!-- jsqlparser 缓存需要-->
     <dependency>
       <groupId>com.github.ben-manes.caffeine</groupId>
       <artifactId>caffeine</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.github.yulichang</groupId>
-      <artifactId>mybatis-plus-join-boot-starter</artifactId>
-      <!-- MyBatis 联表查询 -->
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>io.github.rosestack</groupId>
