@@ -41,8 +41,8 @@ rose 是一个多模块 Maven 项目，面向企业级、微服务架构应用�
 | Spring Authorization | 0.4.5      | ![](https://img.shields.io/maven-metadata/v?label=&color=blue&versionPrefix=0&metadataUrl=https://repo1.maven.org/maven2/org/springframework/security/spring-security-oauth2-authorization-server/maven-metadata.xml) |    |
 | Spring Boot Admin    | 2.7.16     | ![](https://img.shields.io/maven-metadata/v?label=&color=blue&versionPrefix=2&metadataUrl=https://repo1.maven.org/maven2/de/codecentric/spring-boot-admin-dependencies/maven-metadata.xml)                            |    |
 | MyBatis Plus         | 3.5.12     | ![](https://img.shields.io/maven-metadata/v?label=&color=blue&versionPrefix=3&metadataUrl=https://repo1.maven.org/maven2/com/baomidou/mybatis-plus-bom/maven-metadata.xml)                                            |    |
-| SpringDoc OpenAPI    | 1.8.0      | ![](https://img.shields.io/maven-metadata/v?label=&color=blue&versionPrefix=1&metadataUrl=https://repo1.maven.org/maven2/org/springdoc/springdoc-openapi/maven-metadata.xml)                                          |
-| Nacos                | 2.5.1      | ![](https://img.shields.io/maven-metadata/v?label=&color=blue&versionPrefix=2&metadataUrl=https://repo1.maven.org/maven2/com/alibaba/nacos/nacos-all/maven-metadata.xml)                                              
+| SpringDoc OpenAPI    | 1.8.0      | ![](https://img.shields.io/maven-metadata/v?label=&color=blue&versionPrefix=1&metadataUrl=https://repo1.maven.org/maven2/org/springdoc/springdoc-openapi/maven-metadata.xml)                                          |    |
+| Nacos                | 2.5.1      | ![](https://img.shields.io/maven-metadata/v?label=&color=blue&versionPrefix=2&metadataUrl=https://repo1.maven.org/maven2/com/alibaba/nacos/nacos-all/maven-metadata.xml)                                              |    |
 
 ## 开发指南
 
