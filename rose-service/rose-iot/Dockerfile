@@ -1,4 +1,4 @@
-FROM eclipse-temurin:8-jre-jammy
+FROM eclipse-temurin:21.0.8_9-jre-jammy
 
 COPY target/*.jar app.jar
 
