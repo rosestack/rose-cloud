@@ -87,7 +87,7 @@
     <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
     <xxl-job.version>2.5.0</xxl-job.version>
     <uuid-creator.version>6.1.1</uuid-creator.version>
-    <jmh.version>1.18</jmh.version>
+    <jmh.version>1.37</jmh.version>
 
     <!--suppress UnresolvedMavenProperty -->
     <sonar.coverage.jacoco.xmlReportPaths>${maven.multiModuleProjectDirectory}/rose-test/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
