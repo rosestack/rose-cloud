@@ -57,7 +57,7 @@ services:
         --xxl.job.accessToken=xxl-job'
 
   rose-monitor:
-    image: codecentric/spring-boot-admin:2.7.9
+    image: codecentric/spring-boot-admin:3.4.1
     ports:
       - "7010:7010"
     environment:
