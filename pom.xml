@@ -76,7 +76,7 @@
     <spring-cloud.version>2021.0.9</spring-cloud.version>
     <spring.authorization.version>0.4.5</spring.authorization.version>
     <spring-boot-admin.version>2.7.16</spring-boot-admin.version>
-    <commons-io.version>2.19.0</commons-io.version>
+    <commons-io.version>2.20.0</commons-io.version>
     <jjwt.version>0.12.7</jjwt.version>
     <mybatis-plus.version>3.5.14</mybatis-plus.version>
     <redisson.version>3.46.0</redisson.version>
