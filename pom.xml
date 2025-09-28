@@ -81,7 +81,7 @@
     <mybatis-plus.version>3.5.14</mybatis-plus.version>
     <redisson.version>3.52.0</redisson.version>
     <seata.version>2.0.0</seata.version>
-    <skywalking.version>9.4.0</skywalking.version>
+    <skywalking.version>9.5.0</skywalking.version>
     <springdoc.version>1.8.0</springdoc.version>
     <therapi.version>0.15.0</therapi.version>
     <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
