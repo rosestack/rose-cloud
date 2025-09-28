@@ -79,7 +79,7 @@
     <commons-io.version>2.20.0</commons-io.version>
     <jjwt.version>0.12.7</jjwt.version>
     <mybatis-plus.version>3.5.14</mybatis-plus.version>
-    <redisson.version>3.46.0</redisson.version>
+    <redisson.version>3.52.0</redisson.version>
     <seata.version>2.0.0</seata.version>
     <skywalking.version>9.4.0</skywalking.version>
     <springdoc.version>1.8.0</springdoc.version>
