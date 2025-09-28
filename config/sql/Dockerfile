@@ -1,5 +1,5 @@
 ARG TARGETPLATFORM
-FROM --platform=${TARGETPLATFORM:-linux/amd64} mysql:8
+FROM --platform=${TARGETPLATFORM:-linux/amd64} mysql:9
 
 ENV TZ=Asia/Shanghai
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
