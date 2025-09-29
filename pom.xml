@@ -75,7 +75,7 @@
     <spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
     <spring-cloud.version>2025.0.0</spring-cloud.version>
     <spring.authorization.version>0.4.5</spring.authorization.version>
-    <spring-boot-admin.version>2.7.16</spring-boot-admin.version>
+    <spring-boot-admin.version>3.5.5</spring-boot-admin.version>
     <commons-io.version>2.20.0</commons-io.version>
     <jjwt.version>0.13.0</jjwt.version>
     <mybatis-plus.version>3.5.14</mybatis-plus.version>
