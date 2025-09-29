@@ -70,7 +70,7 @@ services:
       - "8858:8858"
 
   rose-redis:
-    image: redis:7
+    image: redis:8
     container_name: rose-redis
     restart: always
     environment:
@@ -113,7 +113,7 @@ services:
       - spring.datasource.password=root
 
   redis-node1:
-    image: redis:7
+    image: redis:8
     container_name: redis-node1
     command: redis-server --port 7001 --requirepass redis --cluster-enabled yes --appendonly yes
     ports:
@@ -121,7 +121,7 @@ services:
       - "17001:17001"
 
   redis-node2:
-    image: redis:7
+    image: redis:8
     container_name: redis-node2
     command: redis-server --port 7002 --requirepass redis --cluster-enabled yes --appendonly yes
     ports:
@@ -129,7 +129,7 @@ services:
       - "17002:17002"
 
   redis-node3:
-    image: redis:7
+    image: redis:8
     container_name: redis-node3
     command: redis-server --port 7003 --requirepass redis --cluster-enabled yes --appendonly yes
     ports:
@@ -137,7 +137,7 @@ services:
       - "17003:17003"
 
   redis-node4:
-    image: redis:7
+    image: redis:8
     container_name: redis-node4
     command: redis-server --port 7004 --requirepass redis --cluster-enabled yes --appendonly yes
     ports:
@@ -145,7 +145,7 @@ services:
       - "17004:17004"
 
   redis-node5:
-    image: redis:7
+    image: redis:8
     container_name: redis-node5
     command: redis-server --port 7005 --requirepass redis --cluster-enabled yes --appendonly yes
     ports:
@@ -153,7 +153,7 @@ services:
       - "17005:17005"
 
   redis-node6:
-    image: redis:7
+    image: redis:8
     container_name: redis-node6
     command: >
       sh -c "redis-server --port 7006 --requirepass redis --cluster-enabled yes --appendonly yes
