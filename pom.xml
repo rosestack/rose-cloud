@@ -71,7 +71,7 @@
   </distributionManagement>
 
   <properties>
-    <spring-boot.version>3.5.8</spring-boot.version>
+    <spring-boot.version>3.5.9</spring-boot.version>
     <spring-cloud-alibaba.version>2023.0.3.4</spring-cloud-alibaba.version>
     <spring-cloud.version>2025.0.0</spring-cloud.version>
     <spring.authorization.version>0.4.5</spring.authorization.version>
